@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "WzxxVhkILTXRgB12rWJNyNAQ0DaxTt+W1u1SJgFWN+2tnE3gUbAMC1iwy7VZrqv7Sq7/jFBg8Eq0CIP483k9tw==",
+  "dgSpecHash": "GuVgiZFEGJPO75hQtifSVAVrbl7GpFRukpjjsjLGVd24j1gTz6y/7e9HnZFrvrhldgIJXakPNZFn+RCJcXZPPw==",
   "success": true,
   "projectFilePath": "D:\\Nhap_mon_di_dong\\Planzy\\Planzy\\Planzy.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\DELL\\.nuget\\packages\\materialdesigncolors\\2.0.0\\materialdesigncolors.2.0.0.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\materialdesignthemes\\4.0.0\\materialdesignthemes.4.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

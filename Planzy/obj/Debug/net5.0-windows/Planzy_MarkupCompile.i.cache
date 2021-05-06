@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
 D:\Nhap_mon_di_dong\Planzy\Planzy\App.xaml
-11407045341
+5-871620946
 
-5-524855442
-193-1891726104
-MainWindow.xaml;
+8-1960847425
+19576439912
+MainWindow.xaml;ResourcesXAML\MyResource.xaml;Views\Button_DatVe_View.xaml;Views\Button_Function_View.xaml;Views\PlanzyView.xaml;
 
-False
+True
 

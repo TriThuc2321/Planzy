@@ -7,7 +7,30 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\Button_DatVe_View.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Button_Function_View.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\PlanzyView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ResourcesXAML\MyResource.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Button_DatVe_View.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Button_Function_View.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\PlanzyView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
