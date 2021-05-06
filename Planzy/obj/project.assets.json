@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Planzy\\Planzy\\Planzy.csproj",
+      "projectUniqueName": "D:\\Nhap_mon_di_dong\\Planzy\\Planzy\\Planzy.csproj",
       "projectName": "Planzy",
-      "projectPath": "D:\\Planzy\\Planzy\\Planzy.csproj",
+      "projectPath": "D:\\Nhap_mon_di_dong\\Planzy\\Planzy\\Planzy.csproj",
       "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "D:\\Planzy\\Planzy\\obj\\",
+      "outputPath": "D:\\Nhap_mon_di_dong\\Planzy\\Planzy\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"

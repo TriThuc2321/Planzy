@@ -7,6 +7,21 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <ListView Margin="10" Name="lvDataBinding">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="Name: " />
+                        <TextBox Text="{Binding Name}" FontWeight="Bold" SelectionBrush="{x:Null}"/>
+                        <TextBlock Text=", " />
+                        <TextBlock Text="Age: " />
+                        <TextBox Text="{Binding Age}" FontWeight="Bold" />
+                        <TextBlock Text=" (" />
+                        <TextBox Text="{Binding Mail}" TextDecorations="Underline" Foreground="Blue" Cursor="Hand" />
+                        <TextBlock Text=")" />
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Window>
