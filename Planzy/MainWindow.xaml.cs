@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Planzy.ViewModels;
 
 namespace Planzy
 {
@@ -20,9 +21,12 @@ namespace Planzy
     /// </summary>
     public partial class MainWindow : Window
     {
+        PlanzyViewModel planzyViewModel;
         public MainWindow()
         {
             InitializeComponent();
+            planzyViewModel = new PlanzyViewModel();
+            this.DataContext = planzyViewModel;
         }
 
     }

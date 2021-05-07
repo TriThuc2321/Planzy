@@ -103,7 +103,7 @@
                 </Button>
                 <Button Name="btn_DoanhThu" Grid.Row="4" Height="50" Padding="0,0,0,0" Background="#ffffff" BorderBrush="{x:Null}" Margin="5,0,5,0" Click="ChoseLayout" >
                     <StackPanel Orientation="Horizontal" Width="150" Height="50">
-                        <wpf:PackIcon Name="ic_DoanhThu" Kind="BarChart" 
+                        <wpf:PackIcon Name="ic_DoanhThu" Kind="ChartBoxOutline" 
                                       Height="30" Width="30" 
                                       VerticalAlignment="Center" Margin="5,5,5,5"
                                       Foreground="#FF5867AC"/>
@@ -145,6 +145,14 @@
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
+                                <Button Grid.Column="1" Grid.Row="1"
+                                        Height="20"
+                                        Width="25"
+                                        Background="#FF5867AC" BorderBrush="{x:Null}"
+                                        Padding="0" Margin="312,10,8,10" Grid.ColumnSpan="2"
+                                        >
+                                    <wpf:PackIcon Kind="ArrowLeftRightBold" Foreground="White"/>
+                                </Button>
                                 <StackPanel Grid.Row="0" Grid.Column="1" 
                                             Orientation="Horizontal">
                                     <Label Content="Mã chuyến bay: "
@@ -152,10 +160,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200"
+                                    <TextBox Width="200" Text="{Binding MyProperty}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" ToolTip="Chữ và số in hoa không dấu"/>
+                                             FontWeight="Bold" ToolTip="Chữ và số in hoa không dấu" BorderBrush="#FF5867AC"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="0" Grid.Column="3" 
                                             Orientation="Horizontal">
@@ -167,7 +175,7 @@
                                     <TextBox Width="200"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" ToolTip="Đồng "/>
+                                             FontWeight="Bold" ToolTip="Đồng " BorderBrush="#FF5867AC"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="1" Grid.Column="1" 
                                             Orientation="Horizontal">
@@ -176,7 +184,24 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-
+                                    <ComboBox wpf:ComboBoxAssist.ShowSelectedItem="True" 
+                                              IsEditable="True"
+                                              VerticalAlignment="Bottom" Width="200"
+                                              Foreground="Black"
+                                              FontSize="15"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              ItemsSource="{Binding Path=SanbaysList, Mode=TwoWay}"
+                                              SelectedItem="{Binding Path=SanBayDiDaChon, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Path=Id}" Width="50"/>
+                                                    <TextBlock Text=" - " Width="20"/>
+                                                    <TextBlock Text="{Binding Path=TenSanBay}" Width="130"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
                                 </StackPanel>
                                 <StackPanel Grid.Row="1" Grid.Column="3" 
                                             Orientation="Horizontal">
@@ -185,6 +210,24 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
+                                    <ComboBox wpf:ComboBoxAssist.ShowSelectedItem="True" 
+                                              IsEditable="True"
+                                              VerticalAlignment="Bottom" Width="200"
+                                              Foreground="Black"
+                                              FontSize="15"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              ItemsSource="{Binding Path=SanbaysList, Mode=TwoWay}"
+                                              SelectedItem="{Binding Path=SanBayDenDaChon, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Path=Id}" Width="50"/>
+                                                    <TextBlock Text=" - " Width="20"/>
+                                                    <TextBlock Text="{Binding Path=TenSanBay}" Width="130"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
                                 </StackPanel>
                                 <StackPanel Grid.Row="2" Grid.Column="1" 
                                             Orientation="Horizontal">
@@ -193,19 +236,19 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"/>
                                     <DatePicker Width="100"
-                                                wpf:HintAssist.Hint="Chọn ngày"
                                                 Foreground="Black"
                                                 FontWeight="Bold"
-                                                FontSize="15"/>
+                                                FontSize="15"
+                                                VerticalAlignment="Bottom" BorderBrush="#FF5867AC"/>
                                     <Label Content="Giờ bay: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"/>
                                     <wpf:TimePicker Width="97"
-                                                wpf:HintAssist.Hint="Chọn giờ"
                                                 Foreground="Black"
                                                 FontWeight="Bold"
-                                                FontSize="15"/>
+                                                FontSize="15"
+                                                VerticalAlignment="Bottom" BorderBrush="#FF5867AC"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="2" Grid.Column="3" 
                                             Orientation="Horizontal">
@@ -217,7 +260,7 @@
                                     <TextBox Width="200"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" ToolTip="Phút"/>
+                                             FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="3" Grid.Column="1" 
                                             Orientation="Horizontal">
@@ -229,7 +272,7 @@
                                     <TextBox Width="200"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold"/>
+                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="3" Grid.Column="3" 
                                             Orientation="Horizontal">
@@ -241,7 +284,7 @@
                                     <TextBox Width="200"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold"/>
+                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
                                 </StackPanel>
                             </Grid>
                         </Grid>
