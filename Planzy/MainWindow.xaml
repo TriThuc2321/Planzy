@@ -7,8 +7,8 @@
         xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="1000"
-        xmlns:mybuton ="clr-namespace:Planzy.Views">
+        xmlns:myView ="clr-namespace:Planzy.Views">
     <Grid>
-        <mybuton:PlanzyView/>
+        <myView:PlanzyView/>
     </Grid>
 </Window>

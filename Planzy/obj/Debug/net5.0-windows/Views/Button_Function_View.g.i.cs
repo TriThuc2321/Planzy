@@ -54,7 +54,7 @@ namespace Planzy.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Planzy;component/views/button_function_view.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Planzy;V1.0.0.0;component/views/button_function_view.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\Button_Function_View.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

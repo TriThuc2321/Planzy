@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:Planzy.Views"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="1000"
-             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:bt ="clr-namespace:Planzy.Views">
-    <Grid Background="White">
+    <Grid Background="#FFE1F3F9">
         <Grid.RowDefinitions>
             <RowDefinition Height="0"></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -21,6 +21,8 @@
             </Grid.ColumnDefinitions>
             <Grid Grid.Row="0" Grid.Column="0">
                 <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
@@ -119,22 +121,131 @@
             </Grid>
             <Grid Grid.Column="1" Margin="10,10, 25,10">
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
-                    <Grid Margin="5">
-                        <Grid Name ="gr_DatVe"
-                              Background="Aquamarine" Visibility="Visible">
+                    <Grid Background="White">
+                        <Grid Name ="gr_DatVe" Visibility="Hidden"/>
+                        <Grid Name ="gr_BanVe" Visibility="Hidden"/>
+                        <Grid Name ="gr_Tracuu" Visibility="Hidden"/>
+                        <Grid Name ="gr_NhanLich" Visibility="Visible">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="160"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="30"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Grid.Column="1" 
+                                            Orientation="Horizontal">
+                                    <Label Content="Mã chuyến bay: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                    <TextBox Width="200"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" ToolTip="Chữ và số in hoa không dấu"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="3" 
+                                            Orientation="Horizontal">
+                                    <Label Content="Giá vé: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                    <TextBox Width="200"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" ToolTip="Đồng "/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="1" 
+                                            Orientation="Horizontal">
+                                    <Label Content="Sân bay đi: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="3" 
+                                            Orientation="Horizontal">
+                                    <Label Content="Sân bay đến: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="1" 
+                                            Orientation="Horizontal">
+                                    <Label Content="Ngày: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"/>
+                                    <DatePicker Width="100"
+                                                wpf:HintAssist.Hint="Chọn ngày"
+                                                Foreground="Black"
+                                                FontWeight="Bold"
+                                                FontSize="15"/>
+                                    <Label Content="Giờ bay: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"/>
+                                    <wpf:TimePicker Width="97"
+                                                wpf:HintAssist.Hint="Chọn giờ"
+                                                Foreground="Black"
+                                                FontWeight="Bold"
+                                                FontSize="15"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="3" 
+                                            Orientation="Horizontal">
+                                    <Label Content="Thời gian bay: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                    <TextBox Width="200"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" ToolTip="Phút"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="3" Grid.Column="1" 
+                                            Orientation="Horizontal">
+                                    <Label Content="Số ghế hạng 1: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                    <TextBox Width="200"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="3" Grid.Column="3" 
+                                            Orientation="Horizontal">
+                                    <Label Content="Số ghế hạng 2: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                    <TextBox Width="200"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold"/>
+                                </StackPanel>
+                            </Grid>
                         </Grid>
-                        <Grid Name ="gr_BanVe"
-                            Background="Black" Visibility="Hidden">
-                        </Grid>
-                        <Grid Name ="gr_Tracuu"
-                            Background="Black" Visibility="Hidden">
-                        </Grid>
-                        <Grid Name ="gr_NhanLich"
-                            Background="Black" Visibility="Hidden">
-                        </Grid>
-                        <Grid Name ="gr_DoanhThu"
-                            Background="Black" Visibility="Hidden">
-                        </Grid>
+                        <Grid Name ="gr_DoanhThu" Visibility="Hidden"/>
                     </Grid>
                 </Border>
             </Grid>
