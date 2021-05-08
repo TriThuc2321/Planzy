@@ -24,11 +24,7 @@ D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\MaterialDesignColors.
 D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\MaterialDesignThemes.Wpf.dll
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\App.baml
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csproj.CopyComplete
-D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\Button_Function_View.g.cs
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\GeneratedInternalTypeHelper.g.cs
-D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\Button_Function_View.baml
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\PlanzyView.g.cs
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\PlanzyView.baml
-D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\Button_DatVe_View.g.cs
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\ResourcesXAML\MyResource.baml
-D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\Button_DatVe_View.baml

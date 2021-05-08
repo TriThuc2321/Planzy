@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Tutorial.Commands
+namespace Planzy.Commands
 {
     class RelayCommand : ICommand
     {

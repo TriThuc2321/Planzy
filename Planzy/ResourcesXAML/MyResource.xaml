@@ -2,5 +2,4 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:view ="clr-namespace:Planzy.Views"
                     >
-    <view:Button_DatVe_View x:Key="DatVe"></view:Button_DatVe_View>
 </ResourceDictionary>
