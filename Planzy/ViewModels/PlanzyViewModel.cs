@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Planzy.Models.SanBayModel;
+using Planzy.Models.SanBayTrungGianModel;
 using Planzy.Models.SupportUI;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
@@ -17,13 +18,15 @@ namespace Planzy.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        SanBayServices sanBayServices;
-        
+        SanBayService sanBayServices;
+        SanBayTrungGianService sanBayTrungGianService;
         public PlanzyViewModel()
         {
-            sanBayServices = new SanBayServices();
+            sanBayServices = new SanBayService();
+            sanBayTrungGianService = new SanBayTrungGianService();
             LoadData();
             doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
+            xoaSanBayTrungGianCommand = new RelayCommand(xoaSanBayTrungGian);
             #region Xử lý giao diện ban đầu
             chonLayoutCommand1 = new RelayCommand(Button1);
             chonLayoutCommand2 = new RelayCommand(Button2);
@@ -44,6 +47,7 @@ namespace Planzy.ViewModels
         private void LoadData()
         {
             SanbaysList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
+            SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>(sanBayTrungGianService.GetAll());
         }
 
         private SanBay sanBayDiDaChon;
@@ -230,5 +234,30 @@ namespace Planzy.ViewModels
             IsDuocChon5 = DuocChon;
         }
         #endregion
+        private RelayCommand xoaSanBayTrungGianCommand;
+
+        public RelayCommand XoaSanBayTrungGianCommand
+        {
+            get { return xoaSanBayTrungGianCommand; }
+        }
+        public void xoaSanBayTrungGian(object sanBayBiXoa)
+        {
+            for (int i = 0; i<sanBayTrungGiansList.Count; i++)
+            {
+                if (((SanBayTrungGian)sanBayBiXoa).MaSanBay == sanBayTrungGiansList[i].MaSanBay)
+                {
+                    sanBayTrungGiansList.RemoveAt(i);
+                    return;
+                }    
+            }    
+        }
+        private ObservableCollection<SanBayTrungGian> sanBayTrungGiansList;
+
+        public ObservableCollection<SanBayTrungGian> SanBayTrungGiansList
+        {
+            get { return sanBayTrungGiansList; }
+            set { sanBayTrungGiansList = value; OnPropertyChanged("SanBayTrungGiansList"); }
+        }
+
     }
 }

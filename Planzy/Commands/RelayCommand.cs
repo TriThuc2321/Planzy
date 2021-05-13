@@ -9,21 +9,36 @@ namespace Planzy.Commands
 {
     class RelayCommand : ICommand
     {
-        public event EventHandler CanExecuteChanged;
-        private Action DoWork;
+        private Action<object> execute;
+        private Action executeNoObject;
+        private Predicate<Object> canExecute;
 
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public RelayCommand(Action<object> execute)
+        {
+            this.execute = execute;
+            //this.canExecute = canExecute;
+        }
         public RelayCommand(Action work)
         {
-            DoWork = work;
+            this.executeNoObject = work;
         }
         public bool CanExecute(object parameter)
         {
-            return true;
+            return this.canExecute == null || this.canExecute(parameter);
         }
 
         public void Execute(object parameter)
         {
-            DoWork();
+            if (execute == null)
+                this.executeNoObject();
+            else this.execute(parameter);
+
         }
     }
 }

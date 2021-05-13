@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace Planzy.Models.SanBayModel
 {
-    class SanBayServices
+    class SanBayService
     {
         private static List<SanBay> SanBaysList;
 
-        public SanBayServices()
+        public SanBayService()
         {
             SanBaysList = new List<SanBay>()
             {
                 new SanBay{Id = "TSN", TenSanBay = "Tân Sơn Nhất" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1},
-                new SanBay{Id = "TSN2", TenSanBay = "Tân Sơn Nhì" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1}
+                new SanBay{Id = "TSN2", TenSanBay = "Tân Sơn Nhì" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1},
+                new SanBay{Id = "DN", TenSanBay = "Đà nẵng" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1},
+                new SanBay{Id = "HN", TenSanBay = "Hà Nội" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1}
             };
         }
         public List<SanBay> GetAll()
