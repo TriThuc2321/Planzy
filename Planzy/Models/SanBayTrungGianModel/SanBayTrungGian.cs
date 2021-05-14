@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using Planzy.Models.SanBayModel;
 namespace Planzy.Models.SanBayTrungGianModel
 {
     class SanBayTrungGian : INotifyPropertyChanged
@@ -60,6 +61,17 @@ namespace Planzy.Models.SanBayTrungGianModel
             get { return tenSanBay; }
             set { tenSanBay = value; OnPropertyChanged("TenSanBay"); }
         }
+        public SanBayTrungGian()
+        {
 
+        }
+        public SanBayTrungGian(SanBay newSanBay)
+        {
+            if (newSanBay != null)
+            {
+                MaSanBay = newSanBay.Id;
+                TenSanBay = newSanBay.TenSanBay;
+            }
+        }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Planzy.Models.SanBayModel;
 namespace Planzy.Models.SanBayTrungGianModel
 {
     class SanBayTrungGianService
@@ -12,29 +12,34 @@ namespace Planzy.Models.SanBayTrungGianModel
 
         public SanBayTrungGianService()
         {
-            SanBayTrungGiansList = new List<SanBayTrungGian>()
-            {
-                new SanBayTrungGian{MaSanBay = "HN", MaChuyenBay= "MH30", MaSanBayTruoc = "", MaSanBaySau = "DN", ThoiGianDung = 10},
-                new SanBayTrungGian{MaSanBay = "DN", MaChuyenBay= "MH30", MaSanBayTruoc = "HN", MaSanBaySau = "", ThoiGianDung = 10},
-                new SanBayTrungGian{MaSanBay = "DN", MaChuyenBay= "MH30", MaSanBayTruoc = "HN", MaSanBaySau = "", ThoiGianDung = 10},
-            };
+            SanBayTrungGiansList = new List<SanBayTrungGian>();
         }
         public List<SanBayTrungGian> GetAll()
         {
             return SanBayTrungGiansList;
         }
-        //public bool Add(SanBayTrungGian newSanbay)
-        //{
-        //    if (SanBayTrungGianList.Contains(newSanbay))
-        //    {
-        //        return false;
-        //    }    
-        //    else
-        //    {
-        //        SanBaysList.Add(newSanbay);
-        //        return true;
-        //    }    
-        //}
+        public bool Add(SanBayTrungGian newSanbay)
+        {
+            if (SanBayTrungGiansList.Count == 0)
+            {
+                SanBayTrungGiansList.Add(newSanbay);
+                return true;
+            }
+            else
+            {
+                for (int index = 0; index < SanBayTrungGiansList.Count; index++)
+                {
+                    if (newSanbay.MaSanBaySau == SanBayTrungGiansList[index].MaSanBay)
+                    {
+                        SanBayTrungGiansList.Insert(index, newSanbay);
+                        return true;
+                    }    
+                }
+                SanBayTrungGiansList.Add(newSanbay);
+                return true;
+            }    
+               
+        }
         //public bool Update(SanBay sanBayUpdate)
         //{
         //    bool isUpdate = false;

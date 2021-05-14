@@ -17,7 +17,8 @@ namespace Planzy.Models.SanBayModel
                 new SanBay{Id = "TSN", TenSanBay = "Tân Sơn Nhất" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1},
                 new SanBay{Id = "TSN2", TenSanBay = "Tân Sơn Nhì" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1},
                 new SanBay{Id = "DN", TenSanBay = "Đà nẵng" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1},
-                new SanBay{Id = "HN", TenSanBay = "Hà Nội" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1}
+                new SanBay{Id = "HN", TenSanBay = "Hà Nội" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1},
+                new SanBay{Id = "DL", TenSanBay = "Đà Lạt" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1}
             };
         }
         public List<SanBay> GetAll()

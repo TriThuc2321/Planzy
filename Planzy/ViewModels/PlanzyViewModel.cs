@@ -13,11 +13,13 @@ namespace Planzy.ViewModels
 {
     class PlanzyViewModel : INotifyPropertyChanged
     {
+        #region PropertyChange
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
         SanBayService sanBayServices;
         SanBayTrungGianService sanBayTrungGianService;
         public PlanzyViewModel()
@@ -27,6 +29,9 @@ namespace Planzy.ViewModels
             LoadData();
             doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
             xoaSanBayTrungGianCommand = new RelayCommand(xoaSanBayTrungGian);
+            themSanBayTrungGianCommand = new RelayCommand(themSanBayTrungGian);
+            huyThemCommand = new RelayCommand(huyThemSanBayTrungGian);
+            xacNhanThemCommand = new RelayCommand(xacNhanThemSanBayTrungGian);
             #region Xử lý giao diện ban đầu
             chonLayoutCommand1 = new RelayCommand(Button1);
             chonLayoutCommand2 = new RelayCommand(Button2);
@@ -35,19 +40,39 @@ namespace Planzy.ViewModels
             chonLayoutCommand5 = new RelayCommand(Button5);
             #endregion
         }
-        #region Xử lý chọn sân bay
-        private ObservableCollection<SanBay> sanbaysList;
-
-        public ObservableCollection<SanBay> SanbaysList
-        {
-            get { return sanbaysList; }
-            set { sanbaysList = value; OnPropertyChanged("SanbaysList"); }
-        }
-
+        #region Xử lý chung
         private void LoadData()
         {
-            SanbaysList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
+            SanbaysList = new List<SanBay>(sanBayServices.GetAll());
+            SanBayDensList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
+            SanBayDisList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
+            
+            SanBayTrungGianSapThemsList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>(sanBayTrungGianService.GetAll());
+        }
+        private List<SanBay> sanbaysList;
+
+        public List<SanBay> SanbaysList
+        {
+            get { return sanbaysList; }
+            set { sanbaysList = value; }
+        }
+        #endregion
+        #region Xử lý chọn sân bay
+        private ObservableCollection<SanBay> sanBayDisList;
+
+        public ObservableCollection<SanBay> SanBayDisList
+        {
+            get { return sanBayDisList; }
+            set { sanBayDisList = value; OnPropertyChanged("SanBayDisList"); }
+        }
+
+        private ObservableCollection<SanBay> sanBayDensList;
+
+        public ObservableCollection<SanBay> SanBayDensList
+        {
+            get { return sanBayDensList; }
+            set { sanBayDensList = value; OnPropertyChanged("SanBayDensList"); }
         }
 
         private SanBay sanBayDiDaChon;
@@ -56,41 +81,38 @@ namespace Planzy.ViewModels
             get { return sanBayDiDaChon; }
             set 
             {
+                if (SanBayDiDaChon != null)
+                {
+                    SanBayDensList.Add(SanBayDiDaChon);
+                    SanBayTrungGianSapThemsList.Add(SanBayDiDaChon);
+                }
                 sanBayDiDaChon = value;
                 OnPropertyChanged("SanBayDiDaChon");
-                if (SanBayDenDaChon != null)
-                {
-                    if (sanBayDiDaChon.Id == sanBayDenDaChon.Id)
-                    {
-                        MyProperty = 22;
-                    }
-                }
+                //xử lý để không bị trùng sân bay đến và đi
+                SanBayDensList.Remove(SanBayDiDaChon);
+                SanBayTrungGianSapThemsList.Remove(SanBayDiDaChon);
+                if(SanBayTrungGiansList.Count != 0)
+                    xoaSanBayTrungGian(new SanBayTrungGian(SanBayDiDaChon));
             }
         }
-        private int myVar;
-
-        public int MyProperty
-        {
-            get { return myVar; }
-            set { myVar = value; OnPropertyChanged("MyProperty"); }
-        }
-
-
         private SanBay sanBayDenDaChon;
         public SanBay SanBayDenDaChon
         {
             get { return sanBayDenDaChon; }
             set
             {
+                if (SanBayDenDaChon != null)
+                {
+                    SanBayDisList.Add(SanBayDenDaChon);
+                    SanBayTrungGianSapThemsList.Add(SanBayDenDaChon);
+                }
                 sanBayDenDaChon = value;
                 OnPropertyChanged("SanBayDenDaChon");
-                if (SanBayDiDaChon != null)
-                {
-                    if (sanBayDiDaChon.Id == sanBayDenDaChon.Id)
-                    {
-                        MyProperty = 11;
-                    }
-                }    
+                //xử lý để không bị trùng sân bay đến và đi
+                SanBayDisList.Remove(SanBayDenDaChon);
+                SanBayTrungGianSapThemsList.Remove(SanBayDenDaChon);
+                if (SanBayTrungGiansList.Count != 0)
+                    xoaSanBayTrungGian( new SanBayTrungGian(SanBayDenDaChon));
             }
         }
         private RelayCommand doiViTriSanBayCommand;
@@ -105,9 +127,12 @@ namespace Planzy.ViewModels
             SanBay temp = new SanBay();
             if (SanBayDenDaChon != null && SanBayDiDaChon != null)
             {
-                temp = SanBayDenDaChon;
-                SanBayDenDaChon = SanBayDiDaChon;
-                SanBayDiDaChon = temp;
+                temp.TenSanBay = SanBayDenDaChon.TenSanBay;
+                temp.Id = SanBayDenDaChon.Id;
+                SanBayDenDaChon.Id = SanBayDiDaChon.Id;
+                SanBayDenDaChon.TenSanBay = SanBayDiDaChon.TenSanBay;
+                SanBayDiDaChon.Id = temp.Id;
+                SanBayDiDaChon.TenSanBay = temp.TenSanBay;
             }
         }
         #endregion
@@ -234,6 +259,7 @@ namespace Planzy.ViewModels
             IsDuocChon5 = DuocChon;
         }
         #endregion
+        #region Xử lý xóa sân bay trung gian
         private RelayCommand xoaSanBayTrungGianCommand;
 
         public RelayCommand XoaSanBayTrungGianCommand
@@ -242,12 +268,44 @@ namespace Planzy.ViewModels
         }
         public void xoaSanBayTrungGian(object sanBayBiXoa)
         {
-            for (int i = 0; i<sanBayTrungGiansList.Count; i++)
+            for (int i = 0; i<SanBayTrungGiansList.Count; i++)
             {
-                if (((SanBayTrungGian)sanBayBiXoa).MaSanBay == sanBayTrungGiansList[i].MaSanBay)
+                if (((SanBayTrungGian)sanBayBiXoa).MaSanBay == SanBayTrungGiansList[i].MaSanBay)
                 {
-                    sanBayTrungGiansList.RemoveAt(i);
-                    return;
+                    if (SanBayTrungGiansList[i].MaSanBay != SanBayDenDaChon.Id && SanBayTrungGiansList[i].MaSanBay != SanBayDiDaChon.Id)
+                    {
+                        SanBay temp = new SanBay();
+                        temp.Id = SanBayTrungGiansList[i].MaSanBay;
+                        temp.TenSanBay = SanBayTrungGiansList[i].TenSanBay;
+                        SanBayTrungGianSapThemsList.Add(temp);
+                    }
+                    if (i == 0)
+                    {
+                        if (SanBayTrungGiansList.Count == 1)
+                        {
+                            SanBayTrungGiansList.RemoveAt(i);
+                            return;
+                        }
+                        else
+                        {
+                            SanBayTrungGiansList[1].MaSanBayTruoc = SanBayDiDaChon.Id;
+                            SanBayTrungGiansList.RemoveAt(i);
+                            return;
+                        }                        
+                    }
+                    else if (i != SanBayTrungGiansList.Count -1)
+                    {
+                        SanBayTrungGiansList[i - 1].MaSanBaySau = SanBayTrungGiansList[i + 1].MaSanBay;
+                        SanBayTrungGiansList[i + 1].MaSanBayTruoc = SanBayTrungGiansList[i - 1].MaSanBay;
+                        SanBayTrungGiansList.RemoveAt(i);
+                        return;
+                    } 
+                    else
+                    {
+                        SanBayTrungGiansList[i-1].MaSanBaySau = SanBayDenDaChon.Id;
+                        SanBayTrungGiansList.RemoveAt(i);
+                        return;
+                    }    
                 }    
             }    
         }
@@ -256,8 +314,185 @@ namespace Planzy.ViewModels
         public ObservableCollection<SanBayTrungGian> SanBayTrungGiansList
         {
             get { return sanBayTrungGiansList; }
-            set { sanBayTrungGiansList = value; OnPropertyChanged("SanBayTrungGiansList"); }
+            set 
+            {
+                bool isCheck;
+                if(SanBayTrungGiansList == null)
+                {
+                    isCheck = true;
+                }    
+                else
+                {
+                    isCheck = false;
+                }    
+                sanBayTrungGiansList = value;
+                if (isCheck)
+                {
+                    for (int i = 0;i< sanBayTrungGiansList.Count;i++)
+                    {
+                        for (int j = 0;j< SanBayTrungGianSapThemsList.Count; j++)
+                        {
+                            if (sanBayTrungGiansList[i].MaSanBay == SanBayTrungGianSapThemsList[j].Id)
+                                SanBayTrungGianSapThemsList.RemoveAt(j);
+                        }    
+                    }    
+                }    
+                OnPropertyChanged("SanBayTrungGiansList"); 
+            }
+        }
+        #endregion
+        #region Xử lý chèn sân bay trung gian
+        private string isVisible = "Hidden";
+
+        public string IsVisible
+        {
+            get { return isVisible; }
+            set { isVisible = value; OnPropertyChanged("IsVisible"); }
+        }
+        private string isDropDown = "False";
+
+        public string IsDropDown
+        {
+            get { return isDropDown; }
+            set { isDropDown = value; OnPropertyChanged("IsDropDown"); }
         }
 
+        private RelayCommand themSanBayTrungGianCommand;
+
+        public RelayCommand ThemSanBayTrungGianCommand
+        {
+            get { return themSanBayTrungGianCommand; }
+        }
+
+        private RelayCommand huyThemCommand;
+
+        public RelayCommand HuyThemCommand
+        {
+            get { return huyThemCommand; }
+        }
+        private RelayCommand xacNhanThemCommand;
+
+        public RelayCommand XacNhanThemCommand
+        {
+            get { return xacNhanThemCommand; }
+        }
+        private SanBay sanBayTrungGianSapThem;
+        public SanBay SanBayTrungGianSapThem
+        {
+            get { return sanBayTrungGianSapThem; }
+            set { sanBayTrungGianSapThem = value; OnPropertyChanged("SanBayTrungGianSapThem"); }
+        }
+
+        private ObservableCollection<SanBay> sanBayTrungGianSapThemsList;
+        public ObservableCollection<SanBay> SanBayTrungGianSapThemsList
+        {
+            get { return sanBayTrungGianSapThemsList; }
+            set { sanBayTrungGianSapThemsList = value; OnPropertyChanged("SanBayTrungGianSapThemsList"); }
+        }
+        public void themSanBayTrungGian(object sanBayBenDuoiSanBaySapThem)
+        {
+            IsDropDown = "True";
+            IsVisible = "Visible";
+            this.sanBayBenDuoiSanBaySapThem = sanBayBenDuoiSanBaySapThem;
+        }
+
+        public void huyThemSanBayTrungGian()
+        {
+            IsDropDown = "False";
+            IsVisible = "Hidden";
+            SanBayTrungGianSapThem = null;
+        }
+        object sanBayBenDuoiSanBaySapThem;
+        public void xacNhanThemSanBayTrungGian()
+        {
+            int ViTriSanBayTrungGianDuocThem = 0;
+            SanBayTrungGian SanBayTrungGianDuocChon = new SanBayTrungGian();
+                int index;
+            if (sanBayBenDuoiSanBaySapThem == null)
+            {
+                if(SanBayTrungGiansList.Count == 0)
+                {
+                    SanBayTrungGian newSanBay = new SanBayTrungGian();
+                    newSanBay.MaSanBay = SanBayTrungGianSapThem.Id;
+                    newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
+                    newSanBay.MaSanBayTruoc = SanBayDiDaChon.Id;
+                    newSanBay.MaSanBaySau = SanBayDenDaChon.Id;
+
+
+                    SanBayTrungGiansList.Add(newSanBay);
+                    SanBayTrungGianSapThemsList.Remove(SanBayTrungGianSapThem);
+                    SanBayTrungGianSapThem = null;
+                    IsDropDown = "False";
+                    IsVisible = "Hidden";
+                }    
+                else
+                {
+                    SanBayTrungGian newSanBay = new SanBayTrungGian();
+                    newSanBay.MaSanBay = SanBayTrungGianSapThem.Id;
+                    newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
+                    newSanBay.MaSanBayTruoc = SanBayTrungGiansList[SanBayTrungGiansList.Count -1].MaSanBay;
+                    newSanBay.MaSanBaySau = SanBayDenDaChon.Id;
+                    SanBayTrungGiansList[SanBayTrungGiansList.Count - 1].MaSanBaySau = newSanBay.MaSanBay;
+
+                    SanBayTrungGiansList.Add(newSanBay);
+                    SanBayTrungGianSapThemsList.Remove(SanBayTrungGianSapThem);
+                    SanBayTrungGianSapThem = null;
+                    IsDropDown = "False";
+                    IsVisible = "Hidden";
+                }
+                return;
+            }
+            else
+            {
+                for (index = 0; index < SanBayTrungGiansList.Count; index++)
+                {
+                    if (((SanBayTrungGian)sanBayBenDuoiSanBaySapThem).MaSanBay == SanBayTrungGiansList[index].MaSanBay)
+                    {
+                        if (index == 0)
+                        {
+                            SanBayTrungGian newSanBay = new SanBayTrungGian();
+                            newSanBay.MaSanBay = SanBayTrungGianSapThem.Id;
+                            newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
+                            newSanBay.MaSanBayTruoc = SanBayDiDaChon.Id;
+                            newSanBay.MaSanBaySau = SanBayTrungGiansList[index].MaSanBay;
+
+                            ViTriSanBayTrungGianDuocThem = index;
+                            SanBayTrungGianDuocChon = newSanBay;
+                            break;
+                        }
+                        else if (index != SanBayTrungGiansList.Count - 1)
+                        {
+                            SanBayTrungGian newSanBay = new SanBayTrungGian();
+                            newSanBay.MaSanBay = SanBayTrungGianSapThem.Id;
+                            newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
+                            newSanBay.MaSanBayTruoc = SanBayTrungGiansList[index - 1].MaSanBay;
+                            newSanBay.MaSanBaySau = SanBayTrungGiansList[index].MaSanBay;
+
+                            ViTriSanBayTrungGianDuocThem = index;
+                            SanBayTrungGianDuocChon = newSanBay;
+                            break;
+                        }
+                        else
+                        {
+                            SanBayTrungGian newSanBay = new SanBayTrungGian();
+                            newSanBay.MaSanBay = SanBayTrungGianSapThem.Id;
+                            newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
+                            newSanBay.MaSanBayTruoc = SanBayTrungGiansList[index - 1].MaSanBay;
+                            newSanBay.MaSanBaySau = SanBayDenDaChon.Id;
+
+                            ViTriSanBayTrungGianDuocThem = index;
+                            SanBayTrungGianDuocChon = newSanBay;
+                            break;
+                        }
+                    }
+                }
+            }
+            SanBayTrungGiansList.Insert(ViTriSanBayTrungGianDuocThem,SanBayTrungGianDuocChon);
+            SanBayTrungGianSapThemsList.Remove(SanBayTrungGianSapThem);
+            SanBayTrungGianSapThem = null;
+            IsDropDown = "False";
+            IsVisible = "Hidden";
+        }
+        #endregion
     }
 }
