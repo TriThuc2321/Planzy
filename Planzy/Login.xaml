@@ -8,7 +8,7 @@
         ResizeMode="NoResize"
         WindowStyle="None"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-       
+        WindowStartupLocation="CenterScreen"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Login" Height="450" Width="800">
@@ -94,14 +94,29 @@
                         ToolTip="MaterialDesignRaisedButton with Round Corners"
                         Margin="30 10 10 0"
                         VerticalAlignment="Top">
-                        
-                        </Button>
-               
+
+                    </Button>
+
 
 
 
                 </Grid>
             </Grid>
+        </materialDesign:Card>
+
+        <materialDesign:Card 
+            Height="30" 
+            Width="30" 
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right"
+            Background="Transparent">
+            <Button>
+                <Button.Background>
+                    <ImageBrush ImageSource="/clodeIcon.png"/>
+                </Button.Background>
+
+            </Button>
+
         </materialDesign:Card>
     </Grid>
 </Window>

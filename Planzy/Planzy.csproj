@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="back_ground_login.jpg" />
+    <None Remove="clodeIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <Resource Include="back_ground_login.jpg" />
+    <Resource Include="clodeIcon.png" />
   </ItemGroup>
 
 </Project>
