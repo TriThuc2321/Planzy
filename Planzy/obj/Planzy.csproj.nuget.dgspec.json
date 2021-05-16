@@ -48,6 +48,10 @@
             "MaterialDesignThemes": {
               "target": "Package",
               "version": "[4.0.0, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.2, )"
             }
           },
           "imports": [

@@ -28,3 +28,10 @@ D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\GeneratedInternalType
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\PlanzyView.g.cs
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\PlanzyView.baml
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\ResourcesXAML\MyResource.baml
+D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\Planzy.dll.config
+D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\System.Data.SqlClient.dll
+D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win-arm64\native\sni.dll
+D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win-x64\native\sni.dll
+D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win-x86\native\sni.dll
+D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

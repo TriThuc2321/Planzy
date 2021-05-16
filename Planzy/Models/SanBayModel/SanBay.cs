@@ -29,21 +29,6 @@ namespace Planzy.Models.SanBayModel
             get { return tenSanBay; }
             set { tenSanBay = value; OnPropertyChanged("TenSanBay"); }
         }
-        private int thoiGianDungToiThieu;
-
-        public int ThoiGianDungToiThieu
-        {
-            get { return thoiGianDungToiThieu; }
-            set { thoiGianDungToiThieu = value; OnPropertyChanged("ThoiGianDungToiThieu"); }
-        }
-
-        private int thoiGianDungToiDa;
-
-        public int ThoiGianDungToiDa
-        {
-            get { return thoiGianDungToiDa; }
-            set { thoiGianDungToiDa = value; OnPropertyChanged("ThoiGianDungToiDa"); }
-        }
 
         public override string ToString()
         {

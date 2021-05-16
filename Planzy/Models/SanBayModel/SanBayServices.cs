@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Data.SqlClient;
+using System.Data;
+using System.Configuration;
 namespace Planzy.Models.SanBayModel
 {
     class SanBayService
     {
+        private static SqlConnection SanBayConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
         private static List<SanBay> SanBaysList;
 
         public SanBayService()
         {
-            SanBaysList = new List<SanBay>()
-            {
-                new SanBay{Id = "TSN", TenSanBay = "Tân Sơn Nhất" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1},
-                new SanBay{Id = "TSN2", TenSanBay = "Tân Sơn Nhì" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1},
-                new SanBay{Id = "DN", TenSanBay = "Đà nẵng" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1},
-                new SanBay{Id = "HN", TenSanBay = "Hà Nội" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1},
-                new SanBay{Id = "DL", TenSanBay = "Đà Lạt" ,ThoiGianDungToiDa = 1, ThoiGianDungToiThieu = 1}
-            };
+            SanBaysList = new List<SanBay>();
+            LayDuLieuTuSql();
         }
         public List<SanBay> GetAll()
         {
@@ -72,5 +69,63 @@ namespace Planzy.Models.SanBayModel
         {
             return SanBaysList.FirstOrDefault(e => e.TenSanBay == tenSanBay);
         }
+        #region SQL Command
+        public void LayDuLieuTuSql()
+        {
+
+            try
+            {
+                SanBayConnection.Open();
+                #region Truy vấn dữ liệu từ sql
+                SqlCommand command = new SqlCommand("SELECT * FROM SAN_BAY ", SanBayConnection);
+                command.CommandType = CommandType.Text;
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                #endregion
+                if (dataTable.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        //a = Convert.ToInt32(row["Doi1"].ToString());
+                        //b = Convert.ToInt32(row["Doi2"].ToString());
+                        //c = Convert.ToInt32(row["Doi3"].ToString());
+                        //d = Convert.ToInt32(row["Doi4"].ToString());
+                        //this.doi1Diem.Text = a.ToString();
+                        //this.doi2Diem.Text = b.ToString();
+                        //this.doi3Diem.Text = c.ToString();
+                        //this.doi4Diem.Text = d.ToString();
+                        SanBay sanBay = new SanBay();
+                        sanBay.Id = row["MA_SAN_BAY"].ToString();
+                        sanBay.TenSanBay = row["TEN_SAN_BAY"].ToString();
+                        SanBaysList.Add(sanBay);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+                SanBayConnection.Close();
+            }
+        }
+        public void UpdateCommand(SanBay updateSanBay)
+        {
+            try
+            {
+                
+            }
+            catch(Exception e)
+            {
+
+            }
+            finally
+            {
+
+            }
+        }
+        #endregion
     }
 }

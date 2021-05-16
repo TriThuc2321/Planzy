@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Planzy.Models.KiemTraModel;
 using Planzy.Models.SanBayModel;
 using Planzy.Models.SanBayTrungGianModel;
 using Planzy.Models.SupportUI;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Planzy.Commands;
+
 namespace Planzy.ViewModels
 {
-    class PlanzyViewModel : INotifyPropertyChanged
+    class PlanzyViewModel : INotifyPropertyChanged,ITextBoxController
     {
         #region PropertyChange
         public event PropertyChangedEventHandler PropertyChanged;
@@ -39,7 +41,16 @@ namespace Planzy.ViewModels
             chonLayoutCommand4 = new RelayCommand(Button4);
             chonLayoutCommand5 = new RelayCommand(Button5);
             #endregion
+            SelectAllCommand = new RelayCommand(p =>
+            {
+                if (SelectAll != null)
+                    SelectAll(this);
+            });
         }
+        public RelayCommand SelectAllCommand { get; private set; }
+        public RelayCommand SelectAllCommand2 { get; private set; }
+
+        public event SelectAllEventHandler SelectAll;
         #region Xử lý chung
         private void LoadData()
         {
@@ -133,6 +144,7 @@ namespace Planzy.ViewModels
                 SanBayDenDaChon.TenSanBay = SanBayDiDaChon.TenSanBay;
                 SanBayDiDaChon.Id = temp.Id;
                 SanBayDiDaChon.TenSanBay = temp.TenSanBay;
+                
             }
         }
         #endregion
@@ -494,5 +506,13 @@ namespace Planzy.ViewModels
             IsVisible = "Hidden";
         }
         #endregion
+        private string tes = "True";
+
+        public string test
+        {
+            get { return tes; }
+            set { tes = value;OnPropertyChanged("test"); }
+        }
+
     }
 }
