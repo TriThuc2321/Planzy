@@ -35,3 +35,5 @@ D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win-x64\nati
 D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win-x86\native\sni.dll
 D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\WarningView.g.cs
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\WarningView.baml

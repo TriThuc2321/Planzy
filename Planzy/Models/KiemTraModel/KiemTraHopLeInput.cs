@@ -35,7 +35,7 @@ namespace Planzy.Models.KiemTraModel
             int j;
             for (j = 0; j < SO.Length; j++)
             {
-                if (MA[j] == test[i])
+                if (SO[j] == test[i])
                 {
                     break;
                 }
@@ -45,12 +45,5 @@ namespace Planzy.Models.KiemTraModel
         }
         return true; ;
     }
-    public static bool KiemTraChuoiKhongNULL(string test)
-        {
-            if (test.Length == 0)
-                return false;
-            else
-                return true;
-        }
 }
 }

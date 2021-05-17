@@ -47,9 +47,9 @@ namespace Planzy.Models.SanBayTrungGianModel
             set { maSanBaySau = value; OnPropertyChanged("MaSanBaySau"); }
         }
 
-        private int thoiGianDung;
+        private string thoiGianDung;
 
-        public int ThoiGianDung
+        public string ThoiGianDung
         {
             get { return thoiGianDung; }
             set { thoiGianDung = value; OnPropertyChanged("ThoiGianDung"); }

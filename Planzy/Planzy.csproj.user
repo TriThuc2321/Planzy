@@ -10,6 +10,9 @@
     <Compile Update="Views\PlanzyView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\WarningView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MainWindow.xaml">
@@ -19,6 +22,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\PlanzyView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\WarningView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -426,32 +426,33 @@ namespace Planzy.ViewModels
         {
             int ViTriSanBayTrungGianDuocThem = 0;
             SanBayTrungGian SanBayTrungGianDuocChon = new SanBayTrungGian();
-                int index;
+            int index;
             if (sanBayBenDuoiSanBaySapThem == null)
             {
-                if(SanBayTrungGiansList.Count == 0)
+                if (SanBayTrungGiansList.Count == 0)
                 {
                     SanBayTrungGian newSanBay = new SanBayTrungGian();
                     newSanBay.MaSanBay = SanBayTrungGianSapThem.Id;
                     newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
                     newSanBay.MaSanBayTruoc = SanBayDiDaChon.Id;
                     newSanBay.MaSanBaySau = SanBayDenDaChon.Id;
-
+                    newSanBay.ThoiGianDung = ThoiGianDungSapThem;
 
                     SanBayTrungGiansList.Add(newSanBay);
                     SanBayTrungGianSapThemsList.Remove(SanBayTrungGianSapThem);
                     SanBayTrungGianSapThem = null;
                     IsDropDown = "False";
                     IsVisible = "Hidden";
-                }    
+                }
                 else
                 {
                     SanBayTrungGian newSanBay = new SanBayTrungGian();
                     newSanBay.MaSanBay = SanBayTrungGianSapThem.Id;
                     newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
-                    newSanBay.MaSanBayTruoc = SanBayTrungGiansList[SanBayTrungGiansList.Count -1].MaSanBay;
+                    newSanBay.MaSanBayTruoc = SanBayTrungGiansList[SanBayTrungGiansList.Count - 1].MaSanBay;
                     newSanBay.MaSanBaySau = SanBayDenDaChon.Id;
                     SanBayTrungGiansList[SanBayTrungGiansList.Count - 1].MaSanBaySau = newSanBay.MaSanBay;
+                    newSanBay.ThoiGianDung = ThoiGianDungSapThem;
 
                     SanBayTrungGiansList.Add(newSanBay);
                     SanBayTrungGianSapThemsList.Remove(SanBayTrungGianSapThem);
@@ -474,6 +475,7 @@ namespace Planzy.ViewModels
                             newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
                             newSanBay.MaSanBayTruoc = SanBayDiDaChon.Id;
                             newSanBay.MaSanBaySau = SanBayTrungGiansList[index].MaSanBay;
+                            newSanBay.ThoiGianDung = ThoiGianDungSapThem;
 
                             ViTriSanBayTrungGianDuocThem = index;
                             SanBayTrungGianDuocChon = newSanBay;
@@ -486,6 +488,7 @@ namespace Planzy.ViewModels
                             newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
                             newSanBay.MaSanBayTruoc = SanBayTrungGiansList[index - 1].MaSanBay;
                             newSanBay.MaSanBaySau = SanBayTrungGiansList[index].MaSanBay;
+                            newSanBay.ThoiGianDung = ThoiGianDungSapThem;
 
                             ViTriSanBayTrungGianDuocThem = index;
                             SanBayTrungGianDuocChon = newSanBay;
@@ -498,6 +501,7 @@ namespace Planzy.ViewModels
                             newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
                             newSanBay.MaSanBayTruoc = SanBayTrungGiansList[index - 1].MaSanBay;
                             newSanBay.MaSanBaySau = SanBayDenDaChon.Id;
+                            newSanBay.ThoiGianDung = ThoiGianDungSapThem;
 
                             ViTriSanBayTrungGianDuocThem = index;
                             SanBayTrungGianDuocChon = newSanBay;
@@ -506,12 +510,20 @@ namespace Planzy.ViewModels
                     }
                 }
             }
-            SanBayTrungGiansList.Insert(ViTriSanBayTrungGianDuocThem,SanBayTrungGianDuocChon);
+            SanBayTrungGiansList.Insert(ViTriSanBayTrungGianDuocThem, SanBayTrungGianDuocChon);
             SanBayTrungGianSapThemsList.Remove(SanBayTrungGianSapThem);
             SanBayTrungGianSapThem = null;
             IsDropDown = "False";
             IsVisible = "Hidden";
         }
+        private string thoiGianDungSapThem;
+
+        public string ThoiGianDungSapThem
+        {
+            get { return thoiGianDungSapThem; }
+            set { thoiGianDungSapThem = value; OnPropertyChanged("ThoiGianDungSapThem"); }
+        }
+
         #endregion
         private string tes = "True";
 

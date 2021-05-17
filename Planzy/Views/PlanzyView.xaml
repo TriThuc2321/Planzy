@@ -357,7 +357,7 @@
                                            Foreground="#FF5867AC"
                                            Width="100"
                                                Visibility="{Binding IsVisible}"/>
-                                        <TextBox Width="35"
+                                        <TextBox Width="35" Text="{Binding ThoiGianDungSapThem}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC"

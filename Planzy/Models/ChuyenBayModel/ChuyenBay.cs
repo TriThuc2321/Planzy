@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using Planzy.Models.SanBayModel;
+using Planzy.Models.KiemTraModel;
 using Planzy.Models.SanBayTrungGianModel;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Planzy.Models.ChuyenBayModel
 {
@@ -41,7 +43,10 @@ namespace Planzy.Models.ChuyenBayModel
             set 
             {
                 if (value != null)
-                    maChuyenBay = value.ToUpper(); 
+                {
+                    if (KiemTraHopLeInput.KiemTraMa(value))
+                        maChuyenBay = value.ToUpper();
+                }    
                 OnPropertyChanged("MaChuyenBay"); 
             }
         }
@@ -57,7 +62,21 @@ namespace Planzy.Models.ChuyenBayModel
         public string GiaVeCoBan
         {
             get { return giaVeCoBan; }
-            set { giaVeCoBan = value; OnPropertyChanged("GiaVeCoBan"); }
+            set 
+            { 
+                if(value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        giaVeCoBan = value;
+                    }    
+                    else
+                    {
+                        MessageBox.Show("");
+                    }    
+                }    
+                OnPropertyChanged("GiaVeCoBan"); 
+            }
         }
         private DateTime gioBay = new DateTime(1,1,1,0,0,0);
         
