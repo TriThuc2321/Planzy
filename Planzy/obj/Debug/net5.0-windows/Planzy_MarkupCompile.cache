@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\
+D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\
 Planzy
 none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
-D:\Nhap_mon_di_dong\Planzy\Planzy\App.xaml
+D:\Github_Clone\Planzy\Planzy\App.xaml
 4-862084159
 
 16116238399
-196757090277
+196-235044085
 MainWindow.xaml;ResourcesXAML\MyResource.xaml;Views\PlanzyView.xaml;Views\WarningView.xaml;
 
 False
