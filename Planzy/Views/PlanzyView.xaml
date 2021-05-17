@@ -161,7 +161,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="2" 
+                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.MaChuyenBay}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" ToolTip="Chữ và số in hoa không dấu" BorderBrush="#FF5867AC" />
@@ -173,7 +173,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding test}"
+                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.GiaVeCoBan}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" ToolTip="Đồng " BorderBrush="#FF5867AC" loc:TextBoxAttach.TextBoxController ="{Binding}"/>
@@ -239,12 +239,15 @@
                                                 Foreground="Black"
                                                 FontWeight="Bold"
                                                 FontSize="15"
-                                                VerticalAlignment="Bottom" BorderBrush="#FF5867AC"/>
+                                                VerticalAlignment="Bottom" BorderBrush="#FF5867AC"
+                                                SelectedDate="{Binding ChuyenBayHienTai.NgayBay}"
+                                                />
                                     <Label Content="Giờ bay: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"/>
-                                    <materialDesign:TimePicker Width="97"
+                                    <materialDesign:TimePicker Width="97" 
+                                                               SelectedTime="{Binding ChuyenBayHienTai.GioBay}"
                                                 Foreground="Black"
                                                 FontWeight="Bold"
                                                 FontSize="15"
@@ -257,7 +260,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200"
+                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.ThoiGianBay}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC"/>
@@ -269,7 +272,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200"
+                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.SoGheHang1}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" BorderBrush="#FF5867AC"/>
@@ -281,7 +284,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200"
+                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.SoGheHang2}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" BorderBrush="#FF5867AC"/>
@@ -293,7 +296,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200"
+                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.SoGheHang3}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" BorderBrush="#FF5867AC"/>
@@ -305,7 +308,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200"
+                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.SoGheHang4}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" BorderBrush="#FF5867AC"/>
@@ -458,6 +461,73 @@
                                         </ListView.View>
                                     </ListView>
                                 </Grid>
+                                <Grid Grid.Column="1" Grid.Row="1">
+                                    <ListView Margin="10" Name="listviewChuyenBay" ItemsSource="{Binding ChuyenBaysList}" BorderBrush="Black">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Mã" Width="90" >
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel>
+                                                                <Label HorizontalAlignment="Left"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding MaChuyenBay}">
+                                                                </Label>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Header="Sân bay đi" Width="200" >
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Label HorizontalAlignment="Left" Width="50"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding SanBayDi.Id}">
+                                                                </Label>
+                                                                <Label HorizontalAlignment="Left" Width="Auto"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content=" - ">
+                                                                </Label>
+                                                                <Label HorizontalAlignment="Left" 
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding SanBayDi.TenSanBay}">
+                                                                </Label>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                                <GridViewColumn Header="Sân bay đến" Width="200" >
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Label HorizontalAlignment="Left" Width="50"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding SanBayDen.Id}">
+                                                                </Label>
+                                                                <Label HorizontalAlignment="Left" Width="Auto"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content=" - ">
+                                                                </Label>
+                                                                <Label HorizontalAlignment="Left" 
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding SanBayDen.TenSanBay}">
+                                                                </Label>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </Grid>
                                 <Grid Grid.Row="2" Grid.Column="0">
                                     <Button Content="Thêm"
                                             Width="35"
@@ -469,14 +539,70 @@
                                             />
                                 </Grid>
                                 <Grid Grid.Row="2" Grid.Column="1">
-                                    <Button Content="Thêm"
-                                            Width="35"
-                                            Height="20"
-                                            Padding="0"
-                                            Foreground="#ffffff"
-                                            Command="{Binding SelectAllCommand}" 
-                                            Background="#FF80E66A" FontSize="10"
-                                            />
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0">
+                                        <Button Content="Lưu" VerticalAlignment="Center" 
+                                                Visibility="Visible"
+                                                HorizontalAlignment="Center"
+                                                Width="30"
+                                                Height="20"
+                                                Padding="0"
+                                                Foreground="#ffffff"  
+                                                Background="#FF5867AC" FontSize="10" BorderBrush="{x:Null}"
+                                                />
+                                    </Grid>
+                                    <Grid Grid.Column="1">
+                                        <Button Content="Sửa" VerticalAlignment="Center" 
+                                                Visibility="Visible"
+                                                HorizontalAlignment="Center"
+                                                Width="30"
+                                                Height="20"
+                                                Padding="0"
+                                                Foreground="#ffffff"  
+                                                Background="#FF5867AC" FontSize="10" BorderBrush="{x:Null}"
+                                                />
+                                    </Grid>
+                                    <Grid Grid.Column="2">
+                                        <Button Content="Xóa" VerticalAlignment="Center" 
+                                                Visibility="Visible"
+                                                HorizontalAlignment="Center"
+                                                Width="30"
+                                                Height="20"
+                                                Padding="0"
+                                                Foreground="#ffffff"  
+                                                Background="#FFE05050" FontSize="10" BorderBrush="{x:Null}"
+                                                />
+                                    </Grid>
+                                    <Grid Grid.Column="3">
+                                        <Button Content=" Nhận lịch bay " 
+                                                VerticalAlignment="Center" 
+                                                HorizontalAlignment="Center"
+                                                Visibility="Visible"
+                                                Width="Auto"
+                                                Height="20"
+                                                Padding="0"
+                                                Foreground="#ffffff"
+                                                Command="{Binding ThemChuyenBayCommand}" 
+                                                Background="#FF80E66A" FontSize="10" BorderBrush="{x:Null}"
+                                                />
+                                    </Grid>
+                                    <Grid Grid.Column="4">
+                                        <Button Content="Hủy" VerticalAlignment="Center" 
+                                                Visibility="Visible"
+                                                HorizontalAlignment="Center"
+                                                Width="30"
+                                                Height="20"
+                                                Padding="0"
+                                                Foreground="#ffffff"  
+                                                Background="#FFE05050" FontSize="10" BorderBrush="{x:Null}"
+                                                />
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>

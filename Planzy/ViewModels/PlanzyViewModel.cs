@@ -7,6 +7,7 @@ using Planzy.Models.KiemTraModel;
 using Planzy.Models.SanBayModel;
 using Planzy.Models.SanBayTrungGianModel;
 using Planzy.Models.SupportUI;
+using Planzy.Models.ChuyenBayModel;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Planzy.Commands;
@@ -24,16 +25,20 @@ namespace Planzy.ViewModels
         #endregion
         SanBayService sanBayServices;
         SanBayTrungGianService sanBayTrungGianService;
+        ChuyenBayServices chuyenBayServices;
         public PlanzyViewModel()
         {
             sanBayServices = new SanBayService();
             sanBayTrungGianService = new SanBayTrungGianService();
+            chuyenBayServices = new ChuyenBayServices();
+
             LoadData();
             doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
             xoaSanBayTrungGianCommand = new RelayCommand(xoaSanBayTrungGian);
             themSanBayTrungGianCommand = new RelayCommand(themSanBayTrungGian);
             huyThemCommand = new RelayCommand(huyThemSanBayTrungGian);
             xacNhanThemCommand = new RelayCommand(xacNhanThemSanBayTrungGian);
+            themChuyenBayCommand = new RelayCommand(themChuyenBay);
             #region Xử lý giao diện ban đầu
             chonLayoutCommand1 = new RelayCommand(Button1);
             chonLayoutCommand2 = new RelayCommand(Button2);
@@ -60,6 +65,9 @@ namespace Planzy.ViewModels
             
             SanBayTrungGianSapThemsList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>(sanBayTrungGianService.GetAll());
+            chuyenBaysList = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
+
+            
         }
         private List<SanBay> sanbaysList;
 
@@ -143,8 +151,7 @@ namespace Planzy.ViewModels
                 SanBayDenDaChon.Id = SanBayDiDaChon.Id;
                 SanBayDenDaChon.TenSanBay = SanBayDiDaChon.TenSanBay;
                 SanBayDiDaChon.Id = temp.Id;
-                SanBayDiDaChon.TenSanBay = temp.TenSanBay;
-                
+                SanBayDiDaChon.TenSanBay = temp.TenSanBay;            
             }
         }
         #endregion
@@ -513,6 +520,53 @@ namespace Planzy.ViewModels
             get { return tes; }
             set { tes = value;OnPropertyChanged("test"); }
         }
+        #region Xử lý chuyến bay
+        private ObservableCollection<ChuyenBay> chuyenBaysList;
 
+        public ObservableCollection<ChuyenBay> ChuyenBaysList
+        {
+            get { return chuyenBaysList; }
+            set { chuyenBaysList = value; OnPropertyChanged("ChuyenBaysList"); }
+        }
+        private ChuyenBay chuyenBayHienTai = new ChuyenBay();
+
+        public ChuyenBay ChuyenBayHienTai
+        {
+            get { return chuyenBayHienTai; }
+            set { chuyenBayHienTai = value; OnPropertyChanged("ChuyenBayHienTai"); }
+        }
+        private RelayCommand themChuyenBayCommand;
+
+        public RelayCommand ThemChuyenBayCommand
+        {
+            get { return themChuyenBayCommand; }
+        }
+        private RelayCommand xoaChuyenBayCommand;
+
+        public RelayCommand XoaChuyenBayCommand
+        {
+            get { return xoaChuyenBayCommand; }
+        }
+        private RelayCommand suaChuyenBayCommand;
+
+        public RelayCommand SuaChuyenBayCommand
+        {
+            get { return SuaChuyenBayCommand; }
+        }
+        private RelayCommand huyThemVaSuaChuyenBay;
+
+        public RelayCommand HuyThemVaSuaChuyenBay
+        {
+            get { return huyThemVaSuaChuyenBay; }
+        }
+        public void themChuyenBay()
+        {
+            ChuyenBayHienTai.SanBayDi = SanBayDiDaChon;
+            ChuyenBayHienTai.SanBayDen = SanBayDenDaChon;
+            ChuyenBayHienTai.SanBayTrungGian = SanBayTrungGiansList;
+            ChuyenBaysList.Add(ChuyenBayHienTai);
+            ChuyenBayHienTai = new ChuyenBay();
+        }
+        #endregion
     }
 }
