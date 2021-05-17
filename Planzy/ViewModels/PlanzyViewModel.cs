@@ -153,6 +153,7 @@ namespace Planzy.ViewModels
                 SanBayDiDaChon.Id = temp.Id;
                 SanBayDiDaChon.TenSanBay = temp.TenSanBay;            
             }
+            IsFocusGiaChuyenBay = "True";
         }
         #endregion
         #region Xử lý giao diện ban đầu
@@ -525,14 +526,273 @@ namespace Planzy.ViewModels
         }
 
         #endregion
-        private string tes = "True";
+        #region Xử lý focus textbox
+        private string isFocusGiaChuyenBay = "False";
 
-        public string test
+        public string IsFocusGiaChuyenBay
         {
-            get { return tes; }
-            set { tes = value;OnPropertyChanged("test"); }
+            get { return isFocusGiaChuyenBay; }
+            set 
+            { 
+                if (value != null && value == "True")
+                {
+                    IsFocusMaChuyenBay = "False";
+                    IsFocusSoGheHang1 = "False";
+                    IsFocusSoGheHang2 = "False";
+                    IsFocusSoGheHang3 = "False";
+                    IsFocusSoGheHang4 = "False";
+                    IsFocusThoiGianDung = "False";
+                    IsFocusThoiGianBay = "False";
+                }    
+                isFocusGiaChuyenBay = value; 
+                OnPropertyChanged("IsFocusGiaChuyenBay"); 
+            }
         }
+        private string isFocusMaChuyenBay = "False";
+
+        public string IsFocusMaChuyenBay
+        {
+            get { return isFocusMaChuyenBay; }
+            set
+            {
+                if (value != null && value == "True")
+                {
+                    IsFocusGiaChuyenBay = "False";
+                    IsFocusSoGheHang1 = "False";
+                    IsFocusSoGheHang2 = "False";
+                    IsFocusSoGheHang3 = "False";
+                    IsFocusSoGheHang4 = "False";
+                    IsFocusThoiGianDung = "False";
+                    IsFocusThoiGianBay = "False";
+                }
+                isFocusMaChuyenBay = value; 
+                OnPropertyChanged("IsFocusMaChuyenBay"); 
+            }
+        }
+        private string isFocusThoiGianDung = "False";
+
+        public string IsFocusThoiGianDung
+        {
+            get { return isFocusThoiGianDung; }
+            set 
+            {
+                if (value != null && value == "True")
+                {
+                    IsFocusMaChuyenBay = "False";
+                    IsFocusSoGheHang1 = "False";
+                    IsFocusSoGheHang2 = "False";
+                    IsFocusSoGheHang3 = "False";
+                    IsFocusSoGheHang4 = "False";
+                    isFocusGiaChuyenBay = "False";
+                    IsFocusThoiGianBay = "False";
+                }
+                isFocusThoiGianDung = value; 
+                OnPropertyChanged("IsFocusThoiGianDung");
+            }
+        }
+        private string isFocusThoiGianBay = "False";
+
+        public string IsFocusThoiGianBay
+        {
+            get { return isFocusThoiGianBay; }
+            set 
+            {
+                if (value != null && value == "True")
+                {
+                    IsFocusMaChuyenBay = "False";
+                    IsFocusSoGheHang1 = "False";
+                    IsFocusSoGheHang2 = "False";
+                    IsFocusSoGheHang3 = "False";
+                    IsFocusSoGheHang4 = "False";
+                    IsFocusThoiGianDung = "False";
+                    IsFocusGiaChuyenBay = "False";
+                }
+                isFocusThoiGianBay = value;
+                OnPropertyChanged("IsFocusThoiGianBay"); 
+            }
+        }
+        private string isFocusSoGheHang4 = "False";
+
+        public string IsFocusSoGheHang4
+        {
+            get { return isFocusSoGheHang4; }
+            set 
+            {
+                if (value != null && value == "True")
+                {
+                    IsFocusMaChuyenBay = "False";
+                    IsFocusSoGheHang1 = "False";
+                    IsFocusSoGheHang2 = "False";
+                    IsFocusSoGheHang3 = "False";
+                    IsFocusGiaChuyenBay = "False";
+                    IsFocusThoiGianDung = "False";
+                    IsFocusThoiGianBay = "False";
+                }
+                isFocusSoGheHang4 = value; 
+                OnPropertyChanged("IsFocusSoGheHang4"); 
+            }
+        }
+        private string isFocusSoGheHang3 = "False";
+
+        public string IsFocusSoGheHang3
+        {
+            get { return isFocusSoGheHang3; }
+            set 
+            {
+                if (value != null && value == "True")
+                {
+                    IsFocusMaChuyenBay = "False";
+                    IsFocusSoGheHang1 = "False";
+                    IsFocusSoGheHang2 = "False";
+                    IsFocusGiaChuyenBay = "False";
+                    IsFocusSoGheHang4 = "False";
+                    IsFocusThoiGianDung = "False";
+                    IsFocusThoiGianBay = "False";
+                }
+                isFocusSoGheHang3 = value; 
+                OnPropertyChanged("IsFocusSoGheHang3"); 
+            }
+        }
+        private string isFocusSoGheHang2 = "False";
+
+        public string IsFocusSoGheHang2
+        {
+            get { return isFocusSoGheHang2; }
+            set 
+            {
+                if (value != null && value == "True")
+                {
+                    IsFocusMaChuyenBay = "False";
+                    IsFocusSoGheHang1 = "False";
+                    IsFocusGiaChuyenBay = "False";
+                    IsFocusSoGheHang3 = "False";
+                    IsFocusSoGheHang4 = "False";
+                    IsFocusThoiGianDung = "False";
+                    IsFocusThoiGianBay = "False";
+                }
+                isFocusSoGheHang2 = value; 
+                OnPropertyChanged("IsFocusSoGheHang2"); 
+            }
+        }
+        private string isFocusSoGheHang1 = "False";
+
+        public string IsFocusSoGheHang1
+        {
+            get { return isFocusSoGheHang1; }
+            set 
+            {
+                if (value != null && value == "True")
+                {
+                    IsFocusMaChuyenBay = "False";
+                    IsFocusGiaChuyenBay = "False";
+                    IsFocusSoGheHang2 = "False";
+                    IsFocusSoGheHang3 = "False";
+                    IsFocusSoGheHang4 = "False";
+                    IsFocusThoiGianDung = "False";
+                    IsFocusThoiGianBay = "False";
+                }
+                isFocusSoGheHang1 = value; 
+                OnPropertyChanged("IsFocusSoGheHang1"); 
+            }
+        }
+
+        #endregion
         #region Xử lý chuyến bay
+        private string maChuyenBay;
+
+        public string MaChuyenBay
+        {
+            get { return maChuyenBay; }
+            set
+            {
+                if (value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraMa(value))
+                        maChuyenBay = value.ToUpper();
+                }
+                OnPropertyChanged("MaChuyenBay");
+            }
+        }
+        private DateTime ngayBay = DateTime.UtcNow.AddDays(1);
+
+        public DateTime NgayBay
+        {
+            get { return ngayBay; }
+            set { ngayBay = value; OnPropertyChanged("NgayBay"); }
+        }
+        private string giaVeCoBan;
+
+        public string GiaVeCoBan
+        {
+            get { return giaVeCoBan; }
+            set
+            {
+                if (value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        giaVeCoBan = value;
+                    }
+                    else
+                    {
+                        //IsFocusGiaChuyenBay = "True";
+                    }
+                }
+                OnPropertyChanged("GiaVeCoBan");
+            }
+        }
+        private DateTime gioBay = new DateTime(1, 1, 1, 0, 0, 0);
+
+        public DateTime GioBay
+        {
+            get { return gioBay; }
+            set { gioBay = value; OnPropertyChanged("GioBay"); }
+        }
+        private string thoiGianBay;
+
+        public string ThoiGianBay
+        {
+            get { return thoiGianBay; }
+            set { thoiGianBay = value; OnPropertyChanged("ThoiGianBay"); }
+        }
+
+        private string soGheHang1;
+
+        public string SoGheHang1
+        {
+            get { return soGheHang1; }
+            set { soGheHang1 = value; OnPropertyChanged("SoGheHang1"); }
+        }
+
+        private string soGheHang2;
+
+        public string SoGheHang2
+        {
+            get { return soGheHang2; }
+            set { soGheHang2 = value; OnPropertyChanged("SoGheHang2"); }
+        }
+        private string soGheHang3;
+
+        public string SoGheHang3
+        {
+            get { return soGheHang3; }
+            set { soGheHang3 = value; OnPropertyChanged("SoGheHang3"); }
+        }
+        private string soGheHang4;
+
+        public string SoGheHang4
+        {
+            get { return soGheHang4; }
+            set { soGheHang4 = value; OnPropertyChanged("SoGheHang4"); }
+        }
+
+        private bool isDaBay;
+
+        public bool IsDaBay
+        {
+            get { return isDaBay; }
+            set { isDaBay = value; OnPropertyChanged("IsDaBay"); }
+        }
         private ObservableCollection<ChuyenBay> chuyenBaysList;
 
         public ObservableCollection<ChuyenBay> ChuyenBaysList
@@ -576,6 +836,15 @@ namespace Planzy.ViewModels
             ChuyenBayHienTai.SanBayDi = SanBayDiDaChon;
             ChuyenBayHienTai.SanBayDen = SanBayDenDaChon;
             ChuyenBayHienTai.SanBayTrungGian = SanBayTrungGiansList;
+            ChuyenBayHienTai.MaChuyenBay = MaChuyenBay;
+            ChuyenBayHienTai.GiaVeCoBan = GiaVeCoBan;
+            ChuyenBayHienTai.GioBay = GioBay;
+            ChuyenBayHienTai.NgayBay = NgayBay;
+            ChuyenBayHienTai.ThoiGianBay = ThoiGianBay;
+            ChuyenBayHienTai.SoGheHang1 = SoGheHang1;
+            ChuyenBayHienTai.SoGheHang2 = SoGheHang2;
+            ChuyenBayHienTai.SoGheHang3 = SoGheHang3;
+            ChuyenBayHienTai.SoGheHang4 = SoGheHang4;
             ChuyenBaysList.Add(ChuyenBayHienTai);
             ChuyenBayHienTai = new ChuyenBay();
         }

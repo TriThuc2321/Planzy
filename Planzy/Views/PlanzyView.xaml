@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Planzy.Views"
+             xmlns:local="clr-namespace:Planzy"
              xmlns:loc ="clr-namespace:Planzy"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000"
@@ -161,10 +161,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.MaChuyenBay}" 
+                                    <TextBox Width="200" Text="{Binding MaChuyenBay}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" ToolTip="Chữ và số in hoa không dấu" BorderBrush="#FF5867AC" />
+                                             FontWeight="Bold" ToolTip="Chữ và số in hoa không dấu" BorderBrush="#FF5867AC" TabIndex="0" />
                                 </StackPanel>
                                 <StackPanel Grid.Row="0" Grid.Column="2" 
                                             Orientation="Horizontal">
@@ -173,10 +173,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.GiaVeCoBan}"
-                                             VerticalContentAlignment="Bottom"
+                                    <TextBox Width="200" Text="{Binding GiaVeCoBan}" loc:FocusExtension.IsFocused="{Binding IsFocusGiaChuyenBay}"
+                                             VerticalContentAlignment="Bottom" 
                                              FontSize="15"
-                                             FontWeight="Bold" ToolTip="Đồng " BorderBrush="#FF5867AC" loc:TextBoxAttach.TextBoxController ="{Binding}"/>
+                                             FontWeight="Bold" ToolTip="Đồng " BorderBrush="#FF5867AC" TabIndex="1" />
                                 </StackPanel>
                                 <StackPanel Grid.Row="1" Grid.Column="0" 
                                             Orientation="Horizontal">
@@ -191,7 +191,7 @@
                                               FontSize="15"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
                                               ItemsSource="{Binding Path=SanBayDisList, Mode=TwoWay}"
-                                              SelectedItem="{Binding Path=SanBayDiDaChon, Mode=TwoWay}">
+                                              SelectedItem="{Binding Path=SanBayDiDaChon, Mode=TwoWay}" TabIndex="2">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -216,7 +216,7 @@
                                               FontSize="15"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
                                               ItemsSource="{Binding Path=SanBayDensList, Mode=TwoWay}"
-                                              SelectedItem="{Binding Path=SanBayDenDaChon, Mode=TwoWay}"
+                                              SelectedItem="{Binding Path=SanBayDenDaChon, Mode=TwoWay}" TabIndex="3"
                                               >
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -240,7 +240,7 @@
                                                 FontWeight="Bold"
                                                 FontSize="15"
                                                 VerticalAlignment="Bottom" BorderBrush="#FF5867AC"
-                                                SelectedDate="{Binding ChuyenBayHienTai.NgayBay}"
+                                                SelectedDate="{Binding NgayBay}" TabIndex="4"
                                                 />
                                     <Label Content="Giờ bay: "
                                            VerticalContentAlignment="Bottom"
@@ -251,7 +251,7 @@
                                                 Foreground="Black"
                                                 FontWeight="Bold"
                                                 FontSize="15"
-                                                VerticalAlignment="Bottom" BorderBrush="#FF5867AC"/>
+                                                VerticalAlignment="Bottom" BorderBrush="#FF5867AC" TabIndex="5"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="2" Grid.Column="2" 
                                             Orientation="Horizontal">
@@ -260,10 +260,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.ThoiGianBay}"
+                                    <TextBox Width="200" Text="{Binding ThoiGianBay}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC"/>
+                                             FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC" TabIndex="6"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="3" Grid.Column="0" 
                                             Orientation="Horizontal">
@@ -272,10 +272,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.SoGheHang1}"
+                                    <TextBox Width="200" Text="{Binding SoGheHang1}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="7"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="3" Grid.Column="2" 
                                             Orientation="Horizontal">
@@ -284,10 +284,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.SoGheHang2}"
+                                    <TextBox Width="200" Text="{Binding SoGheHang2}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="8"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="4" Grid.Column="0" 
                                             Orientation="Horizontal">
@@ -296,10 +296,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.SoGheHang3}"
+                                    <TextBox Width="200" Text="{Binding SoGheHang3}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="9"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="4" Grid.Column="2" 
                                             Orientation="Horizontal">
@@ -308,10 +308,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.SoGheHang4}"
+                                    <TextBox Width="200" Text="{Binding SoGheHang4}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"/>
                                 </StackPanel>
                             </Grid>
                             <Grid Grid.Row="1">
@@ -585,11 +585,11 @@
                                                 HorizontalAlignment="Center"
                                                 Visibility="Visible"
                                                 Width="Auto"
-                                                Height="20"
+                                                Height="30"
                                                 Padding="0"
                                                 Foreground="#ffffff"
                                                 Command="{Binding ThemChuyenBayCommand}" 
-                                                Background="#FF80E66A" FontSize="10" BorderBrush="{x:Null}"
+                                                Background="#FF80E66A" FontSize="12" BorderBrush="{x:Null}"
                                                 />
                                     </Grid>
                                     <Grid Grid.Column="4">
