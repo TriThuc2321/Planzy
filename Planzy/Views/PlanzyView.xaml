@@ -123,9 +123,101 @@
             <Grid Grid.Column="1" Margin="10,10, 25,10">
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
                     <Grid Background="White">
-                        <Grid Name ="gr_DatVe" Visibility="{Binding IsDuocChon1.NewVisibility}"/>
-                        <Grid Name ="gr_BanVe" Visibility="{Binding IsDuocChon2.NewVisibility}"/>
-                        <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}"/>
+                        <Grid Name ="gr_DatVe" Visibility="{Binding IsDuocChon1.NewVisibility}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="80"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Column="1"
+                                  Grid.Row="1"
+                                  Background="Aqua">
+                                <ListView x:Name="lvsTracuu" ItemsSource="{Binding ChuyenBaysList}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Mã Chuyến Bay" Width="120">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Button Content=" -> " 
+                                                             Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                                             ToolTip="Resource name: MaterialDesignRaisedAccentButton"></Button>
+                                                            <TextBlock Text=" "></TextBlock>
+                                                            <TextBlock Text="{Binding MaChuyenBay}"></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Sân Bay Đến" Width="100">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding SanBayDen.TenSanBay}"></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Sân Bay Đi" Width="100">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding SanBayDi.TenSanBay}"></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Ngày Khởi Hành" Width="100">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding NgayBay}"></TextBlock>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Thời Gian" Width="50">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding ThoiGianBay}"></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Số Vé Còn Lại" Width="50">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding SoGheHang1}"></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+
+                            </Grid>
+
+
+
+                        </Grid>
+                        <Grid Name ="gr_BanVe" Visibility="Hidden"/>
+                        <Grid Name ="gr_Tracuu" Visibility="Hidden"/>
                         <Grid Name ="gr_NhanLich" Visibility="{Binding IsDuocChon4.NewVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="210"></RowDefinition>
@@ -606,7 +698,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_DoanhThu" Visibility="{Binding IsDuocChon5.NewVisibility}"/>
+                        <Grid Name ="gr_DoanhThu" Visibility="Hidden"/>
                     </Grid>
                 </Border>
             </Grid>

@@ -53,7 +53,6 @@ D:\Github_Clone\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win-x64\native\s
 D:\Github_Clone\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win-x86\native\sni.dll
 D:\Github_Clone\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\Github_Clone\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\MainWindow.g.cs
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Views\PlanzyView.g.cs
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Views\WarningView.g.cs
@@ -76,3 +75,4 @@ D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.dll
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\ref\Planzy.dll
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.pdb
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.genruntimeconfig.cache
+D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache
