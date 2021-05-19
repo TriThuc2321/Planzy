@@ -53,11 +53,7 @@ namespace Planzy.ViewModels
                     SelectAll(this);
             });
         }
-        public RelayCommand searchFlightCommand { get; private set; }
-        private void searchFlight(object obj)
-        {
-            
-        }
+      
 
         public RelayCommand SelectAllCommand { get; private set; }
         public RelayCommand SelectAllCommand2 { get; private set; }
@@ -73,6 +69,8 @@ namespace Planzy.ViewModels
             SanBayTrungGianSapThemsList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>(sanBayTrungGianService.GetAll());
             chuyenBaysList = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
+            FlightSearchList = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
+           
 
             
         }
@@ -578,6 +576,9 @@ namespace Planzy.ViewModels
         {
             get { return huyThemVaSuaChuyenBay; }
         }
+
+        
+
         public void themChuyenBay()
         {
             ChuyenBayHienTai.SanBayDi = SanBayDiDaChon;
@@ -587,5 +588,53 @@ namespace Planzy.ViewModels
             ChuyenBayHienTai = new ChuyenBay();
         }
         #endregion
+
+        #region Xử lý tìm kiếm chuyến bay 
+        private String searchString = "Search The Flight";
+        public String SearchString
+        {
+            get { return searchString; }
+            set { searchString = value; OnPropertyChanged("SearchString"); }
+        }
+        private ObservableCollection<ChuyenBay> flightSearchList;
+        public ObservableCollection<ChuyenBay> FlightSearchList
+        {
+            get { return flightSearchList; }
+            set { flightSearchList = value; OnPropertyChanged("FlightSearchList"); }
+        }
+        public RelayCommand searchFlightCommand { get; private set; }
+       
+
+        private void searchFlight()
+        {
+            if (searchString == null ) return;
+            else
+            {
+                if (searchString != "")
+                {
+                    ObservableCollection<ChuyenBay> temp = new ObservableCollection<ChuyenBay>(chuyenBaysList);
+                    flightSearchList = temp;
+                    OnPropertyChanged("FlightSearchList");
+                    for (int i = 0; i < flightSearchList.Count; i++)
+                    {
+                        if (!flightSearchList[i].MaChuyenBay.Contains(searchString.ToUpper()))
+                        {
+                            flightSearchList.RemoveAt(i);
+                            i = -1;
+                            if (flightSearchList.Count == 0) break;
+                        }
+                    }
+                }
+                else
+                {
+                    ObservableCollection<ChuyenBay> temp = new ObservableCollection<ChuyenBay>(chuyenBaysList);
+                    flightSearchList = temp;
+                    OnPropertyChanged("FlightSearchList");
+                }
+            }
+        }
+      
+        
+        #endregion 
     }
 }

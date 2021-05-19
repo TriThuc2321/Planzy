@@ -35,6 +35,9 @@
 
             <!--Cách app dụng style mặc định cho tất cả các Button trong ứng dụng-->
             <Style BasedOn="{StaticResource MaterialDesignRaisedButton}" TargetType="{x:Type Button}"/>
+            <Style x:Name="aa" x:Key="searchBox" TargetType="TextBox" >
+                <Setter Property="local:SearchBoxProperty.MonitorString" Value="True"></Setter>
+             </Style>
 
         </ResourceDictionary>
     </Application.Resources>

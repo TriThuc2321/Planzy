@@ -75,3 +75,4 @@ D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.dll
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\ref\Planzy.dll
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.pdb
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.genruntimeconfig.cache
+D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache
