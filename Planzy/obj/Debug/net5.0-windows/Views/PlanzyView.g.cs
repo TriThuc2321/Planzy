@@ -248,7 +248,6 @@ namespace Planzy.Views {
         internal System.Delegate _CreateDelegate(System.Type delegateType, string handler) {
             return System.Delegate.CreateDelegate(delegateType, this, handler);
         }
-        
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "5.0.6.0")]
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]

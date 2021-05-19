@@ -2,8 +2,9 @@
   "version": 2,
   "dgSpecHash": "LNbXwlFJe1Yj2yeWddyk5vmR1AjUwLN3IfZl9xu+dqU7OqAZtyY33VAEIOoCT4hr9ESWjr+YZw4KKQ9p4Oc0dQ==",
   "success": true,
-  "projectFilePath": "D:\\Nhap_mon_di_dong\\Planzy\\Planzy\\Planzy.csproj",
+  "projectFilePath": "D:\\GitHub\\Planzy\\Planzy\\Planzy.csproj",
   "expectedPackageFiles": [
+/*<<<<<<< HEAD
     "C:\\Users\\DELL\\.nuget\\packages\\materialdesigncolors\\2.0.0\\materialdesigncolors.2.0.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\materialdesignthemes\\4.0.0\\materialdesignthemes.4.0.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
@@ -15,6 +16,10 @@
     "C:\\Users\\DELL\\.nuget\\packages\\system.data.sqlclient\\4.8.2\\system.data.sqlclient.4.8.2.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
+=======*/
+    "C:\\Users\\trith\\.nuget\\packages\\materialdesigncolors\\2.0.0\\materialdesigncolors.2.0.0.nupkg.sha512",
+    "C:\\Users\\trith\\.nuget\\packages\\materialdesignthemes\\4.0.0\\materialdesignthemes.4.0.0.nupkg.sha512"
+//>>>>>>> Thuc
   ],
   "logs": []
 }

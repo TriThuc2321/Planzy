@@ -7,8 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="back_ground_login.jpg" />
+    <None Remove="clodeIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="back_ground_login.jpg" />
+    <Resource Include="clodeIcon.png" />
   </ItemGroup>
 
 </Project>
