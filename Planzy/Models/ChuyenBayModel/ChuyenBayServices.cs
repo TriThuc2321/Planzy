@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Planzy.Models.ChuyenBayModel;
 using Planzy.Models.SanBayModel;
+using Planzy.Models.SanBayTrungGianModel;
 
 namespace Planzy.Models.ChuyenBayModel
 {
@@ -122,12 +123,12 @@ namespace Planzy.Models.ChuyenBayModel
                         chuyenBay.SoGheHang2 = "30";
                         chuyenBay.SoGheHang3 = "0";
                         chuyenBay.SoGheHang4 = "0";
-                        chuyenBay.SanBayTrungGian = new System.Collections.ObjectModel.ObservableCollection<SanBayTrungGianModel.SanBayTrungGian>();
+                        chuyenBay.SanBayTrungGian = SanBayTrungGianService.GetAirportForFlight(listAirport, chuyenBay.MaChuyenBay);
                         chuyenBay.NgayBay = DateTime.Parse(row["NGAY_GIO_BAY"].ToString());
                         chuyenBay.ThoiGianBay = row["THOI_GIAN_BAY"].ToString();
-                        if (row["GIA_VE_CO_BAN"].ToString() == "false")                       
+                        if (row["GIA_VE_CO_BAN"].ToString() == "false")
                             chuyenBay.IsDaBay = false;
-                         else 
+                        else
                             chuyenBay.IsDaBay = true;
 
                         ChuyenBaysList.Add(chuyenBay);

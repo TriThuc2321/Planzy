@@ -39,6 +39,7 @@ namespace Planzy.ViewModels
             huyThemCommand = new RelayCommand(huyThemSanBayTrungGian);
             xacNhanThemCommand = new RelayCommand(xacNhanThemSanBayTrungGian);
             themChuyenBayCommand = new RelayCommand(themChuyenBay);
+            searchFlightCommand = new RelayCommand(searchFlight);
             #region Xử lý giao diện ban đầu
             chonLayoutCommand1 = new RelayCommand(Button1);
             chonLayoutCommand2 = new RelayCommand(Button2);
@@ -52,6 +53,12 @@ namespace Planzy.ViewModels
                     SelectAll(this);
             });
         }
+        public RelayCommand searchFlightCommand { get; private set; }
+        private void searchFlight(object obj)
+        {
+            
+        }
+
         public RelayCommand SelectAllCommand { get; private set; }
         public RelayCommand SelectAllCommand2 { get; private set; }
 

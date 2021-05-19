@@ -165,6 +165,46 @@ namespace Planzy.Models.SanBayModel
             }
             return list;
         }
+        public static String GetNameOfAirPort(string airportID)
+        {
+            SqlConnection SanBayConnection_ = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
+            List<SanBay> list = new List<SanBay>();
+            String airportName = "Noinfo";
+            try
+            {
+                SanBayConnection_.Open();
+                #region Truy vấn dữ liệu từ sql
+                string Query = string.Format("SELECT * FROM SAN_BAY WHERE MA_SAN_BAY = '{0}'",airportID);
+                SqlCommand command = new SqlCommand(Query, SanBayConnection_);
+                command.CommandType = CommandType.Text;
+                #endregion
+                //SqlDataAdapter adapter = new SqlDataAdapter(command);
+                //DataTable dataTable = new DataTable();
+                //adapter.Fill(dataTable);
+                //#endregion
+                //if (dataTable.Rows.Count > 0)
+                //{
+                //    foreach (DataRow row in dataTable.Rows)
+                //    {
+                //        SanBay sanBay = new SanBay();
+                //        sanBay.Id = row["MA_SAN_BAY"].ToString();
+                //        sanBay.TenSanBay = row["TEN_SAN_BAY"].ToString();
+                //        list.Add(sanBay);
+                //    }
+                //}
+                airportName = command.ExecuteScalar().ToString();
+                
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+                SanBayConnection_.Close();
+            }
+            return airportName;
+        }
     }
 
 }
