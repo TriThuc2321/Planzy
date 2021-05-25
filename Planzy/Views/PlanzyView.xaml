@@ -124,7 +124,6 @@
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
                     <Grid Background="White">
                         <Grid x:Name ="gr_DatVe" Visibility="Visible">
-
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="50"/>
