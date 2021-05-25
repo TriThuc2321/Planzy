@@ -120,52 +120,172 @@
                     </StackPanel>
                 </Button>
             </Grid>
-            <Grid Grid.Column="1" Margin="10,10, 25,10">
+            <Grid Grid.Column="1" Margin="10,10, 25,10" >
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
                     <Grid Background="White">
                         <Grid Name ="gr_DatVe" Visibility="{Binding IsDuocChon1.NewVisibility}">
+                          
+                        </Grid>
+                        <Grid Name ="gr_BanVe" Visibility="Hidden"/>
+                        <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}">
                             <Grid.ColumnDefinitions>
-                                
                                 <ColumnDefinition Width="50"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30"></RowDefinition>
-                                <RowDefinition Height="80"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="100"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="1"
-                                  Grid.Column="1">
+                                  Grid.Column="1"
+                                  >
                                 <Grid.RowDefinitions>
-                                    <RowDefinition ></RowDefinition>
-                                    <RowDefinition ></RowDefinition>
+                                    <RowDefinition Height="70"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <DockPanel Grid.Row="0" Background="White">
-                                    <Label DockPanel.Dock="Left"
-                                           Content="SEARCH"
-                                           FontSize="20"
-                                            FontWeight="Bold" >
-                                    </Label>
-                                    <TextBox
-                                        DockPanel.Dock="Right"
-                                        x:Name="aa"
-                                        Width="200" 
-                                        Text="{Binding SearchString}" 
+                                <DockPanel Grid.Row="0" Background="Wheat">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0"
+                                            Content="Điểm đi: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="70"
+                                               Margin="0,-5,0,0"
+                                               />
+                                        <ComboBox Name="comboboxDeparture"
+                                            Grid.Row="1"
+                                            materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="170"
+                                            
+                                              Foreground="Black"
+                                              FontSize="15"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              ItemsSource="{Binding Path=Departure, Mode=TwoWay}"
+                                              SelectedItem="{Binding Path=SelectedDeparture, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Path=Id}" Width="30"/>
+                                                        <TextBlock Text=" - " Width="15"/>
+                                                        <TextBlock Text="{Binding Path=TenSanBay}" Width="100"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </Grid>
+                                    <TextBlock Text="  " Width="15"></TextBlock>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0"
+                                            Content="Điểm đến: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="70"
+                                           Margin="0,-5,0,0"
+                                               />
+                                        <ComboBox Name="comboboxDestination"
+                                            Grid.Row="1"
+                                            materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="170"
+                                            
+                                              Foreground="Black"
+                                              FontSize="15"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              ItemsSource="{Binding Path=Destination, Mode=TwoWay}"
+                                              SelectedItem="{Binding Path=SelectedDestination, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Path=Id}" Width="30"/>
+                                                        <TextBlock Text=" - " Width="15"/>
+                                                        <TextBlock Text="{Binding Path=TenSanBay}" Width="100"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </Grid>
+                                    <TextBlock Text="  " Width="15" ></TextBlock>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" 
+                                           Content="Ngày: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"/>
+                                        <CheckBox Grid.Row="0"
+                                                  Margin="40,15,0,0"
+                                                  IsChecked="{Binding IsSearchingWithDate}">
+                                        </CheckBox>
+                                        <DatePicker Grid.Row="1"
+                                                Width="100"
+                                                Visibility="{Binding ComboboxVisibility}"
+                                                Foreground="Black"
+                                                FontWeight="Bold"
+                                                FontSize="15"
+                                                VerticalAlignment="Bottom" BorderBrush="#FF5867AC"
+                                                SelectedDate="{Binding SelectedDate , Mode=TwoWay}"
+                                                />
+                                    </Grid>
+                                    <TextBlock Text="  " Width="15" ></TextBlock>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"></RowDefinition>
+                                            <RowDefinition Height="35"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Label 
+                                            Grid.Row="0" 
+                                           Content="Mã chuyến bay:  "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"/>
+                                        <TextBox
+                                        Grid.Row="1"                                     
+                                        x:Name="aa"          
+                                        Height="20"
+                                        Width="100" 
+                                        Text="{Binding SearchString, Mode=TwoWay}" 
                                         Style="{StaticResource ResourceKey=searchBox}"
                                         VerticalContentAlignment="Bottom"
                                         FontSize="15"
                                         FontWeight="Bold" 
                                         ToolTip="Chữ và số in hoa không dấu" 
                                         BorderBrush="#FF5867AC">
-                                    </TextBox>
+                                        </TextBox>
+                                    </Grid>
                                 </DockPanel>
-                                <StackPanel Grid.Row="2" Background="White">
+                                <StackPanel Grid.Row="2" Background="White"
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Center">
+                                    <TextBlock Text=" " Height="5" Width="5"></TextBlock>
                                     <Button
                                         BorderBrush="Black"
+                                        FontSize="10"
+                                        Height="20"
                                         Width="100"
                                          Command="{Binding searchFlightCommand}" 
-                                         Content="Search"
-                                            >
+                                         Content="Search">
+                                    </Button>
+                                    <Button
+                                        BorderBrush="Black"
+                                        FontSize="10"
+                                        Height="20"
+                                        Width="100"
+                                         Command="{Binding resetCommand}" 
+                                         Content="Reset"
+                                        Margin="10,0,0,0">
                                     </Button>
                                 </StackPanel>
 
@@ -173,10 +293,10 @@
                             <Grid Grid.Column="1"
                                   Grid.Row="2"
                                   Background="Wheat">
-                                <ListView x:Name="lvsTracuu" ItemsSource="{Binding FlightSearchList}">
+                                <ListView x:Name="lvsTracuu" ItemsSource="{Binding FlightSearchList}" >
                                     <ListView.View>
                                         <GridView>
-                                            <GridViewColumn Header="Mã Chuyến Bay" Width="200" >
+                                            <GridViewColumn Header="Mã Chuyến Bay" Width="200">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal" Background="White">
@@ -259,8 +379,6 @@
 
 
                         </Grid>
-                        <Grid Name ="gr_BanVe" Visibility="Hidden"/>
-                        <Grid Name ="gr_Tracuu" Visibility="Hidden"/>
                         <Grid Name ="gr_NhanLich" Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="210"></RowDefinition>

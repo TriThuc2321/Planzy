@@ -16,7 +16,6 @@ namespace Planzy
         private static void OnMonitorStringChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var searchBox = d as TextBox;
-
             if (searchBox == null) return;
             searchBox.TextChanged -= SearchBox_TextChanged;
 
@@ -31,7 +30,7 @@ namespace Planzy
             SetHasText((TextBox)sender);
             
             TextBox textBox = sender as TextBox;
-            string specialChar = @"\|!#$%&/()=?»«@£§€{}.-;'<>_,";
+            string specialChar = @"\|!#$%&/()=?»«@£§€{}.-;'<>_,[]:*";
             foreach (var item in specialChar)
             {
                 if (textBox.Text.Contains(item))
