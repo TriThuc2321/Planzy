@@ -11,10 +11,16 @@ using Planzy.Models.ChuyenBayModel;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Planzy.Commands;
+using Planzy.Resources.Component.CustomMessageBox ;
+using static Planzy.ThamSoQuyDinh;
+using Planzy.Models.LoaiHangGheModel;
+using FootballFieldManagement.Views;
+using System.Windows;
+using Planzy.Models.ChiTietHangGheModel;
 
 namespace Planzy.ViewModels
 {
-    class PlanzyViewModel : INotifyPropertyChanged,ITextBoxController
+    class PlanzyViewModel : INotifyPropertyChanged
     {
         #region PropertyChange
         public event PropertyChangedEventHandler PropertyChanged;
@@ -26,12 +32,16 @@ namespace Planzy.ViewModels
         SanBayService sanBayServices;
         SanBayTrungGianService sanBayTrungGianService;
         ChuyenBayServices chuyenBayServices;
+        LoaiHangGheServices loaiHangGheServices;
+        ChiTietHangGheServices chiTietHangGheServices;
         public PlanzyViewModel()
         {
             sanBayServices = new SanBayService();
             sanBayTrungGianService = new SanBayTrungGianService();
-            chuyenBayServices = new ChuyenBayServices();
-
+            loaiHangGheServices = new LoaiHangGheServices();
+            chiTietHangGheServices = new ChiTietHangGheServices();
+            chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService,sanBayServices,chiTietHangGheServices);
+            ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
             LoadData();
             doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
             xoaSanBayTrungGianCommand = new RelayCommand(xoaSanBayTrungGian);
@@ -39,23 +49,19 @@ namespace Planzy.ViewModels
             huyThemCommand = new RelayCommand(huyThemSanBayTrungGian);
             xacNhanThemCommand = new RelayCommand(xacNhanThemSanBayTrungGian);
             themChuyenBayCommand = new RelayCommand(themChuyenBay);
+            suaChuyenBayCommand = new RelayCommand(suaChuyenBay);
+            xoaChuyenBayCommand = new RelayCommand(xoaChuyenBay);
+            huyThemVaSuaChuyenBayCommand = new RelayCommand(huyThemVaSuaChuyenBay);
+            luuSuaChuyenBayCommand = new RelayCommand(luuSuaChuyenBay);
             #region Xử lý giao diện ban đầu
+            LoadUIHangGheTheoQuyDinh();
             chonLayoutCommand1 = new RelayCommand(Button1);
             chonLayoutCommand2 = new RelayCommand(Button2);
             chonLayoutCommand3 = new RelayCommand(Button3);
             chonLayoutCommand4 = new RelayCommand(Button4);
             chonLayoutCommand5 = new RelayCommand(Button5);
             #endregion
-            SelectAllCommand = new RelayCommand(p =>
-            {
-                if (SelectAll != null)
-                    SelectAll(this);
-            });
         }
-        public RelayCommand SelectAllCommand { get; private set; }
-        public RelayCommand SelectAllCommand2 { get; private set; }
-
-        public event SelectAllEventHandler SelectAll;
         #region Xử lý chung
         private void LoadData()
         {
@@ -64,8 +70,9 @@ namespace Planzy.ViewModels
             SanBayDisList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             
             SanBayTrungGianSapThemsList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
-            SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>(sanBayTrungGianService.GetAll());
-            chuyenBaysList = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
+            LoaiHangGhesList = loaiHangGheServices.GetAll();
+            //SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>(sanBayTrungGianService.GetAll());
+            ChuyenBaysList = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
 
             
         }
@@ -108,9 +115,9 @@ namespace Planzy.ViewModels
                 sanBayDiDaChon = value;
                 OnPropertyChanged("SanBayDiDaChon");
                 //xử lý để không bị trùng sân bay đến và đi
-                SanBayDensList.Remove(SanBayDiDaChon);
-                SanBayTrungGianSapThemsList.Remove(SanBayDiDaChon);
-                if(SanBayTrungGiansList.Count != 0)
+                XoaListSanBayDen(SanBayDiDaChon);
+                XoaSanBayTrungGianSapThem(SanBayDiDaChon);
+                if(SanBayTrungGiansList != null && SanBayTrungGiansList.Count != 0)
                     xoaSanBayTrungGian(new SanBayTrungGian(SanBayDiDaChon));
             }
         }
@@ -128,10 +135,43 @@ namespace Planzy.ViewModels
                 sanBayDenDaChon = value;
                 OnPropertyChanged("SanBayDenDaChon");
                 //xử lý để không bị trùng sân bay đến và đi
-                SanBayDisList.Remove(SanBayDenDaChon);
-                SanBayTrungGianSapThemsList.Remove(SanBayDenDaChon);
-                if (SanBayTrungGiansList.Count != 0)
+                XoaListSanBayDi(SanBayDenDaChon);
+                XoaSanBayTrungGianSapThem(SanBayDenDaChon);
+                if (SanBayTrungGiansList != null && SanBayTrungGiansList.Count != 0)
                     xoaSanBayTrungGian( new SanBayTrungGian(SanBayDenDaChon));
+            }
+        }
+        public void XoaListSanBayDi(SanBay sanBay)
+        {
+            for(int i = 0; i< SanBayDisList.Count;i++)
+            {
+                if (sanBay.Id == SanBayDisList[i].Id)
+                {
+                    SanBayDisList.RemoveAt(i);
+                    break;
+                }    
+            }    
+        }
+        public void XoaSanBayTrungGianSapThem(SanBay sanBay)
+        {
+            for (int i = 0; i < SanBayTrungGianSapThemsList.Count; i++)
+            {
+                if (sanBay.Id == SanBayTrungGianSapThemsList[i].Id)
+                {
+                    SanBayTrungGianSapThemsList.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+        public void XoaListSanBayDen(SanBay sanBay)
+        {
+            for (int i = 0; i < SanBayDensList.Count; i++)
+            {
+                if (sanBay.Id == SanBayDensList[i].Id)
+                {
+                    SanBayDensList.RemoveAt(i);
+                    break;
+                }
             }
         }
         private RelayCommand doiViTriSanBayCommand;
@@ -329,7 +369,7 @@ namespace Planzy.ViewModels
                 }    
             }    
         }
-        private ObservableCollection<SanBayTrungGian> sanBayTrungGiansList;
+        private ObservableCollection<SanBayTrungGian> sanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>();
 
         public ObservableCollection<SanBayTrungGian> SanBayTrungGiansList
         {
@@ -346,7 +386,7 @@ namespace Planzy.ViewModels
                     isCheck = false;
                 }    
                 sanBayTrungGiansList = value;
-                if (isCheck)
+                if (isCheck && sanBayTrungGiansList != null)
                 {
                     for (int i = 0;i< sanBayTrungGiansList.Count;i++)
                     {
@@ -411,9 +451,19 @@ namespace Planzy.ViewModels
         }
         public void themSanBayTrungGian(object sanBayBenDuoiSanBaySapThem)
         {
-            IsDropDown = "True";
-            IsVisible = "Visible";
-            this.sanBayBenDuoiSanBaySapThem = sanBayBenDuoiSanBaySapThem;
+            if (SanBayDenDaChon != null && SanBayDiDaChon != null)
+            {
+                #region Kiểm tra quy định
+                if (SanBayTrungGiansList.Count == Convert.ToInt32(ThamSoQuyDinh.SO_SAN_BAY_TRUNG_GIAN_TOI_DA))
+                {
+                    CustomMessageBox.Show("Tối đa " + ThamSoQuyDinh.SO_SAN_BAY_TRUNG_GIAN_TOI_DA + " sân bay trung gian", "Nhắc nhở");
+                    return;
+                }
+                #endregion
+                IsDropDown = "True";
+                IsVisible = "Visible";
+                this.sanBayBenDuoiSanBaySapThem = sanBayBenDuoiSanBaySapThem;
+            }
         }
 
         public void huyThemSanBayTrungGian()
@@ -425,14 +475,24 @@ namespace Planzy.ViewModels
         object sanBayBenDuoiSanBaySapThem;
         public void xacNhanThemSanBayTrungGian()
         {
+            if (ThoiGianDungSapThem == null || ThoiGianDungSapThem =="" )
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc nhở");
+                IsFocusThoiGianDung = "True";
+                return;
+            }    
+
             int ViTriSanBayTrungGianDuocThem = 0;
             SanBayTrungGian SanBayTrungGianDuocChon = new SanBayTrungGian();
+            if (SanBayTrungGiansList == null)
+                SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>();    
             int index;
             if (sanBayBenDuoiSanBaySapThem == null)
             {
                 if (SanBayTrungGiansList.Count == 0)
                 {
                     SanBayTrungGian newSanBay = new SanBayTrungGian();
+                    newSanBay.MaChuyenBay = MaChuyenBay;
                     newSanBay.MaSanBay = SanBayTrungGianSapThem.Id;
                     newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
                     newSanBay.MaSanBayTruoc = SanBayDiDaChon.Id;
@@ -448,6 +508,7 @@ namespace Planzy.ViewModels
                 else
                 {
                     SanBayTrungGian newSanBay = new SanBayTrungGian();
+                    newSanBay.MaChuyenBay = MaChuyenBay;
                     newSanBay.MaSanBay = SanBayTrungGianSapThem.Id;
                     newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
                     newSanBay.MaSanBayTruoc = SanBayTrungGiansList[SanBayTrungGiansList.Count - 1].MaSanBay;
@@ -472,6 +533,7 @@ namespace Planzy.ViewModels
                         if (index == 0)
                         {
                             SanBayTrungGian newSanBay = new SanBayTrungGian();
+                            newSanBay.MaChuyenBay = MaChuyenBay;
                             newSanBay.MaSanBay = SanBayTrungGianSapThem.Id;
                             newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
                             newSanBay.MaSanBayTruoc = SanBayDiDaChon.Id;
@@ -485,6 +547,7 @@ namespace Planzy.ViewModels
                         else if (index != SanBayTrungGiansList.Count - 1)
                         {
                             SanBayTrungGian newSanBay = new SanBayTrungGian();
+                            newSanBay.MaChuyenBay = MaChuyenBay;
                             newSanBay.MaSanBay = SanBayTrungGianSapThem.Id;
                             newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
                             newSanBay.MaSanBayTruoc = SanBayTrungGiansList[index - 1].MaSanBay;
@@ -498,6 +561,7 @@ namespace Planzy.ViewModels
                         else
                         {
                             SanBayTrungGian newSanBay = new SanBayTrungGian();
+                            newSanBay.MaChuyenBay = MaChuyenBay;
                             newSanBay.MaSanBay = SanBayTrungGianSapThem.Id;
                             newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
                             newSanBay.MaSanBayTruoc = SanBayTrungGiansList[index - 1].MaSanBay;
@@ -512,6 +576,8 @@ namespace Planzy.ViewModels
                 }
             }
             SanBayTrungGiansList.Insert(ViTriSanBayTrungGianDuocThem, SanBayTrungGianDuocChon);
+            
+
             SanBayTrungGianSapThemsList.Remove(SanBayTrungGianSapThem);
             SanBayTrungGianSapThem = null;
             IsDropDown = "False";
@@ -522,7 +588,30 @@ namespace Planzy.ViewModels
         public string ThoiGianDungSapThem
         {
             get { return thoiGianDungSapThem; }
-            set { thoiGianDungSapThem = value; OnPropertyChanged("ThoiGianDungSapThem"); }
+            set 
+            {
+                if (value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        #region Kiểm tra quy định
+                        if (Convert.ToInt32 (value) < Convert.ToInt32(ThamSoQuyDinh.THOI_GIAN_DUNG_TOI_THIEU) || Convert.ToInt32(value) > Convert.ToInt32(ThamSoQuyDinh.THOI_GIAN_DUNG_TOI_DA))
+                        {
+                            CustomMessageBox.Show("Thời gian dừng từ " + ThamSoQuyDinh.THOI_GIAN_DUNG_TOI_THIEU + " đến " + ThamSoQuyDinh.THOI_GIAN_DUNG_TOI_DA + " phút.", "Nhắc nhở.");
+                        }   
+                        else
+                            thoiGianDungSapThem = value;
+                        #endregion
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Thời Gian Dừng phải là số nguyên dương", "Nhắc nhở");
+                    }
+                }
+                else
+                    thoiGianDungSapThem = value; 
+                OnPropertyChanged("ThoiGianDungSapThem"); 
+            }
         }
 
         #endregion
@@ -534,16 +623,6 @@ namespace Planzy.ViewModels
             get { return isFocusGiaChuyenBay; }
             set 
             { 
-                if (value != null && value == "True")
-                {
-                    IsFocusMaChuyenBay = "False";
-                    IsFocusSoGheHang1 = "False";
-                    IsFocusSoGheHang2 = "False";
-                    IsFocusSoGheHang3 = "False";
-                    IsFocusSoGheHang4 = "False";
-                    IsFocusThoiGianDung = "False";
-                    IsFocusThoiGianBay = "False";
-                }    
                 isFocusGiaChuyenBay = value; 
                 OnPropertyChanged("IsFocusGiaChuyenBay"); 
             }
@@ -555,20 +634,28 @@ namespace Planzy.ViewModels
             get { return isFocusMaChuyenBay; }
             set
             {
-                if (value != null && value == "True")
-                {
-                    IsFocusGiaChuyenBay = "False";
-                    IsFocusSoGheHang1 = "False";
-                    IsFocusSoGheHang2 = "False";
-                    IsFocusSoGheHang3 = "False";
-                    IsFocusSoGheHang4 = "False";
-                    IsFocusThoiGianDung = "False";
-                    IsFocusThoiGianBay = "False";
-                }
                 isFocusMaChuyenBay = value; 
                 OnPropertyChanged("IsFocusMaChuyenBay"); 
             }
         }
+        private string isFocusSanBayDi = "False";
+
+        public string IsFocusSanBayDi
+        {
+            get { return isFocusSanBayDi; }
+            set 
+            {
+                isFocusSanBayDi = value;
+                OnPropertyChanged("IsFocusSanBayDi"); 
+            }
+        }
+        private string isFocusSanBayDen = "False";
+        public string IsFocusSanBayDen
+        {
+            get { return isFocusSanBayDen; }
+            set { isFocusSanBayDen = value; OnPropertyChanged("IsFocusSanBayDen"); }
+        }
+
         private string isFocusThoiGianDung = "False";
 
         public string IsFocusThoiGianDung
@@ -576,16 +663,6 @@ namespace Planzy.ViewModels
             get { return isFocusThoiGianDung; }
             set 
             {
-                if (value != null && value == "True")
-                {
-                    IsFocusMaChuyenBay = "False";
-                    IsFocusSoGheHang1 = "False";
-                    IsFocusSoGheHang2 = "False";
-                    IsFocusSoGheHang3 = "False";
-                    IsFocusSoGheHang4 = "False";
-                    isFocusGiaChuyenBay = "False";
-                    IsFocusThoiGianBay = "False";
-                }
                 isFocusThoiGianDung = value; 
                 OnPropertyChanged("IsFocusThoiGianDung");
             }
@@ -597,16 +674,6 @@ namespace Planzy.ViewModels
             get { return isFocusThoiGianBay; }
             set 
             {
-                if (value != null && value == "True")
-                {
-                    IsFocusMaChuyenBay = "False";
-                    IsFocusSoGheHang1 = "False";
-                    IsFocusSoGheHang2 = "False";
-                    IsFocusSoGheHang3 = "False";
-                    IsFocusSoGheHang4 = "False";
-                    IsFocusThoiGianDung = "False";
-                    IsFocusGiaChuyenBay = "False";
-                }
                 isFocusThoiGianBay = value;
                 OnPropertyChanged("IsFocusThoiGianBay"); 
             }
@@ -618,16 +685,6 @@ namespace Planzy.ViewModels
             get { return isFocusSoGheHang4; }
             set 
             {
-                if (value != null && value == "True")
-                {
-                    IsFocusMaChuyenBay = "False";
-                    IsFocusSoGheHang1 = "False";
-                    IsFocusSoGheHang2 = "False";
-                    IsFocusSoGheHang3 = "False";
-                    IsFocusGiaChuyenBay = "False";
-                    IsFocusThoiGianDung = "False";
-                    IsFocusThoiGianBay = "False";
-                }
                 isFocusSoGheHang4 = value; 
                 OnPropertyChanged("IsFocusSoGheHang4"); 
             }
@@ -639,16 +696,6 @@ namespace Planzy.ViewModels
             get { return isFocusSoGheHang3; }
             set 
             {
-                if (value != null && value == "True")
-                {
-                    IsFocusMaChuyenBay = "False";
-                    IsFocusSoGheHang1 = "False";
-                    IsFocusSoGheHang2 = "False";
-                    IsFocusGiaChuyenBay = "False";
-                    IsFocusSoGheHang4 = "False";
-                    IsFocusThoiGianDung = "False";
-                    IsFocusThoiGianBay = "False";
-                }
                 isFocusSoGheHang3 = value; 
                 OnPropertyChanged("IsFocusSoGheHang3"); 
             }
@@ -660,16 +707,6 @@ namespace Planzy.ViewModels
             get { return isFocusSoGheHang2; }
             set 
             {
-                if (value != null && value == "True")
-                {
-                    IsFocusMaChuyenBay = "False";
-                    IsFocusSoGheHang1 = "False";
-                    IsFocusGiaChuyenBay = "False";
-                    IsFocusSoGheHang3 = "False";
-                    IsFocusSoGheHang4 = "False";
-                    IsFocusThoiGianDung = "False";
-                    IsFocusThoiGianBay = "False";
-                }
                 isFocusSoGheHang2 = value; 
                 OnPropertyChanged("IsFocusSoGheHang2"); 
             }
@@ -681,23 +718,62 @@ namespace Planzy.ViewModels
             get { return isFocusSoGheHang1; }
             set 
             {
-                if (value != null && value == "True")
-                {
-                    IsFocusMaChuyenBay = "False";
-                    IsFocusGiaChuyenBay = "False";
-                    IsFocusSoGheHang2 = "False";
-                    IsFocusSoGheHang3 = "False";
-                    IsFocusSoGheHang4 = "False";
-                    IsFocusThoiGianDung = "False";
-                    IsFocusThoiGianBay = "False";
-                }
                 isFocusSoGheHang1 = value; 
                 OnPropertyChanged("IsFocusSoGheHang1"); 
             }
         }
 
+        private string isFocusSoGheHang5 = "False";
+
+        public string IsFocusSoGheHang5
+        {
+            get { return isFocusSoGheHang5; }
+            set
+            {
+                isFocusSoGheHang5 = value;
+                OnPropertyChanged("IsFocusSoGheHang5");
+            }
+        }
+
+        private string isFocusSoGheHang6 = "False";
+
+        public string IsFocusSoGheHang6
+        {
+            get { return isFocusSoGheHang6; }
+            set
+            {
+                isFocusSoGheHang6 = value;
+                OnPropertyChanged("IsFocusSoGheHang6");
+            }
+        }
+
+        private string isFocusSoGheHang7 = "False";
+
+        public string IsFocusSoGheHang7
+        {
+            get { return isFocusSoGheHang7; }
+            set
+            {
+                isFocusSoGheHang7 = value;
+                OnPropertyChanged("IsFocusSoGheHang7");
+            }
+        }
+
+        private string isFocusSoGheHang8 = "False";
+
+        public string IsFocusSoGheHang8
+        {
+            get { return isFocusSoGheHang8; }
+            set
+            {
+                isFocusSoGheHang8 = value;
+                OnPropertyChanged("IsFocusSoGheHang8");
+            }
+        }
+
         #endregion
         #region Xử lý chuyến bay
+        #region thông tin đang nhập
         private string maChuyenBay;
 
         public string MaChuyenBay
@@ -709,10 +785,26 @@ namespace Planzy.ViewModels
                 {
                     if (KiemTraHopLeInput.KiemTraMa(value))
                         maChuyenBay = value.ToUpper();
+                    else
+                    {
+                        CustomMessageBox.Show("Mã Chuyến Bay không được chứa ký tự đặc biệt", "Nhắc nhở");
+                    }    
                 }
+                else
+                {
+                    maChuyenBay = value;
+                }    
                 OnPropertyChanged("MaChuyenBay");
             }
         }
+        private DateTime blackoutCollection = DateTime.UtcNow;
+
+        public  DateTime BlackoutCollection
+        {
+            get { return blackoutCollection; }
+            set { blackoutCollection = value; OnPropertyChanged("BlackoutCollection"); }
+        }
+
         private DateTime ngayBay = DateTime.UtcNow.AddDays(1);
 
         public DateTime NgayBay
@@ -735,8 +827,12 @@ namespace Planzy.ViewModels
                     }
                     else
                     {
-                        //IsFocusGiaChuyenBay = "True";
+                        CustomMessageBox.Show("Giá vé phải là số nguyên dương", "Nhắc nhở");
                     }
+                }
+                else
+                {
+                    giaVeCoBan = value;
                 }
                 OnPropertyChanged("GiaVeCoBan");
             }
@@ -753,7 +849,37 @@ namespace Planzy.ViewModels
         public string ThoiGianBay
         {
             get { return thoiGianBay; }
-            set { thoiGianBay = value; OnPropertyChanged("ThoiGianBay"); }
+            set 
+            {
+                if (value != null)
+                {
+                    if(KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        #region Kiểm tra quy định
+                        if(Convert.ToInt32(value) < Convert.ToInt32(ThamSoQuyDinh.THOI_GIAN_BAY_TOI_THIEU))
+                        {
+                            CustomMessageBox.Show("Thời gian bay tối thiểu là " + ThamSoQuyDinh.THOI_GIAN_BAY_TOI_THIEU + " phút", "Nhắc nhở");
+                        }
+                        else
+                            thoiGianBay = value;
+                        #endregion
+                    }    
+                    else
+                    {
+                        CustomMessageBox.Show("Giá Vé phải là số nguyên dương", "Nhắc nhở");
+                    }    
+                }
+                else
+                    thoiGianBay = value;
+                OnPropertyChanged("ThoiGianBay"); 
+            }
+        }
+        private List<LoaiHangGhe> loaiHangGhesList;
+
+        public List<LoaiHangGhe> LoaiHangGhesList
+        {
+            get { return loaiHangGhesList; }
+            set { loaiHangGhesList = value; OnPropertyChanged("LoaiHangGhesList"); }
         }
 
         private string soGheHang1;
@@ -786,6 +912,38 @@ namespace Planzy.ViewModels
             set { soGheHang4 = value; OnPropertyChanged("SoGheHang4"); }
         }
 
+        private string soGheHang5;
+
+        public string SoGheHang5
+        {
+            get { return soGheHang5; }
+            set { soGheHang5 = value; OnPropertyChanged("SoGheHang5"); }
+        }
+
+        private string soGheHang6;
+
+        public string SoGheHang6
+        {
+            get { return soGheHang6; }
+            set { soGheHang6 = value; OnPropertyChanged("SoGheHang6"); }
+        }
+
+        private string soGheHang7;
+
+        public string SoGheHang7
+        {
+            get { return soGheHang7; }
+            set { soGheHang7 = value; OnPropertyChanged("SoGheHang7"); }
+        }
+
+        private string soGheHang8;
+
+        public string SoGheHang8
+        {
+            get { return soGheHang8; }
+            set { soGheHang8 = value; OnPropertyChanged("SoGheHang8"); }
+        }
+
         private bool isDaBay;
 
         public bool IsDaBay
@@ -793,6 +951,49 @@ namespace Planzy.ViewModels
             get { return isDaBay; }
             set { isDaBay = value; OnPropertyChanged("IsDaBay"); }
         }
+        #endregion
+        private ChuyenBay chuyenBayDaChon;
+
+        public ChuyenBay ChuyenBayDaChon
+        {
+            get { return chuyenBayDaChon; }
+            set 
+            {
+                if (chuyenBayDaChon == null && value != null)
+                {
+                    IsVisibleSuaChuyenBay = "Visible";
+                    IsVisibleXoaChuyenBay = "Visible";
+                    chuyenBayDaChon = value;
+                }
+                else if (chuyenBayDaChon != null && value ==null)
+                {
+                    chuyenBayDaChon = value;
+                    IsVisibleSuaChuyenBay = "Hidden";
+                    IsVisibleXoaChuyenBay = "Hidden";
+                }    
+                else if(chuyenBayDaChon != null && value != null)
+                {
+                    chuyenBayDaChon = value;
+                }    
+                OnPropertyChanged("ChuyenBayDaChon");
+            }
+        }
+        private string soCacHangVe = ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE;
+
+        public string SoCacHangVe
+        {
+            get { return soCacHangVe; }
+            set { soCacHangVe = value; OnPropertyChanged("SoCacHangVe"); }
+        }
+
+        private List<ChiTietHangGhe> chiTietHangGhesList = new List<ChiTietHangGhe>();
+
+        public List<ChiTietHangGhe> ChiTietHangGhesList
+        {
+            get { return chiTietHangGhesList; }
+            set { chiTietHangGhesList = value; OnPropertyChanged("ChiTietHangGhesList"); }
+        }
+        
         private ObservableCollection<ChuyenBay> chuyenBaysList;
 
         public ObservableCollection<ChuyenBay> ChuyenBaysList
@@ -807,6 +1008,57 @@ namespace Planzy.ViewModels
             get { return chuyenBayHienTai; }
             set { chuyenBayHienTai = value; OnPropertyChanged("ChuyenBayHienTai"); }
         }
+        private string isVisibleThemChuyenBayTrungGian = "Visible";
+
+        public string IsVisibleThemChuyenBayTrungGian
+        {
+            get { return isVisibleThemChuyenBayTrungGian; }
+            set { isVisibleThemChuyenBayTrungGian = value; OnPropertyChanged("isVisibleThemChuyenBayTrungGian"); }
+        }
+
+        private string isVisibleSuaChuyenBay = "Hidden";
+
+        public string IsVisibleSuaChuyenBay
+        {
+            get { return isVisibleSuaChuyenBay; }
+            set { isVisibleSuaChuyenBay = value; OnPropertyChanged("IsVisibleSuaChuyenBay"); }
+        }
+        private string isVisibleLuuChuyenBay = "Hidden";
+
+        public string IsVisibleLuuChuyenBay
+        {
+            get { return isVisibleLuuChuyenBay; }
+            set { isVisibleLuuChuyenBay = value; OnPropertyChanged("isVisibleLuuChuyenBay"); }
+        }
+        private string  isVisibleXoaChuyenBay = "Hidden";
+
+        public  string IsVisibleXoaChuyenBay
+        {
+            get { return isVisibleXoaChuyenBay; }
+            set { isVisibleXoaChuyenBay =  value; OnPropertyChanged("IsVisibleXoaChuyenBay"); }
+        }
+        private string isVisibleNhanLichChuyenBay = "Visible";
+
+        public string IsVisibleNhanLichChuyenBay
+        {
+            get { return isVisibleNhanLichChuyenBay ; }
+            set { isVisibleNhanLichChuyenBay  = value; OnPropertyChanged("IsVisibleNhanLichChuyenBay"); }
+        }
+        private string isVisibleHuyThaoTac = "Visible";
+
+        public string IsVisibleHuyThaoTac
+        {
+            get { return isVisibleHuyThaoTac; }
+            set { isVisibleHuyThaoTac = value; OnPropertyChanged("IsVisibleHuyThaoTac"); }
+        }
+        private string isReadOnlyMaChuyenBay = "False";
+
+        public string IsReadOnlyMaChuyenBay
+        {
+            get { return isReadOnlyMaChuyenBay; }
+            set { isReadOnlyMaChuyenBay = value; OnPropertyChanged("IsReadOnlyMaChuyenBay"); }
+        }
+
         private RelayCommand themChuyenBayCommand;
 
         public RelayCommand ThemChuyenBayCommand
@@ -823,16 +1075,58 @@ namespace Planzy.ViewModels
 
         public RelayCommand SuaChuyenBayCommand
         {
-            get { return SuaChuyenBayCommand; }
+            get { return suaChuyenBayCommand; }
         }
-        private RelayCommand huyThemVaSuaChuyenBay;
+        private RelayCommand huyThemVaSuaChuyenBayCommand;
 
-        public RelayCommand HuyThemVaSuaChuyenBay
+        public RelayCommand HuyThemVaSuaChuyenBayCommand
         {
-            get { return huyThemVaSuaChuyenBay; }
+            get { return huyThemVaSuaChuyenBayCommand; }
+        }
+        private RelayCommand luuSuaChuyenBayCommand;
+        public RelayCommand LuuSuaChuyenBayCommand
+        {
+            get { return luuSuaChuyenBayCommand; }
         }
         public void themChuyenBay()
         {
+            #region Bắt ex
+            if (MaChuyenBay == "" || MaChuyenBay == null)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusMaChuyenBay = "True";
+                return;
+            } 
+
+            if (GiaVeCoBan == "" || GiaVeCoBan ==null)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusGiaChuyenBay = "True";
+                return;
+            }
+
+            if (ThoiGianBay == "" || ThoiGianBay == null)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusThoiGianBay = "True";
+                return;
+            }
+
+            if (SanBayDiDaChon == null)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSanBayDi = "True";
+                return;
+            }
+
+            if (SanBayDenDaChon == null)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSanBayDen = "True";
+                return;
+            }
+
+            #endregion
             ChuyenBayHienTai.SanBayDi = SanBayDiDaChon;
             ChuyenBayHienTai.SanBayDen = SanBayDenDaChon;
             ChuyenBayHienTai.SanBayTrungGian = SanBayTrungGiansList;
@@ -841,12 +1135,491 @@ namespace Planzy.ViewModels
             ChuyenBayHienTai.GioBay = GioBay;
             ChuyenBayHienTai.NgayBay = NgayBay;
             ChuyenBayHienTai.ThoiGianBay = ThoiGianBay;
-            ChuyenBayHienTai.SoGheHang1 = SoGheHang1;
-            ChuyenBayHienTai.SoGheHang2 = SoGheHang2;
-            ChuyenBayHienTai.SoGheHang3 = SoGheHang3;
-            ChuyenBayHienTai.SoGheHang4 = SoGheHang4;
-            ChuyenBaysList.Add(ChuyenBayHienTai);
+            ChuyenBayHienTai.SoLoaiHangGhe = Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE);
+            for(int i = 0;i<ChuyenBayHienTai.SoLoaiHangGhe; i++)
+            {
+                switch(i)
+                {
+                    case 0: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang1));break;
+                    case 1: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang2));break;
+                    case 2: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang3)); break;
+                    case 3: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang4)); break;
+                    case 4: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang5)); break;
+                    case 5: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang6)); break;
+                    case 6: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang7)); break;
+                    default : chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang8)); break;
+                }
+            }
+            ChuyenBayHienTai.ChiTietHangGhesList = ChiTietHangGhesList;
+
+            #region Cập nhật dữ liệu
+            if (chuyenBayServices.Add(ChuyenBayHienTai))
+                ChuyenBaysList.Add(ChuyenBayHienTai);
+            else
+            {
+                CustomMessageBox.Show("Mã Chuyến Bay đã tồn tại", "Nhắc nhở");
+                //resetNhapChuyenBay();
+                return;
+            }
+            sanBayTrungGianService.ThemListSanBayTrungGian(SanBayTrungGiansList);
+            chiTietHangGheServices.ThemListChiTietHangGhe(ChiTietHangGhesList);
+            #endregion
+
             ChuyenBayHienTai = new ChuyenBay();
+            resetNhapChuyenBay();            
+        }
+        private ObservableCollection<SanBayTrungGian> sanBayTrungGiansListCu;
+
+        public ObservableCollection<SanBayTrungGian> SanBayTrungGiansListCu
+        {
+            get { return sanBayTrungGiansListCu; }
+            set { sanBayTrungGiansListCu = value; OnPropertyChanged("SanBayTrungGiansListCu"); }
+        }
+        private bool isDangSua;
+        public void suaChuyenBay()
+        {
+            LoadUIHangGheTheoChuyenBay(ChuyenBayDaChon.SoLoaiHangGhe.ToString());
+            isDangSua = true;
+            IsReadOnlyMaChuyenBay = "True";
+            IsVisibleLuuChuyenBay = "Visible";
+            IsVisibleSuaChuyenBay = "Hidden";
+            IsVisibleXoaChuyenBay = "Hidden";
+            IsVisibleNhanLichChuyenBay = "Hidden";
+            SanBayDiDaChon = ChuyenBayDaChon.SanBayDi;
+            SanBayDenDaChon = ChuyenBayDaChon.SanBayDen;
+            SanBayTrungGiansList = ChuyenBayDaChon.SanBayTrungGian;
+            SanBayTrungGiansListCu = new ObservableCollection<SanBayTrungGian>(SanBayTrungGiansList);
+            MaChuyenBay = ChuyenBayDaChon.MaChuyenBay;
+            GiaVeCoBan = ChuyenBayDaChon.GiaVeCoBan;
+            NgayBay = ChuyenBayDaChon.NgayBay;
+            GioBay = ChuyenBayDaChon.GioBay;
+            ThoiGianBay = ChuyenBayDaChon.ThoiGianBay;
+            try
+            {
+                SoGheHang1 = ChuyenBayDaChon.ChiTietHangGhesList[0].SoLuongGhe;
+                SoGheHang2 = ChuyenBayDaChon.ChiTietHangGhesList[1].SoLuongGhe;
+                SoGheHang3 = ChuyenBayDaChon.ChiTietHangGhesList[2].SoLuongGhe;
+                SoGheHang4 = ChuyenBayDaChon.ChiTietHangGhesList[3].SoLuongGhe;
+                SoGheHang5 = ChuyenBayDaChon.ChiTietHangGhesList[4].SoLuongGhe;
+                SoGheHang6 = ChuyenBayDaChon.ChiTietHangGhesList[5].SoLuongGhe;
+                SoGheHang7 = ChuyenBayDaChon.ChiTietHangGhesList[6].SoLuongGhe;
+                SoGheHang8 = ChuyenBayDaChon.ChiTietHangGhesList[7].SoLuongGhe;
+            }
+            catch
+            {
+
+            }
+            IsDaBay = ChuyenBayDaChon.IsDaBay;
+        }
+        private void luuSuaChuyenBay()
+        {
+            isDangSua = false;
+
+            #region Bắt ex
+            if (MaChuyenBay == "" || MaChuyenBay == null)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusMaChuyenBay = "True";
+                return;
+            }
+
+            if (GiaVeCoBan == "" || GiaVeCoBan == null)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusGiaChuyenBay = "True";
+                return;
+            }
+
+            if (ThoiGianBay == "" || ThoiGianBay == null)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusThoiGianBay = "True";
+                return;
+            }
+
+            if (SanBayDiDaChon == null)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSanBayDi = "True";
+                return;
+            }
+
+            if (SanBayDenDaChon == null)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSanBayDen = "True";
+                return;
+            }
+
+            #endregion
+
+            string maChuyenBayCu = ChuyenBayDaChon.MaChuyenBay;
+            if (maChuyenBayCu == MaChuyenBay)
+            {
+                IsReadOnlyMaChuyenBay = "False";
+
+                ChuyenBayDaChon.GiaVeCoBan = GiaVeCoBan;
+                ChuyenBayDaChon.NgayBay = NgayBay;
+                ChuyenBayDaChon.GioBay = GioBay;
+                ChuyenBayDaChon.ThoiGianBay = ThoiGianBay;
+                ChuyenBayDaChon.SanBayDi = SanBayDiDaChon;
+                ChuyenBayDaChon.SanBayDen = SanBayDenDaChon;
+                ChuyenBayDaChon.SanBayTrungGian = SanBayTrungGiansList;
+                try
+                {
+                    ChuyenBayDaChon.ChiTietHangGhesList[0].SoLuongGhe = SoGheHang1;
+                    ChuyenBayDaChon.ChiTietHangGhesList[1].SoLuongGhe = SoGheHang2;
+                    ChuyenBayDaChon.ChiTietHangGhesList[2].SoLuongGhe = SoGheHang3;
+                    ChuyenBayDaChon.ChiTietHangGhesList[3].SoLuongGhe = SoGheHang4;
+                    ChuyenBayDaChon.ChiTietHangGhesList[4].SoLuongGhe = SoGheHang5;
+                    ChuyenBayDaChon.ChiTietHangGhesList[5].SoLuongGhe = SoGheHang6;
+                    ChuyenBayDaChon.ChiTietHangGhesList[6].SoLuongGhe = SoGheHang7;
+                    ChuyenBayDaChon.ChiTietHangGhesList[7].SoLuongGhe = SoGheHang8;
+                }
+                catch
+                { }
+
+                #region Cập nhập dữ liệu
+                LoadUIHangGheTheoQuyDinh();
+                chuyenBayServices.Update(ChuyenBayDaChon);
+                sanBayTrungGianService.ClearSpecializeSanBay(MaChuyenBay);
+                sanBayTrungGianService.ThemListSanBayTrungGian(SanBayTrungGiansList);
+                chiTietHangGheServices.Delete(MaChuyenBay);
+                chiTietHangGheServices.ThemListChiTietHangGhe(ChiTietHangGhesList);
+                #endregion
+            }
+            //else if (chuyenBayServices.IsEditable(MaChuyenBay))
+            //{
+
+            //    foreach (SanBayTrungGian sanBayTrungGian in SanBayTrungGiansList)
+            //        sanBayTrungGian.MaChuyenBay = MaChuyenBay;
+
+            //    ChuyenBayDaChon.MaChuyenBay = MaChuyenBay;
+            //    ChuyenBayDaChon.GiaVeCoBan = GiaVeCoBan;
+            //    ChuyenBayDaChon.NgayBay = NgayBay;
+            //    ChuyenBayDaChon.GioBay = GioBay;
+            //    ChuyenBayDaChon.ThoiGianBay = ThoiGianBay;
+            //    ChuyenBayDaChon.SanBayDi = SanBayDiDaChon;
+            //    ChuyenBayDaChon.SanBayDen = SanBayDenDaChon;
+            //    ChuyenBayDaChon.SanBayTrungGian = SanBayTrungGiansList;
+            //    ChuyenBayDaChon.SoGheHang1 = SoGheHang1;
+            //    ChuyenBayDaChon.SoGheHang2 = SoGheHang2;
+            //    ChuyenBayDaChon.SoGheHang3 = SoGheHang3;
+            //    ChuyenBayDaChon.SoGheHang4 = SoGheHang4;
+
+            //    #region Cập nhật dữ liệu
+            //    chuyenBayServices.XoaChuyenBaySql(maChuyenBayCu,sanBayTrungGianService);
+            //    chuyenBayServices.ThemChuyenBaySQL(ChuyenBayDaChon);
+
+            //    sanBayTrungGianService.ThemListSanBayTrungGian(SanBayTrungGiansList);
+            //    #endregion
+            //}
+            //else
+            //{
+
+            //}    
+            IsVisibleLuuChuyenBay = "Hidden";
+            IsVisibleNhanLichChuyenBay = "Visible";
+            IsVisibleSuaChuyenBay = "Hidden";
+            ChuyenBayDaChon = null;
+            resetNhapChuyenBay();
+            SanBayTrungGiansListCu = null;
+
+        }
+        private void xoaChuyenBay()
+        {
+            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn xóa", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel);
+            if (rs == MessageBoxResult.OK && chuyenBayServices.Delete(ChuyenBayDaChon.MaChuyenBay, sanBayTrungGianService,chiTietHangGheServices))
+            {
+                ChuyenBaysList.Remove(ChuyenBayDaChon);
+                ChuyenBayDaChon = null;
+            }    
+        }
+        public void resetNhapChuyenBay()
+        {
+            SanBayDenDaChon = null;
+            SanBayDiDaChon = null;
+            SanBayTrungGiansList = null;
+            ChiTietHangGhesList = null;
+            MaChuyenBay = null;
+            GiaVeCoBan = null;
+            GioBay = new DateTime(1, 1, 1, 0, 0, 0);
+            NgayBay = DateTime.UtcNow.AddDays(1);
+            ThoiGianBay = null;
+            SoGheHang1 = null;
+            SoGheHang2 = null;
+            SoGheHang3 = null;
+            SoGheHang4 = null;
+            SoGheHang5 = null;
+            SoGheHang6 = null;
+            SoGheHang7 = null;
+            SoGheHang8 = null;
+        }
+        public void huyThemVaSuaChuyenBay()
+        {
+            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn hủy", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel);
+            if (rs == MessageBoxResult.OK)
+            {
+                if (isDangSua)
+                {
+                    ChuyenBayDaChon.SanBayTrungGian = SanBayTrungGiansListCu;
+                    isDangSua = false;
+                }
+                IsVisibleNhanLichChuyenBay = "Visible";
+                IsVisibleSuaChuyenBay = "Hidden";
+                IsVisibleLuuChuyenBay = "Hidden";
+                ChuyenBayDaChon = null;
+                resetNhapChuyenBay();
+            }
+        }
+        #endregion
+        #region Load giao diện nhập hạng ghế
+        private string isVisibleHang1 = "Visible";
+
+        public string IsVisibleHang1
+        {
+            get { return isVisibleHang1; }
+            set { isVisibleHang1 = value; OnPropertyChanged("IsVisibleHang1"); }
+        }
+
+        private string isVisibleHang2 = "Visible";
+
+        public string IsVisibleHang2
+        {
+            get { return isVisibleHang2; }
+            set { isVisibleHang2 = value; OnPropertyChanged("IsVisibleHang2"); }
+        }
+
+        private string isVisibleHang3 = "Visible";
+
+        public string IsVisibleHang3
+        {
+            get { return isVisibleHang3; }
+            set { isVisibleHang3 = value; OnPropertyChanged("IsVisibleHang3"); }
+        }
+
+        private string isVisibleHang4 = "Visible";
+
+        public string IsVisibleHang4
+        {
+            get { return isVisibleHang4; }
+            set { isVisibleHang4 = value; OnPropertyChanged("IsVisibleHang4"); }
+        }
+
+        private string isVisibleHang5 = "Visible";
+
+        public string IsVisibleHang5
+        {
+            get { return isVisibleHang5; }
+            set { isVisibleHang5 = value; OnPropertyChanged("IsVisibleHang5"); }
+        }
+
+
+        private string isVisibleHang6 = "Visible";
+
+        public string IsVisibleHang6
+        {
+            get { return isVisibleHang6; }
+            set { isVisibleHang6 = value; OnPropertyChanged("IsVisibleHang6"); }
+        }
+
+        private string isVisibleHang7 = "Visible";
+
+        public string IsVisibleHang7
+        {
+            get { return isVisibleHang7; }
+            set { isVisibleHang7 = value; OnPropertyChanged("IsVisibleHang7"); }
+        }
+
+        private string isVisibleHang8 = "Visible";
+
+        public string IsVisibleHang8
+        {
+            get { return isVisibleHang8; }
+            set { isVisibleHang8 = value; OnPropertyChanged("IsVisibleHang8"); }
+        }
+        public void LoadUIHangGheTheoQuyDinh()
+        {
+            if(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE == "1")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Hidden";
+                IsVisibleHang3 = "Hidden";
+                IsVisibleHang4 = "Hidden";
+                IsVisibleHang5 = "Hidden";
+                IsVisibleHang6 = "Hidden";
+                IsVisibleHang7 = "Hidden";
+                IsVisibleHang8 = "Hidden";
+            } 
+            else if (ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE == "2")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Hidden";
+                IsVisibleHang4 = "Hidden";
+                IsVisibleHang5 = "Hidden";
+                IsVisibleHang6 = "Hidden";
+                IsVisibleHang7 = "Hidden";
+                IsVisibleHang8 = "Hidden";
+            }    
+            else if (ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE == "3")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Visible";
+                IsVisibleHang4 = "Hidden";
+                IsVisibleHang5 = "Hidden";
+                IsVisibleHang6 = "Hidden";
+                IsVisibleHang7 = "Hidden";
+                IsVisibleHang8 = "Hidden";
+            }    
+            else if (ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE == "4")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Visible";
+                IsVisibleHang4 = "Visible";
+                IsVisibleHang5 = "Hidden";
+                IsVisibleHang6 = "Hidden";
+                IsVisibleHang7 = "Hidden";
+                IsVisibleHang8 = "Hidden";
+            }
+            else if (ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE == "5")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Visible";
+                IsVisibleHang4 = "Visible";
+                IsVisibleHang5 = "Visible";
+                IsVisibleHang6 = "Hidden";
+                IsVisibleHang7 = "Hidden";
+                IsVisibleHang8 = "Hidden";
+            }
+            else if (ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE == "6")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Visible";
+                IsVisibleHang4 = "Visible";
+                IsVisibleHang5 = "Visible";
+                IsVisibleHang6 = "Visible";
+                IsVisibleHang7 = "Hidden";
+                IsVisibleHang8 = "Hidden";
+            }
+            else if (ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE == "7")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Visible";
+                IsVisibleHang4 = "Visible";
+                IsVisibleHang5 = "Visible";
+                IsVisibleHang6 = "Visible";
+                IsVisibleHang7 = "Visible";
+                IsVisibleHang8 = "Hidden";
+            }
+            else
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Visible";
+                IsVisibleHang4 = "Visible";
+                IsVisibleHang5 = "Visible";
+                IsVisibleHang6 = "Visible";
+                IsVisibleHang7 = "Visible";
+                IsVisibleHang8 = "Visible";
+            }
+        }
+
+        public void LoadUIHangGheTheoChuyenBay(string SoLuongCacHangVe)
+        {
+            if (SoLuongCacHangVe == "1")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Hidden";
+                IsVisibleHang3 = "Hidden";
+                IsVisibleHang4 = "Hidden";
+                IsVisibleHang5 = "Hidden";
+                IsVisibleHang6 = "Hidden";
+                IsVisibleHang7 = "Hidden";
+                IsVisibleHang8 = "Hidden";
+            }
+            else if (SoLuongCacHangVe == "2")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Hidden";
+                IsVisibleHang4 = "Hidden";
+                IsVisibleHang5 = "Hidden";
+                IsVisibleHang6 = "Hidden";
+                IsVisibleHang7 = "Hidden";
+                IsVisibleHang8 = "Hidden";
+            }
+            else if (SoLuongCacHangVe == "3")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Visible";
+                IsVisibleHang4 = "Hidden";
+                IsVisibleHang5 = "Hidden";
+                IsVisibleHang6 = "Hidden";
+                IsVisibleHang7 = "Hidden";
+                IsVisibleHang8 = "Hidden";
+            }
+            else if (SoLuongCacHangVe == "4")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Visible";
+                IsVisibleHang4 = "Visible";
+                IsVisibleHang5 = "Hidden";
+                IsVisibleHang6 = "Hidden";
+                IsVisibleHang7 = "Hidden";
+                IsVisibleHang8 = "Hidden";
+            }
+            else if (SoLuongCacHangVe == "5")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Visible";
+                IsVisibleHang4 = "Visible";
+                IsVisibleHang5 = "Visible";
+                IsVisibleHang6 = "Hidden";
+                IsVisibleHang7 = "Hidden";
+                IsVisibleHang8 = "Hidden";
+            }
+            else if (SoLuongCacHangVe == "6")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Visible";
+                IsVisibleHang4 = "Visible";
+                IsVisibleHang5 = "Visible";
+                IsVisibleHang6 = "Visible";
+                IsVisibleHang7 = "Hidden";
+                IsVisibleHang8 = "Hidden";
+            }
+            else if (SoLuongCacHangVe == "7")
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Visible";
+                IsVisibleHang4 = "Visible";
+                IsVisibleHang5 = "Visible";
+                IsVisibleHang6 = "Visible";
+                IsVisibleHang7 = "Visible";
+                IsVisibleHang8 = "Hidden";
+            }
+            else
+            {
+                IsVisibleHang1 = "Visible";
+                IsVisibleHang2 = "Visible";
+                IsVisibleHang3 = "Visible";
+                IsVisibleHang4 = "Visible";
+                IsVisibleHang5 = "Visible";
+                IsVisibleHang6 = "Visible";
+                IsVisibleHang7 = "Visible";
+                IsVisibleHang8 = "Visible";
+            }
         }
         #endregion
     }

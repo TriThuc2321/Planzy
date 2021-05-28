@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,19 +11,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Planzy.Views
+namespace CustomMessageBox
 {
     /// <summary>
-    /// Interaction logic for WarningView.xaml
+    /// Interaction logic for VirtuosoMainMessageBox.xaml
     /// </summary>
-    public partial class WarningView : UserControl
+    public partial class DialogModelPopup : Window
     {
-        public WarningView()
+        #region Initialization of components
+        public DialogModelPopup()
         {
             InitializeComponent();
         }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+        #endregion
     }
 }

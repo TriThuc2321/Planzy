@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Planzy"
-             xmlns:loc ="clr-namespace:Planzy"
+             xmlns:loc ="clr-namespace:Planzy.Models.Util"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -128,7 +127,8 @@
                         <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}"/>
                         <Grid Name ="gr_NhanLich" Visibility="{Binding IsDuocChon4.NewVisibility}">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="210"></RowDefinition>
+                                <RowDefinition Height="126"></RowDefinition>
+                                <RowDefinition Height="84"></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
@@ -138,8 +138,6 @@
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
@@ -164,7 +162,9 @@
                                     <TextBox Width="200" Text="{Binding MaChuyenBay}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" ToolTip="Chữ và số in hoa không dấu" BorderBrush="#FF5867AC" TabIndex="0" />
+                                             FontWeight="Bold" ToolTip="Chữ và số in hoa không dấu" BorderBrush="#FF5867AC" TabIndex="0" 
+                                             loc:FocusExtension.IsFocused="{Binding IsFocusMaChuyenBay}"
+                                             IsReadOnly="{Binding IsReadOnlyMaChuyenBay}"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="0" Grid.Column="2" 
                                             Orientation="Horizontal">
@@ -173,7 +173,8 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding GiaVeCoBan}" loc:FocusExtension.IsFocused="{Binding IsFocusGiaChuyenBay}"
+                                    <TextBox Width="200" Text="{Binding GiaVeCoBan}" 
+                                             loc:FocusExtension.IsFocused="{Binding IsFocusGiaChuyenBay}"
                                              VerticalContentAlignment="Bottom" 
                                              FontSize="15"
                                              FontWeight="Bold" ToolTip="Đồng " BorderBrush="#FF5867AC" TabIndex="1" />
@@ -191,7 +192,8 @@
                                               FontSize="15"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
                                               ItemsSource="{Binding Path=SanBayDisList, Mode=TwoWay}"
-                                              SelectedItem="{Binding Path=SanBayDiDaChon, Mode=TwoWay}" TabIndex="2">
+                                              SelectedItem="{Binding Path=SanBayDiDaChon, Mode=TwoWay}" TabIndex="2"
+                                              IsDropDownOpen="{Binding IsFocusSanBayDi}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -217,6 +219,7 @@
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
                                               ItemsSource="{Binding Path=SanBayDensList, Mode=TwoWay}"
                                               SelectedItem="{Binding Path=SanBayDenDaChon, Mode=TwoWay}" TabIndex="3"
+                                              IsDropDownOpen="{Binding IsFocusSanBayDen}"
                                               >
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -235,13 +238,16 @@
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"/>
-                                    <DatePicker Width="100"
+                                    <DatePicker Width="100" Name="aa"
                                                 Foreground="Black"
                                                 FontWeight="Bold"
                                                 FontSize="15"
                                                 VerticalAlignment="Bottom" BorderBrush="#FF5867AC"
                                                 SelectedDate="{Binding NgayBay}" TabIndex="4"
-                                                />
+                                                >
+                                        <DatePicker.BlackoutDates>
+                                        </DatePicker.BlackoutDates>
+                                    </DatePicker>
                                     <Label Content="Giờ bay: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
@@ -263,58 +269,141 @@
                                     <TextBox Width="200" Text="{Binding ThoiGianBay}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC" TabIndex="6"/>
+                                             FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC" TabIndex="6"
+                                             loc:FocusExtension.IsFocused="{Binding IsFocusThoiGianBay}"/>
                                 </StackPanel>
-                                <StackPanel Grid.Row="3" Grid.Column="0" 
-                                            Orientation="Horizontal">
-                                    <Label Content="Số ghế hạng 1: "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="100"/>
-                                    <TextBox Width="200" Text="{Binding SoGheHang1}"
-                                             VerticalContentAlignment="Bottom"
-                                             FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="7"/>
-                                </StackPanel>
-                                <StackPanel Grid.Row="3" Grid.Column="2" 
-                                            Orientation="Horizontal">
-                                    <Label Content="Số ghế hạng 2: "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="100"/>
-                                    <TextBox Width="200" Text="{Binding SoGheHang2}"
-                                             VerticalContentAlignment="Bottom"
-                                             FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="8"/>
-                                </StackPanel>
-                                <StackPanel Grid.Row="4" Grid.Column="0" 
-                                            Orientation="Horizontal">
-                                    <Label Content="Số ghế hạng 3: "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="100"/>
-                                    <TextBox Width="200" Text="{Binding SoGheHang3}"
-                                             VerticalContentAlignment="Bottom"
-                                             FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="9"/>
-                                </StackPanel>
-                                <StackPanel Grid.Row="4" Grid.Column="2" 
-                                            Orientation="Horizontal">
-                                    <Label Content="Số ghế hạng 4: "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="100"/>
-                                    <TextBox Width="200" Text="{Binding SoGheHang4}"
-                                             VerticalContentAlignment="Bottom"
-                                             FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"/>
-                                </StackPanel>
+                                
+                                
+                                
+                                
                             </Grid>
                             <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal">
+                                    <Label Content="Nhập số ghế"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1" Visibility="{Binding IsVisibleHang1}"
+                                            Orientation="Horizontal">
+                                    <Label Content="{Binding LoaiHangGhesList[0].TenLoaiHangGhe}"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="80"/>
+                                    <TextBox Width="70" Text="{Binding SoGheHang1}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="7"
+                                             loc:FocusExtension.IsFocused="{Binding IsFocusSoGheHang1}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="2" 
+                                            Orientation="Horizontal" Visibility="{Binding IsVisibleHang2}">
+                                    <Label Content="{Binding LoaiHangGhesList[1].TenLoaiHangGhe}"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="80"/>
+                                    <TextBox Width="70" Text="{Binding SoGheHang2}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="8"
+                                             loc:FocusExtension.IsFocused="{Binding IsFocusSoGheHang2}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="3" 
+                                            Orientation="Horizontal" Visibility="{Binding IsVisibleHang3}">
+                                    <Label Content="{Binding LoaiHangGhesList[2].TenLoaiHangGhe}"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="80"/>
+                                    <TextBox Width="70" Text="{Binding SoGheHang3}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="9"
+                                             loc:FocusExtension.IsFocused="{Binding IsFocusSoGheHang3}"
+                                             />
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="4" 
+                                            Orientation="Horizontal" Visibility="{Binding IsVisibleHang4}">
+                                    <Label Content="{Binding LoaiHangGhesList[3].TenLoaiHangGhe}"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="80"/>
+                                    <TextBox Width="70" Text="{Binding SoGheHang4}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                             loc:FocusExtension.IsFocused="{Binding IsFocusSoGheHang4}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="1" 
+                                            Orientation="Horizontal" Visibility="{Binding IsVisibleHang5}">
+                                    <Label Content="{Binding LoaiHangGhesList[4].TenLoaiHangGhe}"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="80"/>
+                                    <TextBox Width="70" Text="{Binding SoGheHang5}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                             loc:FocusExtension.IsFocused="{Binding IsFocusSoGheHang5}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="2" 
+                                            Orientation="Horizontal" Visibility="{Binding IsVisibleHang6}">
+                                    <Label Content="{Binding LoaiHangGhesList[5].TenLoaiHangGhe}"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="80"/>
+                                    <TextBox Width="70" Text="{Binding SoGheHang6}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                             loc:FocusExtension.IsFocused="{Binding IsFocusSoGheHang6}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="3" 
+                                            Orientation="Horizontal" Visibility="{Binding IsVisibleHang7}">
+                                    <Label Content="{Binding LoaiHangGhesList[6].TenLoaiHangGhe}"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="80"/>
+                                    <TextBox Width="70" Text="{Binding SoGheHang7}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                             loc:FocusExtension.IsFocused="{Binding IsFocusSoGheHang7}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="4" 
+                                            Orientation="Horizontal" Visibility="{Binding IsVisibleHang8}">
+                                    <Label Content="{Binding LoaiHangGhesList[7].TenLoaiHangGhe}"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="80"/>
+                                    <TextBox Width="70" Text="{Binding SoGheHang8}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                             loc:FocusExtension.IsFocused="{Binding IsFocusSoGheHang8}"/>
+                                </StackPanel>
+                            </Grid>
+                            <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -361,7 +450,8 @@
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC"
-                                                 Visibility="{Binding IsVisible}"/>
+                                                 Visibility="{Binding IsVisible}"
+                                                 loc:FocusExtension.IsFocused="{Binding IsFocusThoiGianDung}"/>
                                         <Button Content=" Xác Nhận " VerticalAlignment="Bottom" Margin=" 10,0,0,0"
                                                 Visibility="{Binding IsVisible}"
                                                                     Width="Auto"
@@ -462,7 +552,10 @@
                                     </ListView>
                                 </Grid>
                                 <Grid Grid.Column="1" Grid.Row="1">
-                                    <ListView Margin="10" Name="listviewChuyenBay" ItemsSource="{Binding ChuyenBaysList}" BorderBrush="Black">
+                                    <ListView Margin="10" Name="listviewChuyenBay" 
+                                              ItemsSource="{Binding ChuyenBaysList}" 
+                                              SelectedItem="{Binding ChuyenBayDaChon}" 
+                                              BorderBrush="Black">
                                         <ListView.View>
                                             <GridView>
                                                 <GridViewColumn Header="Mã" Width="90" >
@@ -529,13 +622,15 @@
                                     </ListView>
                                 </Grid>
                                 <Grid Grid.Row="2" Grid.Column="0">
-                                    <Button Content="Thêm"
-                                            Width="35"
+                                    <Button Content="Thêm sân bay trung gian"
+                                            Width="120"
                                             Height="20"
                                             Padding="0"
                                             Foreground="#ffffff"
                                             Command="{Binding ThemSanBayTrungGianCommand}" 
                                             Background="#FF80E66A" FontSize="10"
+                                            BorderBrush="{x:Null}"
+                                            Visibility="{Binding IsVisibleThemChuyenBayTrungGian}"
                                             />
                                 </Grid>
                                 <Grid Grid.Row="2" Grid.Column="1">
@@ -548,7 +643,8 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid Grid.Column="0">
                                         <Button Content="Lưu" VerticalAlignment="Center" 
-                                                Visibility="Visible"
+                                                Visibility="{Binding IsVisibleLuuChuyenBay}"
+                                                Command="{Binding LuuSuaChuyenBayCommand}"
                                                 HorizontalAlignment="Center"
                                                 Width="30"
                                                 Height="20"
@@ -559,18 +655,20 @@
                                     </Grid>
                                     <Grid Grid.Column="1">
                                         <Button Content="Sửa" VerticalAlignment="Center" 
-                                                Visibility="Visible"
+                                                Visibility="{Binding IsVisibleSuaChuyenBay}"
                                                 HorizontalAlignment="Center"
                                                 Width="30"
                                                 Height="20"
                                                 Padding="0"
                                                 Foreground="#ffffff"  
                                                 Background="#FF5867AC" FontSize="10" BorderBrush="{x:Null}"
+                                                Command="{Binding SuaChuyenBayCommand}"
                                                 />
                                     </Grid>
                                     <Grid Grid.Column="2">
                                         <Button Content="Xóa" VerticalAlignment="Center" 
-                                                Visibility="Visible"
+                                                Visibility="{Binding IsVisibleXoaChuyenBay}"
+                                                Command="{Binding XoaChuyenBayCommand}"
                                                 HorizontalAlignment="Center"
                                                 Width="30"
                                                 Height="20"
@@ -583,7 +681,7 @@
                                         <Button Content=" Nhận lịch bay " 
                                                 VerticalAlignment="Center" 
                                                 HorizontalAlignment="Center"
-                                                Visibility="Visible"
+                                                Visibility="{Binding IsVisibleNhanLichChuyenBay}"
                                                 Width="Auto"
                                                 Height="30"
                                                 Padding="0"
@@ -594,7 +692,8 @@
                                     </Grid>
                                     <Grid Grid.Column="4">
                                         <Button Content="Hủy" VerticalAlignment="Center" 
-                                                Visibility="Visible"
+                                                Visibility="{Binding IsVisibleHuyThaoTac}"
+                                                Command="{Binding HuyThemVaSuaChuyenBayCommand}"
                                                 HorizontalAlignment="Center"
                                                 Width="30"
                                                 Height="20"
