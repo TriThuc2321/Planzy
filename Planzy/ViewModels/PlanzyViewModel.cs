@@ -66,8 +66,7 @@ namespace Planzy.ViewModels
             SanBayTrungGianSapThemsList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>(sanBayTrungGianService.GetAll());
             chuyenBaysList = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
-
-            
+                        
         }
         private List<SanBay> sanbaysList;
 

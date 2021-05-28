@@ -123,7 +123,8 @@
             <Grid Grid.Column="1" Margin="10,10, 25,10">
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
                     <Grid Background="White">
-                        <Grid x:Name ="gr_DatVe" Visibility="Visible">
+                        <Grid x:Name ="gr_DatVe" Visibility="{Binding IsDuocChon1.NewVisibility}"/>
+                        <Grid x:Name ="gr_BanVe" Visibility="Hidden">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="50"/>
@@ -140,7 +141,8 @@
                                         VerticalAlignment="Top"
                                         Margin="0 17 0 0"
                                         >
-                                    <materialDesign:PackIcon Kind="ArrowLeftRightBold" Foreground="White"/>
+
+                                    <materialDesign:PackIcon Kind="ArrowLeftRightBold"/>
                                 </Button>
                             </Grid>
 
@@ -253,12 +255,12 @@
                                            Foreground="#FF5867AC"
                                            Width="70"/>
                                         <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
-                                              VerticalAlignment="Bottom" Width="200"
+                                              VerticalAlignment="Bottom" Width="240"
                                               Foreground="Black"
                                               FontSize="15"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
-                                              ItemsSource="{Binding SanBayDisList, Mode=TwoWay}"
-                                              SelectedItem="{Binding SanBayDiDaChon, Mode=TwoWay}" TabIndex="2">
+                                              ItemsSource="{Binding SanBayDensList, Mode=TwoWay}"
+                                              SelectedItem="{Binding SanBayDenDaChon, Mode=TwoWay}" TabIndex="2">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
@@ -304,12 +306,9 @@
                                 </Grid>
 
                             </Grid>
-
-
                         </Grid>
-                        <Grid x:Name ="gr_BanVe" Visibility="{Binding IsDuocChon2.NewVisibility}"/>
                         <Grid x:Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}"/>
-                        <Grid x:Name ="gr_NhanLich" Visibility="Hidden">
+                        <Grid x:Name ="gr_NhanLich" Visibility="Visible">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="210"/>
                                 <RowDefinition/>
