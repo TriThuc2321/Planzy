@@ -848,5 +848,8 @@ namespace Planzy.ViewModels
             ChuyenBayHienTai = new ChuyenBay();
         }
         #endregion
+        #region bán vé
+
+        #endregion
     }
 }

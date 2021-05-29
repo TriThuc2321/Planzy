@@ -67,8 +67,6 @@ D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.dll
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\ref\Planzy.dll
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.pdb
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.genruntimeconfig.cache
-D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Login.g.cs
-D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Login.baml
 D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\Planzy.dll.config
 D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\System.Data.SqlClient.dll
 D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win-arm64\native\sni.dll
@@ -78,3 +76,7 @@ D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\unix\lib\netcoreapp2.1
 D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\WarningView.g.cs
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\WarningView.baml
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\Login.g.cs
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\Register.g.cs
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\Login.baml
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\Register.baml
