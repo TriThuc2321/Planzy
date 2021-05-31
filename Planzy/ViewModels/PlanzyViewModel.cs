@@ -23,11 +23,40 @@ namespace Planzy.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+        string jsonProfile;
         SanBayService sanBayServices;
         SanBayTrungGianService sanBayTrungGianService;
         ChuyenBayServices chuyenBayServices;
         public PlanzyViewModel()
         {
+            sanBayServices = new SanBayService();
+            sanBayTrungGianService = new SanBayTrungGianService();
+            chuyenBayServices = new ChuyenBayServices();
+
+            LoadData();
+            doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
+            xoaSanBayTrungGianCommand = new RelayCommand(xoaSanBayTrungGian);
+            themSanBayTrungGianCommand = new RelayCommand(themSanBayTrungGian);
+            huyThemCommand = new RelayCommand(huyThemSanBayTrungGian);
+            xacNhanThemCommand = new RelayCommand(xacNhanThemSanBayTrungGian);
+            themChuyenBayCommand = new RelayCommand(themChuyenBay);
+            #region Xử lý giao diện ban đầu
+            chonLayoutCommand1 = new RelayCommand(Button1);
+            chonLayoutCommand2 = new RelayCommand(Button2);
+            chonLayoutCommand3 = new RelayCommand(Button3);
+            chonLayoutCommand4 = new RelayCommand(Button4);
+            chonLayoutCommand5 = new RelayCommand(Button5);
+            #endregion
+            SelectAllCommand = new RelayCommand(p =>
+            {
+                if (SelectAll != null)
+                    SelectAll(this);
+            });
+        }
+
+        public PlanzyViewModel(string jsonProfile)
+        {
+            this.jsonProfile = jsonProfile;
             sanBayServices = new SanBayService();
             sanBayTrungGianService = new SanBayTrungGianService();
             chuyenBayServices = new ChuyenBayServices();

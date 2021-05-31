@@ -26,7 +26,6 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-
                 <Grid Grid.Row="0">
                     <Label  Content="REGISTER"
                             FontSize="25"

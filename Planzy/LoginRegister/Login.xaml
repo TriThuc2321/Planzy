@@ -37,7 +37,7 @@
                 <Grid Grid.Row="1">
                     <StackPanel Orientation="Vertical">
                         <TextBox
-                        materialDesign:HintAssist.Hint="Your account"
+                        materialDesign:HintAssist.Hint="Your email"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                         VerticalAlignment="Center" 
                         Margin="20 25 0 0"/>
@@ -90,7 +90,6 @@
                                       FontSize="10"
                                       VerticalAlignment="Top"/>
                         </Grid>
-
                         <Grid Grid.Column="1" Margin="20 14 0 0">
                             <TextBlock VerticalAlignment="Top"> 
                                 
@@ -109,7 +108,8 @@
                 <Grid Grid.Row="3">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="15"/>
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0">
@@ -128,11 +128,28 @@
                                       Style="{StaticResource MaterialDesignOverlineHyperlink}">
                                       Don't have an account? Register                                    
                                 </Hyperlink>
-                            </TextBlock>
+                        </TextBlock>
                     </Grid>
 
+                    <Grid Grid.Row="2">
+                        <TextBlock VerticalAlignment="Top"
+                                   HorizontalAlignment="Center"
+                                   FontStyle="Italic"
+                                   Text="or"
+                                   />
 
+                    </Grid>
+                </Grid>
 
+                <Grid Grid.Row="4">
+                    <Button Name="GoogleLoginBtn" Click="GoogleLoginBtn_Click"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        ToolTip="MaterialDesignRaisedButton with Round Corners"
+                        Margin="75 10 65 0"
+                        VerticalAlignment="Top">
+                        
+                    </Button>
                 </Grid>
             </Grid>
         </materialDesign:Card>
@@ -143,11 +160,11 @@
             VerticalAlignment="Top"
             HorizontalAlignment="Right"
             Background="Transparent">
-            <Button>
+            <Button Name="Exit" Click="Exit_Click">
                 <Button.Background>
                     <ImageBrush ImageSource="/LoginRegister/clodeIcon.png"/>
                 </Button.Background>
-
+                
             </Button>
 
         </materialDesign:Card>
