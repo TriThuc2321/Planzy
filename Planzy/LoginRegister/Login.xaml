@@ -37,7 +37,7 @@
                 <Grid Grid.Row="1">
                     <StackPanel Orientation="Vertical">
                         <TextBox
-                        materialDesign:HintAssist.Hint="Your email"
+                        materialDesign:HintAssist.Hint="Your account"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                         VerticalAlignment="Center" 
                         Margin="20 25 0 0"/>
@@ -137,7 +137,6 @@
                                    FontStyle="Italic"
                                    Text="or"
                                    />
-
                     </Grid>
                 </Grid>
 
@@ -148,7 +147,10 @@
                         ToolTip="MaterialDesignRaisedButton with Round Corners"
                         Margin="75 10 65 0"
                         VerticalAlignment="Top">
-                        
+                        <Button.Background>
+                            <ImageBrush ImageSource="/LoginRegister/googleLoginBackground.png"/>
+                        </Button.Background>
+
                     </Button>
                 </Grid>
             </Grid>

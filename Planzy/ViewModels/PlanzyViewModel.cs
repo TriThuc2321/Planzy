@@ -46,6 +46,7 @@ namespace Planzy.ViewModels
             chonLayoutCommand3 = new RelayCommand(Button3);
             chonLayoutCommand4 = new RelayCommand(Button4);
             chonLayoutCommand5 = new RelayCommand(Button5);
+            chonLayoutCommand6 = new RelayCommand(Button6);
             #endregion
             SelectAllCommand = new RelayCommand(p =>
             {
@@ -74,6 +75,7 @@ namespace Planzy.ViewModels
             chonLayoutCommand3 = new RelayCommand(Button3);
             chonLayoutCommand4 = new RelayCommand(Button4);
             chonLayoutCommand5 = new RelayCommand(Button5);
+            chonLayoutCommand6 = new RelayCommand(Button6);
             #endregion
             SelectAllCommand = new RelayCommand(p =>
             {
@@ -235,6 +237,12 @@ namespace Planzy.ViewModels
             get { return isDuocChon5; }
             set { isDuocChon5 = value; OnPropertyChanged("IsDuocChon5"); }
         }
+        private ButtonDuocChon isDuocChon6 = new ButtonDuocChon(false);
+        public ButtonDuocChon IsDuocChon6
+        {
+            get { return isDuocChon6; }
+            set { isDuocChon6 = value; OnPropertyChanged("IsDuocChon6"); }
+        }
 
         private RelayCommand chonLayoutCommand1;
 
@@ -266,6 +274,12 @@ namespace Planzy.ViewModels
         {
             get { return chonLayoutCommand5; }
         }
+        private RelayCommand chonLayoutCommand6;
+
+        public RelayCommand ChonLayoutCommand6
+        {
+            get { return chonLayoutCommand6; }
+        }
         public void Button1()
         {
             IsDuocChon1 = DuocChon;
@@ -273,6 +287,7 @@ namespace Planzy.ViewModels
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
         }
         public void Button2()
         {
@@ -281,6 +296,7 @@ namespace Planzy.ViewModels
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
         }
         public void Button3()
         {
@@ -289,6 +305,7 @@ namespace Planzy.ViewModels
             IsDuocChon3 = DuocChon;
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
         }
         public void Button4()
         {
@@ -297,6 +314,7 @@ namespace Planzy.ViewModels
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = DuocChon;
             IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
         }
         public void Button5()
         {
@@ -305,6 +323,16 @@ namespace Planzy.ViewModels
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = DuocChon;
+            IsDuocChon6 = KhongDuocChon;
+        }
+        public void Button6()
+        {
+            IsDuocChon1 = KhongDuocChon;
+            IsDuocChon2 = KhongDuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = DuocChon;
         }
         #endregion
         #region Xử lý xóa sân bay trung gian

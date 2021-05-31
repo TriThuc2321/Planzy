@@ -99,7 +99,7 @@ namespace Planzy.Views
 
             MainWindow mainForm = new MainWindow(jsonProfile);
             mainForm.ShowDialog();
-            this.Close();
+            this.Hide();
             /*var frm = new MainWindow(jsonProfile);
             frm.Show();
             this.Hide();*/

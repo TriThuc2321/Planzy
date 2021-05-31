@@ -119,6 +119,24 @@
                                Foreground="{Binding IsDuocChon5.NewForeground}"/>
                     </StackPanel>
                 </Button>
+                <Button Name="btn_User" Grid.Row="5" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon6.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand6}" >
+                    <StackPanel Orientation="Horizontal" Width="150" Height="50">
+                        <materialDesign:PackIcon Name="ic_User" Kind="Account" 
+                                      Height="30" Width="30" 
+                                      VerticalAlignment="Center" Margin="5,5,5,5"
+                                      Foreground="{Binding IsDuocChon6.NewForeground}"/>
+                        <Label Name="lb_User"
+                               Content="Người dùng" Width="100" Height="50" 
+                               VerticalAlignment="Center" 
+                               VerticalContentAlignment="Center" 
+                               HorizontalAlignment="Right" 
+                               HorizontalContentAlignment="Center" FontSize="15"
+                               FontWeight="Bold"
+                               Margin="5,5,5,5"
+                               Foreground="{Binding IsDuocChon6.NewForeground}"/>
+                    </StackPanel>
+                </Button>
+                
             </Grid>
             <Grid Grid.Column="1" Margin="10,10, 25,10">
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
@@ -141,7 +159,6 @@
                                         VerticalAlignment="Top"
                                         Margin="0 17 0 0"
                                         >
-
                                     <materialDesign:PackIcon Kind="ArrowLeftRightBold"/>
                                 </Button>
                             </Grid>
@@ -789,6 +806,9 @@
                             </Grid>
                         </Grid>
                         <Grid x:Name ="gr_DoanhThu" Visibility="{Binding IsDuocChon5.NewVisibility}"/>
+                        <Grid x:Name ="gr_NguoiDung" Visibility="{Binding IsDuocChon6.NewVisibility}">
+                            
+                        </Grid>
                     </Grid>
                 </Border>
             </Grid>
