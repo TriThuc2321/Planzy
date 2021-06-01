@@ -25,34 +25,29 @@ using System.Windows.Threading
 using System.Windows.Interop;
 using System.IO;
 using System.Text.RegularExpressions;
+using Planzy.Commands;
 
 namespace Planzy.Views
 {
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : Window
+    public partial class Login : Window, INotifyPropertyChanged
     {
+        #region PropertyChange       
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        }
+        #endregion
         public Login()
         {
             InitializeComponent();
         }
 
 
-        /*private static Login _defaultInstance;
-        public static Login Default
-        {
-            get
-            {
-                if (_defaultInstance == null || _defaultInstance.IsDisposed)
-                {
-                    _defaultInstance = new Login();
-
-                }
-                return _defaultInstance;
-            }
-            set => _defaultInstance = value;
-        }*/
+        
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -79,6 +74,7 @@ namespace Planzy.Views
 
         UserResponse access;
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void GetProfile(string approveCode)
         {
@@ -98,12 +94,15 @@ namespace Planzy.Views
             var jsonProfile = wc.DownloadString(url);
 
             MainWindow mainForm = new MainWindow(jsonProfile);
-            mainForm.ShowDialog();
-            this.Hide();
+            mainForm.Show();
+            LoginXaml.Visibility = Visibility.Hidden;
+            this.Close();
+            
             /*var frm = new MainWindow(jsonProfile);
             frm.Show();
             this.Hide();*/
         }
+        
 
         private void DisplayMemoryUsageInTitleAsync()
         {

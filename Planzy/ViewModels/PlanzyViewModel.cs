@@ -11,11 +11,19 @@ using Planzy.Models.ChuyenBayModel;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Planzy.Commands;
+using Newtonsoft.Json;
+using System.Data.SqlClient;
+using System.Configuration;
+using Planzy.Models.Users;
+using System.Data;
 
 namespace Planzy.ViewModels
 {
     class PlanzyViewModel : INotifyPropertyChanged,ITextBoxController
     {
+        private static SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
+
+
         #region PropertyChange
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
@@ -23,7 +31,6 @@ namespace Planzy.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-        string jsonProfile;
         SanBayService sanBayServices;
         SanBayTrungGianService sanBayTrungGianService;
         ChuyenBayServices chuyenBayServices;
@@ -53,11 +60,12 @@ namespace Planzy.ViewModels
                 if (SelectAll != null)
                     SelectAll(this);
             });
+
+            userServices = new UserServices();
         }
 
         public PlanzyViewModel(string jsonProfile)
         {
-            this.jsonProfile = jsonProfile;
             sanBayServices = new SanBayService();
             sanBayTrungGianService = new SanBayTrungGianService();
             chuyenBayServices = new ChuyenBayServices();
@@ -82,6 +90,19 @@ namespace Planzy.ViewModels
                 if (SelectAll != null)
                     SelectAll(this);
             });
+
+            profileResponse = JsonConvert.DeserializeObject<ProfileResponse>(jsonProfile);
+            userServices = new UserServices();
+            listUser = new List<User>(userServices.GetAll());
+            if (userServices.ExistEmail(profileResponse.email))
+            {
+                user = userServices.getUser(profileResponse.email);
+            }
+            else
+            {
+                setDefaultUser();
+                userServices.pushUserToSql(user);
+            }
         }
         public RelayCommand SelectAllCommand { get; private set; }
         public RelayCommand SelectAllCommand2 { get; private set; }
@@ -97,7 +118,10 @@ namespace Planzy.ViewModels
             SanBayTrungGianSapThemsList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>(sanBayTrungGianService.GetAll());
             chuyenBaysList = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
-                        
+
+            
+            
+
         }
         private List<SanBay> sanbaysList;
 
@@ -905,8 +929,36 @@ namespace Planzy.ViewModels
             ChuyenBayHienTai = new ChuyenBay();
         }
         #endregion
-        #region bán vé
+        #region user
 
+        public class ProfileResponse
+        {
+            public string sub { get; set; }
+            public string name { get; set; }
+            public string given_name { get; set; }
+            public string family_name { get; set; }
+            public string picture { get; set; }
+            public string email { get; set; }
+            public bool email_verified { get; set; }
+            public string locale { get; set; }
+        }
+
+        private ProfileResponse profileResponse;
+        private User user;
+        private UserServices userServices;
+        private List<User> listUser;
+        
+        void setDefaultUser()
+        {                       
+            user = new User();
+            user.ID = userServices.getIdUserDefault();
+            user.Name = profileResponse.family_name + " " + profileResponse.given_name;
+            user.Gmail = profileResponse.email;
+            user.Password = "1";
+            user.PhoneNumer = "";
+            user.CMND = "";
+            
+        }
         #endregion
     }
 }

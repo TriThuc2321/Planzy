@@ -10,5 +10,6 @@
         xmlns:myView ="clr-namespace:Planzy.Views">
     <Grid>
         <myView:PlanzyView/>
+        
     </Grid>
 </Window>
