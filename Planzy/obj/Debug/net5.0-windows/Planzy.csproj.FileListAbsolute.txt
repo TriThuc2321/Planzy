@@ -125,3 +125,4 @@ D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.dll
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\ref\Planzy.dll
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.pdb
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.genruntimeconfig.cache
+D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\Microsoft.Xaml.Behaviors.dll

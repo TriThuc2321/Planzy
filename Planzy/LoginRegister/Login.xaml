@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Planzy.Views"
         mc:Ignorable="d"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         ResizeMode="NoResize"
         WindowStyle="None"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:loginregister="clr-namespace:Planzy.LoginRegister" d:DataContext="{d:DesignInstance Type=loginregister:LoginViewModel}"
@@ -41,13 +42,15 @@
                         materialDesign:HintAssist.Hint="Your account"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                         VerticalAlignment="Center" 
-                        Margin="20 25 0 0"/>
+                        Margin="20 25 0 0"
+                        Text="{Binding Account}"
+                            />
 
                         <Label Content="Account does not exist!" 
                                Foreground="Red"
                                FontStyle="Italic"
                                Margin="140 0 0 0"
-                               Visibility="Hidden"
+                               Visibility="{Binding NonExistAccountVisibility}"
                                />
                     </StackPanel>
                     
@@ -70,13 +73,35 @@
                             VerticalAlignment="Top"
                             Margin="20 0 0 0"
                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
-                            />
-                            <Label Content="Incorrect password!" 
+                            >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PasswordChanged">
+                                        <i:InvokeCommandAction Command="{Binding PasswordChangCommand}"
+                                                               CommandParameter="{Binding ElementName=FloatingPasswordBox}"/>
+                                    </i:EventTrigger>
+                                        
+                                    
+                                </i:Interaction.Triggers>
+                            </PasswordBox>
+                            
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Login success" 
+                               Foreground="Green"
+                               FontStyle="Italic"
+                               Margin="17 0 0 0"
+                               Visibility="{Binding LoginSuccessVisibility}"                                   
+                               />
+                                <Label Content="Incorrect password!" 
                                Foreground="Red"
                                FontStyle="Italic"
-                               Margin="160 0 0 0"
-                               Visibility="Hidden"
+                               Margin="60 0 0 0"
+                               Visibility="{Binding IncorrectPasswordVisibility}"                                   
                                />
+                               
+                            </StackPanel>
+                           
+
+                            
                         </StackPanel>
                         
                     </Grid>
@@ -119,7 +144,9 @@
                         materialDesign:ButtonAssist.CornerRadius="10"
                         ToolTip="MaterialDesignRaisedButton with Round Corners"
                         Margin="30 10 10 0"
-                        VerticalAlignment="Top">
+                        VerticalAlignment="Top"
+                        Command="{Binding LoginCommand}"
+                        CommandParameter="{Binding ElementName=LoginXaml}">
                         </Button>
                     </Grid>
                     <Grid Grid.Row="1" HorizontalAlignment="Center">

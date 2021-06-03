@@ -25,25 +25,76 @@ using System.Windows.Interop;
 using System.IO;
 using System.Text.RegularExpressions;
 using Planzy.Commands;
+using Planzy.Models.Users;
+using Microsoft.Xaml.Behaviors;
 
 namespace Planzy.LoginRegister
 {
     class LoginViewModel: INotifyPropertyChanged
     {
-        Window loginWindow;
+        #region onpropertychange
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
+        Window loginWindow;
+        UserServices userServices;
+        List<User> listUsers;
 
         public ICommand LoginGoogleCommand { get; set; }
+        public ICommand PasswordChangCommand { get; set; }
+        public ICommand LoginCommand { get; set; }
         public ICommand ExitCommand { get; set; }
 
         public LoginViewModel()
         {
+            userServices = new UserServices();
+            listUsers = new List<User>(userServices.GetAll());
+
             LoginGoogleCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginGoogleClick(p); });
+            LoginCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginClick(p); });
+            PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = p.Password; });
             ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { Exit(p); });
+
+            NonExistAccountVisibility = "Hidden";
+            IncorrectPasswordVisibility = "Hidden";
+            LoginSuccessVisibility = " Hidden";
+        }
+        void LoginClick(Window p)
+        {
+            int i = 0;
+            for(i =0; i< listUsers.Count(); i++)
+            {
+                if(listUsers[i].ID == Account)
+                {
+                    if (listUsers[i].Password == Password)
+                    {
+                        
+                        NonExistAccountVisibility = "Hidden";
+                        IncorrectPasswordVisibility = "Hidden";
+                        LoginSuccessVisibility = "Visible";
+                        MainWindow mainForm = new MainWindow();
+                        mainForm.Show();
+                        p.Close();
+                    }
+                    else
+                    {
+                        NonExistAccountVisibility = "Hidden";
+                        IncorrectPasswordVisibility = "Visible";
+                        LoginSuccessVisibility = " Hidden";
+                        break;
+                    }
+                   
+                }
+            }
+            if (i == listUsers.Count())
+            {
+                NonExistAccountVisibility = "Visible";
+                IncorrectPasswordVisibility = "Hidden";
+                LoginSuccessVisibility = " Hidden";
+            }
         }
         private void Exit(Window p)
         {
@@ -71,7 +122,6 @@ namespace Planzy.LoginRegister
         public bool flag = true;
 
         UserResponse access;       
-
         private void GetProfile(string approveCode)
         {
             access = UserResponse.Exchange(approveCode, clientId, clientSecret, redirectURI);
@@ -82,8 +132,7 @@ namespace Planzy.LoginRegister
             var jsonProfile = wc.DownloadString(url);
 
             MainWindow mainForm = new MainWindow(jsonProfile);
-            mainForm.Show();
-            
+            mainForm.Show();          
             loginWindow.Close();
 
         }
@@ -173,6 +222,57 @@ namespace Planzy.LoginRegister
         }
 
 
+
+
+
+
+        private string account;
+        public string Account
+        {
+            get { return account; }
+            set
+            {
+                account = value;
+                OnPropertyChanged("Account");
+            }
+        }
+        private string password;
+        public string Password
+        {
+            get { return password; }
+            set
+            {
+                password = value;
+                OnPropertyChanged("Password");
+            }
+        }
+        private string nonExistAccountVisibility;
+        public string NonExistAccountVisibility
+        {
+            get { return nonExistAccountVisibility; }
+            set
+            {
+                nonExistAccountVisibility = value;
+                OnPropertyChanged("NonExistAccountVisibility");
+            }
+        }
+
+        private string incorrectPasswordVisibility;
+        public string IncorrectPasswordVisibility
+        {
+            get { return incorrectPasswordVisibility; }
+            set
+            {
+                incorrectPasswordVisibility = value;
+                OnPropertyChanged("IncorrectPasswordVisibility");
+            }
+        }
+        private string loginSuccessVisibility;
+        public string LoginSuccessVisibility
+        {
+            get { return loginSuccessVisibility; }
+            set { loginSuccessVisibility = value; OnPropertyChanged("LoginSuccessVisibility"); }
+        }
     }
 }
 
