@@ -43,11 +43,7 @@ namespace Planzy.Models.ChuyenBayModel
             get { return maChuyenBay; }
             set 
             {
-                if (value != null)
-                {
-                    if (KiemTraHopLeInput.KiemTraMa(value))
-                        maChuyenBay = value.ToUpper();
-                }    
+                maChuyenBay = value;
                 OnPropertyChanged("MaChuyenBay"); 
             }
         }
@@ -64,18 +60,8 @@ namespace Planzy.Models.ChuyenBayModel
         {
             get { return giaVeCoBan; }
             set 
-            { 
-                if(value != null)
-                {
-                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
-                    {
-                        giaVeCoBan = value;
-                    }    
-                    else
-                    {
-                        MessageBox.Show("");
-                    }    
-                }    
+            {
+                giaVeCoBan = value;
                 OnPropertyChanged("GiaVeCoBan"); 
             }
         }

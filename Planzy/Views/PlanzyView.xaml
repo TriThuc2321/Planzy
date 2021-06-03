@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Planzy.Views"
+             xmlns:local="clr-namespace:Planzy"
              xmlns:loc ="clr-namespace:Planzy"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:bt ="clr-namespace:Planzy.Views">
+             xmlns:bt ="clr-namespace:Planzy.Views" xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"
+             Visibility="{Binding StateOfWindow}">
     <Grid Background="#FFE1F3F9">
         <Grid.RowDefinitions>
             <RowDefinition Height="0"></RowDefinition>
@@ -119,6 +120,42 @@
                                Foreground="{Binding IsDuocChon5.NewForeground}"/>
                     </StackPanel>
                 </Button>
+                <Button Name="btn_User" Grid.Row="5" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon6.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand6}" >
+                    <StackPanel Orientation="Horizontal" Width="150" Height="50">
+                        <materialDesign:PackIcon Name="ic_User" Kind="Account" 
+                                      Height="30" Width="30" 
+                                      VerticalAlignment="Center" Margin="5,5,5,5"
+                                      Foreground="{Binding IsDuocChon6.NewForeground}"/>
+                        <Label Name="lb_User"
+                               Content="Người dùng" Width="100" Height="50" 
+                               VerticalAlignment="Center" 
+                               VerticalContentAlignment="Center" 
+                               HorizontalAlignment="Right" 
+                               HorizontalContentAlignment="Center" FontSize="15"
+                               FontWeight="Bold"
+                               Margin="5,5,5,5"
+                               Foreground="{Binding IsDuocChon6.NewForeground}"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Name="btn_User" Grid.Row="5" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon6.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand6}" >
+                    <StackPanel Orientation="Horizontal" Width="150" Height="50">
+                        <materialDesign:PackIcon Name="ic_User" Kind="Account" 
+                                      Height="30" Width="30" 
+                                      VerticalAlignment="Center" Margin="5,5,5,5"
+                                      Foreground="{Binding IsDuocChon6.NewForeground}"/>
+                        <Label Name="lb_User"
+                               Content="Người dùng" Width="100" Height="50" 
+                               VerticalAlignment="Center" 
+                               VerticalContentAlignment="Center" 
+                               HorizontalAlignment="Right" 
+                               HorizontalContentAlignment="Center" FontSize="15"
+                               FontWeight="Bold"
+                               Margin="5,5,5,5"
+                               Foreground="{Binding IsDuocChon6.NewForeground}"/>
+                    </StackPanel>
+                </Button>
+                
             </Grid>
             <Grid Grid.Column="1" Margin="10,10, 25,10" >
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
@@ -453,7 +490,201 @@
                                 </Grid>
                         </Grid>
                         </Grid>
-                        <Grid Name ="gr_BanVe" Visibility="{Binding IsDuocChon2.NewVisibility}"/>
+                        <Grid x:Name ="gr_BanVe" Visibility="{Binding IsDuocChon2.NewVisibility}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="1">
+                                <Button Grid.Column="0" Grid.Row="1"
+                                        Height="20"
+                                        Width="26"
+                                        Background="#FF5867AC" BorderBrush="{x:Null}"
+                                        Grid.ColumnSpan="2"
+                                        Command="{Binding DoiViTriSanBayCommand}" HorizontalAlignment="Center" 
+                                        VerticalAlignment="Top"
+                                        Margin="0 17 0 0"
+                                        >
+                                    <materialDesign:PackIcon Kind="ArrowLeftRightBold"/>
+                                </Button>
+                            </Grid>
+
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 10">
+                                        <Label Content="Điểm xuất phát: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                        <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="200"
+                                              Foreground="Black"
+                                              FontSize="15"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              ItemsSource="{Binding SanBayDisList, Mode=TwoWay}"
+                                              SelectedItem="{Binding SanBayDiDaChon, Mode=TwoWay}" TabIndex="2">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Id}" Width="50"/>
+                                                        <TextBlock Text=" - " Width="20"/>
+                                                        <TextBlock Text="{Binding TenSanBay}" Width="130"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Grid.Row="1">
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 10">
+                                        <Label Content="Hành khách: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                        <TextBox Width="200" Text="{Binding Passenger}" 
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Grid.Row="2">
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 10">
+                                        <Label Content="Điện thoại: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                        <TextBox Width="200" Text="{Binding PhoneNumber}"                                             
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Grid.Row="3">
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 10">
+                                        <Label Content="Ngày đi: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                        <DatePicker Width="200"
+                                                Foreground="Black"
+                                                FontWeight="Bold"
+                                                FontSize="15"
+                                                VerticalAlignment="Bottom" BorderBrush="#FF5867AC"
+                                                SelectedDate="{Binding FlightDate}" TabIndex="4"
+                                                />
+                                    </StackPanel>
+                                </Grid>
+
+                            </Grid>
+
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 20 10">
+                                        <Label Content="Điểm đến: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="70"/>
+                                        <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="240"
+                                              Foreground="Black"
+                                              FontSize="15"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              ItemsSource="{Binding SanBayDensList, Mode=TwoWay}"
+                                              SelectedItem="{Binding SanBayDenDaChon, Mode=TwoWay}" TabIndex="2">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Id}" Width="50"/>
+                                                        <TextBlock Text=" - " Width="20"/>
+                                                        <TextBlock Text="{Binding TenSanBay}" Width="130"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Grid.Row="1">
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 10">
+                                        <Label Content="CMND: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="70"/>
+                                        <TextBox Width="240" Text="{Binding CMND}" 
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 10">
+                                        <Label Content="Hạng vé: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="70"/>
+                                        <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="200"
+                                              Foreground="Black"
+                                              FontSize="15"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              ItemsSource="{Binding SanBayDisList, Mode=TwoWay}"
+                                              SelectedItem="{Binding SanBayDiDaChon, Mode=TwoWay}" TabIndex="2">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Id}" Width="50"/>
+                                                        <TextBlock Text=" - " Width="20"/>
+                                                        <TextBlock Text="{Binding TenSanBay}" Width="130"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </Grid>
+
+                            </Grid>
+                        </Grid>
                         <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"></ColumnDefinition>
@@ -712,21 +943,21 @@
                         </Grid>
                         <Grid Name ="gr_NhanLich" Visibility="{Binding IsDuocChon4.NewVisibility}">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="210"></RowDefinition>
-                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="210"/>
+                                <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition Width="50"></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <Button Grid.Column="0" Grid.Row="1"
                                         Height="20"
@@ -745,10 +976,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.MaChuyenBay}" 
+                                    <TextBox Width="200" Text="{Binding MaChuyenBay}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" ToolTip="Chữ và số in hoa không dấu" BorderBrush="#FF5867AC" />
+                                             FontWeight="Bold" ToolTip="Chữ và số in hoa không dấu" BorderBrush="#FF5867AC" TabIndex="0" />
                                 </StackPanel>
                                 <StackPanel Grid.Row="0" Grid.Column="2" 
                                             Orientation="Horizontal">
@@ -757,10 +988,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.GiaVeCoBan}"
-                                             VerticalContentAlignment="Bottom"
+                                    <TextBox Width="200" Text="{Binding GiaVeCoBan}" loc:FocusExtension.IsFocused="{Binding IsFocusGiaChuyenBay}"
+                                             VerticalContentAlignment="Bottom" 
                                              FontSize="15"
-                                             FontWeight="Bold" ToolTip="Đồng " BorderBrush="#FF5867AC" loc:TextBoxAttach.TextBoxController ="{Binding}"/>
+                                             FontWeight="Bold" ToolTip="Đồng " BorderBrush="#FF5867AC" TabIndex="1" />
                                 </StackPanel>
                                 <StackPanel Grid.Row="1" Grid.Column="0" 
                                             Orientation="Horizontal">
@@ -774,14 +1005,14 @@
                                               Foreground="Black"
                                               FontSize="15"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
-                                              ItemsSource="{Binding Path=SanBayDisList, Mode=TwoWay}"
-                                              SelectedItem="{Binding Path=SanBayDiDaChon, Mode=TwoWay}">
+                                              ItemsSource="{Binding SanBayDisList, Mode=TwoWay}"
+                                              SelectedItem="{Binding SanBayDiDaChon, Mode=TwoWay}" TabIndex="2">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Path=Id}" Width="50"/>
+                                                    <TextBlock Text="{Binding Id}" Width="50"/>
                                                     <TextBlock Text=" - " Width="20"/>
-                                                    <TextBlock Text="{Binding Path=TenSanBay}" Width="130"/>
+                                                    <TextBlock Text="{Binding TenSanBay}" Width="130"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
@@ -799,15 +1030,15 @@
                                               Foreground="Black"
                                               FontSize="15"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
-                                              ItemsSource="{Binding Path=SanBayDensList, Mode=TwoWay}"
-                                              SelectedItem="{Binding Path=SanBayDenDaChon, Mode=TwoWay}"
+                                              ItemsSource="{Binding SanBayDensList, Mode=TwoWay}"
+                                              SelectedItem="{Binding SanBayDenDaChon, Mode=TwoWay}" TabIndex="3"
                                               >
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Path=Id}" Width="50"/>
+                                                    <TextBlock Text="{Binding Id}" Width="50"/>
                                                     <TextBlock Text=" - " Width="20"/>
-                                                    <TextBlock Text="{Binding Path=TenSanBay}" Width="130"/>
+                                                    <TextBlock Text="{Binding TenSanBay}" Width="130"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
@@ -824,7 +1055,7 @@
                                                 FontWeight="Bold"
                                                 FontSize="15"
                                                 VerticalAlignment="Bottom" BorderBrush="#FF5867AC"
-                                                SelectedDate="{Binding ChuyenBayHienTai.NgayBay}"
+                                                SelectedDate="{Binding NgayBay}" TabIndex="4"
                                                 />
                                     <Label Content="Giờ bay: "
                                            VerticalContentAlignment="Bottom"
@@ -835,7 +1066,7 @@
                                                 Foreground="Black"
                                                 FontWeight="Bold"
                                                 FontSize="15"
-                                                VerticalAlignment="Bottom" BorderBrush="#FF5867AC"/>
+                                                VerticalAlignment="Bottom" BorderBrush="#FF5867AC" TabIndex="5"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="2" Grid.Column="2" 
                                             Orientation="Horizontal">
@@ -844,10 +1075,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.ThoiGianBay}"
+                                    <TextBox Width="200" Text="{Binding ThoiGianBay}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC"/>
+                                             FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC" TabIndex="6"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="3" Grid.Column="0" 
                                             Orientation="Horizontal">
@@ -856,10 +1087,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.SoGheHang1}"
+                                    <TextBox Width="200" Text="{Binding SoGheHang1}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="7"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="3" Grid.Column="2" 
                                             Orientation="Horizontal">
@@ -868,10 +1099,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.SoGheHang2}"
+                                    <TextBox Width="200" Text="{Binding SoGheHang2}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="8"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="4" Grid.Column="0" 
                                             Orientation="Horizontal">
@@ -880,10 +1111,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.SoGheHang3}"
+                                    <TextBox Width="200" Text="{Binding SoGheHang3}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="9"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="4" Grid.Column="2" 
                                             Orientation="Horizontal">
@@ -892,21 +1123,21 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                    <TextBox Width="200" Text="{Binding ChuyenBayHienTai.SoGheHang4}"
+                                    <TextBox Width="200" Text="{Binding SoGheHang4}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"/>
                                 </StackPanel>
                             </Grid>
                             <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="50"></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition Height="50"></RowDefinition>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="50"/>
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0" Grid.Column="0">
                                     <StackPanel Orientation="Horizontal">
@@ -923,14 +1154,14 @@
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
                                               IsDropDownOpen="{Binding IsDropDown}"
                                               Visibility="{Binding IsVisible}"
-                                              ItemsSource="{Binding Path=SanBayTrungGianSapThemsList, Mode=TwoWay}"
-                                              SelectedItem="{Binding Path=SanBayTrungGianSapThem, Mode=TwoWay}">
+                                              ItemsSource="{Binding SanBayTrungGianSapThemsList, Mode=TwoWay}"
+                                              SelectedItem="{Binding SanBayTrungGianSapThem, Mode=TwoWay}">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Path=Id}" Width="40"/>
+                                                        <TextBlock Text="{Binding Id}" Width="40"/>
                                                         <TextBlock Text=" - " Width="20"/>
-                                                        <TextBlock Text="{Binding Path=TenSanBay}" Width="130"/>
+                                                        <TextBlock Text="{Binding TenSanBay}" Width="130"/>
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
@@ -955,8 +1186,7 @@
                                                                     Command="{Binding XacNhanThemCommand}" 
                                                                     Background="#FF80E66A" FontSize="10" BorderBrush="{x:Null}"
                                                                     />
-                                        <Grid Width="10">
-                                        </Grid>
+                                        <Grid Width="10"/>
                                         <Button Content="Hủy" VerticalAlignment="Bottom" 
                                                 Visibility="{Binding IsVisible}"
                                                 HorizontalAlignment="Right"
@@ -980,7 +1210,7 @@
                                 </Grid>
                                 <Grid Grid.Row="1" Grid.Column="0">
 
-                                    <ListView Margin="10" Name="listviewSanBayTrungGian" ItemsSource="{Binding SanBayTrungGiansList}" BorderBrush="Black">
+                                    <ListView Margin="10" x:Name="listviewSanBayTrungGian" ItemsSource="{Binding SanBayTrungGiansList}" BorderBrush="Black">
                                         <ListView.View>
                                             <GridView>
                                                 <GridViewColumn Header="Mã" Width="Auto" >
@@ -990,8 +1220,7 @@
                                                                 <Label HorizontalAlignment="Left"
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
-                                                                       Content="{Binding MaSanBay}">
-                                                                </Label>
+                                                                       Content="{Binding MaSanBay}"/>
                                                             </StackPanel>
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
@@ -1003,8 +1232,7 @@
                                                                 <Label HorizontalAlignment="Left"
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
-                                                                       Content="{Binding TenSanBay}">
-                                                                </Label>
+                                                                       Content="{Binding TenSanBay}"/>
                                                             </StackPanel>
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
@@ -1013,30 +1241,27 @@
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <DockPanel  Width="90">
-                                                                <Grid Width="10">
-                                                                </Grid>
+                                                                <Grid Width="10"/>
                                                                 <Button Content="Chèn"
                                                                     Width="30"
                                                                     Height="20"
                                                                     Padding="0"
                                                                     Foreground="#ffffff"
-                                                                    Command="{Binding ElementName=listviewSanBayTrungGian,Path=DataContext.ThemSanBayTrungGianCommand}" 
+                                                                    Command="{Binding DataContext.ThemSanBayTrungGianCommand, ElementName=listviewSanBayTrungGian}" 
                                                                     CommandParameter="{Binding}" 
                                                                     Background="#FF80E66A" FontSize="10"
                                                                     />
-                                                                <Grid Width="10">
-                                                                </Grid>
+                                                                <Grid Width="10"/>
                                                                 <Button Content="Xóa" HorizontalAlignment="Right"
                                                                     Width="30"
                                                                     Height="20"
                                                                     Padding="0"
                                                                     Foreground="#ffffff"
-                                                                    Command="{Binding ElementName=listviewSanBayTrungGian,Path=DataContext.XoaSanBayTrungGianCommand}" 
+                                                                    Command="{Binding DataContext.XoaSanBayTrungGianCommand, ElementName=listviewSanBayTrungGian}" 
                                                                     CommandParameter="{Binding}" 
                                                                     Background="#FFE05050" FontSize="10"
                                                                     />
-                                                                <Grid Width="10">
-                                                                </Grid>
+                                                                <Grid Width="10"/>
                                                             </DockPanel>
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
@@ -1046,7 +1271,7 @@
                                     </ListView>
                                 </Grid>
                                 <Grid Grid.Column="1" Grid.Row="1">
-                                    <ListView Margin="10" Name="listviewChuyenBay" ItemsSource="{Binding ChuyenBaysList}" BorderBrush="Black">
+                                    <ListView Margin="10" x:Name="listviewChuyenBay" ItemsSource="{Binding ChuyenBaysList}" BorderBrush="Black">
                                         <ListView.View>
                                             <GridView>
                                                 <GridViewColumn Header="Mã" Width="90" >
@@ -1056,8 +1281,7 @@
                                                                 <Label HorizontalAlignment="Left"
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
-                                                                       Content="{Binding MaChuyenBay}">
-                                                                </Label>
+                                                                       Content="{Binding MaChuyenBay}"/>
                                                             </StackPanel>
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
@@ -1069,18 +1293,15 @@
                                                                 <Label HorizontalAlignment="Left" Width="50"
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
-                                                                       Content="{Binding SanBayDi.Id}">
-                                                                </Label>
+                                                                       Content="{Binding SanBayDi.Id}"/>
                                                                 <Label HorizontalAlignment="Left" Width="Auto"
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
-                                                                       Content=" - ">
-                                                                </Label>
+                                                                       Content=" - "/>
                                                                 <Label HorizontalAlignment="Left" 
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
-                                                                       Content="{Binding SanBayDi.TenSanBay}">
-                                                                </Label>
+                                                                       Content="{Binding SanBayDi.TenSanBay}"/>
                                                             </StackPanel>
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
@@ -1092,18 +1313,15 @@
                                                                 <Label HorizontalAlignment="Left" Width="50"
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
-                                                                       Content="{Binding SanBayDen.Id}">
-                                                                </Label>
+                                                                       Content="{Binding SanBayDen.Id}"/>
                                                                 <Label HorizontalAlignment="Left" Width="Auto"
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
-                                                                       Content=" - ">
-                                                                </Label>
+                                                                       Content=" - "/>
                                                                 <Label HorizontalAlignment="Left" 
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
-                                                                       Content="{Binding SanBayDen.TenSanBay}">
-                                                                </Label>
+                                                                       Content="{Binding SanBayDen.TenSanBay}"/>
                                                             </StackPanel>
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
@@ -1124,11 +1342,11 @@
                                 </Grid>
                                 <Grid Grid.Row="2" Grid.Column="1">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="100"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid Grid.Column="0">
                                         <Button Content="Lưu" VerticalAlignment="Center" 
@@ -1169,11 +1387,11 @@
                                                 HorizontalAlignment="Center"
                                                 Visibility="Visible"
                                                 Width="Auto"
-                                                Height="20"
+                                                Height="30"
                                                 Padding="0"
                                                 Foreground="#ffffff"
                                                 Command="{Binding ThemChuyenBayCommand}" 
-                                                Background="#FF80E66A" FontSize="10" BorderBrush="{x:Null}"
+                                                Background="#FF80E66A" FontSize="12" BorderBrush="{x:Null}"
                                                 />
                                     </Grid>
                                     <Grid Grid.Column="4">
@@ -1197,6 +1415,96 @@
                                
                             </Button>
                         </Grid>
+                        <Grid x:Name ="gr_NguoiDung"  Visibility="{Binding IsDuocChon6.NewVisibility}">
+                            <Grid.RowDefinitions>
+                                    <RowDefinition Height="200"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Image Name="ProfilePic" Height="150" Width="150"
+                                       Source="{Binding ProfilePic}"
+                                       Stretch="Fill"
+                                       />
+
+
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 10">
+                                        <Label Content="Name"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                        <Label Content="{Binding UserName}"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="Black"
+                                           Width="250"/>
+                                        
+                                    </StackPanel>
+                            </Grid>
+
+                                <Grid Grid.Row="2">
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 10">
+                                        <Label Content="Gmail: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                        <Label Content="{Binding Gmail}"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="Black"
+                                           Width="250"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Grid.Row="3">
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 10">
+                                        <Label Content="Điện thoại: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                        <Label Content="{Binding PhoneNumer}"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="Black"
+                                           Width="250"/>
+                                    </StackPanel>
+                                </Grid>
+
+                            <Grid Grid.Row="4" DataContext="{Binding ElementName=MyWindow, Path=.}">
+                                <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 10"
+                                            >
+                                    <Label Content="CMND: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                    <Label Content="{Binding CMND}"
+                                           Name="cmndLabel"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="Black"
+                                           Width="250"/>
+                                </StackPanel>
+                            </Grid>
+
+                        
                     </Grid>
                 </Border>
             </Grid>

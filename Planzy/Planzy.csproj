@@ -7,8 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="back_ground_login.jpg" />
+    <None Remove="clodeIcon.png" />
+    <None Remove="LoginRegister\googleLoginBackground.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="LoginRegister\back_ground_login.jpg" />
+    <Resource Include="LoginRegister\clodeIcon.png" />
+    <Resource Include="LoginRegister\googleLoginBackground.png" />
   </ItemGroup>
 
 </Project>

@@ -28,6 +28,12 @@ namespace Planzy
             planzyViewModel = new PlanzyViewModel();
             this.DataContext = planzyViewModel;
         }
+        public MainWindow(string jsonProfile)
+        {
+            InitializeComponent();
+            planzyViewModel = new PlanzyViewModel(jsonProfile);
+            this.DataContext = planzyViewModel;
+        }
 
     }
 }
