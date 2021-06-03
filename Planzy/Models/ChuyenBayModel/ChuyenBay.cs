@@ -32,6 +32,7 @@ namespace Planzy.Models.ChuyenBayModel
             SoGheHang4 = null;
             IsDaBay = false;
             SanBayTrungGian = null;
+
             
         }
 

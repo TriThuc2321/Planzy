@@ -36,6 +36,23 @@
 
             <!--Cách app dụng style mặc định cho tất cả các Button trong ứng dụng-->
             <Style BasedOn="{StaticResource MaterialDesignRaisedButton}" TargetType="{x:Type Button}"/>
+            
+            <Style x:Name="aa" x:Key="searchBox" TargetType="TextBox" >
+                <Setter Property="local:SearchBoxProperty.MonitorString" Value="True"></Setter>
+            </Style>
+
+            <Style TargetType="ListViewItem">
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True" >
+                        <Setter Property="Foreground" Value="Green" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="False" >
+                        <Setter Property="Foreground" Value="Gray" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+
 
         </ResourceDictionary>
     </Application.Resources>
