@@ -30,38 +30,11 @@ namespace Planzy.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-        Timer timerKiemTraInternet;
         SanBayService sanBayServices;
         SanBayTrungGianService sanBayTrungGianService;
         ChuyenBayServices chuyenBayServices;
         LoaiHangGheServices loaiHangGheServices;
         ChiTietHangGheServices chiTietHangGheServices;
-
-        public RelayCommand CloseWindowCommand { get; private set; }
-
-        private void CloseWindow(Object window)
-        {
-
-            if ((Window)window != null)
-            {
-                ((Window)window).Close();
-            }
-        }
-        public void KiemTraInternet()
-        {
-            try
-            {
-                System.Net.IPHostEntry i = System.Net.Dns.GetHostEntry("www.google.com");
-            }
-            catch
-            {
-                MessageBoxResult rs =  CustomMessageBox.Show("Không có kết nối mạng, nhấn OK để thoát","Cảnh báo");
-                if (rs == MessageBoxResult.OK)
-                {
-                    
-                }    
-            }
-        }    
         public PlanzyViewModel()
         {
 
@@ -83,7 +56,6 @@ namespace Planzy.ViewModels
             huyThemVaSuaChuyenBayCommand = new RelayCommand(huyThemVaSuaChuyenBay);
             luuSuaChuyenBayCommand = new RelayCommand(luuSuaChuyenBay);
 
-            this.CloseWindowCommand = new RelayCommand(this.CloseWindow);
             #region Xử lý giao diện ban đầu
             LoadUIHangGheTheoQuyDinh();
             chonLayoutCommand1 = new RelayCommand(Button1);

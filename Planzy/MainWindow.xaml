@@ -11,14 +11,5 @@
         x:Name="MainWindow">
     <Grid>
         <myView:PlanzyView/>
-        <Button  
-                Height="30" 
-                Width="100" 
-                Margin="0,0,10,10" 
-                IsCancel="True" 
-                VerticalAlignment="Bottom" 
-                HorizontalAlignment="Right" 
-                Command="{Binding CloseWindowCommand, Mode=OneWay}" 
-                CommandParameter="{Binding ElementName=MainWindow}"/>
     </Grid>
 </Window>
