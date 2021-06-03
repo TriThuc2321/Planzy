@@ -1,7 +1,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ﻿#pragma checksum "..\..\..\..\Views\PlanzyView.xaml" "{ff1816ec-aa5e-4d10-87f7-6f4963833460}" "FEB6CF3E03C260110C8393D1E80D10714499967E"
 ﻿
+=======
+﻿#pragma checksum "..\..\..\..\Views\PlanzyView.xaml" "{ff1816ec-aa5e-4d10-87f7-6f4963833460}" "B6B886D2B3ED8E34DCB6C4BDB1F9F5987470793C"
+>>>>>>> parent of 9601d66 (a)
 =======
 ﻿#pragma checksum "..\..\..\..\Views\PlanzyView.xaml" "{ff1816ec-aa5e-4d10-87f7-6f4963833460}" "B6B886D2B3ED8E34DCB6C4BDB1F9F5987470793C"
 >>>>>>> parent of 9601d66 (a)
