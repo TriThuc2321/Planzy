@@ -453,7 +453,7 @@
                                 </Grid>
                         </Grid>
                         </Grid>
-                        <Grid Name ="gr_BanVe" Visibility="Hidden"/>
+                        <Grid Name ="gr_BanVe" Visibility="{Binding IsDuocChon2.NewVisibility}"/>
                         <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"></ColumnDefinition>
@@ -710,7 +710,7 @@
 
 
                         </Grid>
-                        <Grid Name ="gr_NhanLich" Visibility="Hidden">
+                        <Grid Name ="gr_NhanLich" Visibility="{Binding IsDuocChon4.NewVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="210"></RowDefinition>
                                 <RowDefinition></RowDefinition>
@@ -1190,7 +1190,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_DoanhThu" Visibility="Hidden"/>
+                        <Grid Name ="gr_DoanhThu" Visibility="{Binding IsDuocChon5.NewVisibility}"/>
                         <Grid Name="gr_ChiTietDatVe" Visibility="{Binding IsContinueButton.NewVisibility}" >
                             <Button Content="Quay lại"
                                     Command="{Binding ChooseBackButtonCommand}">
