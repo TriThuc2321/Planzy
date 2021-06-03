@@ -86,11 +86,19 @@ namespace Planzy.Models.Users
             }
         }
 
-        public User getUser(string id)
+        public User getUserById(string id)
         {
             for (int i = 0; i < listUsers.Count(); i++)
             {
                 if (listUsers[i].ID == id) return listUsers[i];
+            }
+            return null;
+        }
+        public User getUserByEmail(string mail)
+        {
+            for (int i = 0; i < listUsers.Count(); i++)
+            {
+                if (listUsers[i].Gmail == mail) return listUsers[i];
             }
             return null;
         }

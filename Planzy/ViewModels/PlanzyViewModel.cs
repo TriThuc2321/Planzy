@@ -16,6 +16,8 @@ using System.Data.SqlClient;
 using System.Configuration;
 using Planzy.Models.Users;
 using System.Data;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace Planzy.ViewModels
 {
@@ -62,6 +64,8 @@ namespace Planzy.ViewModels
             });
 
             userServices = new UserServices();
+
+
         }
 
         public PlanzyViewModel(string jsonProfile)
@@ -94,15 +98,19 @@ namespace Planzy.ViewModels
             profileResponse = JsonConvert.DeserializeObject<ProfileResponse>(jsonProfile);
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
-            if (userServices.ExistEmail(profileResponse.email))
+
+            setDefaultUser();
+            /*if (userServices.ExistEmail(profileResponse.email))
             {
-                user = userServices.getUser(profileResponse.email);
+                UserDefault = userServices.getUserByEmail(profileResponse.email);
             }
             else
             {
                 setDefaultUser();
-                userServices.pushUserToSql(user);
-            }
+                userServices.pushUserToSql(UserDefault);
+            }*/
+
+            loadProfilePic();
         }
         public RelayCommand SelectAllCommand { get; private set; }
         public RelayCommand SelectAllCommand2 { get; private set; }
@@ -943,21 +951,102 @@ namespace Planzy.ViewModels
             public string locale { get; set; }
         }
 
+        private User userDefault;
+        public User UserDefault
+        {
+            get { return userDefault; }
+            set
+            {
+                userDefault = value;
+                OnPropertyChanged("DefaultUser");
+            }
+        }
         private ProfileResponse profileResponse;
-        private User user;
         private UserServices userServices;
         private List<User> listUser;
-        
+
+        private Image profilePic;
+        public Image ProfillePic
+        {
+            get { return profilePic; }
+            set
+            {               
+                profilePic = value;
+                OnPropertyChanged("ProfilePic");
+            }
+        }
+        public void loadProfilePic()
+        {
+
+            BitmapImage src = new BitmapImage();
+            src.BeginInit();
+
+            src.UriSource = new Uri(@"D:\profilePic.png", UriKind.Relative);
+            src.CacheOption = BitmapCacheOption.OnLoad;
+            src.EndInit();
+
+            profilePic = new Image();
+            profilePic.Source = src;
+
+        }
         void setDefaultUser()
         {                       
-            user = new User();
-            user.ID = userServices.getIdUserDefault();
-            user.Name = profileResponse.family_name + " " + profileResponse.given_name;
-            user.Gmail = profileResponse.email;
-            user.Password = "1";
-            user.PhoneNumer = "";
-            user.CMND = "";
+            UserDefault = new User();
+            UserDefault.ID = userServices.getIdUserDefault();
+            UserDefault.Name = profileResponse.family_name + " " + profileResponse.given_name;
+            UserDefault.Gmail = profileResponse.email;
+            UserDefault.Password = "1";
+            UserDefault.PhoneNumer = "";
+            UserDefault.CMND = "";    
             
+            UserName = profileResponse.family_name + " " + profileResponse.given_name;
+            CMND = "23442";
+            Gmail = profileResponse.email;
+            PhoneNumer = "078795";
+            
+        }
+
+
+        private string userName;
+        public string UserName
+        {
+            get { return userName; }
+            set
+            {
+                userName = value;
+                OnPropertyChanged("UserName");
+            }
+        }
+        private string phoneNumber;
+        public string PhoneNumer
+        {
+            get { return phoneNumber; }
+            set
+            {
+                phoneNumber = value;
+                OnPropertyChanged("PhoneNumber");
+            }
+        }
+        private string cmnd;
+        public string CMND
+        {
+            get { return cmnd; }
+            set
+            {
+                cmnd = value;
+                OnPropertyChanged("CMND");
+            }
+        }
+
+        private string gmail;
+        public string Gmail
+        {
+            get { return gmail; }
+            set
+            {
+                gmail = value;
+                OnPropertyChanged("CMND");
+            }
         }
         #endregion
     }

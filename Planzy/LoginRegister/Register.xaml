@@ -46,7 +46,7 @@
                                Foreground="Red"
                                FontStyle="Italic"
                                Margin="150 0 0 0"
-                               Visibility="Visible"
+                               Visibility="Hidden"
                                />
                     </StackPanel>
 
@@ -75,7 +75,7 @@
                                Foreground="Red"
                                FontStyle="Italic"
                                Margin="115 0 0 0"
-                               Visibility="Visible"
+                               Visibility="Hidden"
                                />
                     </StackPanel>
 
