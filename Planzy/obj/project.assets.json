@@ -576,11 +576,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\trith\\OneDrive\\Desktop\\New folder\\Planzy\\Planzy.csproj",
+      "projectUniqueName": "D:\\GitHub\\Planzy\\Planzy\\Planzy.csproj",
       "projectName": "Planzy",
-      "projectPath": "C:\\Users\\trith\\OneDrive\\Desktop\\New folder\\Planzy\\Planzy.csproj",
+      "projectPath": "D:\\GitHub\\Planzy\\Planzy\\Planzy.csproj",
       "packagesPath": "C:\\Users\\trith\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\trith\\OneDrive\\Desktop\\New folder\\Planzy\\obj\\",
+      "outputPath": "D:\\GitHub\\Planzy\\Planzy\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\trith\\AppData\\Roaming\\NuGet\\NuGet.Config",

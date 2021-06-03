@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStyle="None"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:loginregister="clr-namespace:Planzy.LoginRegister" d:DataContext="{d:DesignInstance Type=loginregister:LoginViewModel}"
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
@@ -142,7 +142,9 @@
                 </Grid>
 
                 <Grid Grid.Row="4">
-                    <Button Name="GoogleLoginBtn" Click="GoogleLoginBtn_Click"
+                    <Button Name="GoogleLoginBtn" 
+                            Command="{Binding LoginGoogleCommand}"
+                            CommandParameter="{Binding ElementName=LoginXaml}"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         materialDesign:ButtonAssist.CornerRadius="10"
                         ToolTip="MaterialDesignRaisedButton with Round Corners"
@@ -163,7 +165,9 @@
             VerticalAlignment="Top"
             HorizontalAlignment="Right"
             Background="Transparent">
-            <Button Name="Exit" Click="Exit_Click">
+            <Button Name="Exit" 
+                    Command="{Binding ExitCommand}"
+                    CommandParameter="{Binding ElementName=LoginXaml}">
                 <Button.Background>
                     <ImageBrush ImageSource="/LoginRegister/clodeIcon.png"/>
                 </Button.Background>

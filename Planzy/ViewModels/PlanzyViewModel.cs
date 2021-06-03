@@ -107,18 +107,16 @@ namespace Planzy.ViewModels
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
 
-            setDefaultUser();
-            /*if (userServices.ExistEmail(profileResponse.email))
+            if (userServices.ExistEmail(profileResponse.email))
             {
-                UserDefault = userServices.getUserByEmail(profileResponse.email);
+                User = userServices.getUserByEmail(profileResponse.email);
             }
             else
             {
-                setDefaultUser();
-                userServices.pushUserToSql(UserDefault);
-            }*/
-
-            //loadProfilePic();
+                setNewUser();
+                userServices.pushUserToSql(User);
+            }
+            setUI();
         }
 
       
@@ -1274,6 +1272,7 @@ namespace Planzy.ViewModels
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
         }
 
         private RelayCommand chooseBackButtonCommand;
@@ -1290,6 +1289,7 @@ namespace Planzy.ViewModels
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
         }
         #endregion
 
@@ -1308,13 +1308,13 @@ namespace Planzy.ViewModels
             public string locale { get; set; }
         }
 
-        private User userDefault;
-        public User UserDefault
+        private User user;
+        public User User
         {
-            get { return userDefault; }
+            get { return user; }
             set
             {
-                userDefault = value;
+                user = value;
                 OnPropertyChanged("DefaultUser");
             }
         }
@@ -1346,23 +1346,24 @@ namespace Planzy.ViewModels
             profilePic.Source = src;
 
         }
-        void setDefaultUser()
-        {                       
-            UserDefault = new User();
-            UserDefault.ID = userServices.getIdUserDefault();
-            UserDefault.Name = profileResponse.family_name + " " + profileResponse.given_name;
-            UserDefault.Gmail = profileResponse.email;
-            UserDefault.Password = "1";
-            UserDefault.PhoneNumer = "";
-            UserDefault.CMND = "";    
-            
-            UserName = profileResponse.family_name + " " + profileResponse.given_name;
-            CMND = "23442";
-            Gmail = profileResponse.email;
-            PhoneNumer = "078795";
-            
+        
+        void setNewUser()
+        {
+            User = new User();
+            User.ID = userServices.getIdUserDefault();
+            User.Name = profileResponse.family_name + " " + profileResponse.given_name;
+            User.Gmail = profileResponse.email;
+            User.Password = "1";
+            User.PhoneNumer = "";
+            User.CMND = "";
         }
-
+        void setUI()
+        {
+            UserName = User.Name;
+            Gmail = User.Gmail;
+            CMND = User.CMND;
+            PhoneNumer = User.PhoneNumer;
+        }
 
         private string userName;
         public string UserName
@@ -1405,6 +1406,8 @@ namespace Planzy.ViewModels
                 OnPropertyChanged("CMND");
             }
         }
+
+        
         #endregion
     }
 }

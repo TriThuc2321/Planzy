@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\trith\OneDrive\Desktop\New folder\Planzy\obj\Debug\net5.0-windows\
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\
 Planzy
 none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
-C:\Users\trith\OneDrive\Desktop\New folder\Planzy\App.xaml
+D:\GitHub\Planzy\Planzy\App.xaml
 6574132218
 
-29-1502467512
+30-2069976597
 197410806101
 LoginRegister\Login.xaml;LoginRegister\Register.xaml;MainWindow.xaml;ResourcesXAML\MyResource.xaml;Views\PlanzyView.xaml;Views\WarningView.xaml;
 
-False
+True
 

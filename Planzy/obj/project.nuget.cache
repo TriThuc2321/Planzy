@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8jNKWadVKDCsT70fpRldKtKuI9m9LzCNabXPJVKfL893jHNnYs6rHIoO1KKc36ZUzxMSu3fziZjNzT82Lsa/dw==",
+  "dgSpecHash": "rDmb/zUmiA15axAz7BZKSI1ze3LlB5aHRczi+nxxv1RzLx4sQe1Paf+Mc1Tbc/4JU8RrIhiIFEQDqi/rFUY0HA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\trith\\OneDrive\\Desktop\\New folder\\Planzy\\Planzy.csproj",
+  "projectFilePath": "D:\\GitHub\\Planzy\\Planzy\\Planzy.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\trith\\.nuget\\packages\\materialdesigncolors\\2.0.0\\materialdesigncolors.2.0.0.nupkg.sha512",
     "C:\\Users\\trith\\.nuget\\packages\\materialdesignthemes\\4.0.0\\materialdesignthemes.4.0.0.nupkg.sha512",
