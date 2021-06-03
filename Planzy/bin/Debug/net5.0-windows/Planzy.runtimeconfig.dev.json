@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "C:\\Users\\trith\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\trith\\.nuget\\packages"
-    ]
-  }
-}
