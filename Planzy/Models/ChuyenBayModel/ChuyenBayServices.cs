@@ -23,7 +23,7 @@ namespace Planzy.Models.ChuyenBayModel
             ChuyenBaysList = new List<ChuyenBay>();
             LoadFromSQL();
             LoadSanBayDiVaDen(sanBayService);
-            LoadHangGhe(chiTietHangGheServices);
+            LoadChiTietHangGhe(chiTietHangGheServices);
             LoadSanBayTrungGian(sanBayTrungGianService, sanBayService);
         }
         public List<ChuyenBay> GetAll()
@@ -216,26 +216,29 @@ namespace Planzy.Models.ChuyenBayModel
             }
             return result;
         }
-        public void LoadHangGhe(ChiTietHangGheServices chiTietHangGheServices)
-        {
-            foreach(ChuyenBay chuyenBay in ChuyenBaysList)
-            {
-                chuyenBay.ChiTietHangGhesList = chiTietHangGheServices.TimListHangGhe(chuyenBay.MaChuyenBay);   
-            }    
-        }
         public void LoadSanBayTrungGian(SanBayTrungGianService sanBayTrungGianService, SanBayService sanBayService)
         {
-            foreach(ChuyenBay chuyenBay in ChuyenBaysList)
+            if (ChuyenBaysList != null)
+                foreach (ChuyenBay chuyenBay in ChuyenBaysList)
             {
                 chuyenBay.SanBayTrungGian = sanBayTrungGianService.TimSanBayTrungGianList(chuyenBay.MaChuyenBay, chuyenBay.SanBayDi.Id, sanBayService);
             }
         }
         public void LoadSanBayDiVaDen(SanBayService sanBayService)
         {
+            if (ChuyenBaysList != null)
+                foreach (ChuyenBay chuyenBay in ChuyenBaysList)
+            {
+                chuyenBay.SanBayDi = sanBayService.SearchID(chuyenBay.SanBayDi.Id);
+                chuyenBay.SanBayDen = sanBayService.SearchID(chuyenBay.SanBayDen.Id);
+            }
+        }
+        public void LoadChiTietHangGhe(ChiTietHangGheServices chiTietHangGheServices)
+        {
+            if (ChuyenBaysList != null)
             foreach (ChuyenBay chuyenBay in ChuyenBaysList)
             {
-                chuyenBay.SanBayDi.TenSanBay = sanBayService.SearchTen(chuyenBay.SanBayDi.Id);
-                chuyenBay.SanBayDen.TenSanBay = sanBayService.SearchTen(chuyenBay.SanBayDen.Id);
+                chuyenBay.ChiTietHangGhesList = chiTietHangGheServices.TimListHangGhe(chuyenBay.MaChuyenBay);
             }
         }
         //public SanBay SearchID(string Id)

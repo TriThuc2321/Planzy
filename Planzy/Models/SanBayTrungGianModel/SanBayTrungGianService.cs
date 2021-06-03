@@ -57,10 +57,15 @@ namespace Planzy.Models.SanBayTrungGianModel
         }
         public void ThemListSanBayTrungGian(ObservableCollection<SanBayTrungGian> sanBayTrungGiansList)
         {
-            foreach (SanBayTrungGian sanBayTrungGian in sanBayTrungGiansList)
+            if (sanBayTrungGiansList != null)
             {
-                Add(sanBayTrungGian);
-            }    
+                foreach (SanBayTrungGian sanBayTrungGian in sanBayTrungGiansList)
+                {
+                    Add(sanBayTrungGian);
+                }
+            }
+            else
+                return;
         }
         public bool ClearSpecializeSanBay(String maChuyenBay)
         {

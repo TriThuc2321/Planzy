@@ -68,11 +68,16 @@ namespace Planzy.Models.ChiTietHangGheModel
             bool result;
             try
             {
-                foreach(ChiTietHangGhe chiTietHangGhe in chiTietHangGhes)
+                if (chiTietHangGhes != null)
                 {
-                    Add(chiTietHangGhe);
+                    foreach (ChiTietHangGhe chiTietHangGhe in chiTietHangGhes)
+                    {
+                        Add(chiTietHangGhe);
+                    }
+                    result = true;
                 }
-                result = true;
+                else
+                    result = false;
             }
             catch
             {
@@ -110,7 +115,6 @@ namespace Planzy.Models.ChiTietHangGheModel
         }
         public bool Delete(string maChuyenBay)
         {
-            bool result;
             if (DeleteSQL(maChuyenBay))
             {
                 chiTietHangGhesList.RemoveAll(e => e.MaChuyenBay == maChuyenBay);
@@ -134,7 +138,7 @@ namespace Planzy.Models.ChiTietHangGheModel
                     {
                         ChiTietHangGhe chiTietHangGhe = new ChiTietHangGhe();
                         chiTietHangGhe.MaChuyenBay = row["MA_CHUYEN_BAY"].ToString();
-                        chiTietHangGhe.MaChuyenBay = row["MA_LOAI_HANG_GHE"].ToString();
+                        chiTietHangGhe.MaLoaiHangGhe = row["MA_LOAI_HANG_GHE"].ToString();
                         chiTietHangGhe.SoLuongGhe = row["SO_LUONG_TONG"].ToString();
                         chiTietHangGhe.SoLuongGheConLai = row["SO_LUONG_CON_LAI"].ToString();
                     chiTietHangGhesList.Add(chiTietHangGhe);

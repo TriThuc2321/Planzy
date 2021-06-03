@@ -14,7 +14,15 @@ namespace Planzy.Models.SanBayModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public SanBay()
+        {
 
+        }
+        public SanBay(SanBay sanBay)
+        {
+            Id = sanBay.id;
+            TenSanBay = sanBay.tenSanBay;
+        }
         private string id;
 
         public string Id

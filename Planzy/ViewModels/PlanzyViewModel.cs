@@ -17,6 +17,7 @@ using Planzy.Models.LoaiHangGheModel;
 using FootballFieldManagement.Views;
 using System.Windows;
 using Planzy.Models.ChiTietHangGheModel;
+using System.Timers;
 
 namespace Planzy.ViewModels
 {
@@ -29,13 +30,41 @@ namespace Planzy.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+        Timer timerKiemTraInternet;
         SanBayService sanBayServices;
         SanBayTrungGianService sanBayTrungGianService;
         ChuyenBayServices chuyenBayServices;
         LoaiHangGheServices loaiHangGheServices;
         ChiTietHangGheServices chiTietHangGheServices;
+
+        public RelayCommand CloseWindowCommand { get; private set; }
+
+        private void CloseWindow(Object window)
+        {
+
+            if ((Window)window != null)
+            {
+                ((Window)window).Close();
+            }
+        }
+        public void KiemTraInternet()
+        {
+            try
+            {
+                System.Net.IPHostEntry i = System.Net.Dns.GetHostEntry("www.google.com");
+            }
+            catch
+            {
+                MessageBoxResult rs =  CustomMessageBox.Show("Không có kết nối mạng, nhấn OK để thoát","Cảnh báo");
+                if (rs == MessageBoxResult.OK)
+                {
+                    
+                }    
+            }
+        }    
         public PlanzyViewModel()
         {
+
             sanBayServices = new SanBayService();
             sanBayTrungGianService = new SanBayTrungGianService();
             loaiHangGheServices = new LoaiHangGheServices();
@@ -53,6 +82,8 @@ namespace Planzy.ViewModels
             xoaChuyenBayCommand = new RelayCommand(xoaChuyenBay);
             huyThemVaSuaChuyenBayCommand = new RelayCommand(huyThemVaSuaChuyenBay);
             luuSuaChuyenBayCommand = new RelayCommand(luuSuaChuyenBay);
+
+            this.CloseWindowCommand = new RelayCommand(this.CloseWindow);
             #region Xử lý giao diện ban đầu
             LoadUIHangGheTheoQuyDinh();
             chonLayoutCommand1 = new RelayCommand(Button1);
@@ -115,8 +146,8 @@ namespace Planzy.ViewModels
                 sanBayDiDaChon = value;
                 OnPropertyChanged("SanBayDiDaChon");
                 //xử lý để không bị trùng sân bay đến và đi
-                XoaListSanBayDen(SanBayDiDaChon);
-                XoaSanBayTrungGianSapThem(SanBayDiDaChon);
+                SanBayDensList.Remove(SanBayDiDaChon);
+                SanBayTrungGianSapThemsList.Remove(SanBayDiDaChon);
                 if(SanBayTrungGiansList != null && SanBayTrungGiansList.Count != 0)
                     xoaSanBayTrungGian(new SanBayTrungGian(SanBayDiDaChon));
             }
@@ -135,45 +166,13 @@ namespace Planzy.ViewModels
                 sanBayDenDaChon = value;
                 OnPropertyChanged("SanBayDenDaChon");
                 //xử lý để không bị trùng sân bay đến và đi
-                XoaListSanBayDi(SanBayDenDaChon);
-                XoaSanBayTrungGianSapThem(SanBayDenDaChon);
+                SanBayDisList.Remove(SanBayDenDaChon);
+                SanBayTrungGianSapThemsList.Remove(SanBayDenDaChon);
                 if (SanBayTrungGiansList != null && SanBayTrungGiansList.Count != 0)
-                    xoaSanBayTrungGian( new SanBayTrungGian(SanBayDenDaChon));
+                    xoaSanBayTrungGian(new SanBayTrungGian(SanBayDenDaChon));
             }
         }
-        public void XoaListSanBayDi(SanBay sanBay)
-        {
-            for(int i = 0; i< SanBayDisList.Count;i++)
-            {
-                if (sanBay.Id == SanBayDisList[i].Id)
-                {
-                    SanBayDisList.RemoveAt(i);
-                    break;
-                }    
-            }    
-        }
-        public void XoaSanBayTrungGianSapThem(SanBay sanBay)
-        {
-            for (int i = 0; i < SanBayTrungGianSapThemsList.Count; i++)
-            {
-                if (sanBay.Id == SanBayTrungGianSapThemsList[i].Id)
-                {
-                    SanBayTrungGianSapThemsList.RemoveAt(i);
-                    break;
-                }
-            }
-        }
-        public void XoaListSanBayDen(SanBay sanBay)
-        {
-            for (int i = 0; i < SanBayDensList.Count; i++)
-            {
-                if (sanBay.Id == SanBayDensList[i].Id)
-                {
-                    SanBayDensList.RemoveAt(i);
-                    break;
-                }
-            }
-        }
+        
         private RelayCommand doiViTriSanBayCommand;
 
         public RelayCommand DoiViTriSanBayCommand
@@ -376,17 +375,8 @@ namespace Planzy.ViewModels
             get { return sanBayTrungGiansList; }
             set 
             {
-                bool isCheck;
-                if(SanBayTrungGiansList == null)
-                {
-                    isCheck = true;
-                }    
-                else
-                {
-                    isCheck = false;
-                }    
                 sanBayTrungGiansList = value;
-                if (isCheck && sanBayTrungGiansList != null)
+                if (sanBayTrungGiansList != null)
                 {
                     for (int i = 0;i< sanBayTrungGiansList.Count;i++)
                     {
@@ -454,7 +444,7 @@ namespace Planzy.ViewModels
             if (SanBayDenDaChon != null && SanBayDiDaChon != null)
             {
                 #region Kiểm tra quy định
-                if (SanBayTrungGiansList.Count == Convert.ToInt32(ThamSoQuyDinh.SO_SAN_BAY_TRUNG_GIAN_TOI_DA))
+                if (SanBayTrungGiansList != null && SanBayTrungGiansList.Count == Convert.ToInt32(ThamSoQuyDinh.SO_SAN_BAY_TRUNG_GIAN_TOI_DA))
                 {
                     CustomMessageBox.Show("Tối đa " + ThamSoQuyDinh.SO_SAN_BAY_TRUNG_GIAN_TOI_DA + " sân bay trung gian", "Nhắc nhở");
                     return;
@@ -887,7 +877,25 @@ namespace Planzy.ViewModels
         public string SoGheHang1
         {
             get { return soGheHang1; }
-            set { soGheHang1 = value; OnPropertyChanged("SoGheHang1"); }
+            set 
+            {
+                if (value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        #region Kiểm tra quy định
+                        soGheHang1 = value;
+                        #endregion
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Thời Gian Dừng phải là số nguyên dương", "Nhắc nhở");
+                    }
+                }
+                else
+                    soGheHang1 = value; 
+                OnPropertyChanged("SoGheHang1"); 
+            }
         }
 
         private string soGheHang2;
@@ -1126,6 +1134,61 @@ namespace Planzy.ViewModels
                 return;
             }
 
+            if ((SoGheHang1 == null || SoGheHang1 == "") && ChuyenBayDaChon.SoLoaiHangGhe == 1)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang2 = "True";
+                return;
+            }
+
+            if ((SoGheHang2 == null || SoGheHang2 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 1)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang2 = "True";
+                return;
+            }
+
+            if ((SoGheHang3 == null || SoGheHang3 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 2)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang3 = "True";
+                return;
+            }
+
+            if ((SoGheHang4 == null || SoGheHang4 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 3)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang4 = "True";
+                return;
+            }
+
+            if ((SoGheHang5 == null || SoGheHang5 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 4)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang5 = "True";
+                return;
+            }
+
+            if ((SoGheHang6 == null || SoGheHang6 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 5)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang6 = "True";
+                return;
+            }
+
+            if ((SoGheHang7 == null || SoGheHang7 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 6)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang6 = "True";
+                return;
+            }
+
+            if ((SoGheHang8 == null || SoGheHang8 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 7)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang8 = "True";
+                return;
+            }
             #endregion
             ChuyenBayHienTai.SanBayDi = SanBayDiDaChon;
             ChuyenBayHienTai.SanBayDen = SanBayDenDaChon;
@@ -1140,14 +1203,14 @@ namespace Planzy.ViewModels
             {
                 switch(i)
                 {
-                    case 0: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang1));break;
-                    case 1: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang2));break;
-                    case 2: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang3)); break;
-                    case 3: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang4)); break;
-                    case 4: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang5)); break;
-                    case 5: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang6)); break;
-                    case 6: chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang7)); break;
-                    default : chiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang8)); break;
+                    case 0: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang1));break;
+                    case 1: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang2));break;
+                    case 2: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang3)); break;
+                    case 3: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang4)); break;
+                    case 4: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang5)); break;
+                    case 5: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang6)); break;
+                    case 6: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang7)); break;
+                    default : ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang8)); break;
                 }
             }
             ChuyenBayHienTai.ChiTietHangGhesList = ChiTietHangGhesList;
@@ -1178,6 +1241,15 @@ namespace Planzy.ViewModels
         private bool isDangSua;
         public void suaChuyenBay()
         {
+            //chuyến bay đã bán vé không thể chỉnh sửa
+            foreach(ChiTietHangGhe chiTietHangGhe in ChuyenBayDaChon.ChiTietHangGhesList)
+            {
+                if (Convert.ToInt32(chiTietHangGhe.SoLuongGheConLai) < Convert.ToInt32(chiTietHangGhe.SoLuongGhe))
+                {
+                    CustomMessageBox.Show("Chuyến bay đã bán vé, không thể sửa chữa", "Nhắc nhở");
+                    return;
+                }    
+            }    
             LoadUIHangGheTheoChuyenBay(ChuyenBayDaChon.SoLoaiHangGhe.ToString());
             isDangSua = true;
             IsReadOnlyMaChuyenBay = "True";
@@ -1251,6 +1323,61 @@ namespace Planzy.ViewModels
                 return;
             }
 
+            if (SoGheHang1 == null || SoGheHang1 == "")
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang1 = "True";
+                return;
+            }
+
+            if((SoGheHang2 == null || SoGheHang2 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 1)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang2 = "True";
+                return;
+            }
+
+            if ((SoGheHang3 == null || SoGheHang3 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 2)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang3 = "True";
+                return;
+            }
+
+            if ((SoGheHang4 == null || SoGheHang4 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 3)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang4 = "True";
+                return;
+            }
+
+            if ((SoGheHang5 == null || SoGheHang5 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 4)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang5 = "True";
+                return;
+            }
+
+            if ((SoGheHang6 == null || SoGheHang6 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 5)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang6 = "True";
+                return;
+            }
+
+            if ((SoGheHang7 == null || SoGheHang7 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 6)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang6 = "True";
+                return;
+            }
+
+            if ((SoGheHang8 == null || SoGheHang8 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 7)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                IsFocusSoGheHang8 = "True";
+                return;
+            }
             #endregion
 
             string maChuyenBayCu = ChuyenBayDaChon.MaChuyenBay;
@@ -1264,6 +1391,11 @@ namespace Planzy.ViewModels
                 ChuyenBayDaChon.ThoiGianBay = ThoiGianBay;
                 ChuyenBayDaChon.SanBayDi = SanBayDiDaChon;
                 ChuyenBayDaChon.SanBayDen = SanBayDenDaChon;
+                if (SanBayTrungGiansList.Count != 0)
+                {
+                    SanBayTrungGiansList[0].MaSanBayTruoc = SanBayDiDaChon.Id;
+                    SanBayTrungGiansList[SanBayTrungGiansList.Count - 1].MaSanBaySau = SanBayDenDaChon.Id;
+                }    
                 ChuyenBayDaChon.SanBayTrungGian = SanBayTrungGiansList;
                 try
                 {
@@ -1274,10 +1406,15 @@ namespace Planzy.ViewModels
                     ChuyenBayDaChon.ChiTietHangGhesList[4].SoLuongGhe = SoGheHang5;
                     ChuyenBayDaChon.ChiTietHangGhesList[5].SoLuongGhe = SoGheHang6;
                     ChuyenBayDaChon.ChiTietHangGhesList[6].SoLuongGhe = SoGheHang7;
-                    ChuyenBayDaChon.ChiTietHangGhesList[7].SoLuongGhe = SoGheHang8;
+                    ChuyenBayDaChon.ChiTietHangGhesList[7].SoLuongGhe = SoGheHang8; 
                 }
                 catch
                 { }
+                if (ChuyenBayDaChon.ChiTietHangGhesList != null)
+                    foreach (ChiTietHangGhe chiTietHangGhe in ChuyenBayDaChon.ChiTietHangGhesList)
+                    {
+                        chiTietHangGhe.SoLuongGheConLai = chiTietHangGhe.SoLuongGhe;
+                    }
 
                 #region Cập nhập dữ liệu
                 LoadUIHangGheTheoQuyDinh();
@@ -1285,7 +1422,7 @@ namespace Planzy.ViewModels
                 sanBayTrungGianService.ClearSpecializeSanBay(MaChuyenBay);
                 sanBayTrungGianService.ThemListSanBayTrungGian(SanBayTrungGiansList);
                 chiTietHangGheServices.Delete(MaChuyenBay);
-                chiTietHangGheServices.ThemListChiTietHangGhe(ChiTietHangGhesList);
+                chiTietHangGheServices.ThemListChiTietHangGhe(ChuyenBayDaChon.ChiTietHangGhesList);
                 #endregion
             }
             //else if (chuyenBayServices.IsEditable(MaChuyenBay))
@@ -1321,6 +1458,8 @@ namespace Planzy.ViewModels
             IsVisibleLuuChuyenBay = "Hidden";
             IsVisibleNhanLichChuyenBay = "Visible";
             IsVisibleSuaChuyenBay = "Hidden";
+            IsVisible = "Hidden";
+            IsDropDown = "False";
             ChuyenBayDaChon = null;
             resetNhapChuyenBay();
             SanBayTrungGiansListCu = null;
