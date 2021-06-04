@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\
 Planzy
 none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
-D:\Nhap_mon_di_dong\Planzy\Planzy\App.xaml
+D:\GitHub\Planzy\Planzy\App.xaml
 42132730638
 
 25-565240822
-196757090277
+196281780920
 MainWindow.xaml;ResourcesXAML\MyResource.xaml;Views\CustomMessageBoxWindow.xaml;Views\PlanzyView.xaml;
 
-False
+True
 

@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000"
         xmlns:myView ="clr-namespace:Planzy.Views"
-        x:Name="MainWindow">
+        >
     <Grid>
         <myView:PlanzyView/>
     </Grid>
