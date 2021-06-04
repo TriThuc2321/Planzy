@@ -11,5 +11,6 @@
         >
     <Grid>
         <myView:PlanzyView/>
+        
     </Grid>
 </Window>

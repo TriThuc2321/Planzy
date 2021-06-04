@@ -7,15 +7,27 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="LoginRegister\Login.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="LoginRegister\Register.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\PlanzyView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="LoginRegister\Register.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ResourcesXAML\MyResource.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="LoginRegister\Login.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\PlanzyView.xaml">

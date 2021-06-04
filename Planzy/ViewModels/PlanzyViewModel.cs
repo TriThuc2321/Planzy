@@ -11,6 +11,14 @@ using Planzy.Models.ChuyenBayModel;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Planzy.Commands;
+using System.Windows.Input;
+using Newtonsoft.Json;
+using System.Data.SqlClient;
+using System.Configuration;
+using Planzy.Models.Users;
+using System.Data;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using Planzy.Resources.Component.CustomMessageBox ;
 using static Planzy.ThamSoQuyDinh;
 using Planzy.Models.LoaiHangGheModel;
@@ -19,10 +27,14 @@ using System.Windows;
 using Planzy.Models.ChiTietHangGheModel;
 using System.Timers;
 
+
 namespace Planzy.ViewModels
 {
     class PlanzyViewModel : INotifyPropertyChanged
     {
+        private static SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
+
+
         #region PropertyChange
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
@@ -51,10 +63,16 @@ namespace Planzy.ViewModels
             huyThemCommand = new RelayCommand(huyThemSanBayTrungGian);
             xacNhanThemCommand = new RelayCommand(xacNhanThemSanBayTrungGian);
             themChuyenBayCommand = new RelayCommand(themChuyenBay);
+
+            searchFlightCommand = new RelayCommand(searchFlight);
+            searchFlightCommand_FlightBooking = new RelayCommand(searchFlight_FlightBooking);
+            resetCommand = new RelayCommand(resetSearchList);
+            showAllFightsCommand_FlightBooking = new RelayCommand(showAllFlights);
             suaChuyenBayCommand = new RelayCommand(suaChuyenBay);
             xoaChuyenBayCommand = new RelayCommand(xoaChuyenBay);
             huyThemVaSuaChuyenBayCommand = new RelayCommand(huyThemVaSuaChuyenBay);
             luuSuaChuyenBayCommand = new RelayCommand(luuSuaChuyenBay);
+
 
             #region Xử lý giao diện ban đầu
             LoadUIHangGheTheoQuyDinh();
@@ -63,21 +81,92 @@ namespace Planzy.ViewModels
             chonLayoutCommand3 = new RelayCommand(Button3);
             chonLayoutCommand4 = new RelayCommand(Button4);
             chonLayoutCommand5 = new RelayCommand(Button5);
+            //Thien
+            chooseContinueButtonCommand = new RelayCommand2<object>((p)=> p!=null, ButtonContinue);
+            chooseBackButtonCommand = new RelayCommand(ButtonBack);
+            chonLayoutCommand6 = new RelayCommand(Button6);
             #endregion
+
+            userServices = new UserServices();
+
+
         }
+
+        public PlanzyViewModel(string gmailUser)
+        {
+            sanBayServices = new SanBayService();
+            sanBayTrungGianService = new SanBayTrungGianService();
+            loaiHangGheServices = new LoaiHangGheServices();
+            chiTietHangGheServices = new ChiTietHangGheServices();
+            chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService, sanBayServices, chiTietHangGheServices);
+            ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
+            LoadData();
+            doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
+            xoaSanBayTrungGianCommand = new RelayCommand(xoaSanBayTrungGian);
+            themSanBayTrungGianCommand = new RelayCommand(themSanBayTrungGian);
+            huyThemCommand = new RelayCommand(huyThemSanBayTrungGian);
+            xacNhanThemCommand = new RelayCommand(xacNhanThemSanBayTrungGian);
+            themChuyenBayCommand = new RelayCommand(themChuyenBay);
+
+            searchFlightCommand = new RelayCommand(searchFlight);
+            searchFlightCommand_FlightBooking = new RelayCommand(searchFlight_FlightBooking);
+            resetCommand = new RelayCommand(resetSearchList);
+            showAllFightsCommand_FlightBooking = new RelayCommand(showAllFlights);
+            suaChuyenBayCommand = new RelayCommand(suaChuyenBay);
+            xoaChuyenBayCommand = new RelayCommand(xoaChuyenBay);
+            huyThemVaSuaChuyenBayCommand = new RelayCommand(huyThemVaSuaChuyenBay);
+            luuSuaChuyenBayCommand = new RelayCommand(luuSuaChuyenBay);
+            #region Xử lý giao diện ban đầu
+            chonLayoutCommand1 = new RelayCommand(Button1);
+            chonLayoutCommand2 = new RelayCommand(Button2);
+            chonLayoutCommand3 = new RelayCommand(Button3);
+            chonLayoutCommand4 = new RelayCommand(Button4);
+            chonLayoutCommand5 = new RelayCommand(Button5);
+            chonLayoutCommand6 = new RelayCommand(Button6);
+            #endregion
+           
+
+            userServices = new UserServices();
+            listUser = new List<User>(userServices.GetAll());
+
+            user = userServices.getUserByEmail(gmailUser);
+
+            setUI();
+        }
+
+      
+
+        public RelayCommand SelectAllCommand { get; private set; }
+        public RelayCommand SelectAllCommand2 { get; private set; }
+
+
+        
         #region Xử lý chung
         private void LoadData()
         {
             SanbaysList = new List<SanBay>(sanBayServices.GetAll());
             SanBayDensList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             SanBayDisList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
-            
+
             SanBayTrungGianSapThemsList = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             LoaiHangGhesList = loaiHangGheServices.GetAll();
             //SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>(sanBayTrungGianService.GetAll());
             ChuyenBaysList = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
 
-            
+            // Thiên
+            FlightSearchList = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
+            FlightSearchList_FlightBooking = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetFlightBookingList(flightSearchList_FlightBooking));
+            backupList_FlightBooking = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetFlightBookingList(flightSearchList_FlightBooking));
+            Departure = new ObservableCollection<SanBay>(sanBayServices.GetAll());
+            Destination = new ObservableCollection<SanBay>(sanBayServices.GetAll());
+            DepartureList_FlightBooking = new ObservableCollection<SanBay>(sanBayServices.GetAll());
+            DestinationList_FlightBooking = new ObservableCollection<SanBay>(sanBayServices.GetAll());
+
+
+
+
+
+
         }
         private List<SanBay> sanbaysList;
 
@@ -89,7 +178,6 @@ namespace Planzy.ViewModels
         #endregion
         #region Xử lý chọn sân bay
         private ObservableCollection<SanBay> sanBayDisList;
-
         public ObservableCollection<SanBay> SanBayDisList
         {
             get { return sanBayDisList; }
@@ -97,7 +185,6 @@ namespace Planzy.ViewModels
         }
 
         private ObservableCollection<SanBay> sanBayDensList;
-
         public ObservableCollection<SanBay> SanBayDensList
         {
             get { return sanBayDensList; }
@@ -108,7 +195,7 @@ namespace Planzy.ViewModels
         public SanBay SanBayDiDaChon
         {
             get { return sanBayDiDaChon; }
-            set 
+            set
             {
                 if (SanBayDiDaChon != null)
                 {
@@ -140,13 +227,13 @@ namespace Planzy.ViewModels
                 //xử lý để không bị trùng sân bay đến và đi
                 SanBayDisList.Remove(SanBayDenDaChon);
                 SanBayTrungGianSapThemsList.Remove(SanBayDenDaChon);
+
                 if (SanBayTrungGiansList != null && SanBayTrungGiansList.Count != 0)
                     xoaSanBayTrungGian(new SanBayTrungGian(SanBayDenDaChon));
             }
         }
         
         private RelayCommand doiViTriSanBayCommand;
-
         public RelayCommand DoiViTriSanBayCommand
         {
             get { return doiViTriSanBayCommand; }
@@ -162,7 +249,7 @@ namespace Planzy.ViewModels
                 SanBayDenDaChon.Id = SanBayDiDaChon.Id;
                 SanBayDenDaChon.TenSanBay = SanBayDiDaChon.TenSanBay;
                 SanBayDiDaChon.Id = temp.Id;
-                SanBayDiDaChon.TenSanBay = temp.TenSanBay;            
+                SanBayDiDaChon.TenSanBay = temp.TenSanBay;
             }
             IsFocusGiaChuyenBay = "True";
         }
@@ -173,7 +260,7 @@ namespace Planzy.ViewModels
         public ButtonDuocChon DuocChon
         {
             get { return duocChon; }
-            set { duocChon = value;}
+            set { duocChon = value; }
         }
         private ButtonDuocChon khongDuocChon = new ButtonDuocChon(false);
         public ButtonDuocChon KhongDuocChon
@@ -218,6 +305,12 @@ namespace Planzy.ViewModels
             get { return isDuocChon5; }
             set { isDuocChon5 = value; OnPropertyChanged("IsDuocChon5"); }
         }
+        private ButtonDuocChon isDuocChon6 = new ButtonDuocChon(false);
+        public ButtonDuocChon IsDuocChon6
+        {
+            get { return isDuocChon6; }
+            set { isDuocChon6 = value; OnPropertyChanged("IsDuocChon6"); }
+        }
 
         private RelayCommand chonLayoutCommand1;
 
@@ -249,6 +342,12 @@ namespace Planzy.ViewModels
         {
             get { return chonLayoutCommand5; }
         }
+        private RelayCommand chonLayoutCommand6;
+
+        public RelayCommand ChonLayoutCommand6
+        {
+            get { return chonLayoutCommand6; }
+        }
         public void Button1()
         {
             IsDuocChon1 = DuocChon;
@@ -256,6 +355,8 @@ namespace Planzy.ViewModels
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
+            IsContinueButton = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
         }
         public void Button2()
         {
@@ -264,6 +365,9 @@ namespace Planzy.ViewModels
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
+            IsContinueButton = KhongDuocChon;
+
+            IsDuocChon6 = KhongDuocChon;
         }
         public void Button3()
         {
@@ -272,6 +376,9 @@ namespace Planzy.ViewModels
             IsDuocChon3 = DuocChon;
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
+            IsContinueButton = KhongDuocChon;
+
+            IsDuocChon6 = KhongDuocChon;
         }
         public void Button4()
         {
@@ -280,6 +387,9 @@ namespace Planzy.ViewModels
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = DuocChon;
             IsDuocChon5 = KhongDuocChon;
+            IsContinueButton = KhongDuocChon;
+
+            IsDuocChon6 = KhongDuocChon;
         }
         public void Button5()
         {
@@ -288,6 +398,18 @@ namespace Planzy.ViewModels
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = DuocChon;
+            IsContinueButton = KhongDuocChon;
+
+            IsDuocChon6 = KhongDuocChon;
+        }
+        public void Button6()
+        {
+            IsDuocChon1 = KhongDuocChon;
+            IsDuocChon2 = KhongDuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = DuocChon;
         }
         #endregion
         #region Xử lý xóa sân bay trung gian
@@ -299,7 +421,7 @@ namespace Planzy.ViewModels
         }
         public void xoaSanBayTrungGian(object sanBayBiXoa)
         {
-            for (int i = 0; i<SanBayTrungGiansList.Count; i++)
+            for (int i = 0; i < SanBayTrungGiansList.Count; i++)
             {
                 if (((SanBayTrungGian)sanBayBiXoa).MaSanBay == SanBayTrungGiansList[i].MaSanBay)
                 {
@@ -322,44 +444,44 @@ namespace Planzy.ViewModels
                             SanBayTrungGiansList[1].MaSanBayTruoc = SanBayDiDaChon.Id;
                             SanBayTrungGiansList.RemoveAt(i);
                             return;
-                        }                        
+                        }
                     }
-                    else if (i != SanBayTrungGiansList.Count -1)
+                    else if (i != SanBayTrungGiansList.Count - 1)
                     {
                         SanBayTrungGiansList[i - 1].MaSanBaySau = SanBayTrungGiansList[i + 1].MaSanBay;
                         SanBayTrungGiansList[i + 1].MaSanBayTruoc = SanBayTrungGiansList[i - 1].MaSanBay;
                         SanBayTrungGiansList.RemoveAt(i);
                         return;
-                    } 
+                    }
                     else
                     {
-                        SanBayTrungGiansList[i-1].MaSanBaySau = SanBayDenDaChon.Id;
+                        SanBayTrungGiansList[i - 1].MaSanBaySau = SanBayDenDaChon.Id;
                         SanBayTrungGiansList.RemoveAt(i);
                         return;
-                    }    
-                }    
-            }    
+                    }
+                }
+            }
         }
         private ObservableCollection<SanBayTrungGian> sanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>();
 
         public ObservableCollection<SanBayTrungGian> SanBayTrungGiansList
         {
             get { return sanBayTrungGiansList; }
-            set 
+            set
             {
                 sanBayTrungGiansList = value;
                 if (sanBayTrungGiansList != null)
                 {
-                    for (int i = 0;i< sanBayTrungGiansList.Count;i++)
+                    for (int i = 0; i < sanBayTrungGiansList.Count; i++)
                     {
-                        for (int j = 0;j< SanBayTrungGianSapThemsList.Count; j++)
+                        for (int j = 0; j < SanBayTrungGianSapThemsList.Count; j++)
                         {
                             if (sanBayTrungGiansList[i].MaSanBay == SanBayTrungGianSapThemsList[j].Id)
                                 SanBayTrungGianSapThemsList.RemoveAt(j);
-                        }    
-                    }    
-                }    
-                OnPropertyChanged("SanBayTrungGiansList"); 
+                        }
+                    }
+                }
+                OnPropertyChanged("SanBayTrungGiansList");
             }
         }
         #endregion
@@ -582,6 +704,7 @@ namespace Planzy.ViewModels
 
         public string IsFocusGiaChuyenBay
         {
+           
             get { return isFocusGiaChuyenBay; }
             set 
             { 
@@ -1068,6 +1191,9 @@ namespace Planzy.ViewModels
         {
             get { return luuSuaChuyenBayCommand; }
         }
+
+
+
         public void themChuyenBay()
         {
             #region Bắt ex
@@ -1201,7 +1327,7 @@ namespace Planzy.ViewModels
             #endregion
 
             ChuyenBayHienTai = new ChuyenBay();
-            resetNhapChuyenBay();            
+                 resetNhapChuyenBay();            
         }
         private ObservableCollection<SanBayTrungGian> sanBayTrungGiansListCu;
 
@@ -1732,6 +1858,419 @@ namespace Planzy.ViewModels
                 IsVisibleHang8 = "Visible";
             }
         }
+        #endregion
+
+        #region Flight Searching Processing
+        private bool isSearchingWithDate = false;
+        public bool IsSearchingWithDate
+        {
+            get { return isSearchingWithDate; }
+            set
+            {
+                isSearchingWithDate = value;
+                if (isSearchingWithDate == true)
+                    ComboboxVisibility = "Visible";
+                else ComboboxVisibility = "Hidden";
+                OnPropertyChanged("IsSearchingWithDate");
+            }
+        }
+
+        private string comboboxVisibility = "Hidden";
+        public string ComboboxVisibility
+        {
+            get { return comboboxVisibility; }
+            set
+            {
+                comboboxVisibility = value;
+                OnPropertyChanged("ComboboxVisibility");
+            }
+        }
+
+        private ObservableCollection<SanBay> departure;
+        public ObservableCollection<SanBay> Departure
+        {
+            get { return departure; }
+            set { departure = value; OnPropertyChanged("Departure"); }
+        }
+
+        private ObservableCollection<SanBay> destination;
+        public ObservableCollection<SanBay> Destination
+        {
+            get { return destination; }
+            set { destination = value; OnPropertyChanged("Destination"); }
+        }
+
+        private DateTime selectedDate = DateTime.UtcNow.AddDays(1);
+        public DateTime SelectedDate
+        {
+            get { return selectedDate; }
+            set { selectedDate = value; OnPropertyChanged("SelectedDate"); }
+        }
+
+        private String searchString = "";
+        public String SearchString
+        {
+            get { return searchString; }
+            set { searchString = value; OnPropertyChanged("SearchString"); }
+        }
+
+        private SanBay selectedDeparture;
+        public SanBay SelectedDeparture
+        {
+            get { return selectedDeparture; }
+            set
+            {
+                if (departure != null && destination != null)
+                {
+                    if (SelectedDeparture != null)
+                        destination.Add(SelectedDeparture);
+                    selectedDeparture = value;
+                    OnPropertyChanged("SelectedDeparture");
+                    destination.Remove(SelectedDeparture);
+                }
+            }
+        }
+
+        private SanBay selectedDestination;
+        public SanBay SelectedDestination
+        {
+            get { return selectedDestination; }
+            set
+            {
+                if (departure != null && destination != null)
+                {
+                    if (SelectedDestination != null)
+                        departure.Add(SelectedDestination);
+                    selectedDestination = value;
+                    OnPropertyChanged("SelectedDestination");
+                    departure.Remove(SelectedDestination);
+                }
+            }
+        }
+
+        private ObservableCollection<ChuyenBay> flightSearchList;
+        public ObservableCollection<ChuyenBay> FlightSearchList
+        {
+            get { return flightSearchList; }
+            set { flightSearchList = value; OnPropertyChanged("FlightSearchList"); }
+        }
+
+        public RelayCommand searchFlightCommand { get; private set; }
+        public RelayCommand resetCommand { get; private set; }
+
+
+        private void searchFlight()
+        {
+            ObservableCollection<ChuyenBay> temp = new ObservableCollection<ChuyenBay>(chuyenBaysList);
+            flightSearchList = temp;
+            if (selectedDeparture != null || selectedDestination != null || searchString != "" || isSearchingWithDate == true)
+            {
+                if (selectedDeparture != null)
+                    for (int i = 0; i < flightSearchList.Count; i++)
+                    {
+                        if (flightSearchList[i].SanBayDen.Id == selectedDeparture.Id) continue;
+                        flightSearchList.RemoveAt(i);
+                        i = -1;
+                    }
+                if (selectedDestination != null)
+                    for (int i = 0; i < flightSearchList.Count; i++)
+                    {
+                        if (flightSearchList[i].SanBayDi.Id == selectedDestination.Id) continue;
+                        flightSearchList.RemoveAt(i);
+                        i = -1;
+                    }
+                if (searchString != "")
+                    for (int i = 0; i < flightSearchList.Count; i++)
+                    {
+                        if (flightSearchList[i].MaChuyenBay.Contains(searchString.ToUpper())) continue;
+                        flightSearchList.RemoveAt(i);
+                        i = -1;
+                    }
+                if (isSearchingWithDate == true)
+                    for (int i = 0; i < flightSearchList.Count; i++)
+                    {
+                        if (flightSearchList[i].NgayBay == selectedDate) continue;
+                        flightSearchList.RemoveAt(i);
+                        i = -1;
+                    }
+            }
+            OnPropertyChanged("FlightSearchList");
+        }
+        private void resetSearchList()
+        {
+            SelectedDate = DateTime.UtcNow.AddDays(1);
+            SearchString = "";
+            SanBay temp1 = selectedDestination;
+            SanBay temp2 = selectedDeparture;
+            departure.Remove(selectedDeparture);
+            destination.Remove(selectedDestination);
+            if (temp2 != null)
+                departure.Add(temp2);
+            if (temp1 != null)
+                destination.Add(temp1);
+            selectedDeparture = null;
+            selectedDestination = null;
+            ObservableCollection<ChuyenBay> temp = new ObservableCollection<ChuyenBay>(chuyenBaysList);
+            flightSearchList = temp;
+            OnPropertyChanged("FlightSearchList");
+        }
+        #endregion
+
+        #region Flight Booking Processing 
+        private ObservableCollection<ChuyenBay> flightSearchList_FlightBooking;
+        public ObservableCollection<ChuyenBay> FlightSearchList_FlightBooking
+        {
+            get { return flightSearchList_FlightBooking; }
+            set { flightSearchList_FlightBooking = value; OnPropertyChanged("FlightSearchList_FlightBooking"); }
+        }
+        private ObservableCollection<ChuyenBay> backupList_FlightBooking;
+        public ObservableCollection<ChuyenBay> BackupList_FlightBooking
+        {
+            get { return backupList_FlightBooking; }
+            set { backupList_FlightBooking = value; OnPropertyChanged("BackupList_FlightBooking"); }
+        }
+        private ChuyenBay selectedFlight;
+        public ChuyenBay SelectedFlight
+        {
+            get { return selectedFlight; }
+            set {
+                selectedFlight = value;
+                OnPropertyChanged("SelectedFlight"); }
+        }
+        private ObservableCollection<SanBay> departureList_FlightBooking;
+        public ObservableCollection<SanBay> DepartureList_FlightBooking
+        {
+            get { return departureList_FlightBooking; }
+            set { departureList_FlightBooking = value; OnPropertyChanged("DepartureList_FlightBooking"); }
+        }
+
+        private ObservableCollection<SanBay> destinationList_FlightBooking;
+        public ObservableCollection<SanBay> DestinationList_FlightBooking
+        {
+            get { return destinationList_FlightBooking; }
+            set { destinationList_FlightBooking = value; OnPropertyChanged("DestinationList_FlightBooking"); }
+        }
+ 
+        private SanBay selectedDeparture_FlightBooking;
+        public SanBay SelectedDeparture_FlightBooking
+        {
+            get { return selectedDeparture_FlightBooking; }
+            set
+            {
+              
+                if (selectedDeparture_FlightBooking!= null)
+                DestinationList_FlightBooking.Add(selectedDeparture_FlightBooking);
+                selectedDeparture_FlightBooking = value;
+                DestinationList_FlightBooking.Remove(selectedDeparture_FlightBooking);
+                OnPropertyChanged("SelectedDeparture_FlightBooking");
+            }
+        }
+
+        private SanBay selectedDestination_FlightBooking;
+        public SanBay SelectedDestination_FlightBooking
+        {
+            get { return selectedDestination_FlightBooking; }
+            set
+            {
+               
+                if (selectedDestination_FlightBooking!=null)
+                departureList_FlightBooking.Add(selectedDestination_FlightBooking);
+                selectedDestination_FlightBooking = value;
+                departureList_FlightBooking.Remove(selectedDestination_FlightBooking);
+                OnPropertyChanged("SelectedDestination_FlightBooking");
+                
+
+            }
+        }
+
+        private DateTime selectedDate_FlightBooking = DateTime.UtcNow.AddDays(0);
+        public DateTime SelectedDate_FlightBooking
+        {
+            get { return selectedDate_FlightBooking; }
+            set { selectedDate_FlightBooking = value; OnPropertyChanged("SelectedDate_FlightBooking"); }
+        }
+        public RelayCommand searchFlightCommand_FlightBooking { get; private set; }
+        private void searchFlight_FlightBooking(object obj)
+        {
+            selectedFlight = null;
+            OnPropertyChanged("SelectedFlight");
+            ObservableCollection<ChuyenBay> temp = new ObservableCollection<ChuyenBay>(BackupList_FlightBooking);
+            flightSearchList_FlightBooking = temp;
+
+            if (selectedDeparture_FlightBooking != null)
+                for (int i = 0; i < flightSearchList_FlightBooking.Count; i++)
+                {
+                    if (flightSearchList_FlightBooking[i].SanBayDen.Id == selectedDestination_FlightBooking.Id) continue;
+                    flightSearchList_FlightBooking.RemoveAt(i);
+                    i = -1;
+                }
+            if (selectedDestination_FlightBooking != null)
+                for (int i = 0; i < flightSearchList_FlightBooking.Count; i++)
+                {
+                    if (flightSearchList_FlightBooking[i].SanBayDi.Id == selectedDeparture_FlightBooking.Id) continue;
+                    flightSearchList_FlightBooking.RemoveAt(i);
+                    i = -1;
+                }
+           
+            
+                for (int i = 0; i < flightSearchList_FlightBooking.Count; i++)
+                {
+                    if (flightSearchList_FlightBooking[i].NgayBay == SelectedDate_FlightBooking) continue;
+                flightSearchList_FlightBooking.RemoveAt(i);
+                    i = -1;
+                }
+            OnPropertyChanged("FlightSearchList_FlightBooking");
+
+        }
+        public RelayCommand showAllFightsCommand_FlightBooking { get; private set; }
+        private void showAllFlights(object obj)
+        {
+            //selectedFlight = null;
+            //OnPropertyChanged("SelectedFlight");
+            selectedDate_FlightBooking = DateTime.UtcNow.AddDays(1);
+            SanBay temp1 = selectedDestination_FlightBooking;
+            SanBay temp2 = selectedDeparture_FlightBooking;
+            departureList_FlightBooking.Remove(selectedDeparture_FlightBooking);
+            destinationList_FlightBooking.Remove(selectedDestination_FlightBooking);
+            if (temp2 != null)
+                departureList_FlightBooking.Add(temp2);
+            if (temp1 != null)
+                destinationList_FlightBooking.Add(temp1);
+            selectedDeparture_FlightBooking = null;
+            selectedDestination_FlightBooking = null;
+            ObservableCollection<ChuyenBay> temp = new ObservableCollection<ChuyenBay>(BackupList_FlightBooking);
+            flightSearchList_FlightBooking = temp;
+            OnPropertyChanged("FlightSearchList_FlightBooking");
+        }
+        private ICommand chooseContinueButtonCommand;
+
+        public ICommand ChooseContinueButtonCommand
+        {
+            get { return chooseContinueButtonCommand; }
+        }
+        private ButtonDuocChon isContinueButton = new ButtonDuocChon(false);
+
+        public ButtonDuocChon IsContinueButton
+        {
+            get { return isContinueButton; }
+            set { isContinueButton = value; OnPropertyChanged("IsContinueButton"); }
+        }
+        public void ButtonContinue(object p)
+        {
+            IsContinueButton = DuocChon;
+            IsDuocChon1 = KhongDuocChon;
+            IsDuocChon2 = KhongDuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
+        }
+
+        private RelayCommand chooseBackButtonCommand;
+
+        public RelayCommand ChooseBackButtonCommand
+        {
+            get { return chooseBackButtonCommand; }
+        }
+        public void ButtonBack()
+        {           
+            IsContinueButton = KhongDuocChon;
+            IsDuocChon1 = DuocChon;
+            IsDuocChon2 = KhongDuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
+        }
+        #endregion
+
+
+        #region user
+
+        
+
+        private User user;
+
+        private UserServices userServices;
+        private List<User> listUser;
+
+        private Image profilePic;
+        public Image ProfillePic
+        {
+            get { return profilePic; }
+            set
+            {               
+                profilePic = value;
+                OnPropertyChanged("ProfilePic");
+            }
+        }
+        public void loadProfilePic()
+        {
+
+            BitmapImage src = new BitmapImage();
+            src.BeginInit();
+
+            src.UriSource = new Uri(@"D:\profilePic.png", UriKind.Relative);
+            src.CacheOption = BitmapCacheOption.OnLoad;
+            src.EndInit();
+
+            profilePic = new Image();
+            profilePic.Source = src;
+
+        }
+        
+        
+        void setUI()
+        {
+            UserName = user.Name;
+            Gmail = user.Gmail;
+            CMND = user.CMND;
+            PhoneNumer = user.PhoneNumer;
+        }
+
+        private string userName;
+        public string UserName
+        {
+            get { return userName; }
+            set
+            {
+                userName = value;
+                OnPropertyChanged("UserName");
+            }
+        }
+        private string phoneNumber;
+        public string PhoneNumer
+        {
+            get { return phoneNumber; }
+            set
+            {
+                phoneNumber = value;
+                OnPropertyChanged("PhoneNumber");
+            }
+        }
+        private string cmnd;
+        public string CMND
+        {
+            get { return cmnd; }
+            set
+            {
+                cmnd = value;
+                OnPropertyChanged("CMND");
+            }
+        }
+
+        private string gmail;
+        public string Gmail
+        {
+            get { return gmail; }
+            set
+            {
+                gmail = value;
+                OnPropertyChanged("CMND");
+            }
+        }
+
+        
         #endregion
     }
 }

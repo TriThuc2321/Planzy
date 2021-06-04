@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
 D:\GitHub\Planzy\Planzy\App.xaml
-42132730638
+6-726020281
 
-25-565240822
-196281780920
-MainWindow.xaml;ResourcesXAML\MyResource.xaml;Views\CustomMessageBoxWindow.xaml;Views\PlanzyView.xaml;
+362063743130
+198-1070381301
+LoginRegister\Login.xaml;LoginRegister\Register.xaml;MainWindow.xaml;ResourcesXAML\MyResource.xaml;Views\CustomMessageBoxWindow.xaml;Views\PlanzyView.xaml;
 
 False
 
