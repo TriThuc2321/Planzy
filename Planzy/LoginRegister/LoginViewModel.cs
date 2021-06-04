@@ -27,6 +27,7 @@ using System.Text.RegularExpressions;
 using Planzy.Commands;
 using Planzy.Models.Users;
 using Microsoft.Xaml.Behaviors;
+using Newtonsoft.Json;
 
 namespace Planzy.LoginRegister
 {
@@ -39,9 +40,12 @@ namespace Planzy.LoginRegister
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+        ProfileResponse profileResponse;
         Window loginWindow;
         UserServices userServices;
+        User user;
         List<User> listUsers;
+
 
         public ICommand LoginGoogleCommand { get; set; }
         public ICommand PasswordChangCommand { get; set; }
@@ -75,7 +79,7 @@ namespace Planzy.LoginRegister
                         NonExistAccountVisibility = "Hidden";
                         IncorrectPasswordVisibility = "Hidden";
                         LoginSuccessVisibility = "Visible";
-                        MainWindow mainForm = new MainWindow();
+                        MainWindow mainForm = new MainWindow(listUsers[i].ID);
                         mainForm.Show();
                         p.Close();
                     }
@@ -131,12 +135,38 @@ namespace Planzy.LoginRegister
             wc.Encoding = Encoding.UTF8;
             var jsonProfile = wc.DownloadString(url);
 
-            MainWindow mainForm = new MainWindow(jsonProfile);
+            profileResponse = JsonConvert.DeserializeObject<ProfileResponse>(jsonProfile);
+
+            setNewUser();
+
+            MainWindow mainForm = new MainWindow(user.ID);
             mainForm.Show();          
             loginWindow.Close();
 
         }
+        void setNewUser()
+        {
+            user = new User();
+            user.ID = userServices.getIdUserDefault();
+            user.Name = profileResponse.family_name + " " + profileResponse.given_name;
+            user.Gmail = profileResponse.email;
+            user.Password = "1";
+            user.PhoneNumer = "";
+            user.CMND = "";
 
+            userServices.pushUserToSql(user);
+        }
+        public class ProfileResponse
+        {
+            public string sub { get; set; }
+            public string name { get; set; }
+            public string given_name { get; set; }
+            public string family_name { get; set; }
+            public string picture { get; set; }
+            public string email { get; set; }
+            public bool email_verified { get; set; }
+            public string locale { get; set; }
+        }
 
         private void DisplayMemoryUsageInTitleAsync()
         {
@@ -273,6 +303,8 @@ namespace Planzy.LoginRegister
             get { return loginSuccessVisibility; }
             set { loginSuccessVisibility = value; OnPropertyChanged("LoginSuccessVisibility"); }
         }
+
+        
     }
 }
 

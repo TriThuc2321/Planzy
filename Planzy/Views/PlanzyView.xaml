@@ -670,7 +670,7 @@
 
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_Tracuu" Visibility="Visible">
+                        <Grid Name ="gr_Tracuu" Visibility="Hidden">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -1400,7 +1400,7 @@
                                
                             </Button>
                         </Grid>
-                        <Grid x:Name ="gr_NguoiDung"  Visibility="Hidden">
+                        <Grid x:Name ="gr_NguoiDung"  Visibility="Visible">
                             <Grid.RowDefinitions>
                                     <RowDefinition Height="200"/>
                                     <RowDefinition Height="50"/>

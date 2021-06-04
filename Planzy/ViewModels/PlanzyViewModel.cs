@@ -76,7 +76,7 @@ namespace Planzy.ViewModels
 
         }
 
-        public PlanzyViewModel(string jsonProfile)
+        public PlanzyViewModel(string idUser)
         {
             sanBayServices = new SanBayService();
             sanBayTrungGianService = new SanBayTrungGianService();
@@ -103,19 +103,11 @@ namespace Planzy.ViewModels
                     SelectAll(this);
             });
 
-            profileResponse = JsonConvert.DeserializeObject<ProfileResponse>(jsonProfile);
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
 
-            if (userServices.ExistEmail(profileResponse.email))
-            {
-                User = userServices.getUserByEmail(profileResponse.email);
-            }
-            else
-            {
-                setNewUser();
-                userServices.pushUserToSql(User);
-            }
+            user = userServices.getUserById(idUser);
+
             setUI();
         }
 
@@ -1296,29 +1288,10 @@ namespace Planzy.ViewModels
 
         #region user
 
-        public class ProfileResponse
-        {
-            public string sub { get; set; }
-            public string name { get; set; }
-            public string given_name { get; set; }
-            public string family_name { get; set; }
-            public string picture { get; set; }
-            public string email { get; set; }
-            public bool email_verified { get; set; }
-            public string locale { get; set; }
-        }
+        
 
         private User user;
-        public User User
-        {
-            get { return user; }
-            set
-            {
-                user = value;
-                OnPropertyChanged("DefaultUser");
-            }
-        }
-        private ProfileResponse profileResponse;
+
         private UserServices userServices;
         private List<User> listUser;
 
@@ -1347,22 +1320,13 @@ namespace Planzy.ViewModels
 
         }
         
-        void setNewUser()
-        {
-            User = new User();
-            User.ID = userServices.getIdUserDefault();
-            User.Name = profileResponse.family_name + " " + profileResponse.given_name;
-            User.Gmail = profileResponse.email;
-            User.Password = "1";
-            User.PhoneNumer = "";
-            User.CMND = "";
-        }
+        
         void setUI()
         {
-            UserName = User.Name;
-            Gmail = User.Gmail;
-            CMND = User.CMND;
-            PhoneNumer = User.PhoneNumer;
+            UserName = user.Name;
+            Gmail = user.Gmail;
+            CMND = user.CMND;
+            PhoneNumer = user.PhoneNumer;
         }
 
         private string userName;
