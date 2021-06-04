@@ -68,7 +68,6 @@ namespace Planzy.ViewModels
             searchFlightCommand_FlightBooking = new RelayCommand(searchFlight_FlightBooking);
             resetCommand = new RelayCommand(resetSearchList);
             showAllFightsCommand_FlightBooking = new RelayCommand(showAllFlights);
-/////////////////////////////////////////////////////
             suaChuyenBayCommand = new RelayCommand(suaChuyenBay);
             xoaChuyenBayCommand = new RelayCommand(xoaChuyenBay);
             huyThemVaSuaChuyenBayCommand = new RelayCommand(huyThemVaSuaChuyenBay);
@@ -87,11 +86,6 @@ namespace Planzy.ViewModels
             chooseBackButtonCommand = new RelayCommand(ButtonBack);
             chonLayoutCommand6 = new RelayCommand(Button6);
             #endregion
-            SelectAllCommand = new RelayCommand(p =>
-            {
-                if (SelectAll != null)
-                    SelectAll(this);
-            });
 
             userServices = new UserServices();
 
@@ -102,8 +96,10 @@ namespace Planzy.ViewModels
         {
             sanBayServices = new SanBayService();
             sanBayTrungGianService = new SanBayTrungGianService();
-            chuyenBayServices = new ChuyenBayServices();
-
+            loaiHangGheServices = new LoaiHangGheServices();
+            chiTietHangGheServices = new ChiTietHangGheServices();
+            chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService, sanBayServices, chiTietHangGheServices);
+            ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
             LoadData();
             doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
             xoaSanBayTrungGianCommand = new RelayCommand(xoaSanBayTrungGian);
@@ -111,6 +107,15 @@ namespace Planzy.ViewModels
             huyThemCommand = new RelayCommand(huyThemSanBayTrungGian);
             xacNhanThemCommand = new RelayCommand(xacNhanThemSanBayTrungGian);
             themChuyenBayCommand = new RelayCommand(themChuyenBay);
+
+            searchFlightCommand = new RelayCommand(searchFlight);
+            searchFlightCommand_FlightBooking = new RelayCommand(searchFlight_FlightBooking);
+            resetCommand = new RelayCommand(resetSearchList);
+            showAllFightsCommand_FlightBooking = new RelayCommand(showAllFlights);
+            suaChuyenBayCommand = new RelayCommand(suaChuyenBay);
+            xoaChuyenBayCommand = new RelayCommand(xoaChuyenBay);
+            huyThemVaSuaChuyenBayCommand = new RelayCommand(huyThemVaSuaChuyenBay);
+            luuSuaChuyenBayCommand = new RelayCommand(luuSuaChuyenBay);
             #region Xử lý giao diện ban đầu
             chonLayoutCommand1 = new RelayCommand(Button1);
             chonLayoutCommand2 = new RelayCommand(Button2);
@@ -119,11 +124,7 @@ namespace Planzy.ViewModels
             chonLayoutCommand5 = new RelayCommand(Button5);
             chonLayoutCommand6 = new RelayCommand(Button6);
             #endregion
-            SelectAllCommand = new RelayCommand(p =>
-            {
-                if (SelectAll != null)
-                    SelectAll(this);
-            });
+           
 
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
@@ -138,7 +139,6 @@ namespace Planzy.ViewModels
         public RelayCommand SelectAllCommand { get; private set; }
         public RelayCommand SelectAllCommand2 { get; private set; }
 
-        public event SelectAllEventHandler SelectAll;
 
         
         #region Xử lý chung
