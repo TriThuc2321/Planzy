@@ -65,9 +65,9 @@ namespace Planzy.Models.SanBayModel
         {
             return SanBaysList.FirstOrDefault(e => e.Id == Id);
         }
-        public SanBay SearchTen(string tenSanBay)
+        public string SearchTen(string id)
         {
-            return SanBaysList.FirstOrDefault(e => e.TenSanBay == tenSanBay);
+            return SanBaysList.FirstOrDefault(e => e.Id == id).TenSanBay;
         }
         #region SQL Command
         public void LayDuLieuTuSql()
