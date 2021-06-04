@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace Planzy.Models.Users
 
         public void pushUserToSql(User user)
         {
-            string query = "INSERT INTO HANH_KHACH (MA_TAI_KHOAN, GMAIL, MAT_KHAU, TEN_HANH_KHACH, CMND, SDT) VALUES(@Mataikhoan, @Gmail, @Matkhau, @Tenhanhkhach, @CMND, @SDT)";
+            string query = "INSERT INTO HANH_KHACH (MA_TAI_KHOAN, GMAIL, MAT_KHAU, TEN_HANH_KHACH, CMND, SDT, DIA_CHI) VALUES(@Mataikhoan, @Gmail, @Matkhau, @Tenhanhkhach, @CMND, @SDT, @Diachi)";
             SqlCommand command = new SqlCommand(query, connection);
 
             command.Parameters.AddWithValue("@Mataikhoan", user.ID);
@@ -34,6 +35,7 @@ namespace Planzy.Models.Users
             command.Parameters.AddWithValue("@Tenhanhkhach", user.Name);
             command.Parameters.AddWithValue("@CMND", user.CMND);
             command.Parameters.AddWithValue("@SDT", user.PhoneNumer);
+            command.Parameters.AddWithValue("@Diachi", user.Address);
             try
             {
                 connection.Open();
@@ -137,6 +139,20 @@ namespace Planzy.Models.Users
                 if (id == listUsers[i].ID) return true;
             }
             return false;
+        }
+
+        public string Encode(string stringValue)
+        {
+            MD5 mh = MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(stringValue);
+            byte[] hash = mh.ComputeHash(inputBytes);
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("x2"));
+            }
+            return sb.ToString();
         }
     }
 }

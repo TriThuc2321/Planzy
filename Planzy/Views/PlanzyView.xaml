@@ -1407,6 +1407,7 @@
                                     <RowDefinition Height="50"/>
                                     <RowDefinition Height="50"/>
                                     <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
                                     <RowDefinition />
                             </Grid.RowDefinitions>
 
@@ -1468,7 +1469,7 @@
                                     </StackPanel>
                                 </Grid>
 
-                            <Grid Grid.Row="4" DataContext="{Binding ElementName=MyWindow, Path=.}">
+                            <Grid Grid.Row="4">
                                 <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
                                             Margin="20 0 0 10"
@@ -1479,7 +1480,23 @@
                                            Foreground="#FF5867AC"
                                            Width="100"/>
                                     <Label Content="{Binding CMND}"
-                                           Name="cmndLabel"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="Black"
+                                           Width="250"/>
+                                </StackPanel>
+                            </Grid>
+                            <Grid Grid.Row="5">
+                                <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 10"
+                                            >
+                                    <Label Content="Địa chỉ: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                    <Label Content="{Binding Address}"                                          
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="Black"

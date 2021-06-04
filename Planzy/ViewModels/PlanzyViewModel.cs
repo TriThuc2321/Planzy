@@ -76,7 +76,7 @@ namespace Planzy.ViewModels
 
         }
 
-        public PlanzyViewModel(string idUser)
+        public PlanzyViewModel(string gmailUser)
         {
             sanBayServices = new SanBayService();
             sanBayTrungGianService = new SanBayTrungGianService();
@@ -106,7 +106,7 @@ namespace Planzy.ViewModels
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
 
-            user = userServices.getUserById(idUser);
+            user = userServices.getUserByEmail(gmailUser);
 
             setUI();
         }

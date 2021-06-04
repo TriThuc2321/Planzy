@@ -59,7 +59,7 @@ namespace Planzy.LoginRegister
 
             LoginGoogleCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginGoogleClick(p); });
             LoginCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginClick(p); });
-            PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = p.Password; });
+            PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = userServices.Encode(p.Password); });
             ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { Exit(p); });
 
             NonExistAccountVisibility = "Hidden";
@@ -79,7 +79,7 @@ namespace Planzy.LoginRegister
                         NonExistAccountVisibility = "Hidden";
                         IncorrectPasswordVisibility = "Hidden";
                         LoginSuccessVisibility = "Visible";
-                        MainWindow mainForm = new MainWindow(listUsers[i].ID);
+                        MainWindow mainForm = new MainWindow(listUsers[i].Gmail);
                         mainForm.Show();
                         p.Close();
                     }
@@ -137,9 +137,13 @@ namespace Planzy.LoginRegister
 
             profileResponse = JsonConvert.DeserializeObject<ProfileResponse>(jsonProfile);
 
-            setNewUser();
+            if (!userServices.ExistEmail(profileResponse.email))
+            {
+                setNewUser();
+                userServices.pushUserToSql(user);
+            }
 
-            MainWindow mainForm = new MainWindow(user.ID);
+            MainWindow mainForm = new MainWindow(profileResponse.email);
             mainForm.Show();          
             loginWindow.Close();
 
@@ -150,11 +154,10 @@ namespace Planzy.LoginRegister
             user.ID = userServices.getIdUserDefault();
             user.Name = profileResponse.family_name + " " + profileResponse.given_name;
             user.Gmail = profileResponse.email;
-            user.Password = "1";
+            user.Password = "c4ca4238a0b923820dcc509a6f75849b";
             user.PhoneNumer = "";
             user.CMND = "";
-
-            userServices.pushUserToSql(user);
+            user.Address = "";
         }
         public class ProfileResponse
         {
@@ -303,8 +306,13 @@ namespace Planzy.LoginRegister
             get { return loginSuccessVisibility; }
             set { loginSuccessVisibility = value; OnPropertyChanged("LoginSuccessVisibility"); }
         }
+        private string address;
+        public string Address
+        {
+            get { return address; }
+            set { address = value; OnPropertyChanged("Address"); }
+        }
 
-        
     }
 }
 

@@ -20,7 +20,7 @@ namespace Planzy.Models.Users
 
         }
 
-        public User(string id, string gmail, string password, string name, string phoneNumber, string cmnd)
+        public User(string id, string gmail, string password, string name, string phoneNumber, string cmnd, string address)
         {
             this.id = id;
             this.gmail = gmail;
@@ -28,6 +28,7 @@ namespace Planzy.Models.Users
             this.name = name;
             this.phoneNumber = phoneNumber;
             this.cmnd = cmnd;
+            this.address = address;
         }
 
         private string id;
@@ -91,6 +92,15 @@ namespace Planzy.Models.Users
             }
         }
 
-
+        private string address;
+        public string Address
+        {
+            get { return address; }
+            set
+            {
+                address = value;
+                OnPropertyChanged("Adress");
+            }
+        }
     }
 }
