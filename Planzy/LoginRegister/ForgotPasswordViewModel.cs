@@ -3,11 +3,14 @@ using Planzy.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +20,7 @@ namespace Planzy.LoginRegister
 {
     class ForgotPasswordViewModel : INotifyPropertyChanged
     {
+        private static SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
         #region onpropertychange
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
@@ -25,25 +29,137 @@ namespace Planzy.LoginRegister
         }
         #endregion
         public ICommand ExitCommand { get; set; }
+        public ICommand Resendommand { get; set; }
+        public ICommand ResetCommand { get; set; }
         public ICommand PasswordChangCommand { get; set; }
         public ICommand ConfirmPasswordChangCommand { get; set; }
 
+        string randomCode;
 
+        public ForgotPasswordViewModel(string email, string verify)
+        {
+            Email = email;
+            randomCode = verify;
 
-        public ForgotPasswordViewModel(string email, string verifyCode)
-        {          
-
+            EnterEmailVisibility = "Hidden";
+            PasswordNotNullVisibility = "Hidden";
+            ConfirmPasswordIncorrectVisibility = "Hidden";
+            IncorrectVerifyCodeVisibility = "Hidden";
 
             ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { p.Close(); });
+            Resendommand = new RelayCommand2<Object>((p) => { return true; }, (p) => { ResendClick(); });
+            ResetCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { ResetClick(p); });
             PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = Encode(p.Password); });
             ConfirmPasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { ConfirmPassword = Encode(p.Password); });
         }
+        
+        void ResendClick()
+        {
+            if (checkEmail(Email))
+            {
+                sendEmail(Email);
+                EnterEmailVisibility = "Hidden";
+                PasswordNotNullVisibility = "Hidden";
+                ConfirmPasswordIncorrectVisibility = "Hidden";
+                IncorrectVerifyCodeVisibility = "Hidden";
+            }
+            else
+            {
+                EnterEmailVisibility = "Visible";
+                PasswordNotNullVisibility = "Hidden";
+                ConfirmPasswordIncorrectVisibility = "Hidden";
+                IncorrectVerifyCodeVisibility = "Hidden";
+            }
+        }
 
-        void sendEmail(string email, Window p)
+        void ResetClick(Window p)
+        {
+            if (!checkEmail(Email))
+            {
+                EnterEmailVisibility = "Visible";
+            }
+            else
+            {
+                EnterEmailVisibility = "Hidden";
+            }
+
+            if (randomCode != VerifyCode)
+            {
+                IncorrectVerifyCodeVisibility = "Visible";
+            }
+            else
+            {
+                IncorrectVerifyCodeVisibility = "Hidden";
+            }
+
+            if (Password == null)
+            {
+                PasswordNotNullVisibility = "Visible";
+            }
+            else
+            {
+                PasswordNotNullVisibility = "Hidden";
+            }
+
+            if(ConfirmPassword != Password)
+            {
+                ConfirmPasswordIncorrectVisibility = "Visible";
+            }
+            else
+            {
+                ConfirmPasswordIncorrectVisibility = "Hidden";
+            }
+
+            if(checkEmail(Email) && randomCode == VerifyCode && Password != null && ConfirmPassword == Password)
+            {
+                ResetPassword(Email);
+                MainWindow main = new MainWindow(Email);
+                main.Show();
+                p.Close();
+            }
+        }
+
+        void ResetPassword(string email)
+        {
+            string query = "UPDATE HANH_KHACH SET MAT_KHAU = @matkhau WHERE GMAIL = @gmail";
+            SqlCommand command = new SqlCommand(query, connection);
+
+            command.Parameters.AddWithValue("@matkhau", Encode(Password));
+            command.Parameters.AddWithValue("@gmail", Email);
+            
+            try
+            {
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        bool checkEmail(string inputEmail)
+        {
+            if (inputEmail == null) return false;
+            string strRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
+                  @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
+                  @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
+            Regex re = new Regex(strRegex);
+            if (re.IsMatch(inputEmail))
+                return true;
+            else
+                return false;
+        }
+
+        void sendEmail(string email)
         {
             string from, pass, messageBody;
             Random rand = new Random();
             string randomCode = (rand.Next(999999)).ToString();
+            this.randomCode = randomCode;
             MailMessage message = new MailMessage();
             string to = email;
             from = "planzyapplycation@gmail.com";
@@ -122,6 +238,30 @@ namespace Planzy.LoginRegister
                 verifyCode = value;
                 OnPropertyChanged("VerifyCode");
             }
+        }
+        private string enterEmailVisibility;
+        public string EnterEmailVisibility
+        {
+            get { return enterEmailVisibility; }
+            set { enterEmailVisibility = value; OnPropertyChanged("EnterEmailVisibility"); }
+        }
+        private string incorrectVerifyCodeVisibility;
+        public string IncorrectVerifyCodeVisibility
+        {
+            get { return incorrectVerifyCodeVisibility; }
+            set { incorrectVerifyCodeVisibility = value; OnPropertyChanged("IncorrectVerifyCodeVisibility"); }
+        }
+        private string confirmPasswordIncorrectVisibility;
+        public string ConfirmPasswordIncorrectVisibility
+        {
+            get { return confirmPasswordIncorrectVisibility; }
+            set { confirmPasswordIncorrectVisibility = value; OnPropertyChanged("ConfirmPasswordIncorrectVisibility"); }
+        }
+        private string passwordNotNullVisibility;
+        public string PasswordNotNullVisibility
+        {
+            get { return passwordNotNullVisibility; }
+            set { passwordNotNullVisibility = value; OnPropertyChanged("PasswordNotNullVisibility"); }
         }
     }
 }
