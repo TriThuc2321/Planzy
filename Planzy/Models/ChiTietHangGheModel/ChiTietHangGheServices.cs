@@ -129,7 +129,7 @@ namespace Planzy.Models.ChiTietHangGheModel
             try
             {
                 SanBayConnection.Open();
-                SqlCommand command = new SqlCommand("Select * from CHI_TIET_HANG_GHE", SanBayConnection);
+                SqlCommand command = new SqlCommand("select * from LOAI_HANG_GHE a, CHI_TIET_HANG_GHE b where a.MA_LOAI_HANG_GHE = b .MA_LOAI_HANG_GHE ", SanBayConnection);
                 command.CommandType = CommandType.Text;
                 SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
                 DataTable dataTable = new DataTable();
@@ -141,6 +141,8 @@ namespace Planzy.Models.ChiTietHangGheModel
                         chiTietHangGhe.MaLoaiHangGhe = row["MA_LOAI_HANG_GHE"].ToString();
                         chiTietHangGhe.SoLuongGhe = row["SO_LUONG_TONG"].ToString();
                         chiTietHangGhe.SoLuongGheConLai = row["SO_LUONG_CON_LAI"].ToString();
+                        chiTietHangGhe.TenLoaiHangGhe = row["TEN_LOAI_HANG_GHE"].ToString();
+                        chiTietHangGhe.TyLe = row["TY_LE"].ToString();
                     chiTietHangGhesList.Add(chiTietHangGhe);
                     }
                 result = true;

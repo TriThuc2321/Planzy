@@ -88,6 +88,7 @@ namespace Planzy.ViewModels
             choosePayButtonCommand = new RelayCommand2<object>(checkPassangerInfor, ButtonPay);
             chooseContinueButtonCommand = new RelayCommand2<object>((p) => p != null, ButtonContinue);
             chooseBackButtonCommand = new RelayCommand(ButtonBack);
+            chooseChangeButtonCommand_FlightSearch = new RelayCommand2<object>((p) => p != null, ButtonChange);
 
             //Thuc
             chonLayoutCommand6 = new RelayCommand(Button6);
@@ -161,8 +162,9 @@ namespace Planzy.ViewModels
 
             // Thiên
             FlightSearchList = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
-            FlightSearchList_FlightBooking = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetFlightBookingList(flightSearchList_FlightBooking));
+            //FlightSearchList_FlightBooking = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetFlightBookingList(flightSearchList_FlightBooking));
             backupList_FlightBooking = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetFlightBookingList(flightSearchList_FlightBooking));
+            FlightSearchList_FlightBooking = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
             Departure = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             Destination = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             DepartureList_FlightBooking = new ObservableCollection<SanBay>(sanBayServices.GetAll());
@@ -2177,69 +2179,92 @@ namespace Planzy.ViewModels
             IsDuocChon5 = KhongDuocChon;
             IsDuocChon6 = KhongDuocChon;
 
-            ///check sticket types
+            /////check sticket types
+            //ListSticketType.Clear();
+            //hashtable_AmountSticketType.Clear();
+            //hashtable_SticketID.Clear();
+            //if (selectedFlight.SoGheHang1 != "-1")
+            //{
+            //    if (selectedFlight.SoGheHang1 == "0")
+            //    {
+            //        hashtable_AmountSticketType.Add("Hạng nhất", "Hết vé");
+            //        ListSticketType.Add("Hạng nhất");
+            //    }
+            //    else
+            //    {
+            //        hashtable_AmountSticketType.Add("Hạng nhất", selectedFlight.SoGheHang1);
+            //        ListSticketType.Add("Hạng nhất");
+            //    }
+            //    hashtable_SticketID.Add("Hạng nhất","A");
+            //}
+            //if (selectedFlight.SoGheHang2 != "-1")
+            //{
+            //    if (selectedFlight.SoGheHang2 == "0")
+            //    {
+            //        hashtable_AmountSticketType.Add("Thương gia", "Hết vé");
+            //        ListSticketType.Add("Thương gia");
+            //    }
+            //    else
+            //    {
+            //        hashtable_AmountSticketType.Add("Thương gia", selectedFlight.SoGheHang2);
+            //        ListSticketType.Add("Thương gia");
+            //    }
+            //    hashtable_SticketID.Add("Thương gia", "B");
+            //}
+            //if (selectedFlight.SoGheHang3 != "-1")
+            //{
+            //    if (selectedFlight.SoGheHang3 == "0")
+            //    {
+            //        hashtable_AmountSticketType.Add("Phổ thông đặc biệt", "Hết vé");
+            //        ListSticketType.Add("Phổ thông đặc biệt");
+            //    }
+            //    else
+            //    {
+            //        hashtable_AmountSticketType.Add("Phổ thông đặc biệt", selectedFlight.SoGheHang3);
+            //        ListSticketType.Add("Phổ thông đặc biệt");
+            //    }
+            //    hashtable_SticketID.Add("Phổ thông đặc biệt", "C");
+            //}
+            //if (selectedFlight.SoGheHang4 != "-1")
+            //{
+            //    if (selectedFlight.SoGheHang4 == "0")
+            //    {
+            //        hashtable_AmountSticketType.Add("Phổ thông", "Hết vé");
+            //        ListSticketType.Add("Phổ thông");
+            //    }
+            //    else
+            //    {
+            //        hashtable_AmountSticketType.Add("Phổ thông", selectedFlight.SoGheHang4);
+            //        ListSticketType.Add("Phổ thông");
+            //    }
+            //    hashtable_SticketID.Add("Phổ thông", "D");
+            //}
+            //OnPropertyChanged("ListSticketType");
+            //SticketTypeAmount = null;
+            //BookingSticket.FlightID = selectedFlight.MaChuyenBay;
+
+
             ListSticketType.Clear();
-            hashtable_AmountSticketType.Clear();
-            hashtable_SticketID.Clear();
-            if (selectedFlight.SoGheHang1 != "-1")
+            hashtable_AmountSticketType.Clear(); // Dictionary from Name to Amount
+            hashtable_SticketID.Clear(); /// Dictionary from Name to ID
+            foreach (ChiTietHangGhe ite in selectedFlight.ChiTietHangGhesList)
             {
-                if (selectedFlight.SoGheHang1 == "0")
+                if (ite.SoLuongGheConLai =="0")
                 {
-                    hashtable_AmountSticketType.Add("Hạng nhất", "Hết vé");
-                    ListSticketType.Add("Hạng nhất");
+                    hashtable_AmountSticketType.Add(ite.TenLoaiHangGhe, "Hết vé");
+                    hashtable_SticketID.Add(ite.TenLoaiHangGhe, ite.MaLoaiHangGhe);
                 }
                 else
                 {
-                    hashtable_AmountSticketType.Add("Hạng nhất", selectedFlight.SoGheHang1);
-                    ListSticketType.Add("Hạng nhất");
+                    hashtable_AmountSticketType.Add(ite.TenLoaiHangGhe, ite.SoLuongGheConLai);
+                    hashtable_SticketID.Add(ite.TenLoaiHangGhe, ite.MaLoaiHangGhe);
                 }
-                hashtable_SticketID.Add("Hạng nhất","A");
-            }
-            if (selectedFlight.SoGheHang2 != "-1")
-            {
-                if (selectedFlight.SoGheHang2 == "0")
-                {
-                    hashtable_AmountSticketType.Add("Thương gia", "Hết vé");
-                    ListSticketType.Add("Thương gia");
-                }
-                else
-                {
-                    hashtable_AmountSticketType.Add("Thương gia", selectedFlight.SoGheHang2);
-                    ListSticketType.Add("Thương gia");
-                }
-                hashtable_SticketID.Add("Thương gia", "B");
-            }
-            if (selectedFlight.SoGheHang3 != "-1")
-            {
-                if (selectedFlight.SoGheHang3 == "0")
-                {
-                    hashtable_AmountSticketType.Add("Phổ thông đặc biệt", "Hết vé");
-                    ListSticketType.Add("Phổ thông đặc biệt");
-                }
-                else
-                {
-                    hashtable_AmountSticketType.Add("Phổ thông đặc biệt", selectedFlight.SoGheHang3);
-                    ListSticketType.Add("Phổ thông đặc biệt");
-                }
-                hashtable_SticketID.Add("Phổ thông đặc biệt", "C");
-            }
-            if (selectedFlight.SoGheHang4 != "-1")
-            {
-                if (selectedFlight.SoGheHang4 == "0")
-                {
-                    hashtable_AmountSticketType.Add("Phổ thông", "Hết vé");
-                    ListSticketType.Add("Phổ thông");
-                }
-                else
-                {
-                    hashtable_AmountSticketType.Add("Phổ thông", selectedFlight.SoGheHang4);
-                    ListSticketType.Add("Phổ thông");
-                }
-                hashtable_SticketID.Add("Phổ thông", "D");
+                ListSticketType.Add(ite.TenLoaiHangGhe);
             }
             OnPropertyChanged("ListSticketType");
             SticketTypeAmount = null;
             BookingSticket.FlightID = selectedFlight.MaChuyenBay;
+
         }
         private BookingSticket bookingSticket;
         public BookingSticket BookingSticket
@@ -2381,14 +2406,35 @@ namespace Planzy.ViewModels
                 || string.IsNullOrEmpty(bookingSticket.Contact) || SticketTypeAmount == "Hết vé" || string.IsNullOrEmpty(SticketTypeAmount)) return false;
             return true;
         }
-         
-        
+
+        private RelayCommand2<object> chooseChangeButtonCommand_FlightSearch;
+
+        public RelayCommand2<object> ChooseChangeButtonCommand_FlightSearch
+        {
+            get { return chooseChangeButtonCommand_FlightSearch; }
+        }
+        private void ButtonChange(object obj)
+        {
+            ChuyenBay selectedFlightToChange = obj as ChuyenBay;
+            if (selectedFlightToChange != null || selectedFlightToChange.IsDaBay == false)
+            {
+                MessageBox.Show("Sửa đi thằng lồn!", "Thông báo", MessageBoxButton.OK);
+            }        
+            else
+            {
+                MessageBox.Show("Không Thể Sửa Chuyến Bay Đã Bay !", "Thông báo", MessageBoxButton.OK);
+            }
+        }      
+
+
+        1
+
         #endregion
 
 
         #region user
 
-        
+
 
         private User user;
 

@@ -54,5 +54,19 @@ namespace Planzy.Models.ChiTietHangGheModel
             get { return soLuongGheConLai; }
             set { soLuongGheConLai = value; OnPropertyChanged("SoLuongGheConLai"); }
         }
+        private string tenLoaiHangGhe;
+
+        public string TenLoaiHangGhe
+        {
+            get { return tenLoaiHangGhe; }
+            set { tenLoaiHangGhe = value; OnPropertyChanged("TenLoaiHangGhe"); }
+        }
+        private string tyLe;
+
+        public string TyLe
+        {
+            get { return tyLe; }
+            set { tyLe = value; OnPropertyChanged("TyLe"); }
+        }
     }
 }

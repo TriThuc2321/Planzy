@@ -144,7 +144,7 @@
             <Grid Grid.Column="1" Margin="10,10, 25,10" >
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
                     <Grid Background="White">
-                        <Grid Name ="gr_DatVe" Visibility="{Binding IsDuocChon1.NewVisibility}">
+                        <Grid Name ="gr_DatVe" Visibility="Hidden">
                            
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"></RowDefinition>
@@ -474,7 +474,7 @@
                                 </Grid>
                         </Grid>
                         </Grid>
-                        <Grid x:Name ="gr_BanVe" Visibility="{Binding IsDuocChon2.NewVisibility}">
+                        <Grid x:Name ="gr_BanVe" Visibility="Hidden">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="50"/>
@@ -676,7 +676,7 @@
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="100"></RowDefinition>
+                                <RowDefinition Height="150"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="1"
@@ -813,18 +813,31 @@
                                             Orientation="Horizontal"
                                             HorizontalAlignment="Center">
                                     <TextBlock Text=" " Height="5" Width="5"></TextBlock>
+
                                     <Button
-                                        BorderBrush="Black"
+                                        BorderBrush="White"
                                         FontSize="10"
-                                        Height="20"
+                                        Height="40"
+                                        Width="100"
+                                         Command="{Binding ChooseChangeButtonCommand_FlightSearch}" 
+                                        CommandParameter="{Binding SelectedItem, ElementName=lvsTracuu}"
+                                         Content="Sửa"
+                                        Margin="0 0 10 0">
+                                    </Button>
+                                    <Button
+                                        BorderBrush="White"
+                                        FontSize="10"
+                                        Height="40"
                                         Width="100"
                                          Command="{Binding searchFlightCommand}" 
                                          Content="Search">
                                     </Button>
+
+                                   
                                     <Button
-                                        BorderBrush="Black"
+                                        BorderBrush="White"
                                         FontSize="10"
-                                        Height="20"
+                                        Height="40"
                                         Width="100"
                                          Command="{Binding resetCommand}" 
                                          Content="Reset"
@@ -925,7 +938,7 @@
 
 
                         </Grid>
-                        <Grid Name ="gr_NhanLich" Visibility="{Binding IsDuocChon4.NewVisibility}">
+                        <Grid Name ="gr_NhanLich" Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="126"></RowDefinition>
                                 <RowDefinition Height="84"></RowDefinition>
@@ -1493,7 +1506,7 @@
                             </Grid>
                         </Grid>
                         <Grid Name ="gr_DoanhThu" Visibility="Hidden"/>
-                        <Grid Name="gr_ChiTietDatVe" Visibility="{Binding IsContinueButton.NewVisibility}"
+                        <Grid Name="gr_ChiTietDatVe" Visibility="Hidden"
                               Background="White">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"></RowDefinition>
@@ -1908,7 +1921,7 @@
                             </Grid>
                           
                         </Grid>
-                        <Grid x:Name ="gr_NguoiDung"  Visibility="{Binding IsDuocChon6.NewVisibility}">
+                        <Grid x:Name ="gr_NguoiDung"  Visibility="Hidden">
                             <Grid.RowDefinitions>
                                     <RowDefinition Height="200"/>
                                     <RowDefinition Height="50"/>
