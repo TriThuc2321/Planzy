@@ -17,7 +17,7 @@
     <Grid>
         <materialDesign:Card HorizontalAlignment="Center" VerticalAlignment="Center" Width="800" Height="450">
             <materialDesign:Card.Background>
-                <ImageBrush ImageSource="/LoginRegister/back_ground_login.jpg" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="/LoginRegister/Image/back_ground_login.jpg" Stretch="UniformToFill"/>
             </materialDesign:Card.Background>
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="272" Height="400" Margin="20,20,0,0">
                 <Grid.RowDefinitions>
@@ -45,11 +45,17 @@
                         Margin="20 25 0 0"
                         Text="{Binding Account}"
                             />
-
-                        <Label Content="Account does not exist!" 
+                     
+                        <Label Content="Enter email to continue" 
                                Foreground="Red"
                                FontStyle="Italic"
                                Margin="140 0 0 0"
+                               Visibility="{Binding EnterEmailVisibility}"
+                               />
+                        <Label Content="Account or email does not exist!" 
+                               Foreground="Red"
+                               FontStyle="Italic"
+                               Margin="83 0 0 0"
                                Visibility="{Binding NonExistAccountVisibility}"
                                />
                     </StackPanel>
@@ -79,8 +85,6 @@
                                         <i:InvokeCommandAction Command="{Binding PasswordChangCommand}"
                                                                CommandParameter="{Binding ElementName=FloatingPasswordBox}"/>
                                     </i:EventTrigger>
-                                        
-                                    
                                 </i:Interaction.Triggers>
                             </PasswordBox>
                             
@@ -120,6 +124,8 @@
                             <TextBlock VerticalAlignment="Top"> 
                                 
                                 <Hyperlink
+                                    Command="{Binding ForgotPasswordCommand}"
+                                    CommandParameter="{Binding ElementName=LoginXaml}"
                                     FontStyle="Italic"
                                       Style="{StaticResource MaterialDesignOverlineHyperlink}">
                                       Forgot your password?
@@ -150,8 +156,11 @@
                         </Button>
                     </Grid>
                     <Grid Grid.Row="1" HorizontalAlignment="Center">
-                        <TextBlock VerticalAlignment="Top">                             
+                        <TextBlock VerticalAlignment="Top"
+                                   >                             
                                 <Hyperlink
+                                    Command="{Binding RegisterCommand}"
+                                    CommandParameter="{Binding ElementName=LoginXaml}"
                                     FontStyle="Italic"
                                       Style="{StaticResource MaterialDesignOverlineHyperlink}">
                                       Don't have an account? Register                                    
@@ -178,7 +187,7 @@
                         Margin="75 10 65 0"
                         VerticalAlignment="Top">
                         <Button.Background>
-                            <ImageBrush ImageSource="/LoginRegister/googleLoginBackground.png"/>
+                            <ImageBrush ImageSource="/LoginRegister/Image/googleLoginBackground.png"/>
                         </Button.Background>
 
                     </Button>
@@ -196,7 +205,7 @@
                     Command="{Binding ExitCommand}"
                     CommandParameter="{Binding ElementName=LoginXaml}">
                 <Button.Background>
-                    <ImageBrush ImageSource="/LoginRegister/clodeIcon.png"/>
+                    <ImageBrush ImageSource="/LoginRegister/Image/clodeIcon.png"/>
                 </Button.Background>
                 
             </Button>

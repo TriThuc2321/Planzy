@@ -28,6 +28,8 @@ using Planzy.Commands;
 using Planzy.Models.Users;
 using Microsoft.Xaml.Behaviors;
 using Newtonsoft.Json;
+using System.Net.Sockets;
+using System.Net.Mail;
 
 namespace Planzy.LoginRegister
 {
@@ -50,7 +52,9 @@ namespace Planzy.LoginRegister
         public ICommand LoginGoogleCommand { get; set; }
         public ICommand PasswordChangCommand { get; set; }
         public ICommand LoginCommand { get; set; }
+        public ICommand RegisterCommand { get; set; }
         public ICommand ExitCommand { get; set; }
+        public ICommand ForgotPasswordCommand { get; set; }
 
         public LoginViewModel()
         {
@@ -60,11 +64,14 @@ namespace Planzy.LoginRegister
             LoginGoogleCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginGoogleClick(p); });
             LoginCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginClick(p); });
             PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = userServices.Encode(p.Password); });
-            ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { Exit(p); });
+            ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { p.Close(); });
+            RegisterCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenRegisterWindow(p); });
+            ForgotPasswordCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenForgotPasswordWindow(p); });
 
             NonExistAccountVisibility = "Hidden";
             IncorrectPasswordVisibility = "Hidden";
             LoginSuccessVisibility = " Hidden";
+            EnterEmailVisibility = "Hidden";
         }
         void LoginClick(Window p)
         {
@@ -79,6 +86,7 @@ namespace Planzy.LoginRegister
                         NonExistAccountVisibility = "Hidden";
                         IncorrectPasswordVisibility = "Hidden";
                         LoginSuccessVisibility = "Visible";
+                        EnterEmailVisibility = "Hiden";
                         MainWindow mainForm = new MainWindow(listUsers[i].Gmail);
                         mainForm.Show();
                         p.Close();
@@ -88,6 +96,7 @@ namespace Planzy.LoginRegister
                         NonExistAccountVisibility = "Hidden";
                         IncorrectPasswordVisibility = "Visible";
                         LoginSuccessVisibility = " Hidden";
+                        EnterEmailVisibility = "Hiden";
                         break;
                     }
                    
@@ -98,12 +107,10 @@ namespace Planzy.LoginRegister
                 NonExistAccountVisibility = "Visible";
                 IncorrectPasswordVisibility = "Hidden";
                 LoginSuccessVisibility = " Hidden";
+                EnterEmailVisibility = "Hiden";
             }
         }
-        private void Exit(Window p)
-        {
-            p.Close();
-        }
+       
         private void LoginGoogleClick(Window p)
         {
             this.loginWindow = p;
@@ -120,6 +127,83 @@ namespace Planzy.LoginRegister
             DisplayMemoryUsageInTitleAsync();
         }
 
+        void OpenRegisterWindow(Window p)
+        {
+            Register registerWindow = new Register();
+            registerWindow.Show();
+            p.Close();
+        }
+        void OpenForgotPasswordWindow(Window p)
+        {
+            if (checkEmail(Account))
+            {
+                sendEmail(Account, p);
+               
+            }
+            else
+            {
+                EnterEmailVisibility = "Visible";
+            }
+           
+        }
+        void sendEmail(string email, Window p)
+        {
+            string from, pass, messageBody;
+            Random rand = new Random();
+            string randomCode = (rand.Next(999999)).ToString();
+            MailMessage message = new MailMessage();
+            string to = email;
+            from = "planzyapplycation@gmail.com";
+            pass = "ThucThienThang123";
+            messageBody = "Thank for your using Planzy, this is your password reseting code: " + randomCode;
+            message.To.Add(to);
+            message.From = new MailAddress(from);
+            message.Body = messageBody;
+            message.Subject = "Password reset code Planzy";
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+            smtp.EnableSsl = true;
+            smtp.Port = 587;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.Credentials = new NetworkCredential(from, pass);
+            try
+            {
+                smtp.Send(message);
+
+                ForgotPassword forgotPassword = new ForgotPassword(Account, randomCode);
+                forgotPassword.Show();
+                p.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        void setNewUser()
+        {
+            user = new User();
+            user.ID = userServices.getIdUserDefault();
+            user.Name = profileResponse.family_name + " " + profileResponse.given_name;
+            user.Gmail = profileResponse.email;
+            user.Password = "c4ca4238a0b923820dcc509a6f75849b";
+            user.PhoneNumer = "";
+            user.CMND = "";
+            user.Address = "";
+        }
+        bool checkEmail(string inputEmail)
+        {
+            if (inputEmail == null) return false;
+            string strRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
+                  @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
+                  @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
+            Regex re = new Regex(strRegex);
+            if (re.IsMatch(inputEmail))
+                return true;
+            else
+                return false;
+        }
+        #region Login google
         public const string clientId = "147215247319-dgmnt8q8l4rf4lu22hl7njqg7jo29l94.apps.googleusercontent.com";
         public const string clientSecret = "ogfkpR8xxt6fkP2TQw7QNJCU";
         public const string redirectURI = "urn:ietf:wg:oauth:2.0:oob";
@@ -148,17 +232,7 @@ namespace Planzy.LoginRegister
             loginWindow.Close();
 
         }
-        void setNewUser()
-        {
-            user = new User();
-            user.ID = userServices.getIdUserDefault();
-            user.Name = profileResponse.family_name + " " + profileResponse.given_name;
-            user.Gmail = profileResponse.email;
-            user.Password = "c4ca4238a0b923820dcc509a6f75849b";
-            user.PhoneNumer = "";
-            user.CMND = "";
-            user.Address = "";
-        }
+             
         public class ProfileResponse
         {
             public string sub { get; set; }
@@ -254,10 +328,7 @@ namespace Planzy.LoginRegister
             return true;
         }
 
-
-
-
-
+        #endregion
 
         private string account;
         public string Account
@@ -306,13 +377,13 @@ namespace Planzy.LoginRegister
             get { return loginSuccessVisibility; }
             set { loginSuccessVisibility = value; OnPropertyChanged("LoginSuccessVisibility"); }
         }
-        private string address;
-        public string Address
-        {
-            get { return address; }
-            set { address = value; OnPropertyChanged("Address"); }
-        }
 
+        private string enterEmailVisibility;
+        public string EnterEmailVisibility
+        {
+            get { return enterEmailVisibility; }
+            set { enterEmailVisibility = value; OnPropertyChanged("EnterEmailVisibility"); }
+        }
     }
 }
 

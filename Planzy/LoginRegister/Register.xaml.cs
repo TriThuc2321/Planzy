@@ -19,9 +19,12 @@ namespace Planzy.LoginRegister
     /// </summary>
     public partial class Register : Window
     {
+        RegisterViewModel registerViewModel;
         public Register()
         {
             InitializeComponent();
+            registerViewModel = new RegisterViewModel();
+            this.DataContext = registerViewModel;
         }
     }
 }
