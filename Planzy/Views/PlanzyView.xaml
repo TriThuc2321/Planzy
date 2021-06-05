@@ -925,7 +925,7 @@
 
 
                         </Grid>
-                        <Grid Name ="gr_NhanLich" Visibility="Hidden">
+                        <Grid Name ="gr_NhanLich" Visibility="{Binding IsDuocChon4.NewVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="126"></RowDefinition>
                                 <RowDefinition Height="84"></RowDefinition>

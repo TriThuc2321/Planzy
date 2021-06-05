@@ -49,7 +49,7 @@ namespace Planzy.ViewModels
         ChuyenBayServices chuyenBayServices;
         LoaiHangGheServices loaiHangGheServices;
         ChiTietHangGheServices chiTietHangGheServices;
-        public PlanzyViewModel()
+        public PlanzyViewModel(string gmailUser)
         {
 
             sanBayServices = new SanBayService();
@@ -65,17 +65,10 @@ namespace Planzy.ViewModels
             huyThemCommand = new RelayCommand(huyThemSanBayTrungGian);
             xacNhanThemCommand = new RelayCommand(xacNhanThemSanBayTrungGian);
             themChuyenBayCommand = new RelayCommand(themChuyenBay);
-
-            searchFlightCommand = new RelayCommand(searchFlight);
-            searchFlightCommand_FlightBooking = new RelayCommand(searchFlight_FlightBooking);
-            resetCommand = new RelayCommand(resetSearchList);
-            showAllFightsCommand_FlightBooking = new RelayCommand(showAllFlights);
-            choosePayButtonCommand = new RelayCommand2<object>(checkPassangerInfor, ButtonPay);
             suaChuyenBayCommand = new RelayCommand(suaChuyenBay);
             xoaChuyenBayCommand = new RelayCommand(xoaChuyenBay);
             huyThemVaSuaChuyenBayCommand = new RelayCommand(huyThemVaSuaChuyenBay);
             luuSuaChuyenBayCommand = new RelayCommand(luuSuaChuyenBay);
-
 
             #region Xử lý giao diện ban đầu
             LoadUIHangGheTheoQuyDinh();
@@ -84,18 +77,29 @@ namespace Planzy.ViewModels
             chonLayoutCommand3 = new RelayCommand(Button3);
             chonLayoutCommand4 = new RelayCommand(Button4);
             chonLayoutCommand5 = new RelayCommand(Button5);
+
+            #endregion
             //Thien
+
+            searchFlightCommand = new RelayCommand(searchFlight);
+            searchFlightCommand_FlightBooking = new RelayCommand(searchFlight_FlightBooking);
+            resetCommand = new RelayCommand(resetSearchList);
+            showAllFightsCommand_FlightBooking = new RelayCommand(showAllFlights);
+            choosePayButtonCommand = new RelayCommand2<object>(checkPassangerInfor, ButtonPay);
             chooseContinueButtonCommand = new RelayCommand2<object>((p) => p != null, ButtonContinue);
             chooseBackButtonCommand = new RelayCommand(ButtonBack);
-            chonLayoutCommand6 = new RelayCommand(Button6);
-            #endregion
 
+            //Thuc
+            chonLayoutCommand6 = new RelayCommand(Button6);
             userServices = new UserServices();
+            listUser = new List<User>(userServices.GetAll());
+            user = userServices.getUserByEmail(gmailUser);
+            setUI();
 
 
         }
 
-        public PlanzyViewModel(string gmailUser)
+        public PlanzyViewModel()
         {
             sanBayServices = new SanBayService();
             sanBayTrungGianService = new SanBayTrungGianService();
@@ -132,7 +136,7 @@ namespace Planzy.ViewModels
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
 
-            user = userServices.getUserByEmail(gmailUser);
+            //user = userServices.getUserByEmail();
 
             setUI();
         }
@@ -374,7 +378,6 @@ namespace Planzy.ViewModels
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
             IsContinueButton = KhongDuocChon;
-
             IsDuocChon6 = KhongDuocChon;
         }
         public void Button3()
@@ -385,7 +388,6 @@ namespace Planzy.ViewModels
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
             IsContinueButton = KhongDuocChon;
-
             IsDuocChon6 = KhongDuocChon;
         }
         public void Button4()
@@ -396,7 +398,6 @@ namespace Planzy.ViewModels
             IsDuocChon4 = DuocChon;
             IsDuocChon5 = KhongDuocChon;
             IsContinueButton = KhongDuocChon;
-
             IsDuocChon6 = KhongDuocChon;
         }
         public void Button5()
@@ -407,7 +408,6 @@ namespace Planzy.ViewModels
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = DuocChon;
             IsContinueButton = KhongDuocChon;
-
             IsDuocChon6 = KhongDuocChon;
         }
         public void Button6()
@@ -417,6 +417,7 @@ namespace Planzy.ViewModels
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
+            IsContinueButton = KhongDuocChon;
             IsDuocChon6 = DuocChon;
         }
         #endregion
