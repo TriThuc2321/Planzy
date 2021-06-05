@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planzy", "Planzy\Planzy.csproj", "{8557CE68-2061-447B-A15D-59C0DB54D214}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Planzy", "Planzy\Planzy.csproj", "{8557CE68-2061-447B-A15D-59C0DB54D214}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Image", "Image", "{E2D383C9-95B9-48B3-952F-059C11C81069}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\pvdth\Downloads\logo.png = C:\Users\pvdth\Downloads\logo.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

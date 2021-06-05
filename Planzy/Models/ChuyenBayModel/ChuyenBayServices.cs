@@ -183,11 +183,13 @@ namespace Planzy.Models.ChuyenBayModel
                         List<SanBay> listAirport = SanBayService.GetAirportForFlight(maSanBayDen, maSanBayDi);
                         chuyenBay.SanBayDen = listAirport[0];
                         chuyenBay.SanBayDi = listAirport[1];
-                        // tu gan 
-                        chuyenBay.SoGheHang1 = "30";
-                        chuyenBay.SoGheHang2 = "30";
-                        chuyenBay.SoGheHang3 = "0";
-                        chuyenBay.SoGheHang4 = "0";
+                        // tu gan                       
+                        string[] SticketTypes = getSticketTypes(chuyenBay.MaChuyenBay);
+                        chuyenBay.SoGheHang1 = SticketTypes[0];
+                        chuyenBay.SoGheHang2 = SticketTypes[1];
+                        chuyenBay.SoGheHang3 = SticketTypes[2];
+                        chuyenBay.SoGheHang4 = SticketTypes[3];
+
                         chuyenBay.SanBayTrungGian = SanBayTrungGianService.GetAirportForFlight(listAirport, chuyenBay.MaChuyenBay);
                         chuyenBay.NgayBay = DateTime.Parse(row["NGAY_GIO_BAY"].ToString());
                         chuyenBay.ThoiGianBay = row["THOI_GIAN_BAY"].ToString();
@@ -210,6 +212,61 @@ namespace Planzy.Models.ChuyenBayModel
                 
                 SanBayConnection.Close();
             }
+        }
+        private string[] getSticketTypes(string FlightID)
+        {
+            string[] a = { "-1", "-1", "-1", "-1" };
+            try
+            {
+
+                SanBayConnection.Open();
+                string query = string.Format("Select *  from LOAI_HANG_GHE a, CHI_TIET_HANG_GHE b " +
+                    "Where a.MA_LOAI_HANG_GHE = b.MA_LOAI_HANG_GHE and b.MA_CHUYEN_BAY = '{0}'", FlightID);
+                #region Truy vấn dữ liệu từ sql
+                SqlCommand command = new SqlCommand(query, SanBayConnection);
+                command.CommandType = CommandType.Text;
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                #endregion
+                if (dataTable.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        if (row["TEN_LOAI_HANG_GHE"].ToString() == "Hạng nhất")
+                        {
+                            a[0] = row["SO_LUONG_CON_LAI"].ToString();
+                        }
+                        else
+                        if (row["TEN_LOAI_HANG_GHE"].ToString() == "Thương gia")
+                        {
+                            a[1] = row["SO_LUONG_CON_LAI"].ToString();
+                        }
+                        else
+                        if (row["TEN_LOAI_HANG_GHE"].ToString() == "Phổ thông đặc biệt")
+                        {
+                            a[2] = row["SO_LUONG_CON_LAI"].ToString();
+                        }
+                        else
+                        if (row["TEN_LOAI_HANG_GHE"].ToString() == "Phổ thông")
+                        {
+                            a[3] = row["SO_LUONG_CON_LAI"].ToString();
+                        }
+                    }
+
+                }
+                return a;
+            }
+            catch (Exception e)
+            {
+                return a;
+            }
+            finally
+            {
+
+                SanBayConnection.Close();
+            }
+            
         }
 
     }
