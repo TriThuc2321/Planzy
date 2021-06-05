@@ -15,16 +15,20 @@ using System.Windows.Shapes;
 namespace Planzy.LoginRegister
 {
     /// <summary>
-    /// Interaction logic for Register.xaml
+    /// Interaction logic for ForgotPassword.xaml
     /// </summary>
-    public partial class Register : Window
+    public partial class ForgotPassword : Window
     {
-        RegisterViewModel registerViewModel;
-        public Register()
+        ForgotPasswordViewModel forgotPasswordViewModel;
+        public ForgotPassword()
         {
             InitializeComponent();
-            registerViewModel = new RegisterViewModel();
-            this.DataContext = registerViewModel;
+        }
+        public ForgotPassword(string email, string verifyCode)
+        {
+            InitializeComponent();
+            forgotPasswordViewModel = new ForgotPasswordViewModel(email, verifyCode);
+            this.DataContext = forgotPasswordViewModel;
         }
     }
 }

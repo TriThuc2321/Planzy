@@ -2226,6 +2226,7 @@ namespace Planzy.ViewModels
             Gmail = user.Gmail;
             CMND = user.CMND;
             PhoneNumer = user.PhoneNumer;
+            Address = user.Address;
         }
 
         private string userName;
@@ -2269,8 +2270,13 @@ namespace Planzy.ViewModels
                 OnPropertyChanged("CMND");
             }
         }
+        private string address;
+        public string Address
+        {
+            get { return address; }
+            set { address = value; OnPropertyChanged("Address"); }
+        }
 
-        
         #endregion
     }
 }

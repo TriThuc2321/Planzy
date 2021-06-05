@@ -9,7 +9,6 @@
   <ItemGroup>
     <None Remove="back_ground_login.jpg" />
     <None Remove="clodeIcon.png" />
-    <None Remove="LoginRegister\googleLoginBackground.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="LoginRegister\back_ground_login.jpg" />
-    <Resource Include="LoginRegister\clodeIcon.png" />
-    <Resource Include="LoginRegister\googleLoginBackground.png" />
+    <Resource Include="LoginRegister\Image\back_ground_login.jpg" />
+    <Resource Include="LoginRegister\Image\clodeIcon.png" />
+    <Resource Include="LoginRegister\Image\googleLoginBackground.png" />
   </ItemGroup>
 
 </Project>
