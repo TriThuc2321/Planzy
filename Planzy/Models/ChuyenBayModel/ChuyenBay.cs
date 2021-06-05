@@ -9,6 +9,7 @@ using Planzy.Models.KiemTraModel;
 using Planzy.Models.SanBayTrungGianModel;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Planzy.Models.ChiTietHangGheModel;
 
 namespace Planzy.Models.ChuyenBayModel
 {
@@ -21,19 +22,23 @@ namespace Planzy.Models.ChuyenBayModel
         }
         public ChuyenBay()
         {
-            MaChuyenBay = null;
-            GiaVeCoBan = null;
-            ThoiGianBay = null;
+            MaChuyenBay = "";
+            GiaVeCoBan = "";
+            ThoiGianBay = "";
             SanBayDi = null;
             SanBayDen = null;
-            SoGheHang1 = null;
-            SoGheHang2 = null;
-            SoGheHang3 = null;
-            SoGheHang4 = null;
+            SoGheHang1 = "";
+            SoGheHang2 = "";
+            SoGheHang3 = "";
+            SoGheHang4 = "";
+            SoGheHang5 = "";
+            SoGheHang6 = "";
+            SoGheHang7 = "";
+            SoGheHang8 = "";
             IsDaBay = false;
             SanBayTrungGian = null;
-
-            
+            ChiTietHangGhesList = null;
+            SoLoaiHangGhe = 0;
         }
 
         private string maChuyenBay;
@@ -43,11 +48,7 @@ namespace Planzy.Models.ChuyenBayModel
             get { return maChuyenBay; }
             set 
             {
-                if (value != null)
-                {
-                    if (KiemTraHopLeInput.KiemTraMa(value))
-                        maChuyenBay = value.ToUpper();
-                }    
+                maChuyenBay = value;
                 OnPropertyChanged("MaChuyenBay"); 
             }
         }
@@ -64,18 +65,8 @@ namespace Planzy.Models.ChuyenBayModel
         {
             get { return giaVeCoBan; }
             set 
-            { 
-                if(value != null)
-                {
-                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
-                    {
-                        giaVeCoBan = value;
-                    }    
-                    else
-                    {
-                        MessageBox.Show("");
-                    }    
-                }    
+            {
+                giaVeCoBan = value;
                 OnPropertyChanged("GiaVeCoBan"); 
             }
         }
@@ -138,6 +129,34 @@ namespace Planzy.Models.ChuyenBayModel
             get { return soGheHang4; }
             set { soGheHang4 = value; OnPropertyChanged("SoGheHang4"); }
         }
+        private string soGheHang5;
+
+        public string SoGheHang5
+        {
+            get { return soGheHang5; }
+            set { soGheHang5 = value; OnPropertyChanged("SoGheHang5"); }
+        }
+        private string soGheHang6;
+
+        public string SoGheHang6
+        {
+            get { return soGheHang6; }
+            set { soGheHang6 = value; OnPropertyChanged("SoGheHang6"); }
+        }
+        private string soGheHang7;
+
+        public string SoGheHang7
+        {
+            get { return soGheHang7; }
+            set { soGheHang7 = value; OnPropertyChanged("SoGheHang7"); }
+        }
+        private string soGheHang8;
+
+        public string SoGheHang8
+        {
+            get { return soGheHang8; }
+            set { soGheHang8 = value; OnPropertyChanged("SoGheHang8"); }
+        }
 
         private bool isDaBay;
 
@@ -153,6 +172,20 @@ namespace Planzy.Models.ChuyenBayModel
         {
             get { return sanBayTrungGian; }
             set { sanBayTrungGian = value; OnPropertyChanged("SanBayTrungGian"); }
+        }
+        private int soLoaiHangGhe;
+
+        public int SoLoaiHangGhe
+        {
+            get { return soLoaiHangGhe; }
+            set { soLoaiHangGhe = value; OnPropertyChanged("SoLoaiHangGhe"); }
+        }
+        private List<ChiTietHangGhe> chiTietHangGhesList;
+
+        public List<ChiTietHangGhe> ChiTietHangGhesList
+        {
+            get { return chiTietHangGhesList; }
+            set { chiTietHangGhesList = value; OnPropertyChanged("ChiTietHangGhesList"); }
         }
 
     }

@@ -7,24 +7,36 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\PlanzyView.xaml.cs">
+    <Compile Update="LoginRegister\ForgotPassword.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\WarningView.xaml.cs">
+    <Compile Update="LoginRegister\Login.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="LoginRegister\Register.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\PlanzyView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="LoginRegister\ForgotPassword.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="LoginRegister\Register.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ResourcesXAML\MyResource.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\PlanzyView.xaml">
+    <Page Update="LoginRegister\Login.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\WarningView.xaml">
+    <Page Update="Views\PlanzyView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

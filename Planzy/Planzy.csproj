@@ -8,15 +8,22 @@
 
   <ItemGroup>
     <None Remove="Views\logo.png" />
+    <None Remove="back_ground_login.jpg" />
+    <None Remove="clodeIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Views\logo.png" />
+    <Resource Include="LoginRegister\Image\back_ground_login.jpg" />
+    <Resource Include="LoginRegister\Image\clodeIcon.png" />
+    <Resource Include="LoginRegister\Image\googleLoginBackground.png" />
   </ItemGroup>
 
 </Project>
