@@ -47,10 +47,10 @@ namespace Planzy.LoginRegister
             this.parentWindow = parentW;
             this.parentRegister = parentR;
 
-            EnterEmailVisibility = "Hidden";
-            PasswordNotNullVisibility = "Hidden";
-            ConfirmPasswordIncorrectVisibility = "Hidden";
-            IncorrectVerifyCodeVisibility = "Hidden";
+            EnterEmailVisibility = "Collapsed";
+            PasswordNotNullVisibility = "Collapsed";
+            ConfirmPasswordIncorrectVisibility = "Collapsed";
+            IncorrectVerifyCodeVisibility = "Collapsed";
 
             ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { p.Close(); });
             Resendommand = new RelayCommand2<Object>((p) => { return true; }, (p) => { ResendClick(); });
@@ -78,7 +78,7 @@ namespace Planzy.LoginRegister
             }
             else
             {
-                EnterEmailVisibility = "Hidden";
+                EnterEmailVisibility = "Collapsed";
             }
 
             if (randomCode != VerifyCode)
@@ -87,7 +87,7 @@ namespace Planzy.LoginRegister
             }
             else
             {
-                IncorrectVerifyCodeVisibility = "Hidden";
+                IncorrectVerifyCodeVisibility = "Collapsed";
             }
            
 
@@ -98,7 +98,7 @@ namespace Planzy.LoginRegister
 
 
                 this.parentRegister.EmailConfirmedVisibility = "Visible";
-                this.parentRegister.UnconfirmedEmailVisibility = "Hidden";
+                this.parentRegister.UnconfirmedEmailVisibility = "Collapsed";
 
 
                 parentWindow.Show();
@@ -110,10 +110,14 @@ namespace Planzy.LoginRegister
             if(parentWindow == null && parentRegister == null)
             {
                 ButtonTxt = "RESET";
+                PasswordBoxVisibility = "Visible";
+                ConfirmPasswordBoxVisibility = "Visible";
             }
             else
             {
                 ButtonTxt = "CONFIRM";
+                PasswordBoxVisibility = "Collapsed";
+                ConfirmPasswordBoxVisibility = "Collapsed";
             }
         }
         void OpenLoginWindow(Window p)
@@ -127,17 +131,17 @@ namespace Planzy.LoginRegister
             if (checkEmail(Email))
             {
                 sendEmail(Email);
-                EnterEmailVisibility = "Hidden";
-                PasswordNotNullVisibility = "Hidden";
-                ConfirmPasswordIncorrectVisibility = "Hidden";
-                IncorrectVerifyCodeVisibility = "Hidden";
+                EnterEmailVisibility = "Collapsed";
+                PasswordNotNullVisibility = "Collapsed";
+                ConfirmPasswordIncorrectVisibility = "Collapsed";
+                IncorrectVerifyCodeVisibility = "Collapsed";
             }
             else
             {
                 EnterEmailVisibility = "Visible";
-                PasswordNotNullVisibility = "Hidden";
-                ConfirmPasswordIncorrectVisibility = "Hidden";
-                IncorrectVerifyCodeVisibility = "Hidden";
+                PasswordNotNullVisibility = "Collapsed";
+                ConfirmPasswordIncorrectVisibility = "Collapsed";
+                IncorrectVerifyCodeVisibility = "Collapsed";
             }
             VerifyCode = "";
             Password = "";
@@ -152,7 +156,7 @@ namespace Planzy.LoginRegister
             }
             else
             {
-                EnterEmailVisibility = "Hidden";
+                EnterEmailVisibility = "Collapsed";
             }
 
             if (randomCode != VerifyCode)
@@ -161,7 +165,7 @@ namespace Planzy.LoginRegister
             }
             else
             {
-                IncorrectVerifyCodeVisibility = "Hidden";
+                IncorrectVerifyCodeVisibility = "Collapsed";
             }
 
             if (Password == null)
@@ -170,7 +174,7 @@ namespace Planzy.LoginRegister
             }
             else
             {
-                PasswordNotNullVisibility = "Hidden";
+                PasswordNotNullVisibility = "Collapsed";
             }
 
             if(ConfirmPassword != Password)
@@ -179,7 +183,7 @@ namespace Planzy.LoginRegister
             }
             else
             {
-                ConfirmPasswordIncorrectVisibility = "Hidden";
+                ConfirmPasswordIncorrectVisibility = "Collapsed";
             }
 
             if(checkEmail(Email) && randomCode == VerifyCode && Password != null && ConfirmPassword == Password)
@@ -345,6 +349,20 @@ namespace Planzy.LoginRegister
                 buttonTxt = value;
                 OnPropertyChanged("ButtonTxt");
             }
+        }
+
+
+        private string confirmPasswordBoxVisibility;
+        public string ConfirmPasswordBoxVisibility
+        {
+            get { return confirmPasswordBoxVisibility; }
+            set { confirmPasswordBoxVisibility = value; OnPropertyChanged("ConfirmPasswordBoxVisibility"); }
+        }
+        private string passwordBoxVisibility;
+        public string PasswordBoxVisibility
+        {
+            get { return passwordBoxVisibility; }
+            set { passwordBoxVisibility = value; OnPropertyChanged("PasswordBoxVisibility"); }
         }
     }
 }

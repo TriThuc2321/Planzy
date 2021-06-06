@@ -32,9 +32,10 @@ namespace Planzy.LoginRegister
         List<User> listUsers;
         public bool isConfirmEmail = false;
         string randomCode;
-        public string emailIsConfirm = null;
+        public string emailIsConfirm = "";
 
         public ICommand ConfirmEmailCommand { get; set; }
+        public ICommand EmailChangCommand { get; set; }
         public ICommand PasswordChangCommand { get; set; }
         public ICommand ConfirmPasswordChangCommand { get; set; }
         public ICommand LoginXamlCommand { get; set; }
@@ -51,10 +52,25 @@ namespace Planzy.LoginRegister
 
             ConfirmEmailCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { ConfirmEmail(p); });
             PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = p.Password; });
+            EmailChangCommand = new RelayCommand2<TextBox>((p) => { return true; }, (p) => { EmailChange(p); });
             ConfirmPasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { ConfirmPassword = p.Password; });
             LoginXamlCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenLoginWindow(p); });
             ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { p.Close(); });
             RegisterCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { Register(p); });
+        }
+        void EmailChange(TextBox p)
+        {
+            Email = p.Text;
+            if(Email == emailIsConfirm && Email!=null)
+            {
+                EmailConfirmedVisibility = "Visible";
+                UnconfirmedEmailVisibility = "Collapsed";
+            }
+            else
+            {
+                EmailConfirmedVisibility = "Collapsed";
+                UnconfirmedEmailVisibility = "Visible";
+            }
         }
         void DefaultTxt()
         {
@@ -118,11 +134,17 @@ namespace Planzy.LoginRegister
 
             if(!userServices.ExistId(Account) && Account != null && !userServices.ExistEmail(Email) && checkEmail(Email) && Password != null && Password == ConfirmPassword && isConfirmEmail)
             {
-                user = new User();
-                user.Gmail = Email;
-                user.Password = Password;
-                user.ID = Account;
-                userServices.pushUserToSql(user);
+                User temp = new User();
+                temp.Gmail = Email;
+                temp.Password = userServices.Encode(Password);
+                temp.ID = Account;
+
+                temp.Address = "";
+                temp.CMND = "";
+                temp.PhoneNumer = "";
+                temp.Name = "";
+
+                userServices.pushUserToSql(temp);
 
                 MainWindow main = new MainWindow(Email);
                 main.Show();
@@ -296,6 +318,37 @@ namespace Planzy.LoginRegister
             get { return unconfirmedEmailVisibility; }
             set { unconfirmedEmailVisibility = value; OnPropertyChanged("UnconfirmedEmailVisibility"); }
         }
+
+
+        private string focusAccountBox;
+        public string FocusAccountBox
+        {
+            get { return focusAccountBox; }
+            set 
+            { 
+                focusAccountBox = value; OnPropertyChanged("FocusAccountBox");                
+                
+            }
+        }
+        private string focusPasswordBox;
+        public string FocusPasswordBox
+        {
+            get { return focusPasswordBox; }
+            set { focusPasswordBox = value; OnPropertyChanged("FocusPasswordBox"); }
+        }
+        private string focusConfirmPasswordBox;
+        public string FocusConfirmPasswordBox
+        {
+            get { return focusConfirmPasswordBox; }
+            set { focusConfirmPasswordBox = value; OnPropertyChanged("FocusConfirmPasswordBox"); }
+        }
+        private string focusEmailBox;
+        public string FocusEmailBox
+        {
+            get { return focusEmailBox; }
+            set { focusEmailBox = value; OnPropertyChanged("FocusEmailBox"); }
+        }
+
     }
     
 }
