@@ -1,5 +1,6 @@
 ﻿using Planzy.Commands;
 using Planzy.Models.Users;
+using Planzy.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +19,7 @@ using System.Windows.Input;
 
 namespace Planzy.LoginRegister
 {
-    class ForgotPasswordViewModel : INotifyPropertyChanged
+    public class ForgotPasswordViewModel : INotifyPropertyChanged
     {
         private static SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
         #region onpropertychange
@@ -33,13 +34,18 @@ namespace Planzy.LoginRegister
         public ICommand ResetCommand { get; set; }
         public ICommand PasswordChangCommand { get; set; }
         public ICommand ConfirmPasswordChangCommand { get; set; }
+        public ICommand LoginXamlCommand { get; set; }
 
         string randomCode;
+        Window parentWindow;
+        RegisterViewModel parentRegister;
 
-        public ForgotPasswordViewModel(string email, string verify)
+        public ForgotPasswordViewModel(string email, string verify, Window parentW, RegisterViewModel parentR)
         {
             Email = email;
             randomCode = verify;
+            this.parentWindow = parentW;
+            this.parentRegister = parentR;
 
             EnterEmailVisibility = "Hidden";
             PasswordNotNullVisibility = "Hidden";
@@ -48,11 +54,74 @@ namespace Planzy.LoginRegister
 
             ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { p.Close(); });
             Resendommand = new RelayCommand2<Object>((p) => { return true; }, (p) => { ResendClick(); });
-            ResetCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { ResetClick(p); });
-            PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = Encode(p.Password); });
-            ConfirmPasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { ConfirmPassword = Encode(p.Password); });
+            ResetCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => {
+                if(parentWindow == null && parentRegister == null)
+                {
+                    ResetClick(p);
+                }
+                else
+                {
+                    ConfirmClick(p);
+                }
+            });
+            PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = p.Password; });
+            ConfirmPasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { ConfirmPassword = p.Password; });
+            LoginXamlCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenLoginWindow(p); });
+
+            checkParent();
         }
-        
+        void ConfirmClick(Window p)
+        {
+            if (!checkEmail(Email))
+            {
+                EnterEmailVisibility = "Visible";
+            }
+            else
+            {
+                EnterEmailVisibility = "Hidden";
+            }
+
+            if (randomCode != VerifyCode)
+            {
+                IncorrectVerifyCodeVisibility = "Visible";
+            }
+            else
+            {
+                IncorrectVerifyCodeVisibility = "Hidden";
+            }
+           
+
+            if (checkEmail(Email) && randomCode == VerifyCode )
+            {
+                this.parentRegister.isConfirmEmail = true;
+                this.parentRegister.emailIsConfirm = Email;
+
+
+                this.parentRegister.EmailConfirmedVisibility = "Visible";
+                this.parentRegister.UnconfirmedEmailVisibility = "Hidden";
+
+
+                parentWindow.Show();
+                p.Close();
+            }
+        }
+        void checkParent()
+        {
+            if(parentWindow == null && parentRegister == null)
+            {
+                ButtonTxt = "RESET";
+            }
+            else
+            {
+                ButtonTxt = "CONFIRM";
+            }
+        }
+        void OpenLoginWindow(Window p)
+        {
+            Login loginWindow = new Login();
+            loginWindow.Show();
+            p.Close();
+        }
         void ResendClick()
         {
             if (checkEmail(Email))
@@ -70,6 +139,9 @@ namespace Planzy.LoginRegister
                 ConfirmPasswordIncorrectVisibility = "Hidden";
                 IncorrectVerifyCodeVisibility = "Hidden";
             }
+            VerifyCode = "";
+            Password = "";
+            ConfirmPassword = "";
         }
 
         void ResetClick(Window p)
@@ -262,6 +334,17 @@ namespace Planzy.LoginRegister
         {
             get { return passwordNotNullVisibility; }
             set { passwordNotNullVisibility = value; OnPropertyChanged("PasswordNotNullVisibility"); }
+        }
+
+        private string buttonTxt;
+        public string ButtonTxt
+        {
+            get { return buttonTxt; }
+            set
+            {
+                buttonTxt = value;
+                OnPropertyChanged("ButtonTxt");
+            }
         }
     }
 }

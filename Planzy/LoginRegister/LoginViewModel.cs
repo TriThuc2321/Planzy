@@ -86,7 +86,7 @@ namespace Planzy.LoginRegister
                         NonExistAccountVisibility = "Hidden";
                         IncorrectPasswordVisibility = "Hidden";
                         LoginSuccessVisibility = "Visible";
-                        EnterEmailVisibility = "Hiden";
+                        EnterEmailVisibility = "Hidden";
                         MainWindow mainForm = new MainWindow(listUsers[i].Gmail);
                         mainForm.Show();
                         p.Close();
@@ -96,7 +96,7 @@ namespace Planzy.LoginRegister
                         NonExistAccountVisibility = "Hidden";
                         IncorrectPasswordVisibility = "Visible";
                         LoginSuccessVisibility = "Hidden";
-                        EnterEmailVisibility = "Hiden";
+                        EnterEmailVisibility = "Hidden";
                         break;
                     }
                    
@@ -107,7 +107,7 @@ namespace Planzy.LoginRegister
                 NonExistAccountVisibility = "Visible";
                 IncorrectPasswordVisibility = "Hidden";
                 LoginSuccessVisibility = "Hidden";
-                EnterEmailVisibility = "Hiden";
+                EnterEmailVisibility = "Hidden";
             }
         }
        
