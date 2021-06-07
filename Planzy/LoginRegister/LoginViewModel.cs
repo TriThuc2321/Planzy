@@ -384,6 +384,17 @@ namespace Planzy.LoginRegister
             get { return enterEmailVisibility; }
             set { enterEmailVisibility = value; OnPropertyChanged("EnterEmailVisibility"); }
         }
+
+        private bool rememberAccount;
+        public bool RememberAccount
+        {
+            get { return rememberAccount; }
+            set
+            {
+                rememberAccount = value;
+                OnPropertyChanged("RememberAccount");
+            }
+        }
     }
 }
 

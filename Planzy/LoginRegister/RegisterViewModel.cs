@@ -61,7 +61,25 @@ namespace Planzy.LoginRegister
         void EmailChange(TextBox p)
         {
             Email = p.Text;
-            if(Email == emailIsConfirm && Email!=null)
+            if (userServices.ExistEmail(Email))
+            {
+                EmailExistVisibility = "Visible";
+            }
+            else
+            {
+                EmailExistVisibility = "Collapsed";
+            }
+
+            if (!checkEmail(Email))
+            {
+                EnterEmailVisibility = "Visible";
+            }
+            else
+            {
+                EnterEmailVisibility = "Collapsed";
+            }
+
+            if (Email == emailIsConfirm && Email!=null)
             {
                 EmailConfirmedVisibility = "Visible";
                 UnconfirmedEmailVisibility = "Collapsed";
