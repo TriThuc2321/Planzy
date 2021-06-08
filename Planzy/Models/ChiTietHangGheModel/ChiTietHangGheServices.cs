@@ -163,6 +163,9 @@ namespace Planzy.Models.ChiTietHangGheModel
                 if (chiTietHangGhe.MaChuyenBay == maChuyenBay)
                     chiTietHangGhes.Add(chiTietHangGhe);
             }
+
+            var newList = chiTietHangGhes.OrderByDescending(e => Convert.ToInt32( e.TyLe));
+            chiTietHangGhes = new List<ChiTietHangGhe>(newList);
             return chiTietHangGhes;
         }
     }

@@ -53,7 +53,7 @@ namespace Planzy.Models.LoaiHangGheModel
                     }
                 }
 
-                var newList = LoaiHangGhesList.OrderByDescending(e => e.TyLe);
+                var newList = LoaiHangGhesList.OrderByDescending(e => Convert.ToInt32( e.TyLe));
                 LoaiHangGhesList = new List<LoaiHangGhe>(newList);
                 result = true;
             }

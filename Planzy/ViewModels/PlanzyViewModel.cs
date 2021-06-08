@@ -1241,56 +1241,56 @@ namespace Planzy.ViewModels
                 return;
             }
 
-            if ((SoGheHang1 == null || SoGheHang1 == "") && ChuyenBayDaChon.SoLoaiHangGhe == 1)
+            if ((SoGheHang1 == null || SoGheHang1 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) == 1)
             {
                 CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
                 IsFocusSoGheHang2 = "True";
                 return;
             }
 
-            if ((SoGheHang2 == null || SoGheHang2 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 1)
+            if ((SoGheHang2 == null || SoGheHang2 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 1)
             {
                 CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
                 IsFocusSoGheHang2 = "True";
                 return;
             }
 
-            if ((SoGheHang3 == null || SoGheHang3 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 2)
+            if ((SoGheHang3 == null || SoGheHang3 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 2)
             {
                 CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
                 IsFocusSoGheHang3 = "True";
                 return;
             }
 
-            if ((SoGheHang4 == null || SoGheHang4 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 3)
+            if ((SoGheHang4 == null || SoGheHang4 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 3)
             {
                 CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
                 IsFocusSoGheHang4 = "True";
                 return;
             }
 
-            if ((SoGheHang5 == null || SoGheHang5 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 4)
+            if ((SoGheHang5 == null || SoGheHang5 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 4)
             {
                 CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
                 IsFocusSoGheHang5 = "True";
                 return;
             }
 
-            if ((SoGheHang6 == null || SoGheHang6 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 5)
+            if ((SoGheHang6 == null || SoGheHang6 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 5)
             {
                 CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
                 IsFocusSoGheHang6 = "True";
                 return;
             }
 
-            if ((SoGheHang7 == null || SoGheHang7 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 6)
+            if ((SoGheHang7 == null || SoGheHang7 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 6)
             {
                 CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
                 IsFocusSoGheHang6 = "True";
                 return;
             }
 
-            if ((SoGheHang8 == null || SoGheHang8 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 7)
+            if ((SoGheHang8 == null || SoGheHang8 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 7)
             {
                 CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
                 IsFocusSoGheHang8 = "True";
@@ -1310,14 +1310,14 @@ namespace Planzy.ViewModels
             {
                 switch(i)
                 {
-                    case 0: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang1));break;
-                    case 1: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang2));break;
-                    case 2: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang3)); break;
-                    case 3: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang4)); break;
-                    case 4: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang5)); break;
-                    case 5: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang6)); break;
-                    case 6: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang7)); break;
-                    default : ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang8)); break;
+                    case 0: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang1, loaiHangGhesList[i].TenLoaiHangGhe,loaiHangGhesList[i].TyLe));break;
+                    case 1: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang2, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe));break;
+                    case 2: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang3, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe)); break;
+                    case 3: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang4, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe)); break;
+                    case 4: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang5, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe)); break;
+                    case 5: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang6, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe)); break;
+                    case 6: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang7, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe)); break;
+                    default : ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang8, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe)); break;
                 }
             }
             ChuyenBayHienTai.ChiTietHangGhesList = ChiTietHangGhesList;
@@ -1610,7 +1610,9 @@ namespace Planzy.ViewModels
                 {
                     ChuyenBayDaChon.SanBayTrungGian = SanBayTrungGiansListCu;
                     isDangSua = false;
+                    IsReadOnlyMaChuyenBay = "False";
                 }
+                LoadUIHangGheTheoQuyDinh();
                 IsVisibleNhanLichChuyenBay = "Visible";
                 IsVisibleSuaChuyenBay = "Hidden";
                 IsVisibleLuuChuyenBay = "Hidden";

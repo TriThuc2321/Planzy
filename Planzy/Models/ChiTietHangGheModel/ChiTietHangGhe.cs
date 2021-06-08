@@ -20,12 +20,14 @@ namespace Planzy.Models.ChiTietHangGheModel
         {
 
         }
-        public ChiTietHangGhe(string maChuyenBay, string maLoaiHangGhe, string tongSoGhe)
+        public ChiTietHangGhe(string maChuyenBay, string maLoaiHangGhe, string tongSoGhe, string tenLoaiHangGhe, string tyLe)
         {
             MaChuyenBay = maChuyenBay;
             MaLoaiHangGhe = maLoaiHangGhe;
             SoLuongGhe = tongSoGhe;
             SoLuongGheConLai = tongSoGhe;
+            TenLoaiHangGhe = tenLoaiHangGhe;
+            TyLe = tyLe;
         }
         public string MaChuyenBay
         {
@@ -54,5 +56,22 @@ namespace Planzy.Models.ChiTietHangGheModel
             get { return soLuongGheConLai; }
             set { soLuongGheConLai = value; OnPropertyChanged("SoLuongGheConLai"); }
         }
+
+        private string tyLe;
+
+        public string TyLe
+        {
+            get { return tyLe; }
+            set { tyLe = value; OnPropertyChanged("TyLe"); }
+        }
+
+        private string tenLoaiHangGhe;
+
+        public string TenLoaiHangGhe
+        {
+            get { return tenLoaiHangGhe; }
+            set { tenLoaiHangGhe = value;OnPropertyChanged("TenLoaiHangGhe"); }
+        }
+
     }
 }
