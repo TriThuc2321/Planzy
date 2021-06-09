@@ -35,8 +35,6 @@ D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.dll
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\ref\Planzy.dll
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.pdb
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.genruntimeconfig.cache
-D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\WarningView.g.cs
-D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\WarningView.baml
 C:\Users\trith\OneDrive\Desktop\New folder\Planzy\bin\Debug\net5.0-windows\Planzy.exe
 C:\Users\trith\OneDrive\Desktop\New folder\Planzy\bin\Debug\net5.0-windows\Planzy.dll.config
 C:\Users\trith\OneDrive\Desktop\New folder\Planzy\bin\Debug\net5.0-windows\Planzy.deps.json
@@ -128,3 +126,13 @@ D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\CustomMessageBoxWindow.g.
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\CustomMessageBoxWindow.baml
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\ForgotPassword.g.cs
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\ForgotPassword.baml
+D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\Microsoft.Xaml.Behaviors.dll
+D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\Newtonsoft.Json.dll
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\ForgotPassword.g.cs
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\Login.g.cs
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\Register.g.cs
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\CustomMessageBoxWindow.g.cs
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\ForgotPassword.baml
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\Login.baml
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\Register.baml
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\CustomMessageBoxWindow.baml

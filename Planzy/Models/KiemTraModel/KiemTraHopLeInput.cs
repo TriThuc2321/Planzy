@@ -5,45 +5,88 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Planzy.Models.KiemTraModel
-    {
-    public static class KiemTraHopLeInput
 {
-    const string MA = "ABCDEFGHIJKLMNOPRQSTUVWYZXabcdefghijklmnopqrstuvwzxy0123456789";
-    const string SO = "0123456789";
+    public static class KiemTraHopLeInput
+    {
+        const string MA = "ABCDEFGHIJKLMNOPRQSTUVWYZXabcdefghijklmnopqrstuvwzxy0123456789";
+        const string SO = "0123456789";
 
-    public static bool KiemTraMa(string test)
-    {
-        for (int i = 0; i < test.Length; i++)
+        public static bool KiemTraMa(string test)
         {
-            int j;
-            for (j = 0; j < MA.Length; j++)
+            for (int i = 0; i < test.Length; i++)
             {
-                if (MA[j] == test[i])
+                int j;
+                for (j = 0; j < MA.Length; j++)
                 {
-                    break;
+                    if (MA[j] == test[i])
+                    {
+                        break;
+                    }
                 }
+                if (j == MA.Length)
+                    return false;
             }
-            if (j == MA.Length)
-                return false;
+            return true;
         }
-        return true;
-    }
-    public static bool KiemTraChuoiSoNguyen(string test)
-    {
-        for (int i = 0; i < test.Length; i++)
+
+
+        public static bool CheckBookingSticketID(string test)
         {
-            int j;
-            for (j = 0; j < SO.Length; j++)
+            const string Element = "ABCDEFGHIJKLMNOPRQSTUVWYZXabcdefghijklmnopqrstuvwzxy0123456789_-";
+            for (int i = 0; i < test.Length; i++)
             {
-                if (SO[j] == test[i])
+                int j;
+                for (j = 0; j < Element.Length; j++)
                 {
-                    break;
+                    if (Element[j] == test[i])
+                    {
+                        break;
+                    }
                 }
+                if (j == Element.Length)
+                    return false;
             }
-            if (j == SO.Length)
-                return false;
+            return true;
         }
-        return true; ;
+
+        public static bool CheckAddress(string test)
+        {
+            const string ElementAddress = "ABCDEFGHIJKLMNOPRQSTUVWYZXabcdefghijklmnopqrstuvwzxy0123456789_- ";
+            for (int i = 0; i < test.Length; i++)
+            {
+                int j;
+                for (j = 0; j < ElementAddress.Length; j++)
+                {
+                    if (ElementAddress[j] == test[i])
+                    {
+                        break;
+                    }
+                }
+                if (j == ElementAddress.Length)
+                    return false;
+            }
+            return true;
+        }
+
+
+
+        public static bool KiemTraChuoiSoNguyen(string test)
+        {
+            for (int i = 0; i < test.Length; i++)
+            {
+                int j;
+                for (j = 0; j < SO.Length; j++)
+                {
+                    if (SO[j] == test[i])
+                    {
+                        break;
+                    }
+                }
+                if (j == SO.Length)
+                    return false;
+            }
+            return true; ;
+        }
     }
 }
-}
+
