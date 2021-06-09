@@ -26,7 +26,9 @@ using FootballFieldManagement.Views;
 using System.Windows;
 using Planzy.Models.ChiTietHangGheModel;
 using System.Timers;
-
+using LiveCharts;
+using LiveCharts.Configurations;
+using Planzy.Models.DoanhThuThangModel;
 
 namespace Planzy.ViewModels
 {
@@ -47,6 +49,8 @@ namespace Planzy.ViewModels
         ChuyenBayServices chuyenBayServices;
         LoaiHangGheServices loaiHangGheServices;
         ChiTietHangGheServices chiTietHangGheServices;
+        public DoanhThuThangServices doanhThuThangServices { get; set; }
+        public ChartValues<DoanhThuThang> chuyenBays { get; set; }
         public PlanzyViewModel()
         {
 
@@ -99,6 +103,9 @@ namespace Planzy.ViewModels
             loaiHangGheServices = new LoaiHangGheServices();
             chiTietHangGheServices = new ChiTietHangGheServices();
             chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService, sanBayServices, chiTietHangGheServices);
+
+            doanhThuThangServices = new DoanhThuThangServices("5", "2021", chuyenBayServices);
+
             ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
             LoadData();
             doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
@@ -132,6 +139,8 @@ namespace Planzy.ViewModels
             user = userServices.getUserByEmail(gmailUser);
 
             setUI();
+
+            
         }
 
       
@@ -162,9 +171,14 @@ namespace Planzy.ViewModels
             DepartureList_FlightBooking = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             DestinationList_FlightBooking = new ObservableCollection<SanBay>(sanBayServices.GetAll());
 
+            //chuyenBays = new ChartValues<DoanhThuThang>(doanhThuThangServices.doanhThuThangs);
+            var customerVmMapper = Mappers.Xy<DoanhThuThang>()
+                .X((value, index) => index) // lets use the position of the item as X
+                .Y(value => Convert.ToInt32( value.DoanhThuTrieuDong)); //and PurchasedItems property as Y
 
-
-
+            //lets save the mapper globally
+            Charting.For<DoanhThuThang>(customerVmMapper);
+            
 
 
         }
@@ -1301,14 +1315,14 @@ namespace Planzy.ViewModels
             {
                 switch(i)
                 {
-                    case 0: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang1));break;
-                    case 1: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang2));break;
-                    case 2: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang3)); break;
-                    case 3: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang4)); break;
-                    case 4: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang5)); break;
-                    case 5: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang6)); break;
-                    case 6: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang7)); break;
-                    default : ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang8)); break;
+                    case 0: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang1,loaiHangGhesList[i].TyLe));break;
+                    case 1: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang2, loaiHangGhesList[i].TyLe)); break;
+                    case 2: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang3, loaiHangGhesList[i].TyLe)); break;
+                    case 3: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang4, loaiHangGhesList[i].TyLe)); break;
+                    case 4: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang5, loaiHangGhesList[i].TyLe)); break;
+                    case 5: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang6, loaiHangGhesList[i].TyLe)); break;
+                    case 6: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang7, loaiHangGhesList[i].TyLe)); break;
+                    default : ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang8, loaiHangGhesList[i].TyLe)); break;
                 }
             }
             ChuyenBayHienTai.ChiTietHangGhesList = ChiTietHangGhesList;

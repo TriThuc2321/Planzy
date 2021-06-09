@@ -9,7 +9,9 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:bt ="clr-namespace:Planzy.Views" 
              xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"
-             Visibility="{Binding StateOfWindow}">
+             Visibility="{Binding StateOfWindow}"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:chartTool ="clr-namespace:Planzy.Views">
     <!--d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"-->
     <Grid Background="#FFE1F3F9">
         <Grid.RowDefinitions>
@@ -20,7 +22,7 @@
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"></ColumnDefinition>
-                <ColumnDefinition Width="800"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid Grid.Row="0" Grid.Column="0">
                 <Grid.RowDefinitions>
@@ -1492,7 +1494,30 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_DoanhThu" Visibility="{Binding IsDuocChon5.NewVisibility}"/>
+                        <Grid Name ="gr_DoanhThu" Visibility="{Binding IsDuocChon5.NewVisibility}">
+                            <lvc:CartesianChart LegendLocation="Right">
+                                <lvc:CartesianChart.Series>
+                                    <lvc:ColumnSeries Title="Doanh thu" Values="{Binding doanhThuThangServices.doanhThuThangs}"></lvc:ColumnSeries>
+                                </lvc:CartesianChart.Series>
+                                <lvc:CartesianChart.AxisX >
+                                    <lvc:Axis Labels="{Binding doanhThuThangServices.labels}" LabelsRotation="-15">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator Step="1"></lvc:Separator>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis MinValue="0" Title="Triệu đồng">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator Step="100"/>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                                <lvc:CartesianChart.DataTooltip>
+                                    <chartTool:MyChartTooltip/>
+                                </lvc:CartesianChart.DataTooltip>
+                            </lvc:CartesianChart>
+                        </Grid>
                         <Grid Name="gr_ChiTietDatVe" Visibility="{Binding IsContinueButton.NewVisibility}" >
                             <Button Content="Quay lại"
                                     Command="{Binding ChooseBackButtonCommand}">
