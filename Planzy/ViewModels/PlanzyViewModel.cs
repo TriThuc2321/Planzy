@@ -26,14 +26,14 @@ using FootballFieldManagement.Views;
 using System.Windows;
 using Planzy.Models.ChiTietHangGheModel;
 using System.Timers;
-
+using Planzy.Views;
 
 namespace Planzy.ViewModels
 {
     class PlanzyViewModel : INotifyPropertyChanged
     {
         private static SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
-
+        Window mainWindow;
 
         #region PropertyChange
         public event PropertyChangedEventHandler PropertyChanged;
@@ -92,7 +92,7 @@ namespace Planzy.ViewModels
 
         }
 
-        public PlanzyViewModel(string gmailUser)
+        public PlanzyViewModel(string gmailUser, Window parentWindow )
         {
             sanBayServices = new SanBayService();
             sanBayTrungGianService = new SanBayTrungGianService();
@@ -124,7 +124,11 @@ namespace Planzy.ViewModels
             chonLayoutCommand5 = new RelayCommand(Button5);
             chonLayoutCommand6 = new RelayCommand(Button6);
             #endregion
-           
+
+
+            #region users
+            mainWindow = parentWindow;
+            LogOut = new RelayCommand2<Window>((p) => { return true; }, (p) => { logOut(); });
 
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
@@ -132,9 +136,10 @@ namespace Planzy.ViewModels
             user = userServices.getUserByEmail(gmailUser);
 
             setUI();
+            #endregion
+
         }
 
-      
 
         public RelayCommand SelectAllCommand { get; private set; }
         public RelayCommand SelectAllCommand2 { get; private set; }
@@ -2193,6 +2198,14 @@ namespace Planzy.ViewModels
 
         private UserServices userServices;
         private List<User> listUser;
+        public ICommand LogOut { get; set; }
+
+        void logOut()
+        {
+            Login login = new Login();
+            login.Show();
+            mainWindow.Close();
+        }
 
         private Image profilePic;
         public Image ProfillePic
@@ -2277,6 +2290,7 @@ namespace Planzy.ViewModels
             set { address = value; OnPropertyChanged("Address"); }
         }
 
+        
         #endregion
     }
 }

@@ -27,7 +27,13 @@ namespace Planzy.LoginRegister
         public ForgotPassword(string email, string verifyCode)
         {
             InitializeComponent();
-            forgotPasswordViewModel = new ForgotPasswordViewModel(email, verifyCode);
+            forgotPasswordViewModel = new ForgotPasswordViewModel(email, verifyCode, null, null);
+            this.DataContext = forgotPasswordViewModel;
+        }
+        public ForgotPassword(string email, string verifyCode, Window p, RegisterViewModel r)
+        {
+            InitializeComponent();
+            forgotPasswordViewModel = new ForgotPasswordViewModel(email, verifyCode, p, r);
             this.DataContext = forgotPasswordViewModel;
         }
     }

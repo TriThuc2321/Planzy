@@ -70,7 +70,7 @@ namespace Planzy.LoginRegister
 
             NonExistAccountVisibility = "Hidden";
             IncorrectPasswordVisibility = "Hidden";
-            LoginSuccessVisibility = " Hidden";
+            LoginSuccessVisibility = "Hidden";
             EnterEmailVisibility = "Hidden";
         }
         void LoginClick(Window p)
@@ -78,7 +78,7 @@ namespace Planzy.LoginRegister
             int i = 0;
             for(i =0; i< listUsers.Count(); i++)
             {
-                if(listUsers[i].ID == Account)
+                if(listUsers[i].ID == Account || listUsers[i].Gmail == Account)
                 {
                     if (listUsers[i].Password == Password)
                     {
@@ -86,7 +86,7 @@ namespace Planzy.LoginRegister
                         NonExistAccountVisibility = "Hidden";
                         IncorrectPasswordVisibility = "Hidden";
                         LoginSuccessVisibility = "Visible";
-                        EnterEmailVisibility = "Hiden";
+                        EnterEmailVisibility = "Hidden";
                         MainWindow mainForm = new MainWindow(listUsers[i].Gmail);
                         mainForm.Show();
                         p.Close();
@@ -95,8 +95,8 @@ namespace Planzy.LoginRegister
                     {
                         NonExistAccountVisibility = "Hidden";
                         IncorrectPasswordVisibility = "Visible";
-                        LoginSuccessVisibility = " Hidden";
-                        EnterEmailVisibility = "Hiden";
+                        LoginSuccessVisibility = "Hidden";
+                        EnterEmailVisibility = "Hidden";
                         break;
                     }
                    
@@ -106,8 +106,8 @@ namespace Planzy.LoginRegister
             {
                 NonExistAccountVisibility = "Visible";
                 IncorrectPasswordVisibility = "Hidden";
-                LoginSuccessVisibility = " Hidden";
-                EnterEmailVisibility = "Hiden";
+                LoginSuccessVisibility = "Hidden";
+                EnterEmailVisibility = "Hidden";
             }
         }
        
@@ -383,6 +383,17 @@ namespace Planzy.LoginRegister
         {
             get { return enterEmailVisibility; }
             set { enterEmailVisibility = value; OnPropertyChanged("EnterEmailVisibility"); }
+        }
+
+        private bool rememberAccount;
+        public bool RememberAccount
+        {
+            get { return rememberAccount; }
+            set
+            {
+                rememberAccount = value;
+                OnPropertyChanged("RememberAccount");
+            }
         }
     }
 }

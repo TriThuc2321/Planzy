@@ -33,7 +33,8 @@ namespace Planzy
         public MainWindow(string userId)
         {
             InitializeComponent();
-            planzyViewModel = new PlanzyViewModel(userId);
+            Window parentWindow = Window.GetWindow(this);
+            planzyViewModel = new PlanzyViewModel(userId, parentWindow);
             this.DataContext = planzyViewModel;
         }
 

@@ -9,8 +9,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:bt ="clr-namespace:Planzy.Views" 
              xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"
-             Visibility="{Binding StateOfWindow}">
-    <!--d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"-->
+             Visibility="{Binding StateOfWindow}"
+             >
     <Grid Background="#FFE1F3F9">
         <Grid.RowDefinitions>
             <RowDefinition Height="0"></RowDefinition>
@@ -144,7 +144,7 @@
             <Grid Grid.Column="1" Margin="10,10, 25,10" >
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
                     <Grid Background="White">
-                        <Grid Name ="gr_DatVe" Visibility="{Binding IsDuocChon1.NewVisibility}">
+                        <Grid Name ="gr_DatVe" Visibility="Hidden">
                            
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"></RowDefinition>
@@ -474,7 +474,7 @@
                                 </Grid>
                         </Grid>
                         </Grid>
-                        <Grid x:Name ="gr_BanVe" Visibility="{Binding IsDuocChon2.NewVisibility}">
+                        <Grid x:Name ="gr_BanVe" Visibility="Hidden">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="50"/>
@@ -669,7 +669,8 @@
 
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}">
+                        <Grid Name ="gr_Tracuu" Visibility="Hidden"
+                              >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -925,7 +926,7 @@
 
 
                         </Grid>
-                        <Grid Name ="gr_NhanLich" Visibility="{Binding IsDuocChon4.NewVisibility}">
+                        <Grid Name ="gr_NhanLich" Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="126"></RowDefinition>
                                 <RowDefinition Height="84"></RowDefinition>
@@ -1493,7 +1494,7 @@
                             </Grid>
                         </Grid>
                         <Grid Name ="gr_DoanhThu" Visibility="{Binding IsDuocChon5.NewVisibility}"/>
-                        <Grid Name="gr_ChiTietDatVe" Visibility="{Binding IsContinueButton.NewVisibility}" >
+                        <Grid Name="gr_ChiTietDatVe" Visibility="Hidden" >
                             <Button Content="Quay lại"
                                     Command="{Binding ChooseBackButtonCommand}">
                                
@@ -1501,17 +1502,18 @@
                         </Grid>
                         <Grid x:Name ="gr_NguoiDung"  Visibility="{Binding IsDuocChon6.NewVisibility}">
                             <Grid.RowDefinitions>
-                                    <RowDefinition Height="200"/>
+                                    <RowDefinition Height="100"/>
                                     <RowDefinition Height="50"/>
                                     <RowDefinition Height="50"/>
                                     <RowDefinition Height="50"/>
                                     <RowDefinition Height="50"/>
                                     <RowDefinition Height="50"/>
-                                    <RowDefinition />
+                                    <RowDefinition Height="50"/>
+                                <RowDefinition/>
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0">
-                                <Image Name="ProfilePic" Height="150" Width="150"
+                                <Image Name="ProfilePic" Height="50" Width="50"
                                        Source="{Binding ProfilePic}"
                                        Stretch="Fill"
                                        />
@@ -1519,8 +1521,8 @@
                             <Grid Grid.Row="1">
                                     <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
-                                            Margin="20 0 0 10">
-                                        <Label Content="Name"
+                                            Margin="40 0 0 10">
+                                        <Label Content="Hành khách"
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
@@ -1537,7 +1539,7 @@
                                 <Grid Grid.Row="2">
                                     <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
-                                            Margin="20 0 0 10">
+                                            Margin="40 0 0 10">
                                         <Label Content="Gmail: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
@@ -1554,7 +1556,7 @@
                                 <Grid Grid.Row="3">
                                     <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
-                                            Margin="20 0 0 10">
+                                            Margin="40 0 0 10">
                                         <Label Content="Điện thoại: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
@@ -1571,7 +1573,7 @@
                             <Grid Grid.Row="4">
                                 <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
-                                            Margin="20 0 0 10"
+                                            Margin="40 0 0 10"
                                             >
                                     <Label Content="CMND: "
                                            VerticalContentAlignment="Bottom"
@@ -1588,7 +1590,7 @@
                             <Grid Grid.Row="5">
                                 <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
-                                            Margin="20 0 0 10"
+                                            Margin="40 0 0 10"
                                             >
                                     <Label Content="Địa chỉ: "
                                            VerticalContentAlignment="Bottom"
@@ -1601,6 +1603,29 @@
                                            Foreground="Black"
                                            Width="250"/>
                                 </StackPanel>
+                            </Grid>
+                            <Grid Grid.Row="6">
+                                <StackPanel Orientation="Horizontal">
+                                    <Button
+                                    Width="250"
+                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    Content="Vé đã mua" 
+                                    Background="SkyBlue"
+                                        Margin="85 0 0 0"
+                                    />
+
+                                    <Button
+                                    Width="250"
+                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    Content="Đăng xuất" 
+                                    Background="SkyBlue"
+                                        Margin="100 0 0 0"
+                                        Command="{Binding LogOut}"
+                                        />
+                                    
+                                </StackPanel>
+                                
+
                             </Grid>
 
                         </Grid>
