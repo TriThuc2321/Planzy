@@ -127,10 +127,6 @@ D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.dll
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\ref\Planzy.dll
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.pdb
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.genruntimeconfig.cache
-D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\CustomMessageBoxWindow.g.cs
-D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\CustomMessageBoxWindow.baml
-D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\ForgotPassword.g.cs
-D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\ForgotPassword.baml
 D:\Github_Clone\Planzy\Planzy\bin\Debug\net5.0-windows\Planzy.exe
 D:\Github_Clone\Planzy\Planzy\bin\Debug\net5.0-windows\Planzy.dll.config
 D:\Github_Clone\Planzy\Planzy\bin\Debug\net5.0-windows\Planzy.deps.json
@@ -178,3 +174,4 @@ D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.dll
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\ref\Planzy.dll
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.pdb
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.genruntimeconfig.cache
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache

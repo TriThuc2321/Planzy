@@ -49,7 +49,7 @@ namespace Planzy.ViewModels
         ChuyenBayServices chuyenBayServices;
         LoaiHangGheServices loaiHangGheServices;
         ChiTietHangGheServices chiTietHangGheServices;
-        public PlanzyViewModel(string gmailUser)
+        public PlanzyViewModel(string gmailUser, Window parentWindow)
         {
 
             sanBayServices = new SanBayService();
@@ -77,6 +77,7 @@ namespace Planzy.ViewModels
             chonLayoutCommand3 = new RelayCommand(Button3);
             chonLayoutCommand4 = new RelayCommand(Button4);
             chonLayoutCommand5 = new RelayCommand(Button5);
+            chonLayoutCommand6 = new RelayCommand(Button6);
 
             #endregion
             //Thien
@@ -91,49 +92,7 @@ namespace Planzy.ViewModels
             chooseChangeButtonCommand_FlightSearch = new RelayCommand2<object>((p) => p != null, ButtonChange);
 
             //Thuc
-            chonLayoutCommand6 = new RelayCommand(Button6);
-            userServices = new UserServices();
-            listUser = new List<User>(userServices.GetAll());
-            user = userServices.getUserByEmail(gmailUser);
-            setUI();
-
-
-        }
-
-        public PlanzyViewModel(string gmailUser, Window parentWindow )
-        {
-            sanBayServices = new SanBayService();
-            sanBayTrungGianService = new SanBayTrungGianService();
-            loaiHangGheServices = new LoaiHangGheServices();
-            chiTietHangGheServices = new ChiTietHangGheServices();
-            chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService, sanBayServices, chiTietHangGheServices);
-            ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
-            LoadData();
-            doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
-            xoaSanBayTrungGianCommand = new RelayCommand(xoaSanBayTrungGian);
-            themSanBayTrungGianCommand = new RelayCommand(themSanBayTrungGian);
-            huyThemCommand = new RelayCommand(huyThemSanBayTrungGian);
-            xacNhanThemCommand = new RelayCommand(xacNhanThemSanBayTrungGian);
-            themChuyenBayCommand = new RelayCommand(themChuyenBay);
-
-            searchFlightCommand = new RelayCommand(searchFlight);
-            searchFlightCommand_FlightBooking = new RelayCommand(searchFlight_FlightBooking);
-            resetCommand = new RelayCommand(resetSearchList);
-            showAllFightsCommand_FlightBooking = new RelayCommand(showAllFlights);
-            suaChuyenBayCommand = new RelayCommand(suaChuyenBay);
-            xoaChuyenBayCommand = new RelayCommand(xoaChuyenBay);
-            huyThemVaSuaChuyenBayCommand = new RelayCommand(huyThemVaSuaChuyenBay);
-            luuSuaChuyenBayCommand = new RelayCommand(luuSuaChuyenBay);
-            #region Xử lý giao diện ban đầu
-            chonLayoutCommand1 = new RelayCommand(Button1);
-            chonLayoutCommand2 = new RelayCommand(Button2);
-            chonLayoutCommand3 = new RelayCommand(Button3);
-            chonLayoutCommand4 = new RelayCommand(Button4);
-            chonLayoutCommand5 = new RelayCommand(Button5);
-            chonLayoutCommand6 = new RelayCommand(Button6);
-            #endregion
-
-
+            
             #region users
             mainWindow = parentWindow;
             LogOut = new RelayCommand2<Window>((p) => { return true; }, (p) => { logOut(); });
@@ -141,12 +100,15 @@ namespace Planzy.ViewModels
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
 
-            //user = userServices.getUserByEmail();
+            user = userServices.getUserByEmail(gmailUser);
 
             setUI();
             #endregion
 
+
         }
+
+        
 
 
         public RelayCommand SelectAllCommand { get; private set; }
