@@ -50,7 +50,7 @@ namespace Planzy.LoginRegister {
     public partial class ForgotPassword : System.Windows.Window, System.Windows.Markup.IComponentConnector {
         
         
-        #line 15 "..\..\..\..\LoginRegister\ForgotPassword.xaml"
+        #line 16 "..\..\..\..\LoginRegister\ForgotPassword.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal Planzy.LoginRegister.ForgotPassword ForgotPasswordWindow;
         
@@ -58,7 +58,7 @@ namespace Planzy.LoginRegister {
         #line hidden
         
         
-        #line 77 "..\..\..\..\LoginRegister\ForgotPassword.xaml"
+        #line 79 "..\..\..\..\LoginRegister\ForgotPassword.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.PasswordBox PasswordBox;
         
@@ -66,7 +66,7 @@ namespace Planzy.LoginRegister {
         #line hidden
         
         
-        #line 97 "..\..\..\..\LoginRegister\ForgotPassword.xaml"
+        #line 110 "..\..\..\..\LoginRegister\ForgotPassword.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.PasswordBox ConfirmPasswordBox;
         

@@ -223,7 +223,7 @@ namespace Planzy.Views {
         #line hidden
         
         
-        #line 703 "..\..\..\..\Views\PlanzyView.xaml"
+        #line 704 "..\..\..\..\Views\PlanzyView.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.ComboBox comboboxDeparture;
         
@@ -231,7 +231,7 @@ namespace Planzy.Views {
         #line hidden
         
         
-        #line 738 "..\..\..\..\Views\PlanzyView.xaml"
+        #line 739 "..\..\..\..\Views\PlanzyView.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.ComboBox comboboxDestination;
         
@@ -239,7 +239,7 @@ namespace Planzy.Views {
         #line hidden
         
         
-        #line 798 "..\..\..\..\Views\PlanzyView.xaml"
+        #line 799 "..\..\..\..\Views\PlanzyView.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.TextBox aa;
         
@@ -247,7 +247,7 @@ namespace Planzy.Views {
         #line hidden
         
         
-        #line 852 "..\..\..\..\Views\PlanzyView.xaml"
+        #line 840 "..\..\..\..\Views\PlanzyView.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.ListView lvsTracuu;
         
@@ -255,7 +255,7 @@ namespace Planzy.Views {
         #line hidden
         
         
-        #line 941 "..\..\..\..\Views\PlanzyView.xaml"
+        #line 929 "..\..\..\..\Views\PlanzyView.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Grid gr_NhanLich;
         
@@ -263,7 +263,7 @@ namespace Planzy.Views {
         #line hidden
         
         
-        #line 1301 "..\..\..\..\Views\PlanzyView.xaml"
+        #line 1289 "..\..\..\..\Views\PlanzyView.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.ListView listviewSanBayTrungGian;
         
@@ -271,7 +271,7 @@ namespace Planzy.Views {
         #line hidden
         
         
-        #line 1362 "..\..\..\..\Views\PlanzyView.xaml"
+        #line 1350 "..\..\..\..\Views\PlanzyView.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.ListView listviewChuyenBay;
         
@@ -279,7 +279,7 @@ namespace Planzy.Views {
         #line hidden
         
         
-        #line 1508 "..\..\..\..\Views\PlanzyView.xaml"
+        #line 1496 "..\..\..\..\Views\PlanzyView.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Grid gr_DoanhThu;
         
@@ -287,7 +287,7 @@ namespace Planzy.Views {
         #line hidden
         
         
-        #line 1509 "..\..\..\..\Views\PlanzyView.xaml"
+        #line 1497 "..\..\..\..\Views\PlanzyView.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         internal System.Windows.Controls.Grid gr_ChiTietDatVe;
         
