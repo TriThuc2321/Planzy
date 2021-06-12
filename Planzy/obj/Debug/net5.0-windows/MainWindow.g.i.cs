@@ -11,8 +11,6 @@
 
 using MaterialDesignThemes.Wpf;
 using Planzy;
-using Planzy.LoginRegister;
-using Planzy.Models.Util;
 using Planzy.ViewModels;
 using Planzy.Views;
 using System;
