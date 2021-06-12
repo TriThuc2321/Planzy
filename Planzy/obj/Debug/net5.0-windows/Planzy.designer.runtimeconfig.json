@@ -7,7 +7,12 @@
     },
     "additionalProbingPaths": [
       "C:\\Users\\trith\\.dotnet\\store\\|arch|\\|tfm|",
+<<<<<<< Updated upstream
       "C:\\Users\\trith\\.nuget\\packages"
+=======
+      "C:\\Users\\pvdth\\.nuget\\packages",
+      "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+>>>>>>> Stashed changes
     ],
     "configProperties": {
       "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true
