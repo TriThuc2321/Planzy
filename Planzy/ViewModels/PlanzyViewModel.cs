@@ -128,7 +128,8 @@ namespace Planzy.ViewModels
 
             #region users
             mainWindow = parentWindow;
-            LogOut = new RelayCommand2<Window>((p) => { return true; }, (p) => { logOut(); });
+            LogOutCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { logOut(); });
+            UpdateUserCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { updateUser(); });
 
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
@@ -2198,8 +2199,17 @@ namespace Planzy.ViewModels
 
         private UserServices userServices;
         private List<User> listUser;
-        public ICommand LogOut { get; set; }
+        public ICommand UpdateUserCommand { get; set; }
+        public ICommand LogOutCommand { get; set; }
 
+        void updateUser()
+        {
+            UpdateInforUser updateInforUser = new UpdateInforUser(user);
+            updateInforUser.ShowDialog();
+            userServices.updateUserServices();
+            user = userServices.getUserByEmail(user.Gmail);
+            setUI();
+        }
         void logOut()
         {
             Login login = new Login();
@@ -2233,7 +2243,7 @@ namespace Planzy.ViewModels
         }
         
         
-        void setUI()
+        public void setUI()
         {
             UserName = user.Name;
             Gmail = user.Gmail;
