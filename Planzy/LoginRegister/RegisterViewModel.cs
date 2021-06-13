@@ -161,6 +161,7 @@ namespace Planzy.LoginRegister
                 temp.CMND = "";
                 temp.PhoneNumer = "";
                 temp.Name = "";
+                temp.Rank = "Customer";
 
                 userServices.pushUserToSql(temp);
 

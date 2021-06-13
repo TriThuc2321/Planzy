@@ -49,6 +49,7 @@ namespace Planzy.ViewModels
         ChuyenBayServices chuyenBayServices;
         LoaiHangGheServices loaiHangGheServices;
         ChiTietHangGheServices chiTietHangGheServices;
+
         public PlanzyViewModel(string gmailUser, Window parentWindow)
         {
 
@@ -56,7 +57,7 @@ namespace Planzy.ViewModels
             sanBayTrungGianService = new SanBayTrungGianService();
             loaiHangGheServices = new LoaiHangGheServices();
             chiTietHangGheServices = new ChiTietHangGheServices();
-            chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService,sanBayServices,chiTietHangGheServices);
+            chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService, sanBayServices, chiTietHangGheServices);
             ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
             LoadData();
             doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
@@ -91,11 +92,13 @@ namespace Planzy.ViewModels
             chooseBackButtonCommand = new RelayCommand(ButtonBack);
             chooseChangeButtonCommand_FlightSearch = new RelayCommand2<object>((p) => p != null, ButtonChange);
 
+
             //Thuc
             
             #region users
             mainWindow = parentWindow;
-            LogOut = new RelayCommand2<Window>((p) => { return true; }, (p) => { logOut(); });
+            LogOutCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { logOut(); });
+            UpdateUserCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { updateUser(); });
 
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
@@ -2408,8 +2411,17 @@ namespace Planzy.ViewModels
 
         private UserServices userServices;
         private List<User> listUser;
-        public ICommand LogOut { get; set; }
+        public ICommand UpdateUserCommand { get; set; }
+        public ICommand LogOutCommand { get; set; }
 
+        void updateUser()
+        {
+            UpdateInforUser updateInforUser = new UpdateInforUser(user);
+            updateInforUser.ShowDialog();
+            userServices.updateUserServices();
+            user = userServices.getUserByEmail(user.Gmail);
+            setUI();
+        }
         void logOut()
         {
             Login login = new Login();
@@ -2443,7 +2455,7 @@ namespace Planzy.ViewModels
         }
         
         
-        void setUI()
+        public void setUI()
         {
             UserName = user.Name;
             Gmail = user.Gmail;

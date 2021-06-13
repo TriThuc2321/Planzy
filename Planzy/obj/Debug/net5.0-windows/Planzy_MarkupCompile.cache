@@ -10,11 +10,12 @@ none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
 D:\GitHub\Planzy\Planzy\App.xaml
-7-96057104
+8-196877355
 
 391669090616
+
 198-1070381301
-LoginRegister\ForgotPassword.xaml;LoginRegister\Login.xaml;LoginRegister\Register.xaml;MainWindow.xaml;ResourcesXAML\MyResource.xaml;Views\CustomMessageBoxWindow.xaml;Views\PlanzyView.xaml;
+LoginRegister\ForgotPassword.xaml;LoginRegister\Login.xaml;LoginRegister\Register.xaml;MainWindow.xaml;ResourcesXAML\MyResource.xaml;Views\CustomMessageBoxWindow.xaml;Views\PlanzyView.xaml;Views\UpdateInforUser.xaml;
 
 False
 

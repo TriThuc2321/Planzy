@@ -1944,7 +1944,7 @@
                                     <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
                                             Margin="40 0 0 10">
-                                        <Label Content="Hành khách"
+                                        <Label Content="Họ và tên"
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
@@ -2029,20 +2029,27 @@
                             <Grid Grid.Row="6">
                                 <StackPanel Orientation="Horizontal">
                                     <Button
-                                    Width="250"
+                                    Width="200"
                                     Style="{StaticResource MaterialDesignFlatDarkBgButton}"
-                                    Content="Vé đã mua" 
+                                    Content="Cập nhật thông tin" 
                                     Background="SkyBlue"
-                                        Margin="85 0 0 0"
+                                        Margin="50 0 0 0"
+                                        Command="{Binding UpdateUserCommand}"
                                     />
-
                                     <Button
-                                    Width="250"
+                                    Width="200"
+                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    Content="Vé đã đặt" 
+                                    Background="SkyBlue"
+                                        Margin="30 0 0 0"
+                                    />
+                                    <Button
+                                    Width="200"
                                     Style="{StaticResource MaterialDesignFlatDarkBgButton}"
                                     Content="Đăng xuất" 
                                     Background="SkyBlue"
-                                        Margin="100 0 0 0"
-                                        Command="{Binding LogOut}"
+                                        Margin="30 0 0 0"
+                                        Command="{Binding LogOutCommand}"
                                         />
                                     
                                 </StackPanel>
