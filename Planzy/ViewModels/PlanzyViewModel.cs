@@ -29,6 +29,8 @@ using System.Windows;
 using Planzy.Models.ChiTietHangGheModel;
 using System.Timers;
 using Planzy.Views;
+using System.Windows.Threading;
+using System.Net;
 
 namespace Planzy.ViewModels
 {
@@ -106,6 +108,11 @@ namespace Planzy.ViewModels
             user = userServices.getUserByEmail(gmailUser);
 
             setUI();
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
             #endregion
 
 
@@ -2506,13 +2513,41 @@ namespace Planzy.ViewModels
             }
         }
         private string address;
+        private DispatcherTimer timer;
+
         public string Address
         {
             get { return address; }
             set { address = value; OnPropertyChanged("Address"); }
         }
 
-        
+
+        #endregion
+
+        #region check internet
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (!IsConnectedToInternet())
+            {
+                timer.Stop();
+                InternetCheckingView internetCheckingView = new InternetCheckingView(mainWindow);
+                internetCheckingView.ShowDialog();
+                timer.Start();
+            }
+        }
+
+        public bool IsConnectedToInternet()
+        {
+            try
+            {
+                IPHostEntry i = Dns.GetHostEntry("www.google.com");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         #endregion
 
     }

@@ -15,6 +15,13 @@
         Title="Login" Height="450" Width="800"
         Name="LoginXaml">
     <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction 
+                    Command="{Binding LoadWindowCommand}"
+                    CommandParameter="{Binding ElementName=LoginXaml}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <materialDesign:Card HorizontalAlignment="Center" VerticalAlignment="Center" Width="800" Height="450">
             <materialDesign:Card.Background>
                 <ImageBrush ImageSource="/LoginRegister/Image/back_ground_login.jpg" Stretch="UniformToFill"/>

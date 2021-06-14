@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Planzy.LoginRegister
 {
@@ -33,7 +34,9 @@ namespace Planzy.LoginRegister
         public bool isConfirmEmail = false;
         string randomCode;
         public string emailIsConfirm = "";
+        Window parentView;
 
+        public ICommand LoadWindowCommand { get; set; }
         public ICommand ConfirmEmailCommand { get; set; }
         public ICommand EmailChangCommand { get; set; }
         public ICommand PasswordChangCommand { get; set; }
@@ -41,6 +44,9 @@ namespace Planzy.LoginRegister
         public ICommand LoginXamlCommand { get; set; }
         public ICommand ExitCommand { get; set; }
         public ICommand RegisterCommand { get; set; }
+
+        private DispatcherTimer timer;
+
         public RegisterViewModel()
         {
 
@@ -49,7 +55,7 @@ namespace Planzy.LoginRegister
 
             DefaultTxt();
 
-
+            LoadWindowCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { this.parentView = p; });
             ConfirmEmailCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { ConfirmEmail(p); });
             PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = p.Password; });
             EmailChangCommand = new RelayCommand2<TextBox>((p) => { return true; }, (p) => { EmailChange(p); });
@@ -57,6 +63,36 @@ namespace Planzy.LoginRegister
             LoginXamlCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenLoginWindow(p); });
             ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { p.Close(); });
             RegisterCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { Register(p); });
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (!IsConnectedToInternet())
+            {
+                timer.Stop();
+
+                InternetCheckingView internetCheckingView = new InternetCheckingView(parentView);
+                internetCheckingView.ShowDialog();
+                timer.Start();
+            }
+        }
+
+        public bool IsConnectedToInternet()
+        {
+            try
+            {
+                IPHostEntry i = Dns.GetHostEntry("www.google.com");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         void EmailChange(TextBox p)
         {
