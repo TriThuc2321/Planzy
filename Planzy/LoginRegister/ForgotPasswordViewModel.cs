@@ -87,7 +87,7 @@ namespace Planzy.LoginRegister
             {
                 timer.Stop();
 
-                InternetCheckingView internetCheckingView = new InternetCheckingView(parentView);
+                InternetCheckingView internetCheckingView = new InternetCheckingView(parentView, null);
                 internetCheckingView.ShowDialog();
                 timer.Start();
             }
@@ -138,6 +138,8 @@ namespace Planzy.LoginRegister
 
 
                 parentWindow.Show();
+                if(parentRegister!= null) parentRegister.timerRegister.Start();
+                timer.Stop();
                 p.Close();
             }
         }
@@ -160,6 +162,7 @@ namespace Planzy.LoginRegister
         {
             Login loginWindow = new Login();
             loginWindow.Show();
+            timer.Stop();
             p.Close();
         }
         void ResendClick()
@@ -227,6 +230,7 @@ namespace Planzy.LoginRegister
                 ResetPassword(Email);
                 MainWindow main = new MainWindow(Email);
                 main.Show();
+                timer.Stop();
                 p.Close();
             }
         }

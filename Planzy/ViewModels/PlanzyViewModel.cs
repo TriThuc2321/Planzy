@@ -2423,8 +2423,10 @@ namespace Planzy.ViewModels
 
         void updateUser()
         {
-            UpdateInforUser updateInforUser = new UpdateInforUser(user);
+            timer.Stop();
+            UpdateInforUser updateInforUser = new UpdateInforUser(user, mainWindow);
             updateInforUser.ShowDialog();
+            timer.Start();
             userServices.updateUserServices();
             user = userServices.getUserByEmail(user.Gmail);
             setUI();
@@ -2530,7 +2532,7 @@ namespace Planzy.ViewModels
             if (!IsConnectedToInternet())
             {
                 timer.Stop();
-                InternetCheckingView internetCheckingView = new InternetCheckingView(mainWindow);
+                InternetCheckingView internetCheckingView = new InternetCheckingView(mainWindow, null);
                 internetCheckingView.ShowDialog();
                 timer.Start();
             }

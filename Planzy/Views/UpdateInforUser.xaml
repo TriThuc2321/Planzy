@@ -164,9 +164,10 @@
                         </StackPanel>
 
 
-                        <Label Content="{Binding TextMessage}" 
-                               Foreground="Red"
+                        <Label Content="Lưu thành công" 
+                               Foreground="Green"
                                FontStyle="Italic"
+                               Width="90"
                                Visibility="{Binding TextMessageVisibility}"
                                />
                     </StackPanel>

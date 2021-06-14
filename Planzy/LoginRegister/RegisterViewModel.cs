@@ -45,7 +45,7 @@ namespace Planzy.LoginRegister
         public ICommand ExitCommand { get; set; }
         public ICommand RegisterCommand { get; set; }
 
-        private DispatcherTimer timer;
+        public DispatcherTimer timerRegister;
 
         public RegisterViewModel()
         {
@@ -61,24 +61,24 @@ namespace Planzy.LoginRegister
             EmailChangCommand = new RelayCommand2<TextBox>((p) => { return true; }, (p) => { EmailChange(p); });
             ConfirmPasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { ConfirmPassword = p.Password; });
             LoginXamlCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenLoginWindow(p); });
-            ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { p.Close(); });
+            ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { timerRegister.Stop(); p.Close(); });
             RegisterCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { Register(p); });
 
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += timer_Tick;
-            timer.Start();
+            timerRegister = new DispatcherTimer();
+            timerRegister.Interval = TimeSpan.FromSeconds(1);
+            timerRegister.Tick += timer_Tick;
+            timerRegister.Start();
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
             if (!IsConnectedToInternet())
             {
-                timer.Stop();
+                timerRegister.Stop();
 
-                InternetCheckingView internetCheckingView = new InternetCheckingView(parentView);
+                InternetCheckingView internetCheckingView = new InternetCheckingView(parentView, null);
                 internetCheckingView.ShowDialog();
-                timer.Start();
+                timerRegister.Start();
             }
         }
 
@@ -144,7 +144,9 @@ namespace Planzy.LoginRegister
             {
                 sendEmail(Email);
                 ForgotPassword forgotPassword = new ForgotPassword(Email, this.randomCode, p, this);
-                forgotPassword.Show();
+                timerRegister.Stop();
+                forgotPassword.ShowDialog();
+                timerRegister.Start();
                 p.Hide();
             }
             else
@@ -203,13 +205,16 @@ namespace Planzy.LoginRegister
 
                 MainWindow main = new MainWindow(Email);
                 main.Show();
+                timerRegister.Stop();
                 p.Close();
+                
             }
         }
         void OpenLoginWindow(Window p)
         {
             Login loginWindow = new Login();
             loginWindow.Show();
+            timerRegister.Stop();
             p.Close();
         }
         bool checkEmail(string inputEmail)

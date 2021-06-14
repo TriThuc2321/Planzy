@@ -22,10 +22,10 @@ namespace Planzy.Views
     public partial class UpdateInforUser : Window
     {
         UpdateInfoUserViewModel update;
-        public UpdateInforUser(User user )
+        public UpdateInforUser(User user, Window p)
         {
             InitializeComponent();
-            update = new UpdateInfoUserViewModel(user);
+            update = new UpdateInfoUserViewModel(user,p);
             this.DataContext = update;
         }
     }

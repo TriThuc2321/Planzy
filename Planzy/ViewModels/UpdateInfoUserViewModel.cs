@@ -37,12 +37,15 @@ namespace Planzy.ViewModels
         UserServices userServices;
         User user;
         Window parentView;
+        Window mainWindow;
         private DispatcherTimer timer;
         private DispatcherTimer timerText;
 
 
-        public UpdateInfoUserViewModel(User _user)
+        public UpdateInfoUserViewModel(User _user, Window main)
         {
+            mainWindow = main;
+
             Save = new RelayCommand2<Window>((p) => { return true; }, (p) => { save(p); });
             Cancel = new RelayCommand2<Window>((p) => { return true; }, (p) => { p.Close(); });
             LoadWindowCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { this.parentView = p; });
@@ -64,26 +67,21 @@ namespace Planzy.ViewModels
 
         void save(Window p)
         {
-            if(userServices.IsCMND(CMND) && userServices.IsPhoneNumber(PhoneNumber) )
+            if (!userServices.IsCMND(CMND) || !userServices.IsPhoneNumber(PhoneNumber))
             {
-                if(InvalidPhoneNumberVisibility == "Visible" || InvalidCMNDVisibility == "Visible")
-                {
-                    TextMessage = "Dữ liệu chưa dược lưu";
-                    TextMessageVisibility = "Visible";
-                }
-                else
-                {
-                    TextMessage = "Lưu thành công";
-                    TextMessageVisibility = "Visible";
-                    update();
-                    p.Close();
-                }
-
+                TextMessageVisibility = "Collapsed";
             }
+            else
+            {
+                TextMessageVisibility = "Visible";
+                update();
+                timerText.Start();
+            }
+
         }
         private void timerText_Tick(object sender, EventArgs e)
         {
-           
+            parentView.Close();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -91,7 +89,7 @@ namespace Planzy.ViewModels
             if (!IsConnectedToInternet())
             {
                 timer.Stop();
-                InternetCheckingView internetCheckingView = new InternetCheckingView(parentView);
+                InternetCheckingView internetCheckingView = new InternetCheckingView(parentView, mainWindow);
                 internetCheckingView.ShowDialog();
                 timer.Start();
             }
@@ -120,6 +118,7 @@ namespace Planzy.ViewModels
 
             InvalidCMNDVisibility = "Collapsed";
             InvalidPhoneNumberVisibility = "Collapsed";
+            TextMessageVisibility = "Collapsed";
         }
 
         void update()
@@ -233,13 +232,13 @@ namespace Planzy.ViewModels
             {
                 if (userServices.IsPhoneNumber(value))
                 {
-                    phoneNumber = value;
                     InvalidPhoneNumberVisibility = "Collapsed";
                 }
                 else
                 {
                     InvalidPhoneNumberVisibility = "Visible";
                 }
+                phoneNumber = value;
                 OnPropertyChanged("PhoneNumber");
             }
         }
@@ -251,14 +250,13 @@ namespace Planzy.ViewModels
             {
                 if (userServices.IsCMND(value))
                 {
-                    cmnd = value;
                     InvalidCMNDVisibility = "Collapsed";
                 }
                 else
                 {
                     InvalidCMNDVisibility = "Visible";
                 }
-                
+                cmnd = value;
                 OnPropertyChanged("CMND");
             }
         }
@@ -281,13 +279,7 @@ namespace Planzy.ViewModels
             set { address = value; OnPropertyChanged("Address"); }
         }
 
-        private string textMessage;
-
-        public string TextMessage
-        {
-            get { return textMessage; }
-            set { textMessage = value; OnPropertyChanged("TextMessage"); }
-        }
+     
 
 
     }

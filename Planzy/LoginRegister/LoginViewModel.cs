@@ -69,7 +69,7 @@ namespace Planzy.LoginRegister
             LoginCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginClick(p); });
             PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = userServices.Encode(p.Password); });
             LoadWindowCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { this.parentView = p; });
-            ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { p.Close(); });
+            ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { timer.Stop(); p.Close(); });
             RegisterCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenRegisterWindow(p); });
             ForgotPasswordCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenForgotPasswordWindow(p); });
 
@@ -91,7 +91,7 @@ namespace Planzy.LoginRegister
             {
                 timer.Stop();
 
-                InternetCheckingView internetCheckingView = new InternetCheckingView(parentView);
+                InternetCheckingView internetCheckingView = new InternetCheckingView(parentView, null);
                 internetCheckingView.ShowDialog();
                 timer.Start();
             }
@@ -126,6 +126,7 @@ namespace Planzy.LoginRegister
                         EnterEmailVisibility = "Hidden";
                         MainWindow mainForm = new MainWindow(listUsers[i].Gmail);
                         mainForm.Show();
+                        timer.Stop();
                         p.Close();
                     }
                     else
@@ -168,6 +169,7 @@ namespace Planzy.LoginRegister
         {
             Register registerWindow = new Register();
             registerWindow.Show();
+            timer.Stop();
             p.Close();
         }
         void OpenForgotPasswordWindow(Window p)
@@ -208,6 +210,7 @@ namespace Planzy.LoginRegister
 
                 ForgotPassword forgotPassword = new ForgotPassword(Account, randomCode);
                 forgotPassword.Show();
+                timer.Stop();
                 p.Close();
             }
             catch (Exception ex)
@@ -266,7 +269,8 @@ namespace Planzy.LoginRegister
             }
 
             MainWindow mainForm = new MainWindow(profileResponse.email);
-            mainForm.Show();          
+            mainForm.Show();
+            timer.Stop();
             loginWindow.Close();
 
         }
