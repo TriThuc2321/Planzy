@@ -30,6 +30,7 @@ using Microsoft.Xaml.Behaviors;
 using Newtonsoft.Json;
 using System.Net.Sockets;
 using System.Net.Mail;
+using Planzy.Views;
 
 namespace Planzy.LoginRegister
 {
@@ -47,10 +48,13 @@ namespace Planzy.LoginRegister
         UserServices userServices;
         User user;
         List<User> listUsers;
+        Window parentView;
 
+        private DispatcherTimer timer;
 
         public ICommand LoginGoogleCommand { get; set; }
         public ICommand PasswordChangCommand { get; set; }
+        public ICommand LoadWindowCommand { get; set; }
         public ICommand LoginCommand { get; set; }
         public ICommand RegisterCommand { get; set; }
         public ICommand ExitCommand { get; set; }
@@ -64,21 +68,54 @@ namespace Planzy.LoginRegister
             LoginGoogleCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginGoogleClick(p); });
             LoginCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginClick(p); });
             PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = userServices.Encode(p.Password); });
+            LoadWindowCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { this.parentView = p; });
             ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { p.Close(); });
             RegisterCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenRegisterWindow(p); });
             ForgotPasswordCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenForgotPasswordWindow(p); });
 
             NonExistAccountVisibility = "Hidden";
             IncorrectPasswordVisibility = "Hidden";
-            LoginSuccessVisibility = " Hidden";
+            LoginSuccessVisibility = "Hidden";
             EnterEmailVisibility = "Hidden";
+
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
         }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (!IsConnectedToInternet())
+            {
+                timer.Stop();
+
+                InternetCheckingView internetCheckingView = new InternetCheckingView(parentView);
+                internetCheckingView.ShowDialog();
+                timer.Start();
+            }
+        }
+
+        public bool IsConnectedToInternet()
+        {
+            try
+            {
+                IPHostEntry i = Dns.GetHostEntry("www.google.com");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         void LoginClick(Window p)
         {
             int i = 0;
             for(i =0; i< listUsers.Count(); i++)
             {
-                if(listUsers[i].ID == Account)
+                if(listUsers[i].ID == Account || listUsers[i].Gmail == Account)
                 {
                     if (listUsers[i].Password == Password)
                     {
@@ -86,7 +123,7 @@ namespace Planzy.LoginRegister
                         NonExistAccountVisibility = "Hidden";
                         IncorrectPasswordVisibility = "Hidden";
                         LoginSuccessVisibility = "Visible";
-                        EnterEmailVisibility = "Hiden";
+                        EnterEmailVisibility = "Hidden";
                         MainWindow mainForm = new MainWindow(listUsers[i].Gmail);
                         mainForm.Show();
                         p.Close();
@@ -95,8 +132,8 @@ namespace Planzy.LoginRegister
                     {
                         NonExistAccountVisibility = "Hidden";
                         IncorrectPasswordVisibility = "Visible";
-                        LoginSuccessVisibility = " Hidden";
-                        EnterEmailVisibility = "Hiden";
+                        LoginSuccessVisibility = "Hidden";
+                        EnterEmailVisibility = "Hidden";
                         break;
                     }
                    
@@ -106,8 +143,8 @@ namespace Planzy.LoginRegister
             {
                 NonExistAccountVisibility = "Visible";
                 IncorrectPasswordVisibility = "Hidden";
-                LoginSuccessVisibility = " Hidden";
-                EnterEmailVisibility = "Hiden";
+                LoginSuccessVisibility = "Hidden";
+                EnterEmailVisibility = "Hidden";
             }
         }
        
@@ -190,6 +227,7 @@ namespace Planzy.LoginRegister
             user.PhoneNumer = "";
             user.CMND = "";
             user.Address = "";
+            user.Rank = "Customer";
         }
         bool checkEmail(string inputEmail)
         {
@@ -383,6 +421,17 @@ namespace Planzy.LoginRegister
         {
             get { return enterEmailVisibility; }
             set { enterEmailVisibility = value; OnPropertyChanged("EnterEmailVisibility"); }
+        }
+
+        private bool rememberAccount;
+        public bool RememberAccount
+        {
+            get { return rememberAccount; }
+            set
+            {
+                rememberAccount = value;
+                OnPropertyChanged("RememberAccount");
+            }
         }
     }
 }

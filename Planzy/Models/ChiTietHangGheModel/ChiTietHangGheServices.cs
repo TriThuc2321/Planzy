@@ -142,7 +142,8 @@ namespace Planzy.Models.ChiTietHangGheModel
                         chiTietHangGhe.MaLoaiHangGhe = row["MA_LOAI_HANG_GHE"].ToString();
                         chiTietHangGhe.SoLuongGhe = row["SO_LUONG_TONG"].ToString();
                         chiTietHangGhe.SoLuongGheConLai = row["SO_LUONG_CON_LAI"].ToString();
-                    chiTietHangGhe.TyLe = row["TY_LE"].ToString();
+                        chiTietHangGhe.TenLoaiHangGhe = row["TEN_LOAI_HANG_GHE"].ToString();
+                        chiTietHangGhe.TyLe = row["TY_LE"].ToString();
                     chiTietHangGhesList.Add(chiTietHangGhe);
                     }
                 result = true;

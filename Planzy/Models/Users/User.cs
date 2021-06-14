@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Planzy.Models.Users
 {
-    class User : INotifyPropertyChanged
+    public class User : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
@@ -20,7 +20,7 @@ namespace Planzy.Models.Users
 
         }
 
-        public User(string id, string gmail, string password, string name, string phoneNumber, string cmnd, string address)
+        public User(string id, string gmail, string password, string name, string phoneNumber, string cmnd, string address, string rank)
         {
             this.id = id;
             this.gmail = gmail;
@@ -29,6 +29,7 @@ namespace Planzy.Models.Users
             this.phoneNumber = phoneNumber;
             this.cmnd = cmnd;
             this.address = address;
+            this.rank = rank;
         }
 
         private string id;
@@ -99,7 +100,17 @@ namespace Planzy.Models.Users
             set
             {
                 address = value;
-                OnPropertyChanged("Adress");
+                OnPropertyChanged("Address");
+            }
+        }
+        private string rank;
+        public string Rank
+        {
+            get { return rank; }
+            set
+            {
+                rank = value;
+                OnPropertyChanged("Rank");
             }
         }
     }

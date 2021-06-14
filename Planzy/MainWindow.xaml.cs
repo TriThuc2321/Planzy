@@ -26,14 +26,13 @@ namespace Planzy
         PlanzyViewModel planzyViewModel;
         public MainWindow()
         {
-            InitializeComponent();
-            planzyViewModel = new PlanzyViewModel();
-            this.DataContext = planzyViewModel;
+            InitializeComponent();           
         }
-        public MainWindow(string userId)
+        public MainWindow(string gmail)
         {
             InitializeComponent();
-            planzyViewModel = new PlanzyViewModel(userId);
+            Window parentWindow = Window.GetWindow(this);
+            planzyViewModel = new PlanzyViewModel(gmail, parentWindow);
             this.DataContext = planzyViewModel;
         }
 

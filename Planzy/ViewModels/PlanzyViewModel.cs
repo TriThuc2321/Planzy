@@ -35,13 +35,16 @@ using Planzy.Models.DoanhThuModel;
 using System.Windows.Media;
 using Planzy.Models.Util;
 using System.Printing;
+using Planzy.Views;
+using System.Windows.Threading;
+using System.Net;
 
 namespace Planzy.ViewModels
 {
     class PlanzyViewModel : INotifyPropertyChanged
     {
         private static SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
-
+        Window mainWindow;
 
         #region PropertyChange
         public event PropertyChangedEventHandler PropertyChanged;
@@ -83,7 +86,7 @@ namespace Planzy.ViewModels
             set { LabelThangDaChon = value; OnPropertyChanged("labelThangDaChon"); }
         }
         #endregion
-        public PlanzyViewModel(string gmailUser)
+        public PlanzyViewModel(string gmailUser, Window parentWindow)
         {
 
             sanBayServices = new SanBayService();
@@ -136,6 +139,7 @@ namespace Planzy.ViewModels
             chonLayoutCommand3 = new RelayCommand(Button3);
             chonLayoutCommand4 = new RelayCommand(Button4);
             chonLayoutCommand5 = new RelayCommand(Button5);
+            chonLayoutCommand6 = new RelayCommand(Button6);
 
             #endregion
             //Thien
@@ -147,63 +151,33 @@ namespace Planzy.ViewModels
             choosePayButtonCommand = new RelayCommand2<object>(checkPassangerInfor, ButtonPay);
             chooseContinueButtonCommand = new RelayCommand2<object>((p) => p != null, ButtonContinue);
             chooseBackButtonCommand = new RelayCommand(ButtonBack);
+            chooseChangeButtonCommand_FlightSearch = new RelayCommand2<object>((p) => p != null, ButtonChange);
+
 
             //Thuc
-            chonLayoutCommand6 = new RelayCommand(Button6);
+            
+            #region users
+            mainWindow = parentWindow;
+            LogOutCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { logOut(); });
+            UpdateUserCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { updateUser(); });
+
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
+
             user = userServices.getUserByEmail(gmailUser);
+
             setUI();
 
-
-        }
-
-        public PlanzyViewModel()
-        {
-            sanBayServices = new SanBayService();
-            sanBayTrungGianService = new SanBayTrungGianService();
-            loaiHangGheServices = new LoaiHangGheServices();
-            chiTietHangGheServices = new ChiTietHangGheServices();
-            chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService, sanBayServices, chiTietHangGheServices);
-
-            
-
-            ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
-            LoadData();
-            doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
-            xoaSanBayTrungGianCommand = new RelayCommand(xoaSanBayTrungGian);
-            themSanBayTrungGianCommand = new RelayCommand(themSanBayTrungGian);
-            huyThemCommand = new RelayCommand(huyThemSanBayTrungGian);
-            xacNhanThemCommand = new RelayCommand(xacNhanThemSanBayTrungGian);
-            themChuyenBayCommand = new RelayCommand(themChuyenBay);
-
-            searchFlightCommand = new RelayCommand(searchFlight);
-            searchFlightCommand_FlightBooking = new RelayCommand(searchFlight_FlightBooking);
-            resetCommand = new RelayCommand(resetSearchList);
-            showAllFightsCommand_FlightBooking = new RelayCommand(showAllFlights);
-            suaChuyenBayCommand = new RelayCommand(suaChuyenBay);
-            xoaChuyenBayCommand = new RelayCommand(xoaChuyenBay);
-            huyThemVaSuaChuyenBayCommand = new RelayCommand(huyThemVaSuaChuyenBay);
-            luuSuaChuyenBayCommand = new RelayCommand(luuSuaChuyenBay);
-            #region Xử lý giao diện ban đầu
-            chonLayoutCommand1 = new RelayCommand(Button1);
-            chonLayoutCommand2 = new RelayCommand(Button2);
-            chonLayoutCommand3 = new RelayCommand(Button3);
-            chonLayoutCommand4 = new RelayCommand(Button4);
-            chonLayoutCommand5 = new RelayCommand(Button5);
-            chonLayoutCommand6 = new RelayCommand(Button6);
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
             #endregion
-           
 
-            userServices = new UserServices();
-            listUser = new List<User>(userServices.GetAll());
 
-            //user = userServices.getUserByEmail();
-
-            setUI();
-
-            
         }
+
+        
 
 
         public RelayCommand SelectAllCommand { get; private set; }
@@ -225,8 +199,9 @@ namespace Planzy.ViewModels
 
             // Thiên
             FlightSearchList = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
-            FlightSearchList_FlightBooking = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetFlightBookingList(flightSearchList_FlightBooking));
+            //FlightSearchList_FlightBooking = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetFlightBookingList(flightSearchList_FlightBooking));
             backupList_FlightBooking = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetFlightBookingList(flightSearchList_FlightBooking));
+            FlightSearchList_FlightBooking = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
             Departure = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             Destination = new ObservableCollection<SanBay>(sanBayServices.GetAll());
             DepartureList_FlightBooking = new ObservableCollection<SanBay>(sanBayServices.GetAll());
@@ -2236,69 +2211,92 @@ namespace Planzy.ViewModels
             IsDuocChon5 = KhongDuocChon;
             IsDuocChon6 = KhongDuocChon;
 
-            ///check sticket types
+            /////check sticket types
+            //ListSticketType.Clear();
+            //hashtable_AmountSticketType.Clear();
+            //hashtable_SticketID.Clear();
+            //if (selectedFlight.SoGheHang1 != "-1")
+            //{
+            //    if (selectedFlight.SoGheHang1 == "0")
+            //    {
+            //        hashtable_AmountSticketType.Add("Hạng nhất", "Hết vé");
+            //        ListSticketType.Add("Hạng nhất");
+            //    }
+            //    else
+            //    {
+            //        hashtable_AmountSticketType.Add("Hạng nhất", selectedFlight.SoGheHang1);
+            //        ListSticketType.Add("Hạng nhất");
+            //    }
+            //    hashtable_SticketID.Add("Hạng nhất","A");
+            //}
+            //if (selectedFlight.SoGheHang2 != "-1")
+            //{
+            //    if (selectedFlight.SoGheHang2 == "0")
+            //    {
+            //        hashtable_AmountSticketType.Add("Thương gia", "Hết vé");
+            //        ListSticketType.Add("Thương gia");
+            //    }
+            //    else
+            //    {
+            //        hashtable_AmountSticketType.Add("Thương gia", selectedFlight.SoGheHang2);
+            //        ListSticketType.Add("Thương gia");
+            //    }
+            //    hashtable_SticketID.Add("Thương gia", "B");
+            //}
+            //if (selectedFlight.SoGheHang3 != "-1")
+            //{
+            //    if (selectedFlight.SoGheHang3 == "0")
+            //    {
+            //        hashtable_AmountSticketType.Add("Phổ thông đặc biệt", "Hết vé");
+            //        ListSticketType.Add("Phổ thông đặc biệt");
+            //    }
+            //    else
+            //    {
+            //        hashtable_AmountSticketType.Add("Phổ thông đặc biệt", selectedFlight.SoGheHang3);
+            //        ListSticketType.Add("Phổ thông đặc biệt");
+            //    }
+            //    hashtable_SticketID.Add("Phổ thông đặc biệt", "C");
+            //}
+            //if (selectedFlight.SoGheHang4 != "-1")
+            //{
+            //    if (selectedFlight.SoGheHang4 == "0")
+            //    {
+            //        hashtable_AmountSticketType.Add("Phổ thông", "Hết vé");
+            //        ListSticketType.Add("Phổ thông");
+            //    }
+            //    else
+            //    {
+            //        hashtable_AmountSticketType.Add("Phổ thông", selectedFlight.SoGheHang4);
+            //        ListSticketType.Add("Phổ thông");
+            //    }
+            //    hashtable_SticketID.Add("Phổ thông", "D");
+            //}
+            //OnPropertyChanged("ListSticketType");
+            //SticketTypeAmount = null;
+            //BookingSticket.FlightID = selectedFlight.MaChuyenBay;
+
+
             ListSticketType.Clear();
-            hashtable_AmountSticketType.Clear();
-            hashtable_SticketID.Clear();
-            if (selectedFlight.SoGheHang1 != "-1")
+            hashtable_AmountSticketType.Clear(); // Dictionary from Name to Amount
+            hashtable_SticketID.Clear(); /// Dictionary from Name to ID
+            foreach (ChiTietHangGhe ite in selectedFlight.ChiTietHangGhesList)
             {
-                if (selectedFlight.SoGheHang1 == "0")
+                if (ite.SoLuongGheConLai =="0")
                 {
-                    hashtable_AmountSticketType.Add("Hạng nhất", "Hết vé");
-                    ListSticketType.Add("Hạng nhất");
+                    hashtable_AmountSticketType.Add(ite.TenLoaiHangGhe, "Hết vé");
+                    hashtable_SticketID.Add(ite.TenLoaiHangGhe, ite.MaLoaiHangGhe);
                 }
                 else
                 {
-                    hashtable_AmountSticketType.Add("Hạng nhất", selectedFlight.SoGheHang1);
-                    ListSticketType.Add("Hạng nhất");
+                    hashtable_AmountSticketType.Add(ite.TenLoaiHangGhe, ite.SoLuongGheConLai);
+                    hashtable_SticketID.Add(ite.TenLoaiHangGhe, ite.MaLoaiHangGhe);
                 }
-                hashtable_SticketID.Add("Hạng nhất","A");
-            }
-            if (selectedFlight.SoGheHang2 != "-1")
-            {
-                if (selectedFlight.SoGheHang2 == "0")
-                {
-                    hashtable_AmountSticketType.Add("Thương gia", "Hết vé");
-                    ListSticketType.Add("Thương gia");
-                }
-                else
-                {
-                    hashtable_AmountSticketType.Add("Thương gia", selectedFlight.SoGheHang2);
-                    ListSticketType.Add("Thương gia");
-                }
-                hashtable_SticketID.Add("Thương gia", "B");
-            }
-            if (selectedFlight.SoGheHang3 != "-1")
-            {
-                if (selectedFlight.SoGheHang3 == "0")
-                {
-                    hashtable_AmountSticketType.Add("Phổ thông đặc biệt", "Hết vé");
-                    ListSticketType.Add("Phổ thông đặc biệt");
-                }
-                else
-                {
-                    hashtable_AmountSticketType.Add("Phổ thông đặc biệt", selectedFlight.SoGheHang3);
-                    ListSticketType.Add("Phổ thông đặc biệt");
-                }
-                hashtable_SticketID.Add("Phổ thông đặc biệt", "C");
-            }
-            if (selectedFlight.SoGheHang4 != "-1")
-            {
-                if (selectedFlight.SoGheHang4 == "0")
-                {
-                    hashtable_AmountSticketType.Add("Phổ thông", "Hết vé");
-                    ListSticketType.Add("Phổ thông");
-                }
-                else
-                {
-                    hashtable_AmountSticketType.Add("Phổ thông", selectedFlight.SoGheHang4);
-                    ListSticketType.Add("Phổ thông");
-                }
-                hashtable_SticketID.Add("Phổ thông", "D");
+                ListSticketType.Add(ite.TenLoaiHangGhe);
             }
             OnPropertyChanged("ListSticketType");
             SticketTypeAmount = null;
             BookingSticket.FlightID = selectedFlight.MaChuyenBay;
+
         }
         private BookingSticket bookingSticket;
         public BookingSticket BookingSticket
@@ -2440,19 +2438,57 @@ namespace Planzy.ViewModels
                 || string.IsNullOrEmpty(bookingSticket.Contact) || SticketTypeAmount == "Hết vé" || string.IsNullOrEmpty(SticketTypeAmount)) return false;
             return true;
         }
-         
+
+        private RelayCommand2<object> chooseChangeButtonCommand_FlightSearch;
+
+        public RelayCommand2<object> ChooseChangeButtonCommand_FlightSearch
+        {
+            get { return chooseChangeButtonCommand_FlightSearch; }
+        }
+        private void ButtonChange(object obj)
+        {
+            ChuyenBay selectedFlightToChange = obj as ChuyenBay;
+            if (selectedFlightToChange != null || selectedFlightToChange.IsDaBay == false)
+            {
+                MessageBox.Show("Sửa đi thằng lồn!", "Thông báo", MessageBoxButton.OK);
+            }        
+            else
+            {
+                MessageBox.Show("Không Thể Sửa Chuyến Bay Đã Bay !", "Thông báo", MessageBoxButton.OK);
+            }
+        }      
+
+
         
+
         #endregion
 
 
         #region user
 
-        
+
 
         private User user;
 
         private UserServices userServices;
         private List<User> listUser;
+        public ICommand UpdateUserCommand { get; set; }
+        public ICommand LogOutCommand { get; set; }
+
+        void updateUser()
+        {
+            UpdateInforUser updateInforUser = new UpdateInforUser(user);
+            updateInforUser.ShowDialog();
+            userServices.updateUserServices();
+            user = userServices.getUserByEmail(user.Gmail);
+            setUI();
+        }
+        void logOut()
+        {
+            Login login = new Login();
+            login.Show();
+            mainWindow.Close();
+        }
 
         private Image profilePic;
         public Image ProfillePic
@@ -2480,12 +2516,12 @@ namespace Planzy.ViewModels
         }
         
         
-        void setUI()
+        public void setUI()
         {
             UserName = user.Name;
             Gmail = user.Gmail;
             CMND = user.CMND;
-            PhoneNumer = user.PhoneNumer;
+            PhoneNumber = user.PhoneNumer;
             Address = user.Address;
         }
 
@@ -2500,7 +2536,7 @@ namespace Planzy.ViewModels
             }
         }
         private string phoneNumber;
-        public string PhoneNumer
+        public string PhoneNumber
         {
             get { return phoneNumber; }
             set
@@ -2531,12 +2567,41 @@ namespace Planzy.ViewModels
             }
         }
         private string address;
+        private DispatcherTimer timer;
+
         public string Address
         {
             get { return address; }
             set { address = value; OnPropertyChanged("Address"); }
         }
 
+
+        #endregion
+
+        #region check internet
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (!IsConnectedToInternet())
+            {
+                timer.Stop();
+                InternetCheckingView internetCheckingView = new InternetCheckingView(mainWindow);
+                internetCheckingView.ShowDialog();
+                timer.Start();
+            }
+        }
+
+        public bool IsConnectedToInternet()
+        {
+            try
+            {
+                IPHostEntry i = Dns.GetHostEntry("www.google.com");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         #endregion
         #region Xử lý biểu đồ
 

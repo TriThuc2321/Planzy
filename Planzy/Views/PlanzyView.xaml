@@ -149,7 +149,8 @@
             <Grid Grid.Column="1" Margin="10,10, 25,10" >
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
                     <Grid Background="White">
-                        <Grid Name ="gr_DatVe" Visibility="{Binding IsDuocChon1.NewVisibility}">
+                        
+                        <Grid Name ="gr_DatVe" Visibility="Hidden">
                            
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"></RowDefinition>
@@ -479,7 +480,7 @@
                                 </Grid>
                         </Grid>
                         </Grid>
-                        <Grid x:Name ="gr_BanVe" Visibility="{Binding IsDuocChon2.NewVisibility}">
+                        <Grid x:Name ="gr_BanVe" Visibility="Hidden">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="50"/>
@@ -674,14 +675,15 @@
 
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}">
+                        <Grid Name ="gr_Tracuu" Visibility="Hidden"
+                              >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="100"></RowDefinition>
+                                <RowDefinition Height="150"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="1"
@@ -818,18 +820,31 @@
                                             Orientation="Horizontal"
                                             HorizontalAlignment="Center">
                                     <TextBlock Text=" " Height="5" Width="5"></TextBlock>
+
                                     <Button
-                                        BorderBrush="Black"
+                                        BorderBrush="White"
                                         FontSize="10"
-                                        Height="20"
+                                        Height="40"
+                                        Width="100"
+                                         Command="{Binding ChooseChangeButtonCommand_FlightSearch}" 
+                                        CommandParameter="{Binding SelectedItem, ElementName=lvsTracuu}"
+                                         Content="Sửa"
+                                        Margin="0 0 10 0">
+                                    </Button>
+                                    <Button
+                                        BorderBrush="White"
+                                        FontSize="10"
+                                        Height="40"
                                         Width="100"
                                          Command="{Binding searchFlightCommand}" 
                                          Content="Search">
                                     </Button>
+
+                                   
                                     <Button
-                                        BorderBrush="Black"
+                                        BorderBrush="White"
                                         FontSize="10"
-                                        Height="20"
+                                        Height="40"
                                         Width="100"
                                          Command="{Binding resetCommand}" 
                                          Content="Reset"
@@ -930,7 +945,7 @@
 
 
                         </Grid>
-                        <Grid Name ="gr_NhanLich" Visibility="{Binding IsDuocChon4.NewVisibility}">
+                        <Grid Name ="gr_NhanLich" Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="126"></RowDefinition>
                                 <RowDefinition Height="84"></RowDefinition>
@@ -1991,7 +2006,7 @@
                                     <RowDefinition Height="130" ></RowDefinition>
                                     <RowDefinition ></RowDefinition>
                                 </Grid.RowDefinitions>
-                              
+
                                 <Grid Grid.Row="0">
                                     <Label Content="Vé Chuyến Bay"
                                            HorizontalAlignment="Center"
@@ -2009,7 +2024,7 @@
                                         <ColumnDefinition Width="40"></ColumnDefinition>
                                         <ColumnDefinition></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    
+
                                     <Grid Grid.Column="0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition></RowDefinition>
@@ -2048,7 +2063,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                          
+
                                             <TextBox Text="{Binding DateofSelectedFlight[11]}"
                                                     Foreground="Black"
                                                 FontWeight="Bold"
@@ -2057,10 +2072,10 @@
                                                      IsReadOnly="True"
                                                 VerticalAlignment="Bottom" 
                                                      BorderBrush="#FF5867AC">
-                                               
+
                                             </TextBox>
                                         </StackPanel>
-                                       
+
 
                                     </Grid>
                                     <Grid Grid.Column="2">
@@ -2070,8 +2085,8 @@
                                             <RowDefinition></RowDefinition>
                                             <RowDefinition Height="20"></RowDefinition>
                                         </Grid.RowDefinitions>
-                                       
-               
+
+
                                         <StackPanel Grid.Row="1"
                                             Orientation="Horizontal"
                                                     Margin="20 0 0 0">
@@ -2102,8 +2117,8 @@
                                         </StackPanel>
 
                                     </Grid>
-                                    
-                                    
+
+
                                 </Grid>
 
                                 <Grid Name="PassengerInforGrid"
@@ -2120,7 +2135,7 @@
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="50"></RowDefinition>
                                             <RowDefinition></RowDefinition>
-                                           
+
                                         </Grid.RowDefinitions>
                                         <Label Content="Thông Tin Hành Khách"
                                                FontSize="15"
@@ -2134,7 +2149,7 @@
                                                 <RowDefinition></RowDefinition>
                                                 <RowDefinition></RowDefinition>
                                                 <RowDefinition Height="30"></RowDefinition>
-                                                
+
                                             </Grid.RowDefinitions>
 
                                             <StackPanel Grid.Row="0"
@@ -2231,7 +2246,7 @@
                                             </StackPanel>
 
                                         </Grid>
-                                        
+
                                     </Grid>
                                     <Grid Grid.Column="2" Background="LightBlue"
                                         >
@@ -2246,7 +2261,7 @@
                                                 <RowDefinition></RowDefinition>
                                                 <RowDefinition></RowDefinition>
                                                 <RowDefinition Height="30"></RowDefinition>
-                                              
+
 
 
                                             </Grid.RowDefinitions>
@@ -2305,7 +2320,7 @@
                                                     IsReadOnly="True"
                                                     
                                                     Foreground="#FF5867AC"/>
-                                                
+
                                             </StackPanel>
                                             <StackPanel Grid.Row="2"
                                                 Grid.RowSpan="2">
@@ -2333,86 +2348,83 @@
 
                                         </Grid>
                                     </Grid>
-                                    
-                                    
                                 </Grid>
-                                
                             </Grid>
-                          
                         </Grid>
-                        <Grid x:Name ="gr_NguoiDung"  Visibility="{Binding IsDuocChon6.NewVisibility}">
+                        <Grid x:Name ="gr_NguoiDung"  Visibility="Visible">
                             <Grid.RowDefinitions>
-                                    <RowDefinition Height="200"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition />
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition/>
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0">
-                                <Image Name="ProfilePic" Height="150" Width="150"
+                                <Image Name="ProfilePic" Height="50" Width="50"
                                        Source="{Binding ProfilePic}"
                                        Stretch="Fill"
                                        />
                             </Grid>
                             <Grid Grid.Row="1">
-                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
-                                            Margin="20 0 0 10">
-                                        <Label Content="Name"
+                                            Margin="40 0 0 10">
+                                    <Label Content="Họ và tên"
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                        <Label Content="{Binding UserName}"
+                                    <Label Content="{Binding UserName}"
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="Black"
                                            Width="250"/>
-                                        
-                                    </StackPanel>
+
+                                </StackPanel>
                             </Grid>
 
-                                <Grid Grid.Row="2">
-                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                            <Grid Grid.Row="2">
+                                <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
-                                            Margin="20 0 0 10">
-                                        <Label Content="Gmail: "
+                                            Margin="40 0 0 10">
+                                    <Label Content="Gmail: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                        <Label Content="{Binding Gmail}"
+                                    <Label Content="{Binding Gmail}"
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="Black"
                                            Width="250"/>
-                                    </StackPanel>
-                                </Grid>
+                                </StackPanel>
+                            </Grid>
 
-                                <Grid Grid.Row="3">
-                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                            <Grid Grid.Row="3">
+                                <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
-                                            Margin="20 0 0 10">
-                                        <Label Content="Điện thoại: "
+                                            Margin="40 0 0 10">
+                                    <Label Content="Điện thoại: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                        <Label Content="{Binding PhoneNumer}"
+                                    <Label Content="{Binding PhoneNumber}"
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="Black"
                                            Width="250"/>
-                                    </StackPanel>
-                                </Grid>
+                                </StackPanel>
+                            </Grid>
 
                             <Grid Grid.Row="4">
                                 <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
-                                            Margin="20 0 0 10"
+                                            Margin="40 0 0 10"
                                             >
                                     <Label Content="CMND: "
                                            VerticalContentAlignment="Bottom"
@@ -2429,7 +2441,7 @@
                             <Grid Grid.Row="5">
                                 <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
-                                            Margin="20 0 0 10"
+                                            Margin="40 0 0 10"
                                             >
                                     <Label Content="Địa chỉ: "
                                            VerticalContentAlignment="Bottom"
@@ -2443,7 +2455,37 @@
                                            Width="250"/>
                                 </StackPanel>
                             </Grid>
-                            
+                            <Grid Grid.Row="6">
+                                <StackPanel Orientation="Horizontal">
+                                    <Button
+                                    Width="200"
+                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    Content="Cập nhật thông tin" 
+                                    Background="SkyBlue"
+                                        Margin="50 0 0 0"
+                                        Command="{Binding UpdateUserCommand}"
+                                    />
+                                    <Button
+                                    Width="200"
+                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    Content="Vé đã đặt" 
+                                    Background="SkyBlue"
+                                        Margin="30 0 0 0"
+                                    />
+                                    <Button
+                                    Width="200"
+                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    Content="Đăng xuất" 
+                                    Background="SkyBlue"
+                                        Margin="30 0 0 0"
+                                        Command="{Binding LogOutCommand}"
+                                        />
+
+                                </StackPanel>
+
+
+                            </Grid>
+
                         </Grid>
                     </Grid>
                 </Border>

@@ -16,7 +16,13 @@
     <Compile Update="LoginRegister\Register.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\InternetCheckingView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\PlanzyView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\UpdateInforUser.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -36,7 +42,13 @@
     <Page Update="LoginRegister\Login.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\InternetCheckingView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\PlanzyView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\UpdateInforUser.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
