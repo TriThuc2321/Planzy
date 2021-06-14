@@ -1,18 +1,17 @@
-﻿        <UserControl x:Class="Planzy.Views.MyChartTooltip"
+﻿<UserControl x:Class="Planzy.Views.MyChartToolTipForDTNam"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Planzy.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" 
-             d:DataContext="{d:DesignInstance local:MyChartTooltip}"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             d:DesignHeight="300" d:DesignWidth="300"
              Background="#E4555555" Padding="5" BorderThickness="2" BorderBrush="#555555">
-            <ItemsControl ItemsSource="{Binding Data.Points}" Grid.IsSharedSizeScope="True">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type lvc:DataPointViewModel}">
-                        <Grid Margin="2">
+    <ItemsControl ItemsSource="{Binding Data.Points}" Grid.IsSharedSizeScope="True">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type lvc:DataPointViewModel}">
+                <Grid Margin="2">
                     <StackPanel Orientation="Vertical">
                         <!--<TextBlock Text="{Binding ChartPoint.Instance.MaChuyenBay}" 
                                Margin="5 0 0 0" VerticalAlignment="Center" Foreground="White"/>-->
@@ -26,9 +25,9 @@
                                          0 0 0" VerticalAlignment="Center" Foreground="White"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock  Text="Số vé: " 
+                            <TextBlock  Text="Số chuyến bay: " 
                                Margin="5 0 0 0" VerticalAlignment="Center" Foreground="White"/>
-                            <TextBlock  Text="{Binding ChartPoint.Instance.SoVe}" 
+                            <TextBlock  Text="{Binding ChartPoint.Instance.SoChuyenBay}" 
                                Margin="5 0 0 0" VerticalAlignment="Center" Foreground="White"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
@@ -39,17 +38,16 @@
                             <TextBlock  Text="% " 
                                Margin="5 0 0 0" VerticalAlignment="Center" Foreground="White"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
+                        <!--<StackPanel Orientation="Horizontal">
                             <TextBlock  Text="Ngày bay: " 
                                Margin="5 0 0 0" VerticalAlignment="Center" Foreground="White"/>
                             <TextBlock  Text="{Binding ChartPoint.Instance.NgayBayString}" 
                                Margin="5 0 0 0" VerticalAlignment="Center" Foreground="White"/>
-                        </StackPanel>
+                        </StackPanel>-->
                     </StackPanel>
-                            
-                </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </UserControl>
 
+                </Grid>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>

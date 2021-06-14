@@ -31,6 +31,10 @@ using System.Timers;
 using LiveCharts;
 using LiveCharts.Configurations;
 using Planzy.Models.DoanhThuThangModel;
+using Planzy.Models.DoanhThuModel;
+using System.Windows.Media;
+using Planzy.Models.Util;
+using System.Printing;
 
 namespace Planzy.ViewModels
 {
@@ -51,8 +55,34 @@ namespace Planzy.ViewModels
         ChuyenBayServices chuyenBayServices;
         LoaiHangGheServices loaiHangGheServices;
         ChiTietHangGheServices chiTietHangGheServices;
-        public DoanhThuThangServices doanhThuThangServices { get; set; }
-        public ChartValues<DoanhThuThang> chuyenBays { get; set; }
+        #region Khai báo cho biểu đồ
+        private DoanhThuThangServices doanhThuThangServices;
+        private ChartValues<DoanhThuThang> doanhThuThangs;
+
+        public ChartValues<DoanhThuThang> DoanhThuThangs
+        {
+            get { return doanhThuThangs; }
+            set { doanhThuThangs = value; OnPropertyChanged("DoanhThuThangs"); }
+        }
+        private List<string> LabelThangDaChons;
+        public List<string> labelThangDaChons
+        {
+            get { return LabelThangDaChons; }
+            set { LabelThangDaChons = value; OnPropertyChanged("labelThangDaChons"); }
+        }
+        private ChartValues<DoanhThu> DoanhThuThangDaChon;
+        public ChartValues<DoanhThu> doanhThuThangDaChon
+        {
+            get { return DoanhThuThangDaChon; }
+            set { DoanhThuThangDaChon = value; OnPropertyChanged("doanhThuThangDaChon"); }
+        }
+        private List<string> LabelThangDaChon;
+        public List<string> labelThangDaChon 
+        {
+            get { return LabelThangDaChon; } 
+            set { LabelThangDaChon = value; OnPropertyChanged("labelThangDaChon"); }
+        }
+        #endregion
         public PlanzyViewModel(string gmailUser)
         {
 
@@ -61,6 +91,31 @@ namespace Planzy.ViewModels
             loaiHangGheServices = new LoaiHangGheServices();
             chiTietHangGheServices = new ChiTietHangGheServices();
             chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService,sanBayServices,chiTietHangGheServices);
+
+            #region biểu đồ
+            doanhThuThangServices = new DoanhThuThangServices(DanhSachNamDaChon, chuyenBayServices);
+            DoanhThuThangs = doanhThuThangServices.doanhThuThangs;
+            labelThangDaChons = doanhThuThangServices.labels;
+
+            doanhThuThangDaChon = doanhThuThangServices.doanhThuThangs[0].doanhThuServices.doanhThus;
+            labelThangDaChon = doanhThuThangServices.doanhThuThangs[0].doanhThuServices.labels ;
+
+            //map cho doanh thu nam
+            var DoanhThuThangMapper = Mappers.Xy<DoanhThuThang>()
+                .X((value, index) => index)
+                .Y(value => Convert.ToInt32(value.DoanhThuTrieuDong));
+            Charting.For<DoanhThuThang>(DoanhThuThangMapper);
+            //map cho doanh thu thang
+            var DoanhThuMapper = Mappers.Xy<DoanhThu>()
+                .X((value, index) => index) 
+                .Y(value => Convert.ToInt32(value.DoanhThuTrieuDong));
+            Charting.For<DoanhThu>(DoanhThuMapper);
+
+            reviewBieuDoCommand = new RelayCommand(reviewBieuDo);
+            troVeBieuDoCommand = new RelayCommand(troVeBieuDo);
+            xuatPDFVisualCommand = new RelayCommand(xuatPDFVisual);
+            #endregion
+
             ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
             LoadData();
             doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
@@ -111,7 +166,7 @@ namespace Planzy.ViewModels
             chiTietHangGheServices = new ChiTietHangGheServices();
             chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService, sanBayServices, chiTietHangGheServices);
 
-            doanhThuThangServices = new DoanhThuThangServices("5", "2021", chuyenBayServices);
+            
 
             ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
             LoadData();
@@ -180,19 +235,6 @@ namespace Planzy.ViewModels
             hashtable_AmountSticketType = new Hashtable();
             hashtable_SticketID = new Hashtable();
             bookingSticket = new BookingSticket();
-
-
-
-            //chuyenBays = new ChartValues<DoanhThuThang>(doanhThuThangServices.doanhThuThangs);
-            var customerVmMapper = Mappers.Xy<DoanhThuThang>()
-                .X((value, index) => index) // lets use the position of the item as X
-                .Y(value => Convert.ToInt32( value.DoanhThuTrieuDong)); //and PurchasedItems property as Y
-
-            //lets save the mapper globally
-            Charting.For<DoanhThuThang>(customerVmMapper);
-            
-
-
         }
         private List<SanBay> sanbaysList;
 
@@ -1320,6 +1362,7 @@ namespace Planzy.ViewModels
             ChuyenBayHienTai.NgayBay = NgayBay;
             ChuyenBayHienTai.ThoiGianBay = ThoiGianBay;
             ChuyenBayHienTai.SoLoaiHangGhe = Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE);
+            
             for(int i = 0;i<ChuyenBayHienTai.SoLoaiHangGhe; i++)
             {
                 switch(i)
@@ -1600,7 +1643,7 @@ namespace Planzy.ViewModels
             SanBayDenDaChon = null;
             SanBayDiDaChon = null;
             SanBayTrungGiansList = null;
-            ChiTietHangGhesList = null;
+            ChiTietHangGhesList = new List<ChiTietHangGhe>();
             MaChuyenBay = null;
             GiaVeCoBan = null;
             GioBay = new DateTime(1, 1, 1, 0, 0, 0);
@@ -2494,6 +2537,205 @@ namespace Planzy.ViewModels
             set { address = value; OnPropertyChanged("Address"); }
         }
 
+        #endregion
+        #region Xử lý biểu đồ
+
+        private List<string> danhSachThang = new List<string>()
+        {
+            "Tất cả","1","2","3","4","5","6","7","8","9","10","11","12"
+        };
+
+        public List<string> DanhSachThang
+        {
+            get { return danhSachThang; }
+            set { danhSachThang = value; }
+        }
+
+        private string thangTrongDoanhThuDaChon = "1";
+
+        public string ThangTrongDoanhThuDaChon
+        {
+            get { return thangTrongDoanhThuDaChon; }
+            set
+            {
+                thangTrongDoanhThuDaChon = value;
+                if (value == "Tất cả")
+                    IsVisibleBieuDoThang = "Hidden";
+                else
+                {
+                    IsVisibleBieuDoThang = "Visible";
+                    doanhThuThangDaChon = doanhThuThangServices.doanhThuThangs[Convert.ToInt32(value) - 1].doanhThuServices.doanhThus;
+                    labelThangDaChon = doanhThuThangServices.doanhThuThangs[Convert.ToInt32(value) - 1].doanhThuServices.labels;
+                }
+                OnPropertyChanged("ThangTrongDoanhThuDaChon");
+            }
+        }
+
+        private List<string> danhSachNam = new List<string>()
+        {
+           "2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021"
+        };
+
+        public List<string> DanhSachNam
+        {
+            get { return danhSachNam; }
+            set { danhSachNam = value; }
+        }
+
+        private string danhSachNamDaChon = "2021";
+
+        public string DanhSachNamDaChon
+        {
+            get { return danhSachNamDaChon; }
+            set 
+            { 
+                danhSachNamDaChon = value;
+                doanhThuThangServices = new DoanhThuThangServices(value, chuyenBayServices);
+                DoanhThuThangs = doanhThuThangServices.doanhThuThangs;
+                labelThangDaChons = doanhThuThangServices.labels;
+
+                if (ThangTrongDoanhThuDaChon != "Tất cả")
+                {
+                    doanhThuThangDaChon = doanhThuThangServices.doanhThuThangs[Convert.ToInt32(ThangTrongDoanhThuDaChon) - 1].doanhThuServices.doanhThus;
+                    labelThangDaChon = doanhThuThangServices.doanhThuThangs[Convert.ToInt32(ThangTrongDoanhThuDaChon) - 1].doanhThuServices.labels;
+                }
+                OnPropertyChanged("DanhSachNamDaChon"); }
+        }
+
+        private string isVisibleBieuDoThang = "Visible";
+
+        public string IsVisibleBieuDoThang
+        {
+            get { return isVisibleBieuDoThang; }
+            set 
+            { 
+                isVisibleBieuDoThang = value;
+                if (value == "Hidden")
+                    IsVisibleBieuDoNam = "Visible";
+                else
+                    IsVisibleBieuDoNam = "Hidden";
+                OnPropertyChanged("IsVisibleBieuDoThang"); }
+        }
+        private string isVisibleBieuDoNam = "Hidden";
+
+        public string IsVisibleBieuDoNam
+        {
+            get { return isVisibleBieuDoNam; }
+            set { isVisibleBieuDoNam = value; OnPropertyChanged("IsVisibleBieuDoNam"); }
+        }
+        #region In báo cáo doanh thu
+        private ObservableCollection<DoanhThu> listDoanhThu;
+
+        public ObservableCollection<DoanhThu> ListDoanhThu
+        {
+            get { return listDoanhThu; }
+            set { listDoanhThu = value; OnPropertyChanged("ListDoanhThu"); }
+        }
+        private ObservableCollection<DoanhThu> listDoanhThuThang;
+
+        public ObservableCollection<DoanhThu> ListDoanhThuThang
+        {
+            get { return listDoanhThuThang; }
+            set { listDoanhThuThang = value; OnPropertyChanged("ListDoanhThuThang"); }
+        }
+        private string isVisibleBieuDo = "Visible";
+
+        public string IsVisibleBieuDo
+        {
+            get { return isVisibleBieuDo; }
+            set { isVisibleBieuDo = value; OnPropertyChanged("IsVisibleBieuDo"); }
+        }
+        private string isVisibleExportBaoCaoThang = "Hidden";
+
+        public string IsVisibleExportBaoCaoThang
+        {
+            get { return isVisibleExportBaoCaoThang; }
+            set { isVisibleExportBaoCaoThang = value; OnPropertyChanged("isVisibleExportBaoCaoThang"); }
+        }
+        private string isVisibleExportBaoCaoNam = "Hidden";
+
+        public string IsVisibleExportBaoCaoNam
+        {
+            get { return isVisibleExportBaoCaoNam; }
+            set { isVisibleExportBaoCaoNam = value; OnPropertyChanged("isVisibleExportBaoCaoNam"); }
+        }
+        private string isVisibleExportBaoCao = "Hidden";
+        public string IsVisibleExportBaoCao
+        {
+            get { return isVisibleExportBaoCao; }
+            set { isVisibleExportBaoCao = value; OnPropertyChanged("IsVisibleExportBaoCao"); }
+        }
+        private RelayCommand reviewBieuDoCommand;
+        public RelayCommand ReviewBieuDoCommand
+        {
+            get { return reviewBieuDoCommand; }
+        }
+        public RelayCommand troVeBieuDoCommand;
+        public RelayCommand TroVeBieuDoCommand
+        {
+            get { return troVeBieuDoCommand; }
+        }
+        public RelayCommand xuatPDFVisualCommand;
+        public RelayCommand XuatPDFVisualCommand
+        {
+            get { return xuatPDFVisualCommand; }
+        }
+        public void reviewBieuDo()
+        {
+            if (ThangTrongDoanhThuDaChon == "Tất cả")
+            {
+                IsVisibleBieuDo = "Hidden";
+                IsVisibleExportBaoCaoNam = "Visible";
+                IsVisibleExportBaoCaoThang = "Hidden";
+            }  
+            else
+            {
+                IsVisibleBieuDo = "Hidden";
+                IsVisibleExportBaoCaoThang = "Visible";
+                IsVisibleExportBaoCaoNam = "Hidden";
+            }
+
+            #region set thời gian
+            NgayLapBaoCao.Ngay = DateTime.UtcNow.Day;
+            NgayLapBaoCao.Thang = DateTime.UtcNow.Month;
+            NgayLapBaoCao.Nam = DateTime.UtcNow.Year;
+            switch(DateTime.UtcNow.DayOfWeek.ToString())
+            {
+                case "Monday": NgayLapBaoCao.Thu = "Thứ hai";break;
+                case "Tuesday": NgayLapBaoCao.Thu = "Thứ ba"; break;
+                case "Wednesday": NgayLapBaoCao.Thu = "Thứ tư"; break;
+                case "Thursday": NgayLapBaoCao.Thu = "Thứ năm"; break;
+                case "Friday": NgayLapBaoCao.Thu = "Thứ sáu"; break;
+                case "Saturday": NgayLapBaoCao.Thu = "Thứ bảy"; break;
+                default: NgayLapBaoCao.Thu = "Chủ nhật";break;
+            }
+            OnPropertyChanged("NgayLapBaoCao");
+            #endregion
+        }
+        public void troVeBieuDo()
+        {
+            IsVisibleBieuDo = "Visible";
+            IsVisibleExportBaoCaoThang = "Hidden";
+            IsVisibleExportBaoCaoNam = "Hidden";
+        }
+        public void xuatPDFVisual(object view )
+        {
+            PrintDialog printDialog = new PrintDialog();
+            PageMediaSize  pageSize = new PageMediaSize(PageMediaSizeName.NorthAmericaLetter);
+            printDialog.PrintTicket.PageMediaSize = pageSize;
+            if (printDialog.ShowDialog() == true)
+            {
+                printDialog.PrintVisual((Grid)view, "test");
+                CustomMessageBox.Show("Xuất file thành công", "Thông báo");
+            }
+        }
+        private MyDatetime ngayLapBaoCao = new MyDatetime();
+        public MyDatetime NgayLapBaoCao
+        {
+            get { return ngayLapBaoCao; }
+            set { ngayLapBaoCao = value; OnPropertyChanged("NgayLapBaoCao"); }
+        }
+        #endregion
         #endregion
 
     }

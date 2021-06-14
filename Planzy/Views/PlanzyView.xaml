@@ -11,8 +11,11 @@
              xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"
              Visibility="{Binding StateOfWindow}"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             xmlns:chartTool ="clr-namespace:Planzy.Views">
+             xmlns:chartTool ="clr-namespace:Planzy.Views" xmlns:sys="clr-namespace:System;assembly=System.Runtime">
     <!--d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"-->
+    <UserControl.Resources>
+        <sys:Double x:Key="TextSizeForButton" >12</sys:Double>
+    </UserControl.Resources>
     <Grid Background="#FFE1F3F9">
         <Grid.RowDefinitions>
             <RowDefinition Height="0"></RowDefinition>
@@ -1495,28 +1498,432 @@
                             </Grid>
                         </Grid>
                         <Grid Name ="gr_DoanhThu" Visibility="{Binding IsDuocChon5.NewVisibility}">
-                            <lvc:CartesianChart LegendLocation="Right">
-                                <lvc:CartesianChart.Series>
-                                    <lvc:ColumnSeries Title="Doanh thu" Values="{Binding doanhThuThangServices.doanhThuThangs}"></lvc:ColumnSeries>
-                                </lvc:CartesianChart.Series>
-                                <lvc:CartesianChart.AxisX >
-                                    <lvc:Axis Labels="{Binding doanhThuThangServices.labels}" LabelsRotation="-15">
-                                        <lvc:Axis.Separator>
-                                            <lvc:Separator Step="1"></lvc:Separator>
-                                        </lvc:Axis.Separator>
-                                    </lvc:Axis>
-                                </lvc:CartesianChart.AxisX>
-                                <lvc:CartesianChart.AxisY>
-                                    <lvc:Axis MinValue="0" Title="Triệu đồng">
-                                        <lvc:Axis.Separator>
-                                            <lvc:Separator Step="100"/>
-                                        </lvc:Axis.Separator>
-                                    </lvc:Axis>
-                                </lvc:CartesianChart.AxisY>
-                                <lvc:CartesianChart.DataTooltip>
-                                    <chartTool:MyChartTooltip/>
-                                </lvc:CartesianChart.DataTooltip>
-                            </lvc:CartesianChart>
+                            <Grid Visibility="{Binding IsVisibleBieuDo}" x:Name="BieuDoView">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="60"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <StackPanel   
+                                            Orientation="Horizontal">
+                                        <Label Content="Chọn thời gian lọc biểu đồ "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="200"/>
+                                        <StackPanel Width="120"  
+                                            Orientation="Horizontal">
+                                            <Label Content="Năm: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="50"/>
+                                            <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="60"
+                                              Foreground="Black"
+                                              FontSize="15"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              ItemsSource="{Binding DanhSachNam}"
+                                              SelectedItem="{Binding DanhSachNamDaChon}">
+                                            </ComboBox>
+                                        </StackPanel>
+                                        <StackPanel Width="140"  
+                                            Orientation="Horizontal">
+                                            <Label Content="Tháng: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="60"/>
+                                            <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="60" HorizontalContentAlignment="Center"
+                                              Foreground="Black"
+                                              FontSize="15"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              ItemsSource="{Binding DanhSachThang}"
+                                              SelectedItem="{Binding ThangTrongDoanhThuDaChon}">
+                                            </ComboBox>
+                                        </StackPanel>
+                                        
+                                    </StackPanel>
+                                    <Button Content="Xem trước khi in" VerticalAlignment="Bottom" 
+                                                Command="{Binding ReviewBieuDoCommand}"
+                                                HorizontalAlignment="Right"
+                                                Width="Auto"
+                                                Height="Auto"
+                                                Padding="4"
+                                                Foreground="#ffffff"  
+                                                Background="#FF5867AC" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="0,0,10,0"
+                                                FontWeight="Bold"
+                                                />
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <Grid Visibility="{Binding IsVisibleBieuDoNam}"  x:Name="BieuDoNam">
+                                        <lvc:CartesianChart LegendLocation="Right">
+                                            <lvc:CartesianChart.Series>
+                                                <lvc:ColumnSeries Title="Doanh thu" Values="{Binding DoanhThuThangs}"></lvc:ColumnSeries>
+
+                                            </lvc:CartesianChart.Series>
+                                            <lvc:CartesianChart.AxisX >
+                                                <lvc:Axis Title="Tháng" Labels="{Binding labelThangDaChons}" Foreground="#000" FontWeight="Bold" FontFamily="Segoe UI">
+                                                    <lvc:Axis.Separator>
+                                                        <lvc:Separator Step="1"></lvc:Separator>
+                                                    </lvc:Axis.Separator>
+                                                </lvc:Axis>
+                                            </lvc:CartesianChart.AxisX>
+                                            <lvc:CartesianChart.AxisY>
+                                                <lvc:Axis MinValue="0" Title="Triệu đồng" Foreground="#000" FontWeight="Bold" FontFamily="Segoe UI">
+                                                    <lvc:Axis.Separator>
+                                                        <lvc:Separator Step="100"/>
+                                                    </lvc:Axis.Separator>
+                                                </lvc:Axis>
+                                            </lvc:CartesianChart.AxisY>
+                                            <lvc:CartesianChart.DataTooltip>
+                                                <chartTool:MyChartToolTipForDTNam/>
+                                            </lvc:CartesianChart.DataTooltip>
+                                        </lvc:CartesianChart>
+                                    </Grid>
+                                    <Grid Visibility="{Binding IsVisibleBieuDoThang}" x:Name="BieuDoThang">
+                                        <lvc:CartesianChart LegendLocation="Right">
+                                            <lvc:CartesianChart.Series>
+                                                <lvc:ColumnSeries Title="Doanh thu" Values="{Binding doanhThuThangDaChon}"></lvc:ColumnSeries>
+
+                                            </lvc:CartesianChart.Series>
+                                            <lvc:CartesianChart.AxisX >
+                                                <lvc:Axis Title="Mã chuyến bay" Labels="{Binding labelThangDaChon}" Foreground="#000" FontWeight="Bold" FontFamily="Segoe UI">
+                                                    <lvc:Axis.Separator>
+                                                        <lvc:Separator Step="1"></lvc:Separator>
+                                                    </lvc:Axis.Separator>
+                                                </lvc:Axis>
+                                            </lvc:CartesianChart.AxisX>
+                                            <lvc:CartesianChart.AxisY>
+                                                <lvc:Axis MinValue="0" Title="Triệu đồng" Foreground="#000" FontWeight="Bold" FontFamily="Segoe UI" >
+                                                    <lvc:Axis.Separator>
+                                                        <lvc:Separator Step="100"/>
+                                                    </lvc:Axis.Separator>
+                                                </lvc:Axis>
+                                            </lvc:CartesianChart.AxisY>
+                                            <lvc:CartesianChart.DataTooltip>
+                                                <chartTool:MyChartTooltip/>
+                                            </lvc:CartesianChart.DataTooltip>
+                                        </lvc:CartesianChart>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid Visibility="{Binding IsVisibleExportBaoCaoThang}" x:Name="ExportBaoCaoThangView">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="60"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Button Content="Trở về biểu đồ" VerticalAlignment="Bottom" 
+                                                Command="{Binding TroVeBieuDoCommand}"
+                                                HorizontalAlignment="Left"
+                                                Width="Auto"
+                                                Height="Auto"
+                                                Padding="4"
+                                                Foreground="#ffffff"  
+                                                Background="#FF5867AC" FontSize="{DynamicResource ResourceKey= TextSizeForButton}" BorderBrush="{x:Null}" Margin="10,0,0,0"
+                                                FontWeight="Bold"
+                                                />
+                                        <Button Content="Xuất biểu đồ" 
+                                                Command="{Binding XuatPDFVisualCommand}" 
+                                                CommandParameter="{Binding ElementName=viewBaoCaoThang}"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Bottom"
+                                                Width="Auto"
+                                                Height="Auto"
+                                                Padding="4"
+                                                Foreground="#ffffff"  
+                                                Background="#FF5867AC" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="0,0,10,0"
+                                                FontWeight="Bold"/>
+                                </Grid>
+                                <ScrollViewer Grid.Row="2" x:Name="duLieuBaoCaoThang">
+                                    <Grid  x:Name="viewBaoCaoThang" Height="Auto">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0" Height="Auto">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="1"  Orientation="Vertical"
+                                                        Width="Auto" 
+                                                        Height="Auto">
+                                                <TextBlock Text="BÁO CÁO DOANH THU"
+                                                           HorizontalAlignment="Center"
+                                                           Margin="4"
+                                                           FontSize="14"
+                                                           FontWeight="Bold"></TextBlock>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <TextBlock Text="Tháng: "></TextBlock>
+                                                    <TextBlock Text="{Binding ThangTrongDoanhThuDaChon}"></TextBlock>
+                                                    <TextBlock Text=" Năm: "></TextBlock>
+                                                    <TextBlock Text="{Binding DanhSachNamDaChon}"></TextBlock>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <Image Grid.Column="0" 
+                                                   Margin="4" 
+                                                   Source="/Views/logo.png" 
+                                                   Width="60"
+                                                   HorizontalAlignment="Left"></Image>
+                                        </Grid>
+                                        <ListView Grid.Row="2" Margin="10" x:Name="listBaoCaoThang" ItemsSource="{Binding doanhThuThangDaChon}" BorderBrush="Black" VerticalContentAlignment="Stretch">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Mã chuyến bay" Width="Auto" >
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <Label HorizontalAlignment="Left"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding MaChuyenBay}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="Số vé" Width="Auto" >
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <Label HorizontalAlignment="Left"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding SoVe}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="Ngày bay" Width="Auto" >
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <Label HorizontalAlignment="Left"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding NgayBayString}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="Doanh thu (triệu đồng)" Width="Auto" >
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <Label HorizontalAlignment="Left"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding DoanhThuTrieuDong}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="Tỷ lệ (%)" Width="Auto" >
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <Label HorizontalAlignment="Left"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding TyLe}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                        <Grid Grid.Row="3">
+                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="4" Height="70"
+                                                        VerticalAlignment="Top">
+                                                <TextBlock Text="Nhân viên lập báo cáo" 
+                                                           FontSize="12"/>
+                                                <TextBlock Text="{Binding UserName}"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4" Height="70"
+                                                        VerticalAlignment="Top">
+                                                <TextBlock Text="{Binding NgayLapBaoCao.Thu}"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"/>
+                                                <TextBlock Text=" Ngày "
+                                                           FontSize="12"/>
+                                                <TextBlock Text="{Binding NgayLapBaoCao.Ngay}"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"/>
+                                                <TextBlock Text=" Tháng "
+                                                           FontSize="12"/>
+                                                <TextBlock Text="{Binding NgayLapBaoCao.Thang}"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"/>
+                                                <TextBlock Text=" Năm "
+                                                           FontSize="12"/>
+                                                <TextBlock Text="{Binding NgayLapBaoCao.Nam}"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid> 
+                                </ScrollViewer>
+                            </Grid>
+                            <Grid Visibility="{Binding IsVisibleExportBaoCaoNam}" x:Name="ExportBaoCaoNamView">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="60"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Button Content="Trở về biểu đồ" VerticalAlignment="Bottom" 
+                                                Command="{Binding TroVeBieuDoCommand}"
+                                                HorizontalAlignment="Left"
+                                                Width="Auto"
+                                                Height="Auto"
+                                                Padding="4"
+                                                Foreground="#ffffff"  
+                                                Background="#FF5867AC" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="10,0,0,0"
+                                                FontWeight="Bold"
+                                                />
+                                    <Button Content="Xuất biểu đồ" 
+                                                Command="{Binding XuatPDFVisualCommand}" 
+                                                CommandParameter="{Binding ElementName=viewBaoCaoNam}"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Bottom"
+                                                Width="Auto"
+                                                Height="Auto"
+                                                Padding="4"
+                                                Foreground="#ffffff"  
+                                                Background="#FF5867AC" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="0,0,10,0"
+                                                FontWeight="Bold"/>
+                                </Grid>
+                                <ScrollViewer Grid.Row="2" x:Name="duLieuBaoCaoNam">
+                                    <Grid  x:Name="viewBaoCaoNam" Height="Auto">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0" Height="Auto">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="1"  Orientation="Vertical"
+                                                        Width="Auto" 
+                                                        Height="Auto">
+                                                <TextBlock Text="BÁO CÁO DOANH THU"
+                                                           HorizontalAlignment="Center"
+                                                           Margin="4"
+                                                           FontSize="14"
+                                                           FontWeight="Bold"></TextBlock>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <TextBlock Text=" Năm: "></TextBlock>
+                                                    <TextBlock Text="{Binding DanhSachNamDaChon}"></TextBlock>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <Image Grid.Column="0" 
+                                                   Margin="4" 
+                                                   Source="/Views/logo.png" 
+                                                   Width="60"
+                                                   HorizontalAlignment="Left"></Image>
+                                        </Grid>
+                                        <ListView Grid.Row="2" Margin="10" x:Name="listBaoCaoNam" ItemsSource="{Binding DoanhThuThangs}" BorderBrush="Black" VerticalContentAlignment="Stretch">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Tháng" Width="Auto" >
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <Label HorizontalAlignment="Left"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding Thang}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="Số chuyến bay" Width="Auto" >
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <Label HorizontalAlignment="Left"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding SoChuyenBay}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="Doanh thu (triệu đồng)" Width="Auto" >
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <Label HorizontalAlignment="Left"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding DoanhThuTrieuDong}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="Tỷ lệ (%)" Width="Auto" >
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <Label HorizontalAlignment="Left"
+                                                                       VerticalAlignment="Center"
+                                                                       VerticalContentAlignment="Center"
+                                                                       Content="{Binding TyLe}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                        <Grid Grid.Row="3">
+                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="4" Height="70"
+                                                        VerticalAlignment="Top">
+                                                <TextBlock Text="Nhân viên lập báo cáo" 
+                                                           FontSize="12"/>
+                                                <TextBlock Text="{Binding UserName}"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="4" Height="70"
+                                                        VerticalAlignment="Top">
+                                                <TextBlock Text="{Binding NgayLapBaoCao.Thu}"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"/>
+                                                <TextBlock Text=" Ngày "
+                                                           FontSize="12"/>
+                                                <TextBlock Text="{Binding NgayLapBaoCao.Ngay}"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"/>
+                                                <TextBlock Text=" Tháng "
+                                                           FontSize="12"/>
+                                                <TextBlock Text="{Binding NgayLapBaoCao.Thang}"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"/>
+                                                <TextBlock Text=" Năm "
+                                                           FontSize="12"/>
+                                                <TextBlock Text="{Binding NgayLapBaoCao.Nam}"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </ScrollViewer>
+                            </Grid>
                         </Grid>
                         <Grid Name="gr_ChiTietDatVe" Visibility="{Binding IsContinueButton.NewVisibility}"
                               Background="White">
@@ -1525,7 +1932,7 @@
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="50"></RowDefinition>
                             </Grid.RowDefinitions>
-
+                            
                             <Grid Grid.Row="2" Background="White">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -2036,7 +2443,7 @@
                                            Width="250"/>
                                 </StackPanel>
                             </Grid>
-
+                            
                         </Grid>
                     </Grid>
                 </Border>

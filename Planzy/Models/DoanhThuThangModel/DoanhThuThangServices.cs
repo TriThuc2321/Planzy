@@ -1,6 +1,6 @@
 ﻿using LiveCharts;
-using Planzy.Models.ChiTietHangGheModel;
 using Planzy.Models.ChuyenBayModel;
+using Planzy.Models.DoanhThuModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,45 +18,57 @@ namespace Planzy.Models.DoanhThuThangModel
         public List<string> labels { get; set; }
         public int tongDoanhThu = 0;
         public float tongDoanhThuTrieuDong = 0;
-        public DoanhThuThangServices(string Thang, string Nam, ChuyenBayServices chuyenBayServices)
+
+        public List<List<ChuyenBay>> chuyenBayCuaNam = new List<List<ChuyenBay>>()
         {
-            doanhThuThangs = new ChartValues<DoanhThuThang>();
-            labels = new List<string>();
-            foreach (ChuyenBay chuyenBay in chuyenBayServices.GetAll())
+            new List<ChuyenBay>(),
+            new List<ChuyenBay>(),
+            new List<ChuyenBay>(),
+            new List<ChuyenBay>(),
+            new List<ChuyenBay>(),
+            new List<ChuyenBay>(),
+            new List<ChuyenBay>(),
+            new List<ChuyenBay>(),
+            new List<ChuyenBay>(),
+            new List<ChuyenBay>(),
+            new List<ChuyenBay>(),
+            new List<ChuyenBay>(),
+        };
+        public DoanhThuThangServices(string Nam, ChuyenBayServices chuyenBayServices)
+        {
+           
+            foreach(ChuyenBay chuyenBay in chuyenBayServices.GetAll())
             {
-                if (chuyenBay.NgayBay.Year == Convert.ToInt32(Nam) && chuyenBay.NgayBay.Month == Convert.ToInt32(Thang))
+                if (chuyenBay.NgayBay.Year == Convert.ToInt32(Nam))
                 {
-                    int tongSoVeDaBan = 0;
-                    int doanhThu = 0;
-                    foreach (ChiTietHangGhe chiTietHangGhe in chuyenBay.ChiTietHangGhesList)
-                    {
-                        doanhThu += (Convert.ToInt32(chiTietHangGhe.SoLuongGhe) - Convert.ToInt32(chiTietHangGhe.SoLuongGheConLai)) * Convert.ToInt32(chiTietHangGhe.TyLe) /100  * Convert.ToInt32(chuyenBay.GiaVeCoBan);
-                        tongSoVeDaBan += (Convert.ToInt32(chiTietHangGhe.SoLuongGhe) - Convert.ToInt32(chiTietHangGhe.SoLuongGheConLai));
-                    }
-                    tongDoanhThu += doanhThu;
-                    DoanhThuThang doanhThuThang = new DoanhThuThang();
-                    doanhThuThang.MaChuyenBay = chuyenBay.MaChuyenBay;
-                    doanhThuThang.SoVe = tongSoVeDaBan;
-                    doanhThuThang.DoanhThu = doanhThu;
-                    doanhThuThang.DoanhThuTrieuDong = (float)doanhThuThang.DoanhThu / 1000000;
-                    doanhThuThang.NgayBay = chuyenBay.NgayBay;
-                    doanhThuThang.NgayBayString = chuyenBay.NgayBay.ToShortDateString();
-                    doanhThuThangs.Add(doanhThuThang);
+                    //if (chuyenBayCuaNam[chuyenBay.NgayBay.Month - 1] != null)
+                        chuyenBayCuaNam[chuyenBay.NgayBay.Month - 1].Add(chuyenBay);   
                 }    
             }
+
+            labels = new List<string>();
+            for (int i = 0;i<12;i++)
+            {
+                labels.Add((i+1).ToString());
+            }
+
+            doanhThuThangs = new ChartValues<DoanhThuThang>();
+            for (int i = 0; i < 12; i++)
+            {
+                DoanhThuThang doanhThuThang = new DoanhThuThang(chuyenBayCuaNam[i]);
+                doanhThuThang.DoanhThu = doanhThuThang.doanhThuServices.tongDoanhThu;
+                doanhThuThang.DoanhThuTrieuDong = doanhThuThang.doanhThuServices.tongDoanhThuTrieuDong;
+                doanhThuThang.SoChuyenBay = chuyenBayCuaNam[i].Count;
+                doanhThuThang.Thang = (i + 1).ToString();
+                tongDoanhThu += doanhThuThang.DoanhThu;
+
+                doanhThuThangs.Add(doanhThuThang);
+            }
             tongDoanhThuTrieuDong = (float)tongDoanhThu / 1000000;
-            
-            for (int i = 0;i<doanhThuThangs.Count;i++)
+
+            for (int i = 0; i < doanhThuThangs.Count; i++)
             {
                 doanhThuThangs[i].TyLe = doanhThuThangs[i].DoanhThuTrieuDong / tongDoanhThuTrieuDong * 100;
-            }    
-
-            var newList = doanhThuThangs.OrderBy(e => e.NgayBay.Day);
-            doanhThuThangs = new ChartValues<DoanhThuThang>(newList);
-
-            foreach (DoanhThuThang doanhThuThang in doanhThuThangs)
-            {
-                labels.Add(doanhThuThang.MaChuyenBay);
             }
         }
     }
