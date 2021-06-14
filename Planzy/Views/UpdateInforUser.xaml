@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Planzy.Views"
         ResizeMode="NoResize"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         WindowStyle="None"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:UpdateInfoUserViewModel}"
         WindowStartupLocation="CenterScreen"
@@ -14,6 +15,13 @@
         Title="UpdateInforUser" Height="450" Width="400"
         Name="UpdateUser">
     <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction 
+                    Command="{Binding LoadWindowCommand}"
+                    CommandParameter="{Binding ElementName=UpdateUser}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <Border BorderThickness="2" BorderBrush="#FF5867AC">
             <Grid>
                 <Grid.RowDefinitions>
@@ -87,11 +95,11 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                            <TextBox Width="220" 
-                                 Text="{Binding PhoneNumber}"                                             
+                            <TextBox Width="220"                                           
                                  VerticalContentAlignment="Bottom"                                         
-                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0"         
-                                 />
+                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0"
+                                 Text="{Binding PhoneNumber}"/>
+
                         </StackPanel>
 
                         <Label Content="Số điện thoại không hợp lệ" 
@@ -136,21 +144,31 @@
 
                 </Grid>
                 <Grid Grid.Row="6">
-                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                    <StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="0" 
                                 Orientation="Horizontal"
                                 Margin="40 0 0 10"
                                 VerticalAlignment="Top"
-                                            >
-                        <Label Content="Địa chỉ: "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="100"/>
-                        <TextBox Width="220" 
+                                >
+                            <Label
+                                Content="Địa chỉ: "
+                                VerticalContentAlignment="Bottom"
+                                FontWeight="Bold"
+                                Foreground="#FF5867AC"
+                                Width="100"/>
+                            <TextBox Width="220" 
                                  Text="{Binding Address}"                                             
                                  VerticalContentAlignment="Bottom"                                         
                                  FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0"         
                                  />
+                        </StackPanel>
+
+
+                        <Label Content="{Binding TextMessage}" 
+                               Foreground="Red"
+                               FontStyle="Italic"
+                               Visibility="{Binding TextMessageVisibility}"
+                               />
                     </StackPanel>
                 </Grid>
 

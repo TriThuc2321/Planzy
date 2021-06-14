@@ -2467,7 +2467,7 @@ namespace Planzy.ViewModels
             UserName = user.Name;
             Gmail = user.Gmail;
             CMND = user.CMND;
-            PhoneNumer = user.PhoneNumer;
+            PhoneNumber = user.PhoneNumer;
             Address = user.Address;
         }
 
@@ -2482,7 +2482,7 @@ namespace Planzy.ViewModels
             }
         }
         private string phoneNumber;
-        public string PhoneNumer
+        public string PhoneNumber
         {
             get { return phoneNumber; }
             set

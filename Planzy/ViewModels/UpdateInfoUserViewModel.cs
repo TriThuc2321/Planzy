@@ -1,16 +1,20 @@
 ﻿using Planzy.Commands;
 using Planzy.Models.Users;
+using Planzy.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Planzy.ViewModels
 {
@@ -28,26 +32,81 @@ namespace Planzy.ViewModels
 
         public ICommand Save { get; set; }
         public ICommand Cancel { get; set; }
+        public ICommand LoadWindowCommand { get; set; }
 
         UserServices userServices;
         User user;
+        Window parentView;
+        private DispatcherTimer timer;
+        private DispatcherTimer timerText;
+
 
         public UpdateInfoUserViewModel(User _user)
         {
             Save = new RelayCommand2<Window>((p) => { return true; }, (p) => { save(p); });
             Cancel = new RelayCommand2<Window>((p) => { return true; }, (p) => { p.Close(); });
+            LoadWindowCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { this.parentView = p; });
+
 
             userServices = new UserServices();
             user = _user;
             setUI();
+
+            timerText = new DispatcherTimer();
+            timerText.Interval = TimeSpan.FromSeconds(1);
+            timerText.Tick += timerText_Tick;
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
         }
 
         void save(Window p)
         {
-            if(InvalidCMNDVisibility == "Collapsed" && InvalidPhoneNumberVisibility == "Collapsed")
-            {               
-                update();
-                p.Close();
+            if(userServices.IsCMND(CMND) && userServices.IsPhoneNumber(PhoneNumber) )
+            {
+                if(InvalidPhoneNumberVisibility == "Visible" || InvalidCMNDVisibility == "Visible")
+                {
+                    TextMessage = "Dữ liệu chưa dược lưu";
+                    TextMessageVisibility = "Visible";
+                }
+                else
+                {
+                    TextMessage = "Lưu thành công";
+                    TextMessageVisibility = "Visible";
+                    update();
+                    p.Close();
+                }
+
+            }
+        }
+        private void timerText_Tick(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (!IsConnectedToInternet())
+            {
+                timer.Stop();
+                InternetCheckingView internetCheckingView = new InternetCheckingView(parentView);
+                internetCheckingView.ShowDialog();
+                timer.Start();
+            }
+        }
+
+        public bool IsConnectedToInternet()
+        {
+            try
+            {
+                IPHostEntry i = Dns.GetHostEntry("www.google.com");
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -123,9 +182,6 @@ namespace Planzy.ViewModels
             }
         }
 
-
-
-
         private string invalidCMNDVisibility;
         public string InvalidCMNDVisibility
         {
@@ -145,6 +201,17 @@ namespace Planzy.ViewModels
             {
                 invalidPhoneNumberVisibility = value;
                 OnPropertyChanged("InvalidPhoneNumberVisibility");
+            }
+        }
+
+        private string textMessageVisibility;
+        public string TextMessageVisibility
+        {
+            get { return textMessageVisibility; }
+            set
+            {
+                textMessageVisibility = value;
+                OnPropertyChanged("TextMessageVisibility");
             }
         }
 
@@ -207,12 +274,21 @@ namespace Planzy.ViewModels
             }
         }
         private string address;
+
         public string Address
         {
             get { return address; }
             set { address = value; OnPropertyChanged("Address"); }
         }
 
-        
+        private string textMessage;
+
+        public string TextMessage
+        {
+            get { return textMessage; }
+            set { textMessage = value; OnPropertyChanged("TextMessage"); }
+        }
+
+
     }
 }

@@ -227,6 +227,7 @@ namespace Planzy.LoginRegister
             user.PhoneNumer = "";
             user.CMND = "";
             user.Address = "";
+            user.Rank = "Customer";
         }
         bool checkEmail(string inputEmail)
         {
