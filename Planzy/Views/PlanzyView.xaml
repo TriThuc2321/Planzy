@@ -144,8 +144,7 @@
             <Grid Grid.Column="1" Margin="10,10, 25,10" >
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
                     <Grid Background="White">
-                        
-                        <Grid Name ="gr_DatVe" Visibility="Hidden">
+                        <Grid Name ="gr_DatVe" Visibility="{Binding IsDuocChon1.NewVisibility}">
                            
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"></RowDefinition>
@@ -249,20 +248,8 @@
                                         <RowDefinition Height="50"/>
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <Button Grid.Column="0" Grid.Row="2"
-                                        Height="20"
-                                        Width="26"
-                                        Background="#FF5867AC" BorderBrush="{x:Null}"
-                                        Grid.ColumnSpan="2"
-                                        Command="{Binding DoiViTriSanBayCommand}" HorizontalAlignment="Center" 
-                                        VerticalAlignment="Top"
-                                        Margin="0 17 0 0"
-                                        >
-                                        
-                                    <materialDesign:PackIcon Kind="ArrowLeftRightBold" Foreground="White"/>
-                                </Button>
-
                                   
+                              
                                 </Grid>
 
                             <Grid Grid.Column="0">
@@ -307,7 +294,7 @@
                                     <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
                                             Margin="20 5 25 10"
-                                            Background="Wheat">
+                                            Background="LightBlue">
                                         <Label Content="Mã Chuyến Bay Đã Chọn: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
@@ -325,7 +312,7 @@
                                         <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
                                             Margin="20 0 25 10"
-                                                    Background="Wheat">
+                                                    Background="LightBlue">
                                             <Label Content="Điểm xuất phát: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
@@ -423,7 +410,7 @@
                                     <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
                                             Margin="20 0 20 10"
-                                                Background="Wheat">
+                                                Background="LightBlue">
                                         <Label Content="Điểm đến: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
@@ -442,6 +429,7 @@
                                                 Height="40"
                                             FontSize="10"
                                                 Width="120"
+                                            Background="White"
                                             Margin=" 20 5 5 5"
                                             Command="{Binding searchFlightCommand_FlightBooking}"
                                                 >
@@ -451,6 +439,7 @@
                                                 Content="Xem Tất Cả"
                                                 Height="40"
                                             FontSize="10"
+                                            Background="White"
                                                 Width="90"
                                             Margin=" 10 5 0 5"
                                             Command="{Binding showAllFightsCommand_FlightBooking}"
@@ -462,6 +451,7 @@
                                                 FontSize="10"
                                                 Width="90"
                                                 HorizontalAlignment="Right"
+                                                Background="White"
                                                 Margin="5 5 10 5"
                                                 Command="{Binding ChooseContinueButtonCommand}"
                                                 CommandParameter="{Binding SelectedItem,ElementName=lvsDatve}"
@@ -1508,7 +1498,7 @@
                             </Grid>
                         </Grid>
                         <Grid Name ="gr_DoanhThu" Visibility="Hidden"/>
-                        <Grid Name="gr_ChiTietDatVe" Visibility="Hidden"
+                        <Grid Name="gr_ChiTietDatVe" Visibility="{Binding IsContinueButton.NewVisibility}"
                               Background="White">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"></RowDefinition>
@@ -1534,7 +1524,7 @@
                                        Width="150"
                                        Content="{Binding BookingSticket.Cost}"
                                        VerticalContentAlignment="Center"
-                                       Foreground="#FF5867AC">   
+                                       Foreground="Black">   
                                         
                                     </Label>
                                 </StackPanel>
@@ -1918,8 +1908,11 @@
                                     </Grid>
                                 </Grid>
                             </Grid>
+
                         </Grid>
-                        <Grid x:Name ="gr_NguoiDung"  Visibility="Visible">
+                          
+                        
+                        <Grid x:Name ="gr_NguoiDung"  Visibility="{Binding IsDuocChon6.NewVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="100"/>
                                 <RowDefinition Height="50"/>
@@ -2020,23 +2013,24 @@
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="Black"
-                                           Width="250"/>
+                                           Width="350"/>
                                 </StackPanel>
                             </Grid>
                             <Grid Grid.Row="6">
                                 <StackPanel Orientation="Horizontal">
                                     <Button
                                     Width="200"
-                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"                                 
                                     Content="Cập nhật thông tin" 
                                     Background="SkyBlue"
-                                        Margin="50 0 0 0"
+                                        Margin="30 0 0 0"
                                         Command="{Binding UpdateUserCommand}"
                                     />
                                     <Button
                                     Width="200"
                                     Style="{StaticResource MaterialDesignFlatDarkBgButton}"
                                     Content="Vé đã đặt" 
+                                    Command="{Binding chooseBookedSticketCommand}"
                                     Background="SkyBlue"
                                         Margin="30 0 0 0"
                                     />
@@ -2055,7 +2049,118 @@
                             </Grid>
 
                         </Grid>
+                        <Grid x:Name ="gr_Vedadat" Background="White" Visibility="{Binding IsDuocChon7.NewVisibility}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60"></RowDefinition>
+                                <RowDefinition ></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <StackPanel  Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+                                <Button Width="100" Margin="10 0 0 0" FontSize="15" Background="LightCoral" Content="Back"
+                                         Command="{Binding chooseBack_BookedStickedComamnd}"
+                                                               Height="35"></Button>
+                                <TextBlock Text="Vé Đã Đặt"  FontSize="25"
+                                       FontWeight="Bold" Margin="250 15 0 0" FontFamily="Calibri"></TextBlock>
+                            </StackPanel>
+                            <Grid  Grid.Column="1"
+                                      Grid.Row="1"
+                                   Background="LightBlue">
+                                <ListView x:Name="lvsBookedSticket" 
+                                          ItemsSource="{Binding ListBookedSticket}" 
+                                    
+                                      Margin="5 0 0 0"
+                                      Background="LightBlue"
+                                         >
+
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Mã Vé" Width="200">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal" Background="White">
+                                                            <Button Content=" Hủy vé " 
+                                                                Background="Black"
+                                                                Foreground="White"
+                                                              Command="{Binding ElementName= lvsBookedSticket, Path= DataContext.ChooseDeleteButtonCommand_BookedSticket}"
+                                                                CommandParameter="{Binding}"
+                                                             Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                                            ></Button>
+                                                            <TextBlock Text=" "></TextBlock>
+                                                            <TextBlock Text="{Binding BookingSticketID}"  
+                                                                   Margin="0 5 0 0"
+                                                        FontSize="15"></TextBlock>
+                                                            <TextBlock Text="   "></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="Ngày Bay" Width="150">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding BookingDate}"
+                                                                    Margin="0 5 0 0"></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Sân Bay Đến" Width="150">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Departure}"
+                                                                    Margin="0 5 0 0"></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Sân Bay Đi" Width="150">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Destination}"
+                                                                    Margin="0 5 0 0"></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Thông Tin Vé" Width="300">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Vertical">
+
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="Tên khách hàng : "></TextBlock>
+                                                                <TextBlock Text="{Binding PassengerName}"></TextBlock>
+                                                            </StackPanel>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="Số CMND : "></TextBlock>
+                                                                <TextBlock Text="{Binding CMND}"></TextBlock>
+                                                            </StackPanel>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="Hạng ghế : : "></TextBlock>
+                                                                <TextBlock Text="{Binding SticketTypeID}"></TextBlock>
+                                                            </StackPanel>
+
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
+                            
+                        </Grid>
                     </Grid>
+                    
                 </Border>
             </Grid>
         </Grid>
