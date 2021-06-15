@@ -29,6 +29,8 @@ using System.Windows;
 using Planzy.Models.ChiTietHangGheModel;
 using System.Timers;
 using Planzy.Views;
+using System.Windows.Threading;
+using System.Net;
 
 namespace Planzy.ViewModels
 {
@@ -49,6 +51,7 @@ namespace Planzy.ViewModels
         ChuyenBayServices chuyenBayServices;
         LoaiHangGheServices loaiHangGheServices;
         ChiTietHangGheServices chiTietHangGheServices;
+
         public PlanzyViewModel(string gmailUser, Window parentWindow)
         {
 
@@ -56,22 +59,24 @@ namespace Planzy.ViewModels
             sanBayTrungGianService = new SanBayTrungGianService();
             loaiHangGheServices = new LoaiHangGheServices();
             chiTietHangGheServices = new ChiTietHangGheServices();
-            chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService,sanBayServices,chiTietHangGheServices);
+            chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService, sanBayServices, chiTietHangGheServices);
             ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
 
 
             //Thuc
 
             #region users
+                      
             mainWindow = parentWindow;
-            LogOut = new RelayCommand2<Window>((p) => { return true; }, (p) => { logOut(); });
+            LogOutCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { logOut(); });
+            UpdateUserCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { updateUser(); });
 
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
 
-            user = userServices.getUserByEmail(gmailUser);
 
             setUI();
+
             #endregion
 
             LoadData();
@@ -112,7 +117,12 @@ namespace Planzy.ViewModels
             chooseBack_BookedStickedComamnd = new RelayCommand(ButtonBack_BookedSticket);
 
 
-
+          
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
+            #endregion
 
 
         }
@@ -2486,8 +2496,19 @@ namespace Planzy.ViewModels
 
         private UserServices userServices;
         private List<User> listUser;
-        public ICommand LogOut { get; set; }
+        public ICommand UpdateUserCommand { get; set; }
+        public ICommand LogOutCommand { get; set; }
 
+        void updateUser()
+        {
+            timer.Stop();
+            UpdateInforUser updateInforUser = new UpdateInforUser(user, mainWindow);
+            updateInforUser.ShowDialog();
+            timer.Start();
+            userServices.updateUserServices();
+            user = userServices.getUserByEmail(user.Gmail);
+            setUI();
+        }
         void logOut()
         {
             Login login = new Login();
@@ -2521,12 +2542,12 @@ namespace Planzy.ViewModels
         }
         
         
-        void setUI()
+        public void setUI()
         {
             UserName = user.Name;
             Gmail = user.Gmail;
             CMND = user.CMND;
-            PhoneNumer = user.PhoneNumer;
+            PhoneNumber = user.PhoneNumer;
             Address = user.Address;
         }
 
@@ -2541,7 +2562,7 @@ namespace Planzy.ViewModels
             }
         }
         private string phoneNumber;
-        public string PhoneNumer
+        public string PhoneNumber
         {
             get { return phoneNumber; }
             set
@@ -2572,13 +2593,41 @@ namespace Planzy.ViewModels
             }
         }
         private string address;
+        private DispatcherTimer timer;
+
         public string Address
         {
             get { return address; }
             set { address = value; OnPropertyChanged("Address"); }
         }
 
-        
+
+        #endregion
+
+        #region check internet
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (!IsConnectedToInternet())
+            {
+                timer.Stop();
+                InternetCheckingView internetCheckingView = new InternetCheckingView(mainWindow, null);
+                internetCheckingView.ShowDialog();
+                timer.Start();
+            }
+        }
+
+        public bool IsConnectedToInternet()
+        {
+            try
+            {
+                IPHostEntry i = Dns.GetHostEntry("www.google.com");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         #endregion
 
     }

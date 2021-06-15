@@ -17,6 +17,13 @@
         Name="RegisterWindow"
         >
     <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction 
+                    Command="{Binding LoadWindowCommand}"
+                    CommandParameter="{Binding ElementName=RegisterWindow}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <materialDesign:Card HorizontalAlignment="Center" VerticalAlignment="Center" Width="800" Height="450">
             <materialDesign:Card.Background>
                 <ImageBrush ImageSource="/LoginRegister/Image/back_ground_login.jpg" Stretch="UniformToFill"/>

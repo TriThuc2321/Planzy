@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Planzy.LoginRegister
 {
@@ -29,6 +30,9 @@ namespace Planzy.LoginRegister
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+        Window parentView;
+
+        public ICommand LoadWindowCommand { get; set; }
         public ICommand ExitCommand { get; set; }
         public ICommand Resendommand { get; set; }
         public ICommand ResetCommand { get; set; }
@@ -52,6 +56,7 @@ namespace Planzy.LoginRegister
             ConfirmPasswordIncorrectVisibility = "Collapsed";
             IncorrectVerifyCodeVisibility = "Collapsed";
 
+            LoadWindowCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { this.parentView = p; });
             ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { p.Close(); });
             Resendommand = new RelayCommand2<Object>((p) => { return true; }, (p) => { ResendClick(); });
             ResetCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => {
@@ -69,7 +74,38 @@ namespace Planzy.LoginRegister
             LoginXamlCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenLoginWindow(p); });
 
             checkParent();
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
         }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (!IsConnectedToInternet())
+            {
+                timer.Stop();
+
+                InternetCheckingView internetCheckingView = new InternetCheckingView(parentView, null);
+                internetCheckingView.ShowDialog();
+                timer.Start();
+            }
+        }
+
+        public bool IsConnectedToInternet()
+        {
+            try
+            {
+                IPHostEntry i = Dns.GetHostEntry("www.google.com");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         void ConfirmClick(Window p)
         {
             if (!checkEmail(Email))
@@ -102,6 +138,8 @@ namespace Planzy.LoginRegister
 
 
                 parentWindow.Show();
+                if(parentRegister!= null) parentRegister.timerRegister.Start();
+                timer.Stop();
                 p.Close();
             }
         }
@@ -124,6 +162,7 @@ namespace Planzy.LoginRegister
         {
             Login loginWindow = new Login();
             loginWindow.Show();
+            timer.Stop();
             p.Close();
         }
         void ResendClick()
@@ -191,6 +230,7 @@ namespace Planzy.LoginRegister
                 ResetPassword(Email);
                 MainWindow main = new MainWindow(Email);
                 main.Show();
+                timer.Stop();
                 p.Close();
             }
         }
@@ -359,6 +399,8 @@ namespace Planzy.LoginRegister
             set { confirmPasswordBoxVisibility = value; OnPropertyChanged("ConfirmPasswordBoxVisibility"); }
         }
         private string passwordBoxVisibility;
+        private DispatcherTimer timer;
+
         public string PasswordBoxVisibility
         {
             get { return passwordBoxVisibility; }

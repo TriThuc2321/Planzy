@@ -1,0 +1,204 @@
+﻿<Window x:Class="Planzy.Views.UpdateInforUser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Planzy.Views"
+        ResizeMode="NoResize"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        WindowStyle="None"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:UpdateInfoUserViewModel}"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="UpdateInforUser" Height="450" Width="400"
+        Name="UpdateUser">
+    <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction 
+                    Command="{Binding LoadWindowCommand}"
+                    CommandParameter="{Binding ElementName=UpdateUser}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Border BorderThickness="2" BorderBrush="#FF5867AC">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="1">
+                    <Label
+                        Content="CẬP NHẬT THÔNG TIN"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        FontSize="25"
+                        Foreground="#FF5867AC"
+                        FontWeight ="Bold"
+                    />
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                Orientation="Horizontal"
+                                Margin="40 0 0 10"
+                                VerticalAlignment="Top">
+                        <Label Content="Họ và tên"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                        <TextBox Width="220" 
+                                 Text="{Binding UserName}"                                             
+                                 VerticalContentAlignment="Bottom"                                         
+                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0"         
+                                 />
+
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="40 0 0 10"
+                                VerticalAlignment="Top">
+                        <Label Content="Gmail: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                        <Label Content="{Binding Gmail}"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="220"/>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="4">
+                    <StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="0" 
+                                    Orientation="Horizontal"
+                                    Margin="40 0 0 10"
+                                    VerticalAlignment="Top">
+                            <Label Content="Điện thoại: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                            <TextBox Width="220"                                           
+                                 VerticalContentAlignment="Bottom"                                         
+                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0"
+                                 Text="{Binding PhoneNumber}"/>
+
+                        </StackPanel>
+
+                        <Label Content="Số điện thoại không hợp lệ" 
+                               Foreground="Red"
+                               FontStyle="Italic"
+                               Margin="217 0 0 0"
+                               Visibility="{Binding InvalidPhoneNumberVisibility}"
+                               />
+                    </StackPanel>
+
+                </Grid>
+
+                <Grid Grid.Row="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="26*"/>
+                        <ColumnDefinition Width="7*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.ColumnSpan="2">
+                        <StackPanel Grid.Row="0" Grid.Column="0" 
+                                Orientation="Horizontal"
+                                Margin="40 0 0 10"
+                                VerticalAlignment="Top"
+                                            >
+                            <Label Content="CMND: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                            <TextBox Width="220" 
+                                 Text="{Binding CMND}"                                             
+                                 VerticalContentAlignment="Bottom"                                         
+                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0"         
+                                 />
+                        </StackPanel>
+                        <Label Content="Chứng minh nhân dân không hợp lệ" 
+                               Foreground="Red"
+                               FontStyle="Italic"
+                               Margin="171 0 0 0"
+                               Visibility="{Binding InvalidCMNDVisibility}"
+                               />
+                    </StackPanel>
+
+                </Grid>
+                <Grid Grid.Row="6">
+                    <StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="0" 
+                                Orientation="Horizontal"
+                                Margin="40 0 0 10"
+                                VerticalAlignment="Top"
+                                >
+                            <Label
+                                Content="Địa chỉ: "
+                                VerticalContentAlignment="Bottom"
+                                FontWeight="Bold"
+                                Foreground="#FF5867AC"
+                                Width="100"/>
+                            <TextBox Width="220" 
+                                 Text="{Binding Address}"                                             
+                                 VerticalContentAlignment="Bottom"                                         
+                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0"         
+                                 />
+                        </StackPanel>
+
+
+                        <Label Content="Lưu thành công" 
+                               Foreground="Green"
+                               FontStyle="Italic"
+                               Width="90"
+                               Visibility="{Binding TextMessageVisibility}"
+                               />
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="7">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            Width="100"
+                            Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                            Content="Lưu" 
+                            Background="SkyBlue"
+                            Margin="85 0 0 0"
+                            Command="{Binding Save}"
+                            CommandParameter="{Binding ElementName=UpdateUser}"
+                            />
+
+                        <Button
+                            Width="100"
+                            Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                            Content="Hủy" 
+                            Background="SkyBlue"
+                            Margin="50 0 0 0"
+                            Command="{Binding Cancel}"
+                            CommandParameter="{Binding ElementName=UpdateUser}"
+                            />
+
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

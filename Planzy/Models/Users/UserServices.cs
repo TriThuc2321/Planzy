@@ -14,6 +14,8 @@ namespace Planzy.Models.Users
     {
         private static SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
         private static List<User> listUsers;
+
+
         public UserServices()
         {
             listUsers = new List<User>();
@@ -23,10 +25,14 @@ namespace Planzy.Models.Users
         {
             return listUsers;
         }
+        public void updateUserServices()
+        {
+            getUsers();
+        }
 
         public void pushUserToSql(User user)
         {
-            string query = "INSERT INTO HANH_KHACH (MA_TAI_KHOAN, GMAIL, MAT_KHAU, TEN_HANH_KHACH, CMND, SDT, DIA_CHI) VALUES(@Mataikhoan, @Gmail, @Matkhau, @Tenhanhkhach, @CMND, @SDT, @Diachi)";
+            string query = "INSERT INTO HANH_KHACH (MA_TAI_KHOAN, GMAIL, MAT_KHAU, TEN_HANH_KHACH, CMND, SDT, DIA_CHI, PHAN_QUYEN) VALUES(@Mataikhoan, @Gmail, @Matkhau, @Tenhanhkhach, @CMND, @SDT, @Diachi, @Phanquyen)";
             SqlCommand command = new SqlCommand(query, connection);
 
             command.Parameters.AddWithValue("@Mataikhoan", user.ID);
@@ -36,6 +42,8 @@ namespace Planzy.Models.Users
             command.Parameters.AddWithValue("@CMND", user.CMND);
             command.Parameters.AddWithValue("@SDT", user.PhoneNumer);
             command.Parameters.AddWithValue("@Diachi", user.Address);
+            command.Parameters.AddWithValue("@Phanquyen", user.Rank);
+
             try
             {
                 connection.Open();
@@ -62,6 +70,8 @@ namespace Planzy.Models.Users
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
+
+                listUsers.Clear();
                 if (dataTable.Rows.Count > 0)
                 {
                     foreach(DataRow dataRow in dataTable.Rows)
@@ -73,6 +83,8 @@ namespace Planzy.Models.Users
                         temp.Password = dataRow["MAT_KHAU"].ToString();
                         temp.PhoneNumer = dataRow["SDT"].ToString();
                         temp.CMND = dataRow["CMND"].ToString();
+                        temp.Address = dataRow["DIA_CHI"].ToString();
+                        temp.Rank = dataRow["PHAN_QUYEN"].ToString();
                         listUsers.Add(temp);
                     }
                 }
@@ -155,6 +167,23 @@ namespace Planzy.Models.Users
             return sb.ToString();
         }
 
-
+        public bool IsPhoneNumber(string number)
+        {
+            if (number.Length > 11 || number.Length < 10) return false;
+            for (int i = 0; i < number.Length; i++)
+            {
+                if (number[i] < 48 && number[i] > 57) return false;
+            }
+            return true;
+        }
+        public bool IsCMND(string cmnd)
+        {
+            if (cmnd.Length != 9) return false;
+            for (int i = 0; i < cmnd.Length; i++)
+            {
+                if (cmnd[i] < 48 && cmnd[i] > 57) return false;
+            }
+            return true;
+        }
     }
 }
