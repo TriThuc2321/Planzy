@@ -52,6 +52,13 @@
                         Margin="20 25 0 0"
                         Text="{Binding Account}"
                             />
+                        <Label Content="Không được để trống" 
+                               Foreground="Red"
+                               FontStyle="Italic"
+                               Margin="155 0 0 0"
+                               Visibility="{Binding AccountNotNullVisibility}"
+                               />
+                        
                         <Label Content="Nhập email để tiếp tục" 
                                Foreground="Red"
                                FontStyle="Italic"
@@ -123,12 +130,16 @@
                         </Grid.ColumnDefinitions>
 
                         <Grid Grid.Column="0" Margin="0 10 0 0">
+                            
                             <CheckBox Content="Nhớ tài khoản"
                                       FontSize="10"
                                       VerticalAlignment="Top"
                                       IsChecked="{Binding RememberAccount}"
-                                      Command=""
+                                      Command="{Binding CheckBoxCommand}"
+                                      Style="{StaticResource MaterialDesignCheckBox}"
+                                      Background="SteelBlue"
                                       />
+                           
                         </Grid>
                         <Grid Grid.Column="1" Margin="50 14 0 0">
                             <TextBlock VerticalAlignment="Top"> 
