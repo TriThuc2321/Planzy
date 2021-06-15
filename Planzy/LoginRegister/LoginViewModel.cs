@@ -67,7 +67,7 @@ namespace Planzy.LoginRegister
 
             NonExistAccountVisibility = "Collapsed";
             IncorrectPasswordVisibility = "Collapsed";
-            LoginSuccessVisibility = "Collapsed";
+            LoginSuccessVisibility = "Hidden";
             EnterEmailVisibility = "Collapsed";
             AccountNotNullVisibility = "Collapsed";
 
@@ -165,7 +165,7 @@ namespace Planzy.LoginRegister
             {
                 NonExistAccountVisibility = "Collapsed";
                 IncorrectPasswordVisibility = "Collapsed";
-                LoginSuccessVisibility = "Collapsed";
+                LoginSuccessVisibility = "Hidden";
                 EnterEmailVisibility = "Collapsed";
                 AccountNotNullVisibility = "Visible";
                 return;
@@ -192,7 +192,7 @@ namespace Planzy.LoginRegister
                     {
                         NonExistAccountVisibility = "Collapsed";
                         IncorrectPasswordVisibility = "Visible";
-                        LoginSuccessVisibility = "Collapsed";
+                        LoginSuccessVisibility = "Hidden";
                         EnterEmailVisibility = "Collapsed";
                         AccountNotNullVisibility = "Collapsed";
                         break;
@@ -204,7 +204,7 @@ namespace Planzy.LoginRegister
             {
                 NonExistAccountVisibility = "Visible";
                 IncorrectPasswordVisibility = "Collapsed";
-                LoginSuccessVisibility = "Collapsed";
+                LoginSuccessVisibility = "Hidden";
                 EnterEmailVisibility = "Collapsed";
                 AccountNotNullVisibility = "Collapsed";
             }
@@ -246,7 +246,7 @@ namespace Planzy.LoginRegister
             {
                 NonExistAccountVisibility = "Collapsed";
                 IncorrectPasswordVisibility = "Collapsed";
-                LoginSuccessVisibility = "Collapsed";
+                LoginSuccessVisibility = "Hidden";
                 EnterEmailVisibility = "Visible";                
             }
             
@@ -254,7 +254,7 @@ namespace Planzy.LoginRegister
             {
                 NonExistAccountVisibility = "Visible";
                 IncorrectPasswordVisibility = "Collapsed";
-                LoginSuccessVisibility = "Collapsed";
+                LoginSuccessVisibility = "Hidden";
                 EnterEmailVisibility = "Collapsed";
 
             }
@@ -263,7 +263,7 @@ namespace Planzy.LoginRegister
             {
                 NonExistAccountVisibility = "Collapsed";
                 IncorrectPasswordVisibility = "Collapsed";
-                LoginSuccessVisibility = "Collapsed";
+                LoginSuccessVisibility = "Hidden";
                 EnterEmailVisibility = "Collapsed";
                 sendEmail(Account, p);
             }
