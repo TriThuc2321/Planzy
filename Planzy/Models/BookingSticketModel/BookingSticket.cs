@@ -1,4 +1,5 @@
-﻿using Planzy.Models.KiemTraModel;
+﻿using Planzy.Models.ChuyenBayModel;
+using Planzy.Models.KiemTraModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,6 +22,8 @@ namespace Planzy.Models.BookingSticketModel
             bookingSticketID = null;
             flightID = null;
             sticketTypeID = null;
+            departure = null;
+            destination = null;
             passengerName = null;
             cmnd = null;
             contact = null;
@@ -29,6 +32,28 @@ namespace Planzy.Models.BookingSticketModel
             bookingDate = DateTime.UtcNow.AddDays(0);
             address = null;
             request = null;
+        }
+        private string departure;
+
+        public string Departure
+        {
+            get { return departure; }
+            set
+            {
+                departure = value;
+                OnPropertyChanged("Departure");
+            }
+        }
+        private string destination;
+
+        public string Destination
+        {
+            get { return destination; }
+            set
+            {
+                destination = value;
+                OnPropertyChanged("Destination");
+            }
         }
         private string bookingSticketID;
 
@@ -180,7 +205,7 @@ namespace Planzy.Models.BookingSticketModel
             {
                 if (value != null)
                 {
-                    if (KiemTraHopLeInput.KiemTraMa(value))
+                    if (KiemTraHopLeInput.CheckAddress(value))
                         request = value.ToUpper();
                 }
                 OnPropertyChanged("Request");
