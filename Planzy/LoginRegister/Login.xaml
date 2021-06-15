@@ -52,6 +52,13 @@
                         Margin="20 25 0 0"
                         Text="{Binding Account}"
                             />
+                        <Label Content="Không được để trống" 
+                               Foreground="Red"
+                               FontStyle="Italic"
+                               Margin="155 0 0 0"
+                               Visibility="{Binding AccountNotNullVisibility}"
+                               />
+                        
                         <Label Content="Nhập email để tiếp tục" 
                                Foreground="Red"
                                FontStyle="Italic"

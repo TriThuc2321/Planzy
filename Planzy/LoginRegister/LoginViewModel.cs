@@ -73,10 +73,11 @@ namespace Planzy.LoginRegister
             RegisterCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenRegisterWindow(p); });
             ForgotPasswordCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenForgotPasswordWindow(p); });
 
-            NonExistAccountVisibility = "Hidden";
-            IncorrectPasswordVisibility = "Hidden";
-            LoginSuccessVisibility = "Hidden";
-            EnterEmailVisibility = "Hidden";
+            NonExistAccountVisibility = "Collapsed";
+            IncorrectPasswordVisibility = "Collapsed";
+            LoginSuccessVisibility = "Collapsed";
+            EnterEmailVisibility = "Collapsed";
+            AccountNotNullVisibility = "Collapsed";
 
 
             timer = new DispatcherTimer();
@@ -113,6 +114,15 @@ namespace Planzy.LoginRegister
         void LoginClick(Window p)
         {
             int i = 0;
+            if(Account == null || Account == "")
+            {
+                NonExistAccountVisibility = "Collapsed";
+                IncorrectPasswordVisibility = "Collapsed";
+                LoginSuccessVisibility = "Collapsed";
+                EnterEmailVisibility = "Collapsed";
+                AccountNotNullVisibility = "Visible";
+                return;
+            }
             for(i =0; i< listUsers.Count(); i++)
             {
                 if(listUsers[i].ID == Account || listUsers[i].Gmail == Account)
@@ -124,6 +134,7 @@ namespace Planzy.LoginRegister
                         IncorrectPasswordVisibility = "Collapsed";
                         LoginSuccessVisibility = "Visible";
                         EnterEmailVisibility = "Collapsed";
+                        AccountNotNullVisibility = "Collapsed";
                         MainWindow mainForm = new MainWindow(listUsers[i].Gmail);
                         mainForm.Show();
                         timer.Stop();
@@ -135,6 +146,7 @@ namespace Planzy.LoginRegister
                         IncorrectPasswordVisibility = "Visible";
                         LoginSuccessVisibility = "Collapsed";
                         EnterEmailVisibility = "Collapsed";
+                        AccountNotNullVisibility = "Collapsed";
                         break;
                     }
                    
@@ -146,6 +158,7 @@ namespace Planzy.LoginRegister
                 IncorrectPasswordVisibility = "Collapsed";
                 LoginSuccessVisibility = "Collapsed";
                 EnterEmailVisibility = "Collapsed";
+                AccountNotNullVisibility = "Collapsed";
             }
         }
        
@@ -174,13 +187,19 @@ namespace Planzy.LoginRegister
         }
         void OpenForgotPasswordWindow(Window p)
         {
-            
-            if(!checkEmail(Account))
+
+            if (Account == null || Account == "")
+            {
+                AccountNotNullVisibility = "Visible";
+                return;
+            }
+
+            if (!checkEmail(Account))
             {
                 NonExistAccountVisibility = "Collapsed";
                 IncorrectPasswordVisibility = "Collapsed";
                 LoginSuccessVisibility = "Collapsed";
-                EnterEmailVisibility = "Visible";
+                EnterEmailVisibility = "Visible";                
             }
             
             else if (!userServices.ExistEmail(Account))
@@ -395,6 +414,14 @@ namespace Planzy.LoginRegister
             get { return account; }
             set
             {
+                if(value == null || value =="")
+                {
+                    AccountNotNullVisibility = "Visible";
+                }
+                else
+                {
+                    AccountNotNullVisibility = "Collapsed";
+                }
                 account = value;
                 OnPropertyChanged("Account");
             }
@@ -453,6 +480,13 @@ namespace Planzy.LoginRegister
                 rememberAccount = value;
                 OnPropertyChanged("RememberAccount");
             }
+        }
+
+        private string accountNotNullVisibility;
+        public string AccountNotNullVisibility
+        {
+            get { return accountNotNullVisibility; }
+            set { accountNotNullVisibility = value; OnPropertyChanged("AccountNotNullVisibility"); }
         }
     }
 }

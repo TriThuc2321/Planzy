@@ -217,7 +217,7 @@ namespace Planzy.LoginRegister
                 IncorrectVerifyCodeVisibility = "Collapsed";
             }
 
-            if (Password == null)
+            if (Password == null || Password == "" )
             {
                 PasswordNotNullVisibility = "Visible";
             }
@@ -235,7 +235,7 @@ namespace Planzy.LoginRegister
                 ConfirmPasswordIncorrectVisibility = "Collapsed";
             }
 
-            if(checkEmail(Email) && randomCode == VerifyCode && Password != null && ConfirmPassword == Password)
+            if(checkEmail(Email) && randomCode == VerifyCode && Password != null && Password!="" && ConfirmPassword == Password)
             {
                 ResetPassword(Email);
                 MainWindow main = new MainWindow(Email);
@@ -350,7 +350,7 @@ namespace Planzy.LoginRegister
             get { return password; }
             set
             {
-                if (value == null)
+                if (value == null || value =="")
                 {
                     PasswordNotNullVisibility = "Visible";
                 }

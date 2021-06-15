@@ -127,7 +127,7 @@ namespace Planzy.LoginRegister
             if (userServices.ExistId(Account)) AccountExistVisibility = "Visible";
             else AccountExistVisibility = "Collapsed";
 
-            if (Account == null) AccountNotNullVisibility = "Visible";
+            if (Account == null || Account == "") AccountNotNullVisibility = "Visible";
             else AccountNotNullVisibility = "Collapsed";
 
             if (userServices.ExistEmail(Email)) EmailExistVisibility = "Visible";
@@ -136,7 +136,7 @@ namespace Planzy.LoginRegister
             if (!checkEmail(Email)) EnterEmailVisibility = "Visible";
             else EnterEmailVisibility = "Collapsed";
 
-            if (Password == null) PasswordNotNullVisibility = "Visible";
+            if (Password == null || Password == "" ) PasswordNotNullVisibility = "Visible";
             else PasswordNotNullVisibility = "Collapsed";
 
             if (Password != ConfirmPassword) ConfirmPasswordIncorrectVisibility = "Visible";
@@ -155,7 +155,7 @@ namespace Planzy.LoginRegister
 
 
 
-            if(!userServices.ExistId(Account) && Account != null && !userServices.ExistEmail(Email) && checkEmail(Email) && Password != null && Password == ConfirmPassword && isConfirmEmail)
+            if(!userServices.ExistId(Account) && Account != null && Account != "" && !userServices.ExistEmail(Email) && checkEmail(Email) && Password != null && Password == ConfirmPassword && isConfirmEmail)
             {
                 User temp = new User();
                 temp.Gmail = Email;
@@ -240,7 +240,7 @@ namespace Planzy.LoginRegister
             get { return account; }
             set
             {
-                if (value == null) AccountNotNullVisibility = "Visible";
+                if (value == null || value == "" ) AccountNotNullVisibility = "Visible";
                 else AccountNotNullVisibility = "Collapsed";
 
                 if (userServices.ExistId(value)) AccountExistVisibility = "Visible";
