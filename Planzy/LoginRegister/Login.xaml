@@ -130,12 +130,16 @@
                         </Grid.ColumnDefinitions>
 
                         <Grid Grid.Column="0" Margin="0 10 0 0">
+                            
                             <CheckBox Content="Nhớ tài khoản"
                                       FontSize="10"
                                       VerticalAlignment="Top"
                                       IsChecked="{Binding RememberAccount}"
-                                      Command=""
+                                      Command="{Binding CheckBoxCommand}"
+                                      Style="{StaticResource MaterialDesignCheckBox}"
+                                      Background="SteelBlue"
                                       />
+                           
                         </Grid>
                         <Grid Grid.Column="1" Margin="50 14 0 0">
                             <TextBlock VerticalAlignment="Top"> 

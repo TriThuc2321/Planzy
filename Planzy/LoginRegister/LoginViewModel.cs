@@ -1,40 +1,28 @@
-﻿using Planzy.LoginRegister;
+﻿using Newtonsoft.Json;
+using Planzy.Commands;
+using Planzy.Models.Users;
+using Planzy.Views;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Threading;
-using Condition = System.Windows.Automation.Condition;
 using System.Windows.Threading;
-using System.Windows.Interop;
-using System.IO;
-using System.Text.RegularExpressions;
-using Planzy.Commands;
-using Planzy.Models.Users;
-using Microsoft.Xaml.Behaviors;
-using Newtonsoft.Json;
-using System.Net.Sockets;
-using System.Net.Mail;
-using Planzy.Views;
+using Condition = System.Windows.Automation.Condition;
 
 namespace Planzy.LoginRegister
 {
-    class LoginViewModel: INotifyPropertyChanged
+    class LoginViewModel : INotifyPropertyChanged
     {
         #region onpropertychange
         public event PropertyChangedEventHandler PropertyChanged;
@@ -51,6 +39,8 @@ namespace Planzy.LoginRegister
         Window parentView;
 
         private DispatcherTimer timer;
+        private string accountRemember;
+        private string passwordRemember;
 
         public ICommand LoginGoogleCommand { get; set; }
         public ICommand PasswordChangCommand { get; set; }
@@ -59,6 +49,7 @@ namespace Planzy.LoginRegister
         public ICommand RegisterCommand { get; set; }
         public ICommand ExitCommand { get; set; }
         public ICommand ForgotPasswordCommand { get; set; }
+        public ICommand CheckBoxCommand { get; set; }
 
         public LoginViewModel()
         {
@@ -68,10 +59,11 @@ namespace Planzy.LoginRegister
             LoginGoogleCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginGoogleClick(p); });
             LoginCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginClick(p); });
             PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = userServices.Encode(p.Password); });
-            LoadWindowCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { this.parentView = p; });
+            LoadWindowCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoadWindow(p); });
             ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { timer.Stop(); p.Close(); });
             RegisterCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenRegisterWindow(p); });
             ForgotPasswordCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenForgotPasswordWindow(p); });
+            CheckBoxCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { checkBoxClick(); });
 
             NonExistAccountVisibility = "Collapsed";
             IncorrectPasswordVisibility = "Collapsed";
@@ -84,6 +76,61 @@ namespace Planzy.LoginRegister
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
+        }
+
+        private void checkBoxClick()
+        {
+            if (RememberAccount == true)
+            {
+                accountRemember = Account;
+                passwordRemember = Password;
+            }
+            else
+            {
+                accountRemember = "";
+                passwordRemember = "";
+            }
+        }
+
+        private void CreateTxt()
+        {
+            string path = "./RemeberAccount.txt";
+            if (RememberAccount == true)
+            {
+               
+                if ((accountRemember != null && accountRemember != "") && (passwordRemember != null && passwordRemember != ""))
+                {
+
+                    StreamWriter sw = new StreamWriter(path);
+                    sw.WriteLine(accountRemember);
+                    sw.WriteLine(userServices.Encode(passwordRemember));
+                    sw.Close();
+                }
+                
+            }
+            else
+            {
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+            }
+            
+            
+        }
+        private void LoadWindow(Window p)
+        {
+            this.parentView = p;
+            string path = "./RemeberAccount.txt";
+
+
+            if (File.Exists(path))
+            {
+                StreamReader sr = new StreamReader(path);
+                Account = sr.ReadLine();
+                Password = sr.ReadLine();
+                RememberAccount = true;
+            }
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -138,6 +185,7 @@ namespace Planzy.LoginRegister
                         MainWindow mainForm = new MainWindow(listUsers[i].Gmail);
                         mainForm.Show();
                         timer.Stop();
+                        CreateTxt();
                         p.Close();
                     }
                     else
