@@ -2013,7 +2013,7 @@
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="Black"
-                                           Width="250"/>
+                                           Width="350"/>
                                 </StackPanel>
                             </Grid>
                             <Grid Grid.Row="6">
@@ -2023,7 +2023,7 @@
                                     Style="{StaticResource MaterialDesignFlatDarkBgButton}"                                 
                                     Content="Cập nhật thông tin" 
                                     Background="SkyBlue"
-                                        Margin="50 0 0 0"
+                                        Margin="30 0 0 0"
                                         Command="{Binding UpdateUserCommand}"
                                     />
                                     <Button

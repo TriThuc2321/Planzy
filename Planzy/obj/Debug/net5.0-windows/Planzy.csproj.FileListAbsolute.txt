@@ -179,3 +179,7 @@ D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.genruntimeconfig.cache
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InternetCheckingView.g.cs
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InternetCheckingView.baml
+D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InternetCheckingView.g.cs
+D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Views\UpdateInforUser.g.cs
+D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InternetCheckingView.baml
+D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Views\UpdateInforUser.baml

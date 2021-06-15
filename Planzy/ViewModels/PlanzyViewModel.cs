@@ -66,14 +66,14 @@ namespace Planzy.ViewModels
             //Thuc
 
             #region users
-                      
+                
             mainWindow = parentWindow;
             LogOutCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { logOut(); });
             UpdateUserCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { updateUser(); });
 
             userServices = new UserServices();
             listUser = new List<User>(userServices.GetAll());
-
+            user = userServices.getUserByEmail(gmailUser);
 
             setUI();
 
@@ -122,7 +122,7 @@ namespace Planzy.ViewModels
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
-            #endregion
+            
 
 
         }
