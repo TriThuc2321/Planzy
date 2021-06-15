@@ -38,7 +38,6 @@ namespace Planzy.LoginRegister
 
         public ICommand LoadWindowCommand { get; set; }
         public ICommand ConfirmEmailCommand { get; set; }
-        public ICommand EmailChangCommand { get; set; }
         public ICommand PasswordChangCommand { get; set; }
         public ICommand ConfirmPasswordChangCommand { get; set; }
         public ICommand LoginXamlCommand { get; set; }
@@ -58,7 +57,6 @@ namespace Planzy.LoginRegister
             LoadWindowCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { this.parentView = p; });
             ConfirmEmailCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { ConfirmEmail(p); });
             PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = p.Password; });
-            EmailChangCommand = new RelayCommand2<TextBox>((p) => { return true; }, (p) => { EmailChange(p); });
             ConfirmPasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { ConfirmPassword = p.Password; });
             LoginXamlCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenLoginWindow(p); });
             ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { timerRegister.Stop(); p.Close(); });
@@ -94,38 +92,7 @@ namespace Planzy.LoginRegister
                 return false;
             }
         }
-        void EmailChange(TextBox p)
-        {
-            Email = p.Text;
-            if (userServices.ExistEmail(Email))
-            {
-                EmailExistVisibility = "Visible";
-            }
-            else
-            {
-                EmailExistVisibility = "Collapsed";
-            }
-
-            if (!checkEmail(Email))
-            {
-                EnterEmailVisibility = "Visible";
-            }
-            else
-            {
-                EnterEmailVisibility = "Collapsed";
-            }
-
-            if (Email == emailIsConfirm && Email!=null)
-            {
-                EmailConfirmedVisibility = "Visible";
-                UnconfirmedEmailVisibility = "Collapsed";
-            }
-            else
-            {
-                EmailConfirmedVisibility = "Collapsed";
-                UnconfirmedEmailVisibility = "Visible";
-            }
-        }
+      
         void DefaultTxt()
         {
             AccountExistVisibility = "Collapsed";
@@ -273,6 +240,13 @@ namespace Planzy.LoginRegister
             get { return account; }
             set
             {
+                if (value == null) AccountNotNullVisibility = "Visible";
+                else AccountNotNullVisibility = "Collapsed";
+
+                if (userServices.ExistId(value)) AccountExistVisibility = "Visible";
+                else AccountExistVisibility = "Collapsed";
+                
+
                 account = value;
                 OnPropertyChanged("Account");
             }
@@ -283,6 +257,35 @@ namespace Planzy.LoginRegister
             get { return email; }
             set
             {
+                if (userServices.ExistEmail(value))
+                {
+                    EmailExistVisibility = "Visible";
+                }
+                else
+                {
+                    EmailExistVisibility = "Collapsed";
+                }
+
+                if (!checkEmail(value))
+                {
+                    EnterEmailVisibility = "Visible";
+                }
+                else
+                {
+                    EnterEmailVisibility = "Collapsed";
+                }
+
+                if (value == emailIsConfirm && value != null)
+                {
+                    EmailConfirmedVisibility = "Visible";
+                    UnconfirmedEmailVisibility = "Collapsed";
+                }
+                else
+                {
+                    EmailConfirmedVisibility = "Collapsed";
+                    UnconfirmedEmailVisibility = "Visible";
+                }
+
                 email = value;
                 OnPropertyChanged("Email");
             }
@@ -292,7 +295,7 @@ namespace Planzy.LoginRegister
         {
             get { return password; }
             set
-            {
+            {                
                 password = value;
                 OnPropertyChanged("Password");
             }
@@ -302,7 +305,7 @@ namespace Planzy.LoginRegister
         {
             get { return confirmPassword; }
             set
-            {
+            {                
                 confirmPassword = value;
                 OnPropertyChanged("ConfirmPassword");
             }

@@ -120,10 +120,10 @@ namespace Planzy.LoginRegister
                     if (listUsers[i].Password == Password)
                     {
                         
-                        NonExistAccountVisibility = "Hidden";
-                        IncorrectPasswordVisibility = "Hidden";
+                        NonExistAccountVisibility = "Collapsed";
+                        IncorrectPasswordVisibility = "Collapsed";
                         LoginSuccessVisibility = "Visible";
-                        EnterEmailVisibility = "Hidden";
+                        EnterEmailVisibility = "Collapsed";
                         MainWindow mainForm = new MainWindow(listUsers[i].Gmail);
                         mainForm.Show();
                         timer.Stop();
@@ -131,10 +131,10 @@ namespace Planzy.LoginRegister
                     }
                     else
                     {
-                        NonExistAccountVisibility = "Hidden";
+                        NonExistAccountVisibility = "Collapsed";
                         IncorrectPasswordVisibility = "Visible";
-                        LoginSuccessVisibility = "Hidden";
-                        EnterEmailVisibility = "Hidden";
+                        LoginSuccessVisibility = "Collapsed";
+                        EnterEmailVisibility = "Collapsed";
                         break;
                     }
                    
@@ -143,9 +143,9 @@ namespace Planzy.LoginRegister
             if (i == listUsers.Count())
             {
                 NonExistAccountVisibility = "Visible";
-                IncorrectPasswordVisibility = "Hidden";
-                LoginSuccessVisibility = "Hidden";
-                EnterEmailVisibility = "Hidden";
+                IncorrectPasswordVisibility = "Collapsed";
+                LoginSuccessVisibility = "Collapsed";
+                EnterEmailVisibility = "Collapsed";
             }
         }
        
@@ -174,16 +174,33 @@ namespace Planzy.LoginRegister
         }
         void OpenForgotPasswordWindow(Window p)
         {
-            if (checkEmail(Account))
+            
+            if(!checkEmail(Account))
             {
-                sendEmail(Account, p);
-               
-            }
-            else
-            {
+                NonExistAccountVisibility = "Collapsed";
+                IncorrectPasswordVisibility = "Collapsed";
+                LoginSuccessVisibility = "Collapsed";
                 EnterEmailVisibility = "Visible";
             }
-           
+            
+            else if (!userServices.ExistEmail(Account))
+            {
+                NonExistAccountVisibility = "Visible";
+                IncorrectPasswordVisibility = "Collapsed";
+                LoginSuccessVisibility = "Collapsed";
+                EnterEmailVisibility = "Collapsed";
+
+            }
+
+            if (checkEmail(Account) && userServices.ExistEmail(Account))
+            {
+                NonExistAccountVisibility = "Collapsed";
+                IncorrectPasswordVisibility = "Collapsed";
+                LoginSuccessVisibility = "Collapsed";
+                EnterEmailVisibility = "Collapsed";
+                sendEmail(Account, p);
+            }
+
         }
         void sendEmail(string email, Window p)
         {

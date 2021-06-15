@@ -147,13 +147,13 @@ namespace Planzy.LoginRegister
         {
             if(parentWindow == null && parentRegister == null)
             {
-                ButtonTxt = "RESET";
+                ButtonTxt = "ĐẶT LẠI";
                 PasswordBoxVisibility = "Visible";
                 ConfirmPasswordBoxVisibility = "Visible";
             }
             else
             {
-                ButtonTxt = "CONFIRM";
+                ButtonTxt = "XÁC NHẬN";
                 PasswordBoxVisibility = "Collapsed";
                 ConfirmPasswordBoxVisibility = "Collapsed";
             }
@@ -163,7 +163,17 @@ namespace Planzy.LoginRegister
             Login loginWindow = new Login();
             loginWindow.Show();
             timer.Stop();
-            p.Close();
+
+            if (parentWindow != null)
+            {
+                parentWindow.Close();
+            }
+
+            if (p != null)
+            {
+                p.Close();
+            }
+            
         }
         void ResendClick()
         {
@@ -321,6 +331,15 @@ namespace Planzy.LoginRegister
             get { return email; }
             set
             {
+                if (!checkEmail(value))
+                {
+                    EnterEmailVisibility = "Visible";
+                }
+                else
+                {
+                    EnterEmailVisibility = "Collapsed";
+                }
+
                 email = value;
                 OnPropertyChanged("Email");
             }
@@ -331,6 +350,15 @@ namespace Planzy.LoginRegister
             get { return password; }
             set
             {
+                if (value == null)
+                {
+                    PasswordNotNullVisibility = "Visible";
+                }
+                else
+                {
+                    PasswordNotNullVisibility = "Collapsed";
+                }
+
                 password = value;
                 OnPropertyChanged("Password");
             }
@@ -341,6 +369,15 @@ namespace Planzy.LoginRegister
             get { return confirmPassword; }
             set
             {
+                if (value != Password)
+                {
+                    ConfirmPasswordIncorrectVisibility = "Visible";
+                }
+                else
+                {
+                    ConfirmPasswordIncorrectVisibility = "Collapsed";
+                }
+
                 confirmPassword = value;
                 OnPropertyChanged("ConfirmPassword");
             }
@@ -351,6 +388,15 @@ namespace Planzy.LoginRegister
             get { return verifyCode; }
             set
             {
+                if (randomCode != value)
+                {
+                    IncorrectVerifyCodeVisibility = "Visible";
+                }
+                else
+                {
+                    IncorrectVerifyCodeVisibility = "Collapsed";
+                }
+
                 verifyCode = value;
                 OnPropertyChanged("VerifyCode");
             }
