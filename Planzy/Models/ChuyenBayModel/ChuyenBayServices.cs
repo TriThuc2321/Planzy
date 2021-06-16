@@ -206,6 +206,10 @@ namespace Planzy.Models.ChuyenBayModel
                     chuyenBay.ThoiGianBay = row["THOI_GIAN_BAY"].ToString();
                     chuyenBay.SoLoaiHangGhe = Convert.ToInt32(row["SO_LOAI_HANG_GHE"].ToString());
                     chuyenBay.IsDaBay = Convert.ToBoolean(row["DA_BAY"].ToString());
+                    if (row["DA_BAY"].ToString() == "False")
+                        chuyenBay.IsDaBay = false;
+                    else
+                        chuyenBay.IsDaBay = true;
                     ChuyenBaysList.Add(chuyenBay);
                 }
                 result = true;
@@ -435,6 +439,41 @@ namespace Planzy.Models.ChuyenBayModel
                 SanBayConnection.Close();
             }
             
+        }
+        public static void GetFlight(string ID, out string departure, out string destination)
+        {
+            foreach (ChuyenBay ite in ChuyenBaysList)
+            {
+                if ( ite.MaChuyenBay == ID)
+                {
+                    departure = ite.SanBayDen.ToString();
+                    destination = ite.SanBayDi.ToString();
+                    return;
+                }
+            }
+            departure = null;
+            destination = null;
+            
+        }
+
+        public List<ChuyenBay> GetFlownFlightList()
+        {
+            List<ChuyenBay> temp = new List<ChuyenBay>(ChuyenBaysList);
+           
+            if (temp.Count > 0)
+            {
+                for (int i = 0; i < temp.Count; i++)
+                {
+                    if (temp[i].IsDaBay == true)
+                    {
+                        temp.RemoveAt(i);
+                        i--;
+                    }
+                }
+                return temp;
+            }
+            else
+            return new List<ChuyenBay>();
         }
 
     }

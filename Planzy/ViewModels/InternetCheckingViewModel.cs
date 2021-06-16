@@ -24,17 +24,16 @@ namespace Planzy.ViewModels
         public ICommand ExitCommand { get; set; }
         public ICommand TryAgainCommand { get; set; }
         public ICommand LoadWindowCommand { get; set; }
-        Window parent;
+ 
         Window parentView;
 
         DispatcherTimer timer;
         DispatcherTimer timerAuto;
-        public InternetCheckingViewModel(Window p)
+        public InternetCheckingViewModel(Window p1, Window p2)
         {
-            this.parent = p;
             TextVisibility = "Visible";
 
-            ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { this.parent.Close(); p.Close(); });
+            ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { p1.Close(); if(p2!=null) p2.Close(); p.Close(); });
             TryAgainCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { tryAgain(p); });
             LoadWindowCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { this.parentView = p; });
 

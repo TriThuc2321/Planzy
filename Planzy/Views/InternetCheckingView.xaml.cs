@@ -21,10 +21,10 @@ namespace Planzy.Views
     public partial class InternetCheckingView : Window
     {
         InternetCheckingViewModel viewModel;
-        public InternetCheckingView(Window p)
+        public InternetCheckingView(Window p, Window p2)
         {
             InitializeComponent();
-            viewModel = new InternetCheckingViewModel(p);
+            viewModel = new InternetCheckingViewModel(p, p2);
             this.DataContext = viewModel;
         }
     }

@@ -169,7 +169,7 @@ namespace Planzy.Models.Users
 
         public bool IsPhoneNumber(string number)
         {
-            if (number.Length > 10 || number.Length < 9) return false;
+            if (number.Length > 11 || number.Length < 10) return false;
             for (int i = 0; i < number.Length; i++)
             {
                 if (number[i] < 48 && number[i] > 57) return false;
