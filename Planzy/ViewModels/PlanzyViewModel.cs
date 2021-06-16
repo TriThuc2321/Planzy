@@ -79,6 +79,10 @@ namespace Planzy.ViewModels
 
             #endregion
 
+            #region sell ticket
+            searchFlightCommand_SellTicket = new RelayCommand(searchFlight_SellTicket);
+            #endregion
+
             LoadData();
             doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
             xoaSanBayTrungGianCommand = new RelayCommand(xoaSanBayTrungGian);
@@ -122,9 +126,6 @@ namespace Planzy.ViewModels
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
-            
-
-
         }
 
      
@@ -176,9 +177,13 @@ namespace Planzy.ViewModels
 
 
 
-
-
-
+            //Thuc
+            DepartureList_SellTicket = new ObservableCollection<SanBay>(sanBayServices.GetAll());
+            DestinationList_SellTicket = new ObservableCollection<SanBay>(sanBayServices.GetAll());
+            backupList_SellTicket = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetFlownFlightList());
+            FlightSearchList_SellTicket = new ObservableCollection<ChuyenBay>(backupList_SellTicket);
+            showAllFightsCommand_SellTicket = new RelayCommand(showAllFlights_SellTicket);
+            chooseContinueButton_SellTicketCommand = new RelayCommand2<object>((p) => p != null, ButtonContinue_SellTicket);
 
 
         }
@@ -2154,7 +2159,6 @@ namespace Planzy.ViewModels
                     i = -1;
                 }
 
-
             for (int i = 0; i < flightSearchList_FlightBooking.Count; i++)
             {
                 if (flightSearchList_FlightBooking[i].NgayBay == SelectedDate_FlightBooking) continue;
@@ -2206,6 +2210,7 @@ namespace Planzy.ViewModels
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
             IsDuocChon6 = KhongDuocChon;
+            isSellTicket = false;
 
             ListSticketType.Clear();
             hashtable_AmountSticketType.Clear(); // Dictionary from Name to Amount
@@ -2487,7 +2492,6 @@ namespace Planzy.ViewModels
 
         #endregion
 
-
         #region user
 
 
@@ -2630,5 +2634,202 @@ namespace Planzy.ViewModels
         }
         #endregion
 
+        #region Sell ticket
+        public RelayCommand searchFlightCommand_SellTicket { get; private set; }
+        private void searchFlight_SellTicket(object obj)
+        {
+            selectedFlight_SellTicket = null;
+            OnPropertyChanged("SelectedFlight_SellTicket");
+            ObservableCollection<ChuyenBay> temp = new ObservableCollection<ChuyenBay>(BackupList_SellTicket);
+            flightSearchList_SellTicket = temp;
+
+            if (selectedDestination_SellTicket != null)
+                for (int i = 0; i < flightSearchList_SellTicket.Count; i++)
+                {
+                    if (flightSearchList_SellTicket[i].SanBayDen.Id == selectedDestination_SellTicket.Id) continue;
+                    flightSearchList_SellTicket.RemoveAt(i);
+                    i = -1;
+                }
+            if (selectedDeparture_SellTicket != null)
+                for (int i = 0; i < flightSearchList_SellTicket.Count; i++)
+                {
+                    if (flightSearchList_SellTicket[i].SanBayDi.Id == selectedDeparture_SellTicket.Id) continue;
+                    flightSearchList_SellTicket.RemoveAt(i);
+                    i = -1;
+                }
+
+            for (int i = 0; i < flightSearchList_SellTicket.Count; i++)
+            {
+                if (flightSearchList_SellTicket[i].NgayBay == SelectedDate_SellTicket) continue;
+                flightSearchList_SellTicket.RemoveAt(i);
+                i = -1;
+            }
+            OnPropertyChanged("FlightSearchList_SellTicket");
+
+        }
+
+        public RelayCommand showAllFightsCommand_SellTicket { get; private set; }
+        private void showAllFlights_SellTicket(object obj)
+        {
+            //selectedFlight = null;
+            //OnPropertyChanged("SelectedFlight");
+            selectedDate_SellTicket = DateTime.UtcNow.AddDays(1);
+            SanBay temp1 = selectedDestination_SellTicket;
+            SanBay temp2 = selectedDeparture_SellTicket;
+            departureList_SellTicket.Remove(selectedDeparture_SellTicket);
+            destinationList_SellTicket.Remove(selectedDestination_SellTicket);
+            if (temp2 != null)
+                departureList_SellTicket.Add(temp2);
+            if (temp1 != null)
+                destinationList_SellTicket.Add(temp1);
+            selectedDeparture_SellTicket = null;
+            selectedDestination_SellTicket = null;
+            ObservableCollection<ChuyenBay> temp = new ObservableCollection<ChuyenBay>(BackupList_SellTicket);
+            flightSearchList_SellTicket = temp;
+            OnPropertyChanged("FlightSearchList_SellTicket");
+        }
+
+        private ICommand chooseContinueButton_SellTicketCommand;
+
+        public ICommand ChooseContinueButton_SellTicketCommand
+        {
+            get { return chooseContinueButton_SellTicketCommand; }
+        }
+        private ButtonDuocChon isContinueButton_SellTicket = new ButtonDuocChon(false);
+
+        public ButtonDuocChon IsContinueButton_SellTicket
+        {
+            get { return isContinueButton_SellTicket; }
+            set { isContinueButton_SellTicket = value; OnPropertyChanged("IsContinueButton_SellTicket"); }
+        }
+
+        private bool isSellTicket;
+        public void ButtonContinue_SellTicket(object p)
+        {
+            IsContinueButton = DuocChon;
+            IsDuocChon1 = KhongDuocChon;
+            IsDuocChon2 = KhongDuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
+            isSellTicket = true;
+
+            ListSticketType.Clear();
+            hashtable_AmountSticketType.Clear(); // Dictionary from Name to Amount
+            hashtable_SticketID.Clear(); /// Dictionary from Name to ID
+            foreach (ChiTietHangGhe ite in selectedFlight_SellTicket.ChiTietHangGhesList)
+            {
+                if (ite.SoLuongGheConLai == "0")
+                {
+                    hashtable_AmountSticketType.Add(ite.TenLoaiHangGhe, "Hết vé");
+                    hashtable_SticketID.Add(ite.TenLoaiHangGhe, ite.MaLoaiHangGhe);
+                }
+                else
+                {
+                    hashtable_AmountSticketType.Add(ite.TenLoaiHangGhe, ite.SoLuongGheConLai);
+                    hashtable_SticketID.Add(ite.TenLoaiHangGhe, ite.MaLoaiHangGhe);
+                }
+                ListSticketType.Add(ite.TenLoaiHangGhe);
+            }
+            OnPropertyChanged("ListSticketType");
+            SticketTypeAmount = null;
+            BookingSticket.FlightID = selectedFlight_SellTicket.MaChuyenBay;
+
+        }
+
+
+
+
+
+
+
+
+        private DateTime selectedDate_SellTicket = DateTime.UtcNow.AddDays(0);
+        public DateTime SelectedDate_SellTicket
+        {
+            get { return selectedDate_SellTicket; }
+            set { selectedDate_SellTicket = value; OnPropertyChanged("SelectedDate_SellTicket"); }
+        }
+
+        private ObservableCollection<SanBay> departureList_SellTicket;
+        public ObservableCollection<SanBay> DepartureList_SellTicket
+        {
+            get { return departureList_SellTicket; }
+            set { departureList_SellTicket = value; OnPropertyChanged("DepartureList_SellTicket"); }
+        }
+
+        private SanBay selectedDeparture_SellTicket;
+        public SanBay SelectedDeparture_SellTicket
+        {
+            get { return selectedDeparture_SellTicket; }
+            set
+            {
+                if (selectedDeparture_SellTicket != null)
+                    DestinationList_SellTicket.Add(selectedDeparture_SellTicket);
+                selectedDeparture_SellTicket = value;
+                DestinationList_SellTicket.Remove(selectedDeparture_SellTicket);
+                OnPropertyChanged("SelectedDeparture_SaleTicket");
+            }
+        }
+
+        private ObservableCollection<SanBay> destinationList_SellTicket;
+        public ObservableCollection<SanBay> DestinationList_SellTicket
+        {
+            get { return destinationList_SellTicket; }
+            set { destinationList_SellTicket = value; OnPropertyChanged("DestinationList_SellTicket"); }
+        }
+
+        private SanBay selectedDestination_SellTicket;
+        public SanBay SelectedDestination_SellTicket
+        {
+            get { return selectedDestination_SellTicket; }
+            set
+            {
+                if (selectedDestination_SellTicket != null)
+                    DepartureList_SellTicket.Add(selectedDestination_SellTicket);
+                selectedDestination_SellTicket = value;
+                DepartureList_SellTicket.Remove(selectedDestination_SellTicket);
+                OnPropertyChanged("SelectedDestination_SellTicket");
+            }
+        }
+
+        private ObservableCollection<ChuyenBay> flightSearchList_SellTicket;
+        public ObservableCollection<ChuyenBay> FlightSearchList_SellTicket
+        {
+            get { return flightSearchList_SellTicket; }
+            set { flightSearchList_SellTicket = value; OnPropertyChanged("FlightSearchList_SellTicket"); }
+        }
+
+
+        private ObservableCollection<ChuyenBay> backupList_SellTicket;
+        public ObservableCollection<ChuyenBay> BackupList_SellTicket
+        {
+            get { return backupList_SellTicket; }
+            set { backupList_SellTicket = value; OnPropertyChanged("BackupList_SellTicket"); }
+        }
+        private ChuyenBay selectedFlight_SellTicket;
+        public ChuyenBay SelectedFlight_SellTicket
+        {
+            get { return selectedFlight_SellTicket; }
+            set
+            {
+                selectedFlight_SellTicket = value;
+                DateofSelectedFlight_SellTicket = value.NgayBay.GetDateTimeFormats();
+                OnPropertyChanged("SelectedFlight_SellTicket");
+            }
+        }
+        private string[] dateofSelectedFlight_SellTicket;
+        public string[] DateofSelectedFlight_SellTicket
+        {
+            get { return dateofSelectedFlight_SellTicket; }
+            set
+            {
+                dateofSelectedFlight_SellTicket = value;
+                OnPropertyChanged("DateofSelectedFlight_SellTicket");
+
+            }
+        }
+        #endregion
     }
 }
