@@ -200,3 +200,9 @@ D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InternetCheckin
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\MyChartTooltip.g.cs
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\MyChartToolTipForDTNam.g.cs
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\UpdateInforUser.g.cs
+D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\LiveCharts.dll
+D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\LiveCharts.Wpf.dll
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\MyChartTooltip.g.cs
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\MyChartToolTipForDTNam.g.cs
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\MyChartTooltip.baml
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\MyChartToolTipForDTNam.baml

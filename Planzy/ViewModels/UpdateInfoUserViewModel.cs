@@ -81,6 +81,7 @@ namespace Planzy.ViewModels
         }
         private void timerText_Tick(object sender, EventArgs e)
         {
+            timerText.Stop();
             parentView.Close();
         }
 
