@@ -136,3 +136,13 @@ D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\ForgotP
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\Login.baml
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\LoginRegister\Register.baml
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\CustomMessageBoxWindow.baml
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InternetCheckingView.g.cs
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\UpdateInforUser.g.cs
+D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\LiveCharts.dll
+D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\LiveCharts.Wpf.dll
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\MyChartTooltip.g.cs
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\MyChartToolTipForDTNam.g.cs
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InternetCheckingView.baml
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\MyChartTooltip.baml
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\MyChartToolTipForDTNam.baml
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\UpdateInforUser.baml

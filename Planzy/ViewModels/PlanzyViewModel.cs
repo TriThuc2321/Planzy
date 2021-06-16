@@ -59,6 +59,77 @@ namespace Planzy.ViewModels
         LoaiHangGheServices loaiHangGheServices;
         ChiTietHangGheServices chiTietHangGheServices;
         #region Khai báo cho biểu đồ
+        private DispatcherTimer chuyenBayTimer;
+
+        public void denGioBay(object sender, EventArgs e)
+        {
+            chuyenBayTimer.Stop();
+            foreach(ChuyenBay chuyenBay in ChuyenBaysList)
+            {
+                if (chuyenBay.NgayBay == DateTime.Now)
+                {
+                    if(chuyenBay.GioBay.Hour < DateTime.Now.Hour)
+                    {
+                        if (chuyenBay.IsDaBay == false)
+                        {
+                            chuyenBay.IsDaBay = true;
+                            chuyenBayServices.SuaChuyenBaySql(chuyenBay);//cập nhật sql
+                                                                         //tính toán lại báo cáo
+                            if (DanhSachNamDaChon == chuyenBay.NgayBay.Year.ToString())
+                            {
+                                doanhThuThangServices.ThemDoanhThu(chuyenBay);
+                            }
+                            else
+                            {
+                                DoanhThuThangServices newDT = new DoanhThuThangServices(chuyenBay.NgayBay.Year.ToString());
+                                newDT.ThemDoanhThu(chuyenBay);
+                            }
+                        }
+                    }  
+                    else if (chuyenBay.GioBay.Hour == DateTime.Now.Hour)
+                    {
+                        if (chuyenBay.GioBay.Minute <= DateTime.Now.Minute)
+                        {
+                            if (chuyenBay.IsDaBay == false)
+                            {
+                                chuyenBay.IsDaBay = true;
+                                chuyenBayServices.SuaChuyenBaySql(chuyenBay);//cập nhật sql
+                                                                             //tính toán lại báo cáo
+                                if (DanhSachNamDaChon == chuyenBay.NgayBay.Year.ToString())
+                                {
+                                    doanhThuThangServices.ThemDoanhThu(chuyenBay);
+                                }
+                                else
+                                {
+                                    DoanhThuThangServices newDT = new DoanhThuThangServices(chuyenBay.NgayBay.Year.ToString());
+                                    newDT.ThemDoanhThu(chuyenBay);
+                                }
+                            }
+                        }    
+                    }    
+                }
+                else if (chuyenBay.NgayBay < DateTime.Now)
+                {
+                    if (chuyenBay.IsDaBay == false)
+                    {
+                        chuyenBay.IsDaBay = true;
+                        chuyenBayServices.SuaChuyenBaySql(chuyenBay);//cập nhật sql
+                                                                     //tính toán lại báo cáo
+                        if (DanhSachNamDaChon == chuyenBay.NgayBay.Year.ToString())
+                        {
+                            doanhThuThangServices.ThemDoanhThu(chuyenBay);
+                        }
+                        else
+                        {
+                            DoanhThuThangServices newDT = new DoanhThuThangServices(chuyenBay.NgayBay.Year.ToString());
+                            newDT.ThemDoanhThu(chuyenBay);
+                        }
+                    }
+                }    
+
+            }
+            chuyenBayTimer.Start();
+        }
         private DoanhThuThangServices doanhThuThangServices;
         private ChartValues<DoanhThuThang> doanhThuThangs;
 
@@ -96,7 +167,8 @@ namespace Planzy.ViewModels
             chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService,sanBayServices,chiTietHangGheServices);
 
             #region biểu đồ
-            doanhThuThangServices = new DoanhThuThangServices(DanhSachNamDaChon, chuyenBayServices);
+            //doanhThuThangServices = new DoanhThuThangServices(DanhSachNamDaChon,chuyenBayServices);
+            doanhThuThangServices = new DoanhThuThangServices(DanhSachNamDaChon);
             DoanhThuThangs = doanhThuThangServices.doanhThuThangs;
             labelThangDaChons = doanhThuThangServices.labels;
 
@@ -117,6 +189,11 @@ namespace Planzy.ViewModels
             reviewBieuDoCommand = new RelayCommand(reviewBieuDo);
             troVeBieuDoCommand = new RelayCommand(troVeBieuDo);
             xuatPDFVisualCommand = new RelayCommand(xuatPDFVisual);
+
+            chuyenBayTimer = new DispatcherTimer();
+            chuyenBayTimer.Interval = TimeSpan.FromSeconds(2);
+            chuyenBayTimer.Tick += denGioBay;
+            chuyenBayTimer.Start(); 
             #endregion
 
             ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
@@ -930,7 +1007,7 @@ namespace Planzy.ViewModels
             set { blackoutCollection = value; OnPropertyChanged("BlackoutCollection"); }
         }
 
-        private DateTime ngayBay = DateTime.UtcNow.AddDays(1);
+        private DateTime ngayBay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 0, 0, 0);
 
         public DateTime NgayBay
         {
@@ -1335,6 +1412,8 @@ namespace Planzy.ViewModels
             ChuyenBayHienTai.GiaVeCoBan = GiaVeCoBan;
             ChuyenBayHienTai.GioBay = GioBay;
             ChuyenBayHienTai.NgayBay = NgayBay;
+            ChuyenBayHienTai.NgayBay = ChuyenBayHienTai.NgayBay.AddHours(GioBay.Hour);
+            ChuyenBayHienTai.NgayBay = ChuyenBayHienTai.NgayBay.AddMinutes(GioBay.Minute);
             ChuyenBayHienTai.ThoiGianBay = ThoiGianBay;
             ChuyenBayHienTai.SoLoaiHangGhe = Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE);
             
@@ -1377,7 +1456,8 @@ namespace Planzy.ViewModels
             get { return sanBayTrungGiansListCu; }
             set { sanBayTrungGiansListCu = value; OnPropertyChanged("SanBayTrungGiansListCu"); }
         }
-        private bool isDangSua;
+        private bool isDangSua = false;
+        private string maChuyenBayDaChonTrongList;
         public void suaChuyenBay()
         {
             //chuyến bay đã bán vé không thể chỉnh sửa
@@ -1390,6 +1470,8 @@ namespace Planzy.ViewModels
                 }    
             }    
             LoadUIHangGheTheoChuyenBay(ChuyenBayDaChon.SoLoaiHangGhe.ToString());
+            // kiểm tra rằng chuyến bay đang sửa chửa để hiện thông báo
+            maChuyenBayDaChonTrongList = ChuyenBayDaChon.MaChuyenBay;
             isDangSua = true;
             IsReadOnlyMaChuyenBay = "True";
             IsVisibleLuuChuyenBay = "Visible";
@@ -1518,7 +1600,11 @@ namespace Planzy.ViewModels
                 return;
             }
             #endregion
-
+            foreach(ChuyenBay chuyenBay in ChuyenBaysList)
+            {
+                if (chuyenBay.MaChuyenBay == maChuyenBayDaChonTrongList)
+                    ChuyenBayDaChon = chuyenBay;
+            }    
             string maChuyenBayCu = ChuyenBayDaChon.MaChuyenBay;
             if (maChuyenBayCu == MaChuyenBay)
             {
@@ -1527,6 +1613,8 @@ namespace Planzy.ViewModels
                 ChuyenBayDaChon.GiaVeCoBan = GiaVeCoBan;
                 ChuyenBayDaChon.NgayBay = NgayBay;
                 ChuyenBayDaChon.GioBay = GioBay;
+                ChuyenBayHienTai.NgayBay = ChuyenBayHienTai.NgayBay.AddHours(GioBay.Hour);
+                ChuyenBayHienTai.NgayBay = ChuyenBayHienTai.NgayBay.AddMinutes(GioBay.Minute);
                 ChuyenBayDaChon.ThoiGianBay = ThoiGianBay;
                 ChuyenBayDaChon.SanBayDi = SanBayDiDaChon;
                 ChuyenBayDaChon.SanBayDen = SanBayDenDaChon;
@@ -1617,7 +1705,7 @@ namespace Planzy.ViewModels
         {
             SanBayDenDaChon = null;
             SanBayDiDaChon = null;
-            SanBayTrungGiansList = null;
+            SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>();
             ChiTietHangGhesList = new List<ChiTietHangGhe>();
             MaChuyenBay = null;
             GiaVeCoBan = null;
@@ -2451,6 +2539,17 @@ namespace Planzy.ViewModels
             if (selectedFlightToChange != null || selectedFlightToChange.IsDaBay == false)
             {
                 MessageBox.Show("Sửa đi thằng lồn!", "Thông báo", MessageBoxButton.OK);
+                Button4();
+                foreach(ChuyenBay chuyenBay in ChuyenBaysList)
+                {
+                    if (chuyenBay.MaChuyenBay == selectedFlightToChange.MaChuyenBay)
+                    {
+                        chuyenBayDaChon = chuyenBay;
+                    }    
+                }
+                suaChuyenBay();
+                if (isDangSua == false)
+                    Button3();
             }        
             else
             {
@@ -2655,7 +2754,8 @@ namespace Planzy.ViewModels
             set 
             { 
                 danhSachNamDaChon = value;
-                doanhThuThangServices = new DoanhThuThangServices(value, chuyenBayServices);
+                doanhThuThangServices = new DoanhThuThangServices(value);
+                //doanhThuThangServices = new DoanhThuThangServices(value,chuyenBayServices);
                 DoanhThuThangs = doanhThuThangServices.doanhThuThangs;
                 labelThangDaChons = doanhThuThangServices.labels;
 

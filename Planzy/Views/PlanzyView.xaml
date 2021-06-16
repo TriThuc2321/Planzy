@@ -150,7 +150,7 @@
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
                     <Grid Background="White">
                         
-                        <Grid Name ="gr_DatVe" Visibility="Hidden">
+                        <Grid Name ="gr_DatVe" Visibility="{Binding IsDuocChon1.NewVisibility}">
                            
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"></RowDefinition>
@@ -480,7 +480,7 @@
                                 </Grid>
                         </Grid>
                         </Grid>
-                        <Grid x:Name ="gr_BanVe" Visibility="Hidden">
+                        <Grid x:Name ="gr_BanVe" Visibility="{Binding IsDuocChon2.NewVisibility}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="50"/>
@@ -675,7 +675,7 @@
 
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_Tracuu" Visibility="Hidden"
+                        <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}"
                               >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"></ColumnDefinition>
@@ -945,7 +945,7 @@
 
 
                         </Grid>
-                        <Grid Name ="gr_NhanLich" Visibility="Hidden">
+                        <Grid Name ="gr_NhanLich" Visibility="{Binding IsDuocChon4.NewVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="126"></RowDefinition>
                                 <RowDefinition Height="84"></RowDefinition>
@@ -1073,7 +1073,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"/>
                                     <materialDesign:TimePicker Width="97" 
-                                                               SelectedTime="{Binding ChuyenBayHienTai.GioBay}"
+                                                               SelectedTime="{Binding GioBay}"
                                                 Foreground="Black"
                                                 FontWeight="Bold"
                                                 FontSize="15"
@@ -2351,7 +2351,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid x:Name ="gr_NguoiDung"  Visibility="Visible">
+                        <Grid x:Name ="gr_NguoiDung"  Visibility="{Binding IsDuocChon6.NewVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="100"/>
                                 <RowDefinition Height="50"/>

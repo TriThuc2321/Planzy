@@ -15,5 +15,11 @@ namespace Planzy.Models.DoanhThuModel
         public int DoanhThuInt { get; set; }
         public float DoanhThuTrieuDong { get; set; }
         public float TyLe { get; set; }
+        public DoanhThu()
+        {
+            DoanhThuInt = 0;
+            DoanhThuTrieuDong = 0;
+            TyLe = 0;
+        }
     }
 }

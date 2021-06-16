@@ -22,5 +22,9 @@ namespace Planzy.Models.DoanhThuThangModel
         {
             doanhThuServices = new DoanhThuServices(chuyenBays);
         }
+        public DoanhThuThang(List<DoanhThu> doanhThus)
+        {
+            doanhThuServices = new DoanhThuServices(doanhThus);
+        }
     }
 }
