@@ -58,7 +58,7 @@
                                Margin="155 0 0 0"
                                Visibility="{Binding AccountNotNullVisibility}"
                                />
-                        
+
                         <Label Content="Nhập email để tiếp tục" 
                                Foreground="Red"
                                FontStyle="Italic"
@@ -73,7 +73,7 @@
                                Visibility="{Binding NonExistAccountVisibility}"
                                />
                     </StackPanel>
-                    
+
 
                 </Grid>
 
@@ -101,7 +101,7 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </PasswordBox>
-                            
+
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Đăng nhập thành công" 
                                Foreground="Green"
@@ -115,13 +115,13 @@
                                Margin="9 0 0 0"
                                Visibility="{Binding IncorrectPasswordVisibility}"                                   
                                />
-                               
-                            </StackPanel>
-                           
 
-                            
+                            </StackPanel>
+
+
+
                         </StackPanel>
-                        
+
                     </Grid>
                     <Grid Grid.Row="1" Margin="20 0 0 0">
                         <Grid.ColumnDefinitions>
@@ -130,7 +130,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Grid Grid.Column="0" Margin="0 10 0 0">
-                            
+
                             <CheckBox Content="Nhớ tài khoản"
                                       FontSize="10"
                                       VerticalAlignment="Top"
@@ -139,7 +139,7 @@
                                       Style="{StaticResource MaterialDesignCheckBox}"
                                       Background="SteelBlue"
                                       />
-                           
+
                         </Grid>
                         <Grid Grid.Column="1" Margin="50 14 0 0">
                             <TextBlock VerticalAlignment="Top"> 
@@ -226,9 +226,19 @@
                 <Button.Background>
                     <ImageBrush ImageSource="/LoginRegister/Image/clodeIcon.png"/>
                 </Button.Background>
-                
-            </Button>
 
+            </Button>
+        </materialDesign:Card>
+
+        <materialDesign:Card 
+            Height="50" 
+            Width="50" 
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right" Margin="0,76,429,0"
+            Visibility="Collapsed">
+            <materialDesign:Card.Background>
+                <ImageBrush ImageSource="/Views/logo.png"/>
+            </materialDesign:Card.Background>
         </materialDesign:Card>
     </Grid>
 </Window>

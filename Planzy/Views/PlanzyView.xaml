@@ -1049,7 +1049,7 @@
 
 
                         </Grid>
-                        <Grid Name ="gr_NhanLich" Visibility="Hidden">
+                        <Grid Name ="gr_NhanLich" Visibility="{Binding IsDuocChon4.NewVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="126"></RowDefinition>
                                 <RowDefinition Height="84"></RowDefinition>
@@ -1617,7 +1617,7 @@
                             </Grid>
                         </Grid>
                         <Grid Name ="gr_DoanhThu" Visibility="Hidden"/>
-                        <Grid Name="gr_ChiTietDatVe" Visibility="{Binding IsContinueButton.NewVisibility}"
+                        <Grid Name="gr_ChiTietDatVe" Visibility="Hidden"
                               Background="White">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"></RowDefinition>
@@ -1689,8 +1689,7 @@
                                            HorizontalAlignment="Center"
                                            FontSize="25"
                                            FontWeight="Bold"
-                                           Margin="0 8 0 0"
-                                          
+                                           Margin="0 8 0 0"                                         
                                            ></Label>
                                 </Grid>
 
