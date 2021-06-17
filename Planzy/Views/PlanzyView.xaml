@@ -2165,7 +2165,7 @@
                             </Grid>
                             
                         </Grid>
-                        <Grid Name ="gr_ChiTietChuyenBay" Background="LightBlue" Visibility="{Binding IsDetailFlight.NewVisibility}" Margin="30 30 30 30">
+                        <Grid Name ="gr_ChiTietChuyenBay" Background="LightBlue" Visibility="{Binding IsDetailFlight.NewVisibility}">
                             
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="10"></RowDefinition>
@@ -2394,11 +2394,12 @@
                                         <Image Height="70" Width="70" Stretch="Fill" Source="/Views/pngtree-airplane-clipart-airplane-passenger-plane-png-image_2389936.jpg"></Image>
                                         <TextBlock Text="Sân bay trung gian" FontWeight="Bold" Margin="10 5 10 0"/>
 
-                                        <TextBlock Text=" Thời gian dừng "  FontWeight="Bold" Margin="10 5 0 0" />
+                                        <TextBlock Text=" Thời gian dừng "  FontWeight="Bold" Margin="10 10 0 0" />
                                     </StackPanel>
                                 </Grid>
-                               
+                                <ScrollViewer Grid.Column="1">
                                 <ItemsControl Grid.Column="1" ItemsSource="{Binding IntermediaryAirport}">
+                                    
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal"></StackPanel>
@@ -2406,17 +2407,20 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border BorderBrush="Black">
-                                                <StackPanel Orientation="Vertical" Margin="10 10 0 0" HorizontalAlignment="Center">
-                                                    <Image Height="70" Width="70" Stretch="Fill" Source="/Views/pngtree-airplane-clipart-airplane-passenger-plane-png-image_2389936.jpg"></Image>
-                                                    <TextBlock Text="{Binding TenSanBay}" FontWeight="Bold" Margin="10 5 10 0" FontSize="15"/>
+                                            <Border BorderBrush="Black" BorderThickness="1" Margin="5 2 5 2">
+                                                <StackPanel Width="100" Orientation="Vertical" Margin="10 10 10 0" HorizontalAlignment="Center">
+                                              
+                                                    <Image Height="70" Width="70" Stretch="Fill" Source="/Views/pngtree-airplane-clipart-airplane-passenger-plane-png-image_2389936.jpg" VerticalAlignment="Top"></Image>
+                                                    <TextBlock Text="{Binding TenSanBay}" FontWeight="Bold" Margin="10 5 0 0" FontSize="15"/>
 
                                                     <TextBlock Text="{Binding ThoiGianDung,StringFormat='{}{0} Phút'}"  FontWeight="Bold" Margin="10 5 0 0" FontSize="15" />
+                                                    
                                                 </StackPanel>
                                             </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
+                                </ScrollViewer>
                             </Grid>
                             <Grid Grid.Row="1">
                                 <Button Width="70" Content="Back" FontWeight="Bold" Command="{Binding chooseBack_DetailFlightCommand}" Background="LightCoral" HorizontalAlignment="Left" Margin="10 0 0 0"/>
