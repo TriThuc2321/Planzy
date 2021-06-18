@@ -666,7 +666,12 @@
                                                 SelectedDate="{Binding SelectedDate_SellTicket}" TabIndex="4"
                                                 />
                                         </StackPanel>
+
                                     </Grid>
+
+
+
+
                                 </Grid>
 
                                 <Grid Grid.Column="2">
@@ -764,6 +769,7 @@
                                             Command="{Binding showAllFightsCommand_SellTicket}"
                                                 >
                                         </Button>
+
                                         <Button Content="Tiếp Tục"
                                                 Height="40"
                                                 FontSize="10"
@@ -774,11 +780,14 @@
                                                 Command="{Binding ChooseContinueButton_SellTicketCommand}"
                                                 CommandParameter="{Binding SelectedItem,ElementName=lvsBanve}"
                                                 ></Button>
+
+
+
+
                                     </DockPanel>
 
                                 </Grid>
                             </Grid>
-
                         </Grid>
                         <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}"
                               >
