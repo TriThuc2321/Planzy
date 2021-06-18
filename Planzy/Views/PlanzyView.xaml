@@ -168,15 +168,15 @@
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal" Background="White">
                                                         <Button Content=" Chi tiết " 
-                                                                    Background="Black"
-                                                                    Foreground="White"
+                                                                    Background="LightBlue"
+                                                                    
                                                              Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                                                 Command="{Binding ElementName= lvsDatve, Path= DataContext.ChooseDetailFlight}"
                                                                 CommandParameter="{Binding}"
                                                             ></Button>
                                                         <TextBlock Text=" "></TextBlock>
                                                         <TextBlock Text="{Binding MaChuyenBay}"
-                                                                       
+                                                                       Margin="0 5 0 0"
                                                                        FontSize="15"></TextBlock>
                                                         <TextBlock Text="   "></TextBlock>
 
@@ -189,7 +189,7 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding SanBayDen.TenSanBay}"></TextBlock>
+                                                        <TextBlock Text="{Binding SanBayDen.TenSanBay}"  Margin="0 5 0 0"></TextBlock>
 
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -200,7 +200,7 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding SanBayDi.TenSanBay}"></TextBlock>
+                                                        <TextBlock Text="{Binding SanBayDi.TenSanBay}"  Margin="0 5 0 0"></TextBlock>
 
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -211,7 +211,7 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding NgayBay}"></TextBlock>
+                                                        <TextBlock Text="{Binding NgayBay}"  Margin="0 5 0 0"></TextBlock>
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
@@ -221,23 +221,14 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding ThoiGianBay}"></TextBlock>
+                                                        <TextBlock Text="{Binding ThoiGianBay}"  Margin="0 5 0 0"></TextBlock>
 
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
 
-                                        <GridViewColumn Header="Số Vé Còn Lại" Width="100">
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding SoGheHang1}"></TextBlock>
-
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
+                                      
                                     </GridView>
                                 </ListView.View>
                             </ListView>
@@ -789,26 +780,7 @@
                                             <RowDefinition Height="*"></RowDefinition>
                                             <RowDefinition Height="35"></RowDefinition>
                                         </Grid.RowDefinitions>
-                                        <Label 
-                                            Grid.Row="0" 
-                                           Content="Mã chuyến bay:  "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"/>
-                                        <TextBox
-                                        Grid.Row="1"                                     
-                                        x:Name="aa"          
-                                        Height="20"
-                                        Width="100" 
-                                        Text="{Binding SearchString, Mode=TwoWay}" 
-                                        Style="{StaticResource ResourceKey=searchBox}"
-                                        VerticalContentAlignment="Bottom"
-                                        FontSize="15"
-                                        FontWeight="Bold" 
-                                            HorizontalAlignment="Left"
-                                        ToolTip="Chữ và số in hoa không dấu" 
-                                        BorderBrush="#FF5867AC">
-                                        </TextBox>
+                                      
                                     </Grid>
                                 </DockPanel>
                                 <StackPanel Grid.Row="2" Background="White"
@@ -818,7 +790,7 @@
 
                                     <Button
                                         BorderBrush="White"
-                                        Background="LightCoral"
+                                        Background="LightGreen"
                                         FontSize="10"
                                         FontWeight="Bold"
                                         Height="40"
@@ -826,7 +798,7 @@
                                          Command="{Binding ChooseChangeButtonCommand_FlightSearch}" 
                                         CommandParameter="{Binding SelectedItem, ElementName=lvsTracuu}"
                                          Content="Sửa"
-                                        Margin="0 0 10 0">
+                                        Margin="0 0 20 0">
                                     </Button>
                                     <Button
                                         BorderBrush="White"
@@ -838,8 +810,6 @@
                                          Command="{Binding searchFlightCommand}" 
                                          Content="Tìm kiếm">
                                     </Button>
-
-
                                     <Button
                                         BorderBrush="White"
                                         FontSize="10"
@@ -849,8 +819,9 @@
                                          Background="White"
                                          Command="{Binding resetCommand}" 
                                          Content="Làm mới"
-                                        Margin="10,0,0,0">
+                                        Margin="20,0,0,0">
                                     </Button>
+                                    
                                 </StackPanel>
 
                             </Grid>
@@ -868,8 +839,8 @@
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
                                                             <Button Content=" Chi tiết " 
-                                                                    Background="Black"
-                                                                    Foreground="White"
+                                                                    Background="LightBlue"
+                                                                    
                                                                 
                                                               
                                                                      Command="{Binding ElementName= lvsTracuu, Path= DataContext.ChooseDetailFlight}"
@@ -878,7 +849,7 @@
                                                             ></Button>
                                                             <TextBlock Text=" "></TextBlock>
                                                             <TextBlock Text="{Binding MaChuyenBay}"
-                                                                       
+                                                                       Margin="0 5 0 0"
                                                                        FontSize="15"></TextBlock>
                                                             <TextBlock Text="   "></TextBlock>
 
@@ -891,7 +862,7 @@
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding SanBayDen.TenSanBay}"></TextBlock>
+                                                        <TextBlock Text="{Binding SanBayDen.TenSanBay}"  Margin="0 5 0 0"></TextBlock>
 
                                                         </StackPanel>
                                                     </DataTemplate>
@@ -902,7 +873,7 @@
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding SanBayDi.TenSanBay}"></TextBlock>
+                                                        <TextBlock Text="{Binding SanBayDi.TenSanBay}"  Margin="0 5 0 0"></TextBlock>
 
                                                         </StackPanel>
                                                     </DataTemplate>
@@ -913,7 +884,7 @@
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding NgayBay}"></TextBlock>
+                                                        <TextBlock Text="{Binding NgayBay}"  Margin="0 5 0 0"></TextBlock>
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
@@ -923,23 +894,14 @@
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding ThoiGianBay}"></TextBlock>
+                                                        <TextBlock Text="{Binding ThoiGianBay}"  Margin="0 5 0 0"></TextBlock>
 
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
 
-                                            <GridViewColumn Header="Số Vé Còn Lại" Width="100">
-                                                <GridViewColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding SoGheHang1}"></TextBlock>
-
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </GridViewColumn.CellTemplate>
-                                            </GridViewColumn>
+                                        
                                         </GridView>
                                     </ListView.View>
                                 </ListView>
@@ -2001,7 +1963,7 @@
                                     Margin="10 0 0 0">
                                 </Button>
                                 <Image Grid.Column="1"
-                                    Source="/Views/pngtree-airplane-clipart-airplane-passenger-plane-png-image_2389936.jpg"
+                                    Source="/Views/logo.png"
                                        Margin="0 10 95 -10"
                                        ></Image>
                             </Grid>
@@ -2640,7 +2602,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="150"/>
-                                                        <TextBox Width="150" Text="{Binding SoLuongGheConLai }" 
+                                                        <TextBox Width="150" Text="{Binding SoLuongGheConLai,StringFormat='{}{0} Vé'}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              IsReadOnly="True"
@@ -2680,12 +2642,12 @@
                                             Orientation="Horizontal"
                                             Margin="20 5 25 10"
                                             Background="LightBlue">
-                                        <Label Content="Thời gian bay: "
+                                        <Label Content="Giá vé cơ bản: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="120"/>
-                                        <TextBox Width="150" Text="{Binding SelectedFlight.GiaVeCoBan}" 
+                                        <TextBox Width="150" Text="{Binding SelectedFlight.GiaVeCoBan, StringFormat='{}{0} VND'}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="12"
                                              IsReadOnly="True"
@@ -2732,7 +2694,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="150"/>
-                                        <TextBox Width="150" Text="{Binding SelectedFlight.ThoiGianBay}" 
+                                        <TextBox Width="150" Text="{Binding SelectedFlight.ThoiGianBay, StringFormat='{}{0} Phút'}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              IsReadOnly="True"
@@ -2863,9 +2825,9 @@
                                 </ScrollViewer>
                             </Grid>
                             <Grid Grid.Row="1">
-                                <Button Width="100" Content="Quay lại" FontWeight="Bold" Command="{Binding chooseBack_DetailFlightCommand}" Background="LightCoral" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+                                <Button Width="100" Content="Quay lại" FontWeight="Bold" Command="{Binding chooseBack_DetailFlightCommand}" Background="White" HorizontalAlignment="Left" Margin="10 0 0 0"/>
                                 <Image Source="/Views/logo.png" ></Image>
-                                <Label Content=" Thông Tin Chuyến Bay" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0 17 0 0"/>
+                                <Label Content=" Thông Tin Chuyến Bay" Foreground="Black" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0 17 0 0"/>
                                 
 
                             </Grid>
