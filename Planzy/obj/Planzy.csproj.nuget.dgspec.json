@@ -1,33 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Nhap_mon_di_dong\\Planzy\\Planzy\\Planzy.csproj": {}
+    "D:\\Github_Clone\\Planzy\\Planzy\\Planzy.csproj": {}
   },
   "projects": {
-    "D:\\Nhap_mon_di_dong\\Planzy\\Planzy\\Planzy.csproj": {
+    "D:\\Github_Clone\\Planzy\\Planzy\\Planzy.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Nhap_mon_di_dong\\Planzy\\Planzy\\Planzy.csproj",
+        "projectUniqueName": "D:\\Github_Clone\\Planzy\\Planzy\\Planzy.csproj",
         "projectName": "Planzy",
-        "projectPath": "D:\\Nhap_mon_di_dong\\Planzy\\Planzy\\Planzy.csproj",
-        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "D:\\Nhap_mon_di_dong\\Planzy\\Planzy\\obj\\",
+        "projectPath": "D:\\Github_Clone\\Planzy\\Planzy\\Planzy.csproj",
+        "packagesPath": "C:\\Users\\pvdth\\.nuget\\packages\\",
+        "outputPath": "D:\\Github_Clone\\Planzy\\Planzy\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\pvdth\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0-windows7.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://packagesource": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0-windows7.0": {
@@ -88,7 +87,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.204\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }

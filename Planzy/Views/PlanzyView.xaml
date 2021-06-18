@@ -8,8 +8,7 @@
              d:DesignHeight="1000" d:DesignWidth="1200"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:bt ="clr-namespace:Planzy.Views" 
-             xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"
-             Visibility="{Binding StateOfWindow}"
+             xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"            
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:chartTool ="clr-namespace:Planzy.Views" xmlns:sys="clr-namespace:System;assembly=System.Runtime">
     <!--d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"-->
@@ -789,26 +788,7 @@
                                             <RowDefinition Height="*"></RowDefinition>
                                             <RowDefinition Height="35"></RowDefinition>
                                         </Grid.RowDefinitions>
-                                        <Label 
-                                            Grid.Row="0" 
-                                           Content="Mã chuyến bay:  "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"/>
-                                        <TextBox
-                                        Grid.Row="1"                                     
-                                        x:Name="aa"          
-                                        Height="20"
-                                        Width="100" 
-                                        Text="{Binding SearchString, Mode=TwoWay}" 
-                                        Style="{StaticResource ResourceKey=searchBox}"
-                                        VerticalContentAlignment="Bottom"
-                                        FontSize="15"
-                                        FontWeight="Bold" 
-                                            HorizontalAlignment="Left"
-                                        ToolTip="Chữ và số in hoa không dấu" 
-                                        BorderBrush="#FF5867AC">
-                                        </TextBox>
+                                       
                                     </Grid>
                                 </DockPanel>
                                 <StackPanel Grid.Row="2" Background="White"

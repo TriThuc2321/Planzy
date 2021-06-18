@@ -7,7 +7,7 @@
         xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="600" Width="1200"
+        Title="MainWindow" Height="600" Width="1000"
         xmlns:myView ="clr-namespace:Planzy.Views" xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"
         Name="MainWindowView"
         >
