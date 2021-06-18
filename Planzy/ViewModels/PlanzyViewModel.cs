@@ -1610,6 +1610,8 @@ namespace Planzy.ViewModels
             else
             {
                 CustomMessageBox.Show("Mã Chuyến Bay đã tồn tại", "Nhắc nhở",MessageBoxButton.OK,MessageBoxImage.Warning);
+                MaChuyenBay = "";
+                IsFocusMaChuyenBay = "True";
                 //resetNhapChuyenBay();
                 return;
             }
@@ -1873,7 +1875,7 @@ namespace Planzy.ViewModels
             {
                 if (Convert.ToInt32(chiTietHangGhe.SoLuongGheConLai) < Convert.ToInt32(chiTietHangGhe.SoLuongGhe) && ChuyenBayDaChon.IsDaBay == false)
                 {
-                    CustomMessageBox.Show("Chuyến bay đã bán vé và chưa nay, không thể xóa", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    CustomMessageBox.Show("Chuyến bay đã bán vé và chưa bay, không thể xóa", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
             }
