@@ -974,7 +974,8 @@
                                              FontSize="15"
                                              FontWeight="Bold" ToolTip="Chữ và số in hoa không dấu" BorderBrush="#FF5867AC" TabIndex="0" 
                                              loc:FocusExtension.IsFocused="{Binding IsFocusMaChuyenBay}"
-                                             IsReadOnly="{Binding IsReadOnlyMaChuyenBay}"/>
+                                             
+                                             IsEnabled="{Binding IsReadOnlyMaChuyenBay}"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="0" Grid.Column="2" 
                                             Orientation="Horizontal">
