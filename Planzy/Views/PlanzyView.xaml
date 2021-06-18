@@ -167,7 +167,7 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal" Background="White">
-                                                        <Button Content=" Show " 
+                                                        <Button Content=" Chi tiết " 
                                                                     Background="Black"
                                                                     Foreground="White"
                                                              Style="{StaticResource MaterialDesignRaisedAccentButton}"
@@ -244,7 +244,7 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
-                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="30"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="1" Grid.Row="2">
@@ -435,9 +435,11 @@
                                                 Content="Tìm Chuyến Bay"
                                                 Height="40"
                                             FontSize="10"
+                                            
                                                 Width="120"
+                                            FontWeight="Bold"
                                             Background="White"
-                                            Margin=" 20 5 5 5"
+                                            Margin=" 10 5 5 5"
                                             Command="{Binding searchFlightCommand_FlightBooking}"
                                                 >
                                         </Button>
@@ -446,9 +448,10 @@
                                                 Content="Xem Tất Cả"
                                                 Height="40"
                                             FontSize="10"
+                                            FontWeight="Bold"
                                             Background="White"
                                                 Width="90"
-                                            Margin=" 10 5 0 5"
+                                            Margin=" 10 5 5 5"
                                             Command="{Binding showAllFightsCommand_FlightBooking}"
                                                 >
                                         </Button>
@@ -457,9 +460,9 @@
                                                 Height="40"
                                                 FontSize="10"
                                                 Width="90"
-                                                HorizontalAlignment="Right"
-                                                Background="White"
-                                                Margin="5 5 10 5"
+                                                FontWeight="Bold"
+                                                Background="LightGreen"
+                                                Margin="5 5 5 5"
                                                 Command="{Binding ChooseContinueButtonCommand}"
                                                 CommandParameter="{Binding SelectedItem,ElementName=lvsDatve}"
                                                 ></Button>
@@ -815,7 +818,9 @@
 
                                     <Button
                                         BorderBrush="White"
+                                        Background="LightCoral"
                                         FontSize="10"
+                                        FontWeight="Bold"
                                         Height="40"
                                         Width="100"
                                          Command="{Binding ChooseChangeButtonCommand_FlightSearch}" 
@@ -827,9 +832,11 @@
                                         BorderBrush="White"
                                         FontSize="10"
                                         Height="40"
+                                        FontWeight="Bold"
+                                         Background="White"
                                         Width="100"
                                          Command="{Binding searchFlightCommand}" 
-                                         Content="Search">
+                                         Content="Tìm kiếm">
                                     </Button>
 
 
@@ -838,8 +845,10 @@
                                         FontSize="10"
                                         Height="40"
                                         Width="100"
+                                        FontWeight="Bold"
+                                         Background="White"
                                          Command="{Binding resetCommand}" 
-                                         Content="Reset"
+                                         Content="Làm mới"
                                         Margin="10,0,0,0">
                                     </Button>
                                 </StackPanel>
@@ -858,7 +867,7 @@
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <Button Content=" Show " 
+                                                            <Button Content=" Chi tiết " 
                                                                     Background="Black"
                                                                     Foreground="White"
                                                                 
@@ -2486,7 +2495,7 @@
                             </Grid>
 
                         </Grid>
-                        <Grid x:Name ="gr_Vedadat" Background="White" Visibility="Hidden">
+                        <Grid x:Name ="gr_Vedadat" Background="White" Visibility="{Binding IsDuocChon7.NewVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="60"></RowDefinition>
                                 <RowDefinition ></RowDefinition>
@@ -2838,7 +2847,7 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border BorderBrush="Black" BorderThickness="1" Margin="5 2 5 2">
+                                            <Border BorderBrush="CadetBlue" BorderThickness="1" Margin="5 2 5 2">
                                                 <StackPanel Width="100" Orientation="Vertical" Margin="10 10 10 0" HorizontalAlignment="Center">
                                               
                                                     <Image Height="70" Width="70" Stretch="Fill" Source="/Views/pngtree-airplane-clipart-airplane-passenger-plane-png-image_2389936.jpg" VerticalAlignment="Top"></Image>
@@ -2854,8 +2863,9 @@
                                 </ScrollViewer>
                             </Grid>
                             <Grid Grid.Row="1">
-                                <Button Width="70" Content="Back" FontWeight="Bold" Command="{Binding chooseBack_DetailFlightCommand}" Background="LightCoral" HorizontalAlignment="Left" Margin="10 0 0 0"/>
-                                <Label Content=" Thông Tin Chuyến Bay" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0 10 0 0"/>
+                                <Button Width="100" Content="Quay lại" FontWeight="Bold" Command="{Binding chooseBack_DetailFlightCommand}" Background="LightCoral" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+                                <Image Source="/Views/logo.png" ></Image>
+                                <Label Content=" Thông Tin Chuyến Bay" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0 17 0 0"/>
                                 
 
                             </Grid>
