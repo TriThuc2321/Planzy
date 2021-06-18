@@ -40,6 +40,14 @@
         "net5.0-windows7.0": {
           "targetAlias": "net5.0-windows",
           "dependencies": {
+            "Caliburn.Micro": {
+              "target": "Package",
+              "version": "[4.0.173, )"
+            },
+            "LiveCharts.Wpf": {
+              "target": "Package",
+              "version": "[0.9.7, )"
+            },
             "MaterialDesignThemes": {
               "target": "Package",
               "version": "[4.0.0, )"

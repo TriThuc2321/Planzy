@@ -18,10 +18,10 @@ namespace Planzy.Models.LoaiHangGheModel
         {
             LoaiHangGhesList = new List<LoaiHangGhe>();
             LoadSQL();
-            while(LoaiHangGhesList.Count != 8)
+            while (LoaiHangGhesList.Count != 8)
             {
                 LoaiHangGhesList.Add(new LoaiHangGhe());
-            }    
+            }
         }    
         public List<LoaiHangGhe> GetAll()
         {
@@ -53,7 +53,7 @@ namespace Planzy.Models.LoaiHangGheModel
                     }
                 }
 
-                var newList = LoaiHangGhesList.OrderByDescending(e => e.TyLe);
+                var newList = LoaiHangGhesList.OrderByDescending(e =>Convert.ToInt32( e.TyLe));
                 LoaiHangGhesList = new List<LoaiHangGhe>(newList);
                 result = true;
             }

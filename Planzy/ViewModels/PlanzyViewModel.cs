@@ -28,10 +28,18 @@ using FootballFieldManagement.Views;
 using System.Windows;
 using Planzy.Models.ChiTietHangGheModel;
 using System.Timers;
+using LiveCharts;
+using LiveCharts.Configurations;
+using Planzy.Models.DoanhThuThangModel;
+using Planzy.Models.DoanhThuModel;
+using System.Windows.Media;
+using Planzy.Models.Util;
+using System.Printing;
 using Planzy.Views;
 using System.Windows.Threading;
 using System.Net;
 using Planzy.Models.BanVe;
+using Caliburn.Micro;
 
 namespace Planzy.ViewModels
 {
@@ -52,7 +60,105 @@ namespace Planzy.ViewModels
         ChuyenBayServices chuyenBayServices;
         LoaiHangGheServices loaiHangGheServices;
         ChiTietHangGheServices chiTietHangGheServices;
+        #region Khai báo cho biểu đồ
+        private DispatcherTimer chuyenBayTimer;
 
+        public void denGioBay(object sender, EventArgs e)
+        {
+            chuyenBayTimer.Stop();
+            foreach(ChuyenBay chuyenBay in ChuyenBaysList)
+            {
+                if (chuyenBay.NgayBay == DateTime.Now)
+                {
+                    if(chuyenBay.GioBay.Hour < DateTime.Now.Hour)
+                    {
+                        if (chuyenBay.IsDaBay == false)
+                        {
+                            chuyenBay.IsDaBay = true;
+                            chuyenBayServices.SuaChuyenBaySql(chuyenBay);//cập nhật sql
+                                                                         //tính toán lại báo cáo
+                            if (DanhSachNamDaChon == chuyenBay.NgayBay.Year.ToString())
+                            {
+                                doanhThuThangServices.ThemDoanhThu(chuyenBay);
+                            }
+                            else
+                            {
+                                DoanhThuThangServices newDT = new DoanhThuThangServices(chuyenBay.NgayBay.Year.ToString());
+                                newDT.ThemDoanhThu(chuyenBay);
+                            }
+                        }
+                    }  
+                    else if (chuyenBay.GioBay.Hour == DateTime.Now.Hour)
+                    {
+                        if (chuyenBay.GioBay.Minute <= DateTime.Now.Minute)
+                        {
+                            if (chuyenBay.IsDaBay == false)
+                            {
+                                chuyenBay.IsDaBay = true;
+                                chuyenBayServices.SuaChuyenBaySql(chuyenBay);//cập nhật sql
+                                                                             //tính toán lại báo cáo
+                                if (DanhSachNamDaChon == chuyenBay.NgayBay.Year.ToString())
+                                {
+                                    doanhThuThangServices.ThemDoanhThu(chuyenBay);
+                                }
+                                else
+                                {
+                                    DoanhThuThangServices newDT = new DoanhThuThangServices(chuyenBay.NgayBay.Year.ToString());
+                                    newDT.ThemDoanhThu(chuyenBay);
+                                }
+                            }
+                        }    
+                    }    
+                }
+                else if (chuyenBay.NgayBay < DateTime.Now)
+                {
+                    if (chuyenBay.IsDaBay == false)
+                    {
+                        chuyenBay.IsDaBay = true;
+                        chuyenBayServices.SuaChuyenBaySql(chuyenBay);//cập nhật sql
+                                                                     //tính toán lại báo cáo
+                        if (DanhSachNamDaChon == chuyenBay.NgayBay.Year.ToString())
+                        {
+                            doanhThuThangServices.ThemDoanhThu(chuyenBay);
+                        }
+                        else
+                        {
+                            DoanhThuThangServices newDT = new DoanhThuThangServices(chuyenBay.NgayBay.Year.ToString());
+                            newDT.ThemDoanhThu(chuyenBay);
+                        }
+                    }
+                }    
+
+            }
+            chuyenBayTimer.Start();
+        }
+        private DoanhThuThangServices doanhThuThangServices;
+        private ChartValues<DoanhThuThang> doanhThuThangs;
+
+        public ChartValues<DoanhThuThang> DoanhThuThangs
+        {
+            get { return doanhThuThangs; }
+            set { doanhThuThangs = value; OnPropertyChanged("DoanhThuThangs"); }
+        }
+        private List<string> LabelThangDaChons;
+        public List<string> labelThangDaChons
+        {
+            get { return LabelThangDaChons; }
+            set { LabelThangDaChons = value; OnPropertyChanged("labelThangDaChons"); }
+        }
+        private ChartValues<DoanhThu> DoanhThuThangDaChon;
+        public ChartValues<DoanhThu> doanhThuThangDaChon
+        {
+            get { return DoanhThuThangDaChon; }
+            set { DoanhThuThangDaChon = value; OnPropertyChanged("doanhThuThangDaChon"); }
+        }
+        private List<string> LabelThangDaChon;
+        public List<string> labelThangDaChon 
+        {
+            get { return LabelThangDaChon; } 
+            set { LabelThangDaChon = value; OnPropertyChanged("labelThangDaChon"); }
+        }
+        #endregion
         public PlanzyViewModel(string gmailUser, Window parentWindow)
         {
 
@@ -60,7 +166,38 @@ namespace Planzy.ViewModels
             sanBayTrungGianService = new SanBayTrungGianService();
             loaiHangGheServices = new LoaiHangGheServices();
             chiTietHangGheServices = new ChiTietHangGheServices();
-            chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService, sanBayServices, chiTietHangGheServices);
+            chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService,sanBayServices,chiTietHangGheServices);
+
+            #region biểu đồ
+            //doanhThuThangServices = new DoanhThuThangServices(DanhSachNamDaChon,chuyenBayServices);
+            doanhThuThangServices = new DoanhThuThangServices(DanhSachNamDaChon);
+            DoanhThuThangs = doanhThuThangServices.doanhThuThangs;
+            labelThangDaChons = doanhThuThangServices.labels;
+
+            doanhThuThangDaChon = doanhThuThangServices.doanhThuThangs[0].doanhThuServices.doanhThus;
+            labelThangDaChon = doanhThuThangServices.doanhThuThangs[0].doanhThuServices.labels ;
+
+            //map cho doanh thu nam
+            var DoanhThuThangMapper = Mappers.Xy<DoanhThuThang>()
+                .X((value, index) => index)
+                .Y(value => Convert.ToInt32(value.DoanhThuTrieuDong));
+            Charting.For<DoanhThuThang>(DoanhThuThangMapper);
+            //map cho doanh thu thang
+            var DoanhThuMapper = Mappers.Xy<DoanhThu>()
+                .X((value, index) => index) 
+                .Y(value => Convert.ToInt32(value.DoanhThuTrieuDong));
+            Charting.For<DoanhThu>(DoanhThuMapper);
+
+            reviewBieuDoCommand = new RelayCommand(reviewBieuDo);
+            troVeBieuDoCommand = new RelayCommand(troVeBieuDo);
+            xuatPDFVisualCommand = new RelayCommand(xuatPDFVisual);
+
+            chuyenBayTimer = new DispatcherTimer();
+            chuyenBayTimer.Interval = TimeSpan.FromSeconds(2);
+            chuyenBayTimer.Tick += denGioBay;
+            chuyenBayTimer.Start(); 
+            #endregion
+
             ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
 
 
@@ -124,7 +261,10 @@ namespace Planzy.ViewModels
             chooseBookedSticketCommand = new RelayCommand(Button_BookedSticket);
             chooseChangeButtonCommand_FlightSearch = new RelayCommand2<object>((p) => p != null, ButtonChange);
             chooseDeleteButtonCommand_BookedSticket = new RelayCommand2<object>(CheckSelected, ButtonDelete_BookedSticket);
-            chooseBack_BookedStickedComamnd = new RelayCommand(ButtonBack_BookedSticket);
+            chooseDetailFlight = new RelayCommand2<object>(CheckSelected_DetailFlight, ButtonDetailFlight);
+
+            chooseBack_BookedStickedComamnd = new RelayCommand(ButtonBack_BookedSticket); 
+            chooseBack_DetailFlightCommand = new RelayCommand(ButtonBack_DetailFlight);
 
 
           
@@ -134,7 +274,7 @@ namespace Planzy.ViewModels
             timer.Start();
         }
 
-     
+       
 
         public RelayCommand SelectAllCommand { get; private set; }
         public RelayCommand SelectAllCommand2 { get; private set; }
@@ -604,7 +744,7 @@ namespace Planzy.ViewModels
                 #region Kiểm tra quy định
                 if (SanBayTrungGiansList != null && SanBayTrungGiansList.Count == Convert.ToInt32(ThamSoQuyDinh.SO_SAN_BAY_TRUNG_GIAN_TOI_DA))
                 {
-                    CustomMessageBox.Show("Tối đa " + ThamSoQuyDinh.SO_SAN_BAY_TRUNG_GIAN_TOI_DA + " sân bay trung gian", "Nhắc nhở");
+                    CustomMessageBox.Show("Tối đa " + ThamSoQuyDinh.SO_SAN_BAY_TRUNG_GIAN_TOI_DA + " sân bay trung gian", "Nhắc nhở",MessageBoxButton.OK,MessageBoxImage.Warning);
                     return;
                 }
                 #endregion
@@ -625,7 +765,7 @@ namespace Planzy.ViewModels
         {
             if (ThoiGianDungSapThem == null || ThoiGianDungSapThem =="" )
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                 IsFocusThoiGianDung = "True";
                 return;
             }    
@@ -936,7 +1076,7 @@ namespace Planzy.ViewModels
                         maChuyenBay = value.ToUpper();
                     else
                     {
-                        CustomMessageBox.Show("Mã Chuyến Bay không được chứa ký tự đặc biệt", "Nhắc nhở");
+                        CustomMessageBox.Show("Mã Chuyến Bay không được chứa ký tự đặc biệt", "Nhắc nhở",MessageBoxButton.OK,MessageBoxImage.Warning);
                     }    
                 }
                 else
@@ -954,7 +1094,7 @@ namespace Planzy.ViewModels
             set { blackoutCollection = value; OnPropertyChanged("BlackoutCollection"); }
         }
 
-        private DateTime ngayBay = DateTime.UtcNow.AddDays(1);
+        private DateTime ngayBay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 0, 0, 0);
 
         public DateTime NgayBay
         {
@@ -976,7 +1116,7 @@ namespace Planzy.ViewModels
                     }
                     else
                     {
-                        CustomMessageBox.Show("Giá vé phải là số nguyên dương", "Nhắc nhở");
+                        CustomMessageBox.Show("Giá Vé phải là số nguyên dương", "Nhắc nhở",MessageBoxButton.OK,MessageBoxImage.Warning);
                     }
                 }
                 else
@@ -1007,7 +1147,7 @@ namespace Planzy.ViewModels
                         #region Kiểm tra quy định
                         if(Convert.ToInt32(value) < Convert.ToInt32(ThamSoQuyDinh.THOI_GIAN_BAY_TOI_THIEU))
                         {
-                            CustomMessageBox.Show("Thời gian bay tối thiểu là " + ThamSoQuyDinh.THOI_GIAN_BAY_TOI_THIEU + " phút", "Nhắc nhở");
+                            CustomMessageBox.Show("Thời Gian Bay tối thiểu là " + ThamSoQuyDinh.THOI_GIAN_BAY_TOI_THIEU + " phút", "Nhắc nhở",MessageBoxButton.OK,MessageBoxImage.Warning);
                         }
                         else
                             thoiGianBay = value;
@@ -1015,7 +1155,7 @@ namespace Planzy.ViewModels
                     }    
                     else
                     {
-                        CustomMessageBox.Show("Giá Vé phải là số nguyên dương", "Nhắc nhở");
+                        CustomMessageBox.Show("Thời Gian Bay phải là số nguyên dương", "Nhắc nhở",MessageBoxButton.OK,MessageBoxImage.Warning);
                     }    
                 }
                 else
@@ -1048,7 +1188,7 @@ namespace Planzy.ViewModels
                     }
                     else
                     {
-                        CustomMessageBox.Show("Thời Gian Dừng phải là số nguyên dương", "Nhắc nhở");
+                        CustomMessageBox.Show("Số ghế là số nguyên dương", "Nhắc nhở", MessageBoxButton.OK,MessageBoxImage.Warning);
                     }
                 }
                 else
@@ -1062,21 +1202,69 @@ namespace Planzy.ViewModels
         public string SoGheHang2
         {
             get { return soGheHang2; }
-            set { soGheHang2 = value; OnPropertyChanged("SoGheHang2"); }
+            set 
+            {
+                if (value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        #region Kiểm tra quy định
+                        soGheHang2 = value;
+                        #endregion
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Số ghế là số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
+                else
+                soGheHang2 = value; OnPropertyChanged("SoGheHang2"); }
         }
         private string soGheHang3;
 
         public string SoGheHang3
         {
             get { return soGheHang3; }
-            set { soGheHang3 = value; OnPropertyChanged("SoGheHang3"); }
+            set 
+            {
+                if (value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        #region Kiểm tra quy định
+                        soGheHang3 = value;
+                        #endregion
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Số ghế là số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
+                else
+                soGheHang3 = value; OnPropertyChanged("SoGheHang3"); }
         }
         private string soGheHang4;
 
         public string SoGheHang4
         {
             get { return soGheHang4; }
-            set { soGheHang4 = value; OnPropertyChanged("SoGheHang4"); }
+            set 
+            {
+                if (value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        #region Kiểm tra quy định
+                        soGheHang4 = value;
+                        #endregion
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Số ghế là số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
+                else
+                soGheHang4 = value; OnPropertyChanged("SoGheHang4"); }
         }
 
         private string soGheHang5;
@@ -1084,7 +1272,23 @@ namespace Planzy.ViewModels
         public string SoGheHang5
         {
             get { return soGheHang5; }
-            set { soGheHang5 = value; OnPropertyChanged("SoGheHang5"); }
+            set 
+            {
+                if (value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        #region Kiểm tra quy định
+                        soGheHang5 = value;
+                        #endregion
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Số ghế là số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
+                else
+                soGheHang5 = value; OnPropertyChanged("SoGheHang5"); }
         }
 
         private string soGheHang6;
@@ -1092,7 +1296,23 @@ namespace Planzy.ViewModels
         public string SoGheHang6
         {
             get { return soGheHang6; }
-            set { soGheHang6 = value; OnPropertyChanged("SoGheHang6"); }
+            set 
+            {
+                if (value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        #region Kiểm tra quy định
+                        soGheHang6 = value;
+                        #endregion
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Số ghế là số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
+                else
+                soGheHang6 = value; OnPropertyChanged("SoGheHang6"); }
         }
 
         private string soGheHang7;
@@ -1100,7 +1320,24 @@ namespace Planzy.ViewModels
         public string SoGheHang7
         {
             get { return soGheHang7; }
-            set { soGheHang7 = value; OnPropertyChanged("SoGheHang7"); }
+            set 
+            {
+
+                if (value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        #region Kiểm tra quy định
+                        soGheHang7 = value;
+                        #endregion
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Số ghế là số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
+                else
+                    soGheHang7 = value; OnPropertyChanged("SoGheHang7"); }
         }
 
         private string soGheHang8;
@@ -1108,7 +1345,23 @@ namespace Planzy.ViewModels
         public string SoGheHang8
         {
             get { return soGheHang8; }
-            set { soGheHang8 = value; OnPropertyChanged("SoGheHang8"); }
+            set 
+            {
+                if (value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        #region Kiểm tra quy định
+                        soGheHang1 = value;
+                        #endregion
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Số ghế là số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
+                else
+                soGheHang8 = value; OnPropertyChanged("SoGheHang8"); }
         }
 
         private bool isDaBay;
@@ -1218,7 +1471,7 @@ namespace Planzy.ViewModels
             get { return isVisibleHuyThaoTac; }
             set { isVisibleHuyThaoTac = value; OnPropertyChanged("IsVisibleHuyThaoTac"); }
         }
-        private string isReadOnlyMaChuyenBay = "False";
+        private string isReadOnlyMaChuyenBay = "True";
 
         public string IsReadOnlyMaChuyenBay
         {
@@ -1263,91 +1516,91 @@ namespace Planzy.ViewModels
             #region Bắt ex
             if (MaChuyenBay == "" || MaChuyenBay == null)
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK,MessageBoxImage.Warning);
                 IsFocusMaChuyenBay = "True";
                 return;
             } 
 
             if (GiaVeCoBan == "" || GiaVeCoBan ==null)
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                 IsFocusGiaChuyenBay = "True";
                 return;
             }
 
             if (ThoiGianBay == "" || ThoiGianBay == null)
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                 IsFocusThoiGianBay = "True";
                 return;
             }
 
             if (SanBayDiDaChon == null)
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                 IsFocusSanBayDi = "True";
                 return;
             }
 
             if (SanBayDenDaChon == null)
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                 IsFocusSanBayDen = "True";
                 return;
             }
 
-            if ((SoGheHang1 == null || SoGheHang1 == "") && ChuyenBayDaChon.SoLoaiHangGhe == 1)
+            if ((SoGheHang1 == null || SoGheHang1 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) == 1)
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                IsFocusSoGheHang1 = "True";
+                return;
+            }
+
+            if ((SoGheHang2 == null || SoGheHang2 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 1)
+            {
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                 IsFocusSoGheHang2 = "True";
                 return;
             }
 
-            if ((SoGheHang2 == null || SoGheHang2 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 1)
+            if ((SoGheHang3 == null || SoGheHang3 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 2)
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
-                IsFocusSoGheHang2 = "True";
-                return;
-            }
-
-            if ((SoGheHang3 == null || SoGheHang3 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 2)
-            {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                 IsFocusSoGheHang3 = "True";
                 return;
             }
 
-            if ((SoGheHang4 == null || SoGheHang4 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 3)
+            if ((SoGheHang4 == null || SoGheHang4 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 3)
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                 IsFocusSoGheHang4 = "True";
                 return;
             }
 
-            if ((SoGheHang5 == null || SoGheHang5 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 4)
+            if ((SoGheHang5 == null || SoGheHang5 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 4)
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                 IsFocusSoGheHang5 = "True";
                 return;
             }
 
-            if ((SoGheHang6 == null || SoGheHang6 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 5)
+            if ((SoGheHang6 == null || SoGheHang6 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 5)
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                 IsFocusSoGheHang6 = "True";
                 return;
             }
 
-            if ((SoGheHang7 == null || SoGheHang7 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 6)
+            if ((SoGheHang7 == null || SoGheHang7 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 6)
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                 IsFocusSoGheHang6 = "True";
                 return;
             }
 
-            if ((SoGheHang8 == null || SoGheHang8 == "") && ChuyenBayDaChon.SoLoaiHangGhe > 7)
+            if ((SoGheHang8 == null || SoGheHang8 == "") && Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE) > 7)
             {
-                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở");
+                CustomMessageBox.Show("Vui lòng điền đầy đủ", "Nhắc Nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                 IsFocusSoGheHang8 = "True";
                 return;
             }
@@ -1359,20 +1612,23 @@ namespace Planzy.ViewModels
             ChuyenBayHienTai.GiaVeCoBan = GiaVeCoBan;
             ChuyenBayHienTai.GioBay = GioBay;
             ChuyenBayHienTai.NgayBay = NgayBay;
+            ChuyenBayHienTai.NgayBay = ChuyenBayHienTai.NgayBay.AddHours(GioBay.Hour);
+            ChuyenBayHienTai.NgayBay = ChuyenBayHienTai.NgayBay.AddMinutes(GioBay.Minute);
             ChuyenBayHienTai.ThoiGianBay = ThoiGianBay;
             ChuyenBayHienTai.SoLoaiHangGhe = Convert.ToInt32(ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE);
+            
             for(int i = 0;i<ChuyenBayHienTai.SoLoaiHangGhe; i++)
             {
                 switch(i)
                 {
-                    case 0: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang1));break;
-                    case 1: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang2));break;
-                    case 2: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang3)); break;
-                    case 3: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang4)); break;
-                    case 4: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang5)); break;
-                    case 5: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang6)); break;
-                    case 6: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang7)); break;
-                    default : ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang8)); break;
+                    case 0: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang1, loaiHangGhesList[i].TenLoaiHangGhe,loaiHangGhesList[i].TyLe));break;
+                    case 1: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang2, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe));break;
+                    case 2: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang3, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe)); break;
+                    case 3: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang4, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe)); break;
+                    case 4: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang5, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe)); break;
+                    case 5: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang6, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe)); break;
+                    case 6: ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang7, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe)); break;
+                    default : ChiTietHangGhesList.Add(new ChiTietHangGhe(ChuyenBayHienTai.MaChuyenBay, loaiHangGhesList[i].MaLoaiHangGhe, SoGheHang8, loaiHangGhesList[i].TenLoaiHangGhe, loaiHangGhesList[i].TyLe)); break;
                 }
             }
             ChuyenBayHienTai.ChiTietHangGhesList = ChiTietHangGhesList;
@@ -1382,7 +1638,9 @@ namespace Planzy.ViewModels
                 ChuyenBaysList.Add(ChuyenBayHienTai);
             else
             {
-                CustomMessageBox.Show("Mã Chuyến Bay đã tồn tại", "Nhắc nhở");
+                CustomMessageBox.Show("Mã Chuyến Bay đã tồn tại", "Nhắc nhở",MessageBoxButton.OK,MessageBoxImage.Warning);
+                MaChuyenBay = "";
+                IsFocusMaChuyenBay = "True";
                 //resetNhapChuyenBay();
                 return;
             }
@@ -1391,7 +1649,8 @@ namespace Planzy.ViewModels
             #endregion
 
             ChuyenBayHienTai = new ChuyenBay();
-                 resetNhapChuyenBay();            
+                 resetNhapChuyenBay();
+            CustomMessageBox.Show("Nhận lịch bay thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
         private ObservableCollection<SanBayTrungGian> sanBayTrungGiansListCu;
 
@@ -1400,7 +1659,8 @@ namespace Planzy.ViewModels
             get { return sanBayTrungGiansListCu; }
             set { sanBayTrungGiansListCu = value; OnPropertyChanged("SanBayTrungGiansListCu"); }
         }
-        private bool isDangSua;
+        private bool isDangSua = false;
+        private string maChuyenBayDaChonTrongList;
         public void suaChuyenBay()
         {
             //chuyến bay đã bán vé không thể chỉnh sửa
@@ -1408,13 +1668,15 @@ namespace Planzy.ViewModels
             {
                 if (Convert.ToInt32(chiTietHangGhe.SoLuongGheConLai) < Convert.ToInt32(chiTietHangGhe.SoLuongGhe))
                 {
-                    CustomMessageBox.Show("Chuyến bay đã bán vé, không thể sửa chữa", "Nhắc nhở");
+                    CustomMessageBox.Show("Chuyến bay đã bán vé, không thể sửa chữa", "Nhắc nhở",MessageBoxButton.OK,MessageBoxImage.Warning);
                     return;
                 }    
             }    
             LoadUIHangGheTheoChuyenBay(ChuyenBayDaChon.SoLoaiHangGhe.ToString());
+            // kiểm tra rằng chuyến bay đang sửa chửa để hiện thông báo
+            maChuyenBayDaChonTrongList = ChuyenBayDaChon.MaChuyenBay;
             isDangSua = true;
-            IsReadOnlyMaChuyenBay = "True";
+            IsReadOnlyMaChuyenBay = "False";
             IsVisibleLuuChuyenBay = "Visible";
             IsVisibleSuaChuyenBay = "Hidden";
             IsVisibleXoaChuyenBay = "Hidden";
@@ -1541,15 +1803,21 @@ namespace Planzy.ViewModels
                 return;
             }
             #endregion
-
+            foreach(ChuyenBay chuyenBay in ChuyenBaysList)
+            {
+                if (chuyenBay.MaChuyenBay == maChuyenBayDaChonTrongList)
+                    ChuyenBayDaChon = chuyenBay;
+            }    
             string maChuyenBayCu = ChuyenBayDaChon.MaChuyenBay;
             if (maChuyenBayCu == MaChuyenBay)
             {
-                IsReadOnlyMaChuyenBay = "False";
+                IsReadOnlyMaChuyenBay = "True";
 
                 ChuyenBayDaChon.GiaVeCoBan = GiaVeCoBan;
                 ChuyenBayDaChon.NgayBay = NgayBay;
                 ChuyenBayDaChon.GioBay = GioBay;
+                ChuyenBayHienTai.NgayBay = ChuyenBayHienTai.NgayBay.AddHours(GioBay.Hour);
+                ChuyenBayHienTai.NgayBay = ChuyenBayHienTai.NgayBay.AddMinutes(GioBay.Minute);
                 ChuyenBayDaChon.ThoiGianBay = ThoiGianBay;
                 ChuyenBayDaChon.SanBayDi = SanBayDiDaChon;
                 ChuyenBayDaChon.SanBayDen = SanBayDenDaChon;
@@ -1586,6 +1854,8 @@ namespace Planzy.ViewModels
                 chiTietHangGheServices.Delete(MaChuyenBay);
                 chiTietHangGheServices.ThemListChiTietHangGhe(ChuyenBayDaChon.ChiTietHangGhesList);
                 #endregion
+
+                CustomMessageBox.Show("Lưu thành công", "Thông báo", System.Windows.MessageBoxButton.OK, MessageBoxImage.Asterisk);
             }
             //else if (chuyenBayServices.IsEditable(MaChuyenBay))
             //{
@@ -1629,7 +1899,15 @@ namespace Planzy.ViewModels
         }
         private void xoaChuyenBay()
         {
-            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn xóa", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel);
+            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn xóa", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            foreach (ChiTietHangGhe chiTietHangGhe in ChuyenBayDaChon.ChiTietHangGhesList)
+            {
+                if (Convert.ToInt32(chiTietHangGhe.SoLuongGheConLai) < Convert.ToInt32(chiTietHangGhe.SoLuongGhe) && ChuyenBayDaChon.IsDaBay == false)
+                {
+                    CustomMessageBox.Show("Chuyến bay đã bán vé và chưa bay, không thể xóa", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            }
             if (rs == MessageBoxResult.OK && chuyenBayServices.Delete(ChuyenBayDaChon.MaChuyenBay, sanBayTrungGianService,chiTietHangGheServices))
             {
                 ChuyenBaysList.Remove(ChuyenBayDaChon);
@@ -1640,8 +1918,8 @@ namespace Planzy.ViewModels
         {
             SanBayDenDaChon = null;
             SanBayDiDaChon = null;
-            SanBayTrungGiansList = null;
-            ChiTietHangGhesList = null;
+            SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>();
+            ChiTietHangGhesList = new List<ChiTietHangGhe>();
             MaChuyenBay = null;
             GiaVeCoBan = null;
             GioBay = new DateTime(1, 1, 1, 0, 0, 0);
@@ -1658,14 +1936,16 @@ namespace Planzy.ViewModels
         }
         public void huyThemVaSuaChuyenBay()
         {
-            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn hủy", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel);
+            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn hủy", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel,MessageBoxImage.Warning);
             if (rs == MessageBoxResult.OK)
             {
                 if (isDangSua)
                 {
                     ChuyenBayDaChon.SanBayTrungGian = SanBayTrungGiansListCu;
                     isDangSua = false;
+                    IsReadOnlyMaChuyenBay = "True";
                 }
+                LoadUIHangGheTheoQuyDinh();
                 IsVisibleNhanLichChuyenBay = "Visible";
                 IsVisibleSuaChuyenBay = "Hidden";
                 IsVisibleLuuChuyenBay = "Hidden";
@@ -2101,6 +2381,7 @@ namespace Planzy.ViewModels
             {
                 selectedFlight = value;
                 DateofSelectedFlight = value.NgayBay.GetDateTimeFormats();
+               
                 OnPropertyChanged("SelectedFlight");
             }
         }
@@ -2230,6 +2511,7 @@ namespace Planzy.ViewModels
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
             IsDuocChon6 = KhongDuocChon;
+            IsDetailFlight = KhongDuocChon;
 
             ListSticketType.Clear();
             hashtable_AmountSticketType.Clear(); // Dictionary from Name to Amount
@@ -2420,6 +2702,17 @@ namespace Planzy.ViewModels
             if (selectedFlightToChange != null || selectedFlightToChange.IsDaBay == false)
             {
                 MessageBox.Show("Sửa đi thằng lồn!", "Thông báo", MessageBoxButton.OK);
+                Button4();
+                foreach(ChuyenBay chuyenBay in ChuyenBaysList)
+                {
+                    if (chuyenBay.MaChuyenBay == selectedFlightToChange.MaChuyenBay)
+                    {
+                        chuyenBayDaChon = chuyenBay;
+                    }    
+                }
+                suaChuyenBay();
+                if (isDangSua == false)
+                    Button3();
             }        
             else
             {
@@ -2446,6 +2739,7 @@ namespace Planzy.ViewModels
             IsDuocChon7 = DuocChon;
         }
         public RelayCommand chooseBack_BookedStickedComamnd { get; private set; }
+       
         private void ButtonBack_BookedSticket(object obj)
         {
             IsDuocChon1 = KhongDuocChon;
@@ -2506,6 +2800,125 @@ namespace Planzy.ViewModels
            
            
 
+        }
+
+        #endregion
+
+        #region Flight Detail
+
+        private ButtonDuocChon isDetailFlight = new ButtonDuocChon(false);
+
+        public ButtonDuocChon IsDetailFlight
+        {
+            get { return isDetailFlight; }
+            set { isDetailFlight = value; OnPropertyChanged("IsDetailFlight"); }
+        }
+        public void ButtonDetailFlight()
+        {
+            IsDetailFlight = DuocChon;
+            IsContinueButton = KhongDuocChon;
+            IsDuocChon1 = DuocChon;           
+            IsDuocChon2 = KhongDuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
+            IsDuocChon7 = KhongDuocChon;
+        }
+        private ButtonDuocChon isBackButton_DetailFlight= new ButtonDuocChon(false);
+
+        public ButtonDuocChon IsBackButton_DetailFlight
+        {
+            get { return isBackButton_DetailFlight; }
+            set { isBackButton_DetailFlight = value; OnPropertyChanged("IsBackButton_DetailFlight"); }
+        }
+        public RelayCommand chooseBack_DetailFlightCommand { get; private set; }
+        public void ButtonBack_DetailFlight()
+        {
+            if (IsDuocChon3.NewVisibility == "Visible")
+            {
+                IsContinueButton = KhongDuocChon;
+                IsDuocChon1 = KhongDuocChon;
+                IsDetailFlight = KhongDuocChon;
+                IsDuocChon2 = KhongDuocChon;
+                IsDuocChon3 = DuocChon;
+                IsDuocChon4 = KhongDuocChon;
+                IsDuocChon5 = KhongDuocChon;
+                IsDuocChon6 = KhongDuocChon;
+                IsDuocChon7 = KhongDuocChon;
+            }
+            else
+            {
+                IsContinueButton = KhongDuocChon;
+                IsDuocChon1 = DuocChon;
+                IsDetailFlight = KhongDuocChon;
+                IsDuocChon2 = KhongDuocChon;
+                IsDuocChon3 = KhongDuocChon;
+                IsDuocChon4 = KhongDuocChon;
+                IsDuocChon5 = KhongDuocChon;
+                IsDuocChon6 = KhongDuocChon;
+                IsDuocChon7 = KhongDuocChon;
+            }
+        }
+
+
+        public BindableCollection<SanBayTrungGian> intermediaryAirport;
+        public BindableCollection<SanBayTrungGian> IntermediaryAirport
+        {
+            get { return intermediaryAirport; }
+            set { intermediaryAirport = value; OnPropertyChanged("IntermediaryAirport"); }
+        }
+        public BindableCollection<ChiTietHangGhe> detailTypeSticket_DetailFlight;
+        public BindableCollection<ChiTietHangGhe> DetailTypeSticket_DetailFlight
+        {
+            get { return detailTypeSticket_DetailFlight; }
+            set { detailTypeSticket_DetailFlight = value; OnPropertyChanged("DetailTypeSticket_DetailFlight"); }
+        }
+        private RelayCommand2<object> chooseDetailFlight;
+
+        public RelayCommand2<object> ChooseDetailFlight
+        {
+            get { return chooseDetailFlight; }
+        }
+        private bool CheckSelected_DetailFlight(object obj)
+        {
+            return true;
+            ChuyenBay selected = obj as ChuyenBay;
+            if (selected != null) return true;
+            return false;
+            
+        }
+
+        private void ButtonDetailFlight(object obj)
+        {
+            if (IsDuocChon3.NewVisibility == "Visible")
+            {
+                IsDetailFlight = DuocChon;
+                IsContinueButton = KhongDuocChon;
+                IsDuocChon1 = KhongDuocChon;
+                IsDuocChon2 = KhongDuocChon;
+                IsDuocChon3 = DuocChon;
+                IsDuocChon4 = KhongDuocChon;
+                IsDuocChon5 = KhongDuocChon;
+                IsDuocChon6 = KhongDuocChon;
+                IsDuocChon7 = KhongDuocChon;
+                ChuyenBay selected = obj as ChuyenBay;
+                SelectedFlight = selected;
+                intermediaryAirport = new BindableCollection<SanBayTrungGian>(selectedFlight.SanBayTrungGian);
+                DetailTypeSticket_DetailFlight = new BindableCollection<ChiTietHangGhe>(selectedFlight.ChiTietHangGhesList);
+                OnPropertyChanged("IntermediaryAirport");
+                OnPropertyChanged("DetailTypeSticket_DetailFlight");
+            }
+            else
+            {
+                ButtonDetailFlight();
+                ChuyenBay selected = obj as ChuyenBay;
+                SelectedFlight = selected;
+                intermediaryAirport = new BindableCollection<SanBayTrungGian>(selectedFlight.SanBayTrungGian);
+                DetailTypeSticket_DetailFlight = new BindableCollection<ChiTietHangGhe>(selectedFlight.ChiTietHangGhesList);
+                OnPropertyChanged("IntermediaryAirport");
+                OnPropertyChanged("DetailTypeSticket_DetailFlight");
+            }
         }
 
         #endregion
@@ -2650,6 +3063,206 @@ namespace Planzy.ViewModels
                 return false;
             }
         }
+        #endregion
+        #region Xử lý biểu đồ
+
+        private List<string> danhSachThang = new List<string>()
+        {
+            "Tất cả","1","2","3","4","5","6","7","8","9","10","11","12"
+        };
+
+        public List<string> DanhSachThang
+        {
+            get { return danhSachThang; }
+            set { danhSachThang = value; }
+        }
+
+        private string thangTrongDoanhThuDaChon = "1";
+
+        public string ThangTrongDoanhThuDaChon
+        {
+            get { return thangTrongDoanhThuDaChon; }
+            set
+            {
+                thangTrongDoanhThuDaChon = value;
+                if (value == "Tất cả")
+                    IsVisibleBieuDoThang = "Hidden";
+                else
+                {
+                    IsVisibleBieuDoThang = "Visible";
+                    doanhThuThangDaChon = doanhThuThangServices.doanhThuThangs[Convert.ToInt32(value) - 1].doanhThuServices.doanhThus;
+                    labelThangDaChon = doanhThuThangServices.doanhThuThangs[Convert.ToInt32(value) - 1].doanhThuServices.labels;
+                }
+                OnPropertyChanged("ThangTrongDoanhThuDaChon");
+            }
+        }
+
+        private List<string> danhSachNam = new List<string>()
+        {
+           "2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021"
+        };
+
+        public List<string> DanhSachNam
+        {
+            get { return danhSachNam; }
+            set { danhSachNam = value; }
+        }
+
+        private string danhSachNamDaChon = "2021";
+
+        public string DanhSachNamDaChon
+        {
+            get { return danhSachNamDaChon; }
+            set 
+            { 
+                danhSachNamDaChon = value;
+                doanhThuThangServices = new DoanhThuThangServices(value);
+                //doanhThuThangServices = new DoanhThuThangServices(value,chuyenBayServices);
+                DoanhThuThangs = doanhThuThangServices.doanhThuThangs;
+                labelThangDaChons = doanhThuThangServices.labels;
+
+                if (ThangTrongDoanhThuDaChon != "Tất cả")
+                {
+                    doanhThuThangDaChon = doanhThuThangServices.doanhThuThangs[Convert.ToInt32(ThangTrongDoanhThuDaChon) - 1].doanhThuServices.doanhThus;
+                    labelThangDaChon = doanhThuThangServices.doanhThuThangs[Convert.ToInt32(ThangTrongDoanhThuDaChon) - 1].doanhThuServices.labels;
+                }
+                OnPropertyChanged("DanhSachNamDaChon"); }
+        }
+
+        private string isVisibleBieuDoThang = "Visible";
+
+        public string IsVisibleBieuDoThang
+        {
+            get { return isVisibleBieuDoThang; }
+            set 
+            { 
+                isVisibleBieuDoThang = value;
+                if (value == "Hidden")
+                    IsVisibleBieuDoNam = "Visible";
+                else
+                    IsVisibleBieuDoNam = "Hidden";
+                OnPropertyChanged("IsVisibleBieuDoThang"); }
+        }
+        private string isVisibleBieuDoNam = "Hidden";
+
+        public string IsVisibleBieuDoNam
+        {
+            get { return isVisibleBieuDoNam; }
+            set { isVisibleBieuDoNam = value; OnPropertyChanged("IsVisibleBieuDoNam"); }
+        }
+        #region In báo cáo doanh thu
+        private ObservableCollection<DoanhThu> listDoanhThu;
+
+        public ObservableCollection<DoanhThu> ListDoanhThu
+        {
+            get { return listDoanhThu; }
+            set { listDoanhThu = value; OnPropertyChanged("ListDoanhThu"); }
+        }
+        private ObservableCollection<DoanhThu> listDoanhThuThang;
+
+        public ObservableCollection<DoanhThu> ListDoanhThuThang
+        {
+            get { return listDoanhThuThang; }
+            set { listDoanhThuThang = value; OnPropertyChanged("ListDoanhThuThang"); }
+        }
+        private string isVisibleBieuDo = "Visible";
+
+        public string IsVisibleBieuDo
+        {
+            get { return isVisibleBieuDo; }
+            set { isVisibleBieuDo = value; OnPropertyChanged("IsVisibleBieuDo"); }
+        }
+        private string isVisibleExportBaoCaoThang = "Hidden";
+
+        public string IsVisibleExportBaoCaoThang
+        {
+            get { return isVisibleExportBaoCaoThang; }
+            set { isVisibleExportBaoCaoThang = value; OnPropertyChanged("isVisibleExportBaoCaoThang"); }
+        }
+        private string isVisibleExportBaoCaoNam = "Hidden";
+
+        public string IsVisibleExportBaoCaoNam
+        {
+            get { return isVisibleExportBaoCaoNam; }
+            set { isVisibleExportBaoCaoNam = value; OnPropertyChanged("isVisibleExportBaoCaoNam"); }
+        }
+        private string isVisibleExportBaoCao = "Hidden";
+        public string IsVisibleExportBaoCao
+        {
+            get { return isVisibleExportBaoCao; }
+            set { isVisibleExportBaoCao = value; OnPropertyChanged("IsVisibleExportBaoCao"); }
+        }
+        private RelayCommand reviewBieuDoCommand;
+        public RelayCommand ReviewBieuDoCommand
+        {
+            get { return reviewBieuDoCommand; }
+        }
+        public RelayCommand troVeBieuDoCommand;
+        public RelayCommand TroVeBieuDoCommand
+        {
+            get { return troVeBieuDoCommand; }
+        }
+        public RelayCommand xuatPDFVisualCommand;
+        public RelayCommand XuatPDFVisualCommand
+        {
+            get { return xuatPDFVisualCommand; }
+        }
+        public void reviewBieuDo()
+        {
+            if (ThangTrongDoanhThuDaChon == "Tất cả")
+            {
+                IsVisibleBieuDo = "Hidden";
+                IsVisibleExportBaoCaoNam = "Visible";
+                IsVisibleExportBaoCaoThang = "Hidden";
+            }  
+            else
+            {
+                IsVisibleBieuDo = "Hidden";
+                IsVisibleExportBaoCaoThang = "Visible";
+                IsVisibleExportBaoCaoNam = "Hidden";
+            }
+
+            #region set thời gian
+            NgayLapBaoCao.Ngay = DateTime.UtcNow.Day;
+            NgayLapBaoCao.Thang = DateTime.UtcNow.Month;
+            NgayLapBaoCao.Nam = DateTime.UtcNow.Year;
+            switch(DateTime.UtcNow.DayOfWeek.ToString())
+            {
+                case "Monday": NgayLapBaoCao.Thu = "Thứ hai";break;
+                case "Tuesday": NgayLapBaoCao.Thu = "Thứ ba"; break;
+                case "Wednesday": NgayLapBaoCao.Thu = "Thứ tư"; break;
+                case "Thursday": NgayLapBaoCao.Thu = "Thứ năm"; break;
+                case "Friday": NgayLapBaoCao.Thu = "Thứ sáu"; break;
+                case "Saturday": NgayLapBaoCao.Thu = "Thứ bảy"; break;
+                default: NgayLapBaoCao.Thu = "Chủ nhật";break;
+            }
+            OnPropertyChanged("NgayLapBaoCao");
+            #endregion
+        }
+        public void troVeBieuDo()
+        {
+            IsVisibleBieuDo = "Visible";
+            IsVisibleExportBaoCaoThang = "Hidden";
+            IsVisibleExportBaoCaoNam = "Hidden";
+        }
+        public void xuatPDFVisual(object view )
+        {
+            PrintDialog printDialog = new PrintDialog();
+            PageMediaSize  pageSize = new PageMediaSize(PageMediaSizeName.NorthAmericaLetter);
+            printDialog.PrintTicket.PageMediaSize = pageSize;
+            if (printDialog.ShowDialog() == true)
+            {
+                printDialog.PrintVisual((Grid)view, "test");
+                CustomMessageBox.Show("Xuất file thành công", "Thông báo");
+            }
+        }
+        private MyDatetime ngayLapBaoCao = new MyDatetime();
+        public MyDatetime NgayLapBaoCao
+        {
+            get { return ngayLapBaoCao; }
+            set { ngayLapBaoCao = value; OnPropertyChanged("NgayLapBaoCao"); }
+        }
+        #endregion
         #endregion
 
         #region Sell ticket

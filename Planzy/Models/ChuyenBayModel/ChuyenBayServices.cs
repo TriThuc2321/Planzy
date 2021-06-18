@@ -205,6 +205,7 @@ namespace Planzy.Models.ChuyenBayModel
                     chuyenBay.GioBay = Convert.ToDateTime(row["NGAY_GIO_BAY"].ToString());
                     chuyenBay.ThoiGianBay = row["THOI_GIAN_BAY"].ToString();
                     chuyenBay.SoLoaiHangGhe = Convert.ToInt32(row["SO_LOAI_HANG_GHE"].ToString());
+                    chuyenBay.IsDaBay = Convert.ToBoolean(row["DA_BAY"].ToString());
                     if (row["DA_BAY"].ToString() == "False")
                         chuyenBay.IsDaBay = false;
                     else

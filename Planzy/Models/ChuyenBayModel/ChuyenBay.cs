@@ -41,17 +41,17 @@ namespace Planzy.Models.ChuyenBayModel
             SoLoaiHangGhe = 0;
         }
 
-        private string maChuyenBay;
+        public string MaChuyenBay { get; set; }
 
-        public string MaChuyenBay
-        {
-            get { return maChuyenBay; }
-            set 
-            {
-                maChuyenBay = value;
-                OnPropertyChanged("MaChuyenBay"); 
-            }
-        }
+        //public string MaChuyenBay
+        //{
+        //    get { return maChuyenBay; }
+        //    set 
+        //    {
+        //        maChuyenBay = value;
+        //        OnPropertyChanged("MaChuyenBay"); 
+        //    }
+        //}
         private DateTime ngayBay = DateTime.UtcNow.AddDays(1);
 
         public DateTime NgayBay

@@ -35,11 +35,11 @@ namespace Planzy
             {
                 if (textBox.Text.Contains(item))
                 {
-                    textBox.Background = Brushes.Red;
+                    textBox.Background = System.Windows.Media.Brushes.Red;
                     return;
                 }
             }
-            textBox.Background = Brushes.White;
+            textBox.Background = System.Windows.Media.Brushes.White;
         }
         public static void SetMonitorString(TextBox element, bool value)
         {

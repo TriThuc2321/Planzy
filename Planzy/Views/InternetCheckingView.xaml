@@ -47,7 +47,6 @@
                     Content="Không có kết nối Interet" 
                     Foreground="AliceBlue"
                     FontStyle="Italic"
-                    HorizontalAlignment="Center"
                     Height="20"
                     Margin="15 0 0 0"
                     Visibility="{Binding TextVisibility}"
