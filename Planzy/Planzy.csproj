@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\CanhBaoimage.png" />
+    <None Remove="Resources\Images\HoanTatImage.png" />
+    <None Remove="Resources\Images\LoiImage.png" />
     <None Remove="Views\CanhBaoimage.png" />
     <None Remove="Views\logo.png" />
     <None Remove="back_ground_login.jpg" />
@@ -22,6 +25,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\CanhBaoimage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\HoanTatImage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\LoiImage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Views\CanhBaoimage.png" />
     <Resource Include="Views\logo.png" />
     <Resource Include="LoginRegister\Image\back_ground_login.jpg" />
