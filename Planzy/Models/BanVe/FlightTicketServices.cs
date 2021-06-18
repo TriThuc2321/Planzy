@@ -101,7 +101,7 @@ namespace Planzy.Models.BanVe
                     foreach (DataRow row in dataTable.Rows)
                     {
                         FlightTicket ticket = new FlightTicket();
-                        ticket.TicketId = row["MA_PHIEU"].ToString();
+                        ticket.TicketId = row["MA_VE"].ToString();
                         ticket.FlightId = row["MA_CHUYEN_BAY"].ToString();
                         ticket.TicketTypeId = row["MA_LOAI_HANG_GHE"].ToString();
                         ticket.Passenger = row["TEN_HANH_KHACH"].ToString();

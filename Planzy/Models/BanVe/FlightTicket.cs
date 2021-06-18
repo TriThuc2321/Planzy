@@ -71,7 +71,7 @@ namespace Planzy.Models.BanVe
             {
                 if (value != null)
                 {
-                    if (KiemTraHopLeInput.CheckBookingSticketID(value))
+                    if (KiemTraHopLeInput.KiemTraMa(value))
                         flightId = value.ToUpper();
                 }
                 OnPropertyChanged("FlightId");
@@ -86,7 +86,7 @@ namespace Planzy.Models.BanVe
             {
                 if (value != null)
                 {
-                    if (KiemTraHopLeInput.KiemTraMa(value))
+                    if (KiemTraHopLeInput.CheckBookingSticketID(value))
                         ticketId = value.ToUpper();
                 }
                 OnPropertyChanged("TicketId");
