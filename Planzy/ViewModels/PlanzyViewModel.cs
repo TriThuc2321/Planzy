@@ -38,6 +38,7 @@ using System.Printing;
 using Planzy.Views;
 using System.Windows.Threading;
 using System.Net;
+using Caliburn.Micro;
 
 namespace Planzy.ViewModels
 {
@@ -250,7 +251,10 @@ namespace Planzy.ViewModels
             chooseBookedSticketCommand = new RelayCommand(Button_BookedSticket);
             chooseChangeButtonCommand_FlightSearch = new RelayCommand2<object>((p) => p != null, ButtonChange);
             chooseDeleteButtonCommand_BookedSticket = new RelayCommand2<object>(CheckSelected, ButtonDelete_BookedSticket);
-            chooseBack_BookedStickedComamnd = new RelayCommand(ButtonBack_BookedSticket);
+            chooseDetailFlight = new RelayCommand2<object>(CheckSelected_DetailFlight, ButtonDetailFlight);
+
+            chooseBack_BookedStickedComamnd = new RelayCommand(ButtonBack_BookedSticket); 
+            chooseBack_DetailFlightCommand = new RelayCommand(ButtonBack_DetailFlight);
 
 
           
@@ -263,7 +267,7 @@ namespace Planzy.ViewModels
 
         }
 
-     
+       
 
         public RelayCommand SelectAllCommand { get; private set; }
         public RelayCommand SelectAllCommand2 { get; private set; }
@@ -2352,6 +2356,7 @@ namespace Planzy.ViewModels
             {
                 selectedFlight = value;
                 DateofSelectedFlight = value.NgayBay.GetDateTimeFormats();
+               
                 OnPropertyChanged("SelectedFlight");
             }
         }
@@ -2482,6 +2487,7 @@ namespace Planzy.ViewModels
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
             IsDuocChon6 = KhongDuocChon;
+            IsDetailFlight = KhongDuocChon;
 
             ListSticketType.Clear();
             hashtable_AmountSticketType.Clear(); // Dictionary from Name to Amount
@@ -2710,6 +2716,7 @@ namespace Planzy.ViewModels
             IsDuocChon7 = DuocChon;
         }
         public RelayCommand chooseBack_BookedStickedComamnd { get; private set; }
+       
         private void ButtonBack_BookedSticket(object obj)
         {
             IsDuocChon1 = KhongDuocChon;
@@ -2770,6 +2777,125 @@ namespace Planzy.ViewModels
            
            
 
+        }
+
+        #endregion
+
+        #region Flight Detail
+
+        private ButtonDuocChon isDetailFlight = new ButtonDuocChon(false);
+
+        public ButtonDuocChon IsDetailFlight
+        {
+            get { return isDetailFlight; }
+            set { isDetailFlight = value; OnPropertyChanged("IsDetailFlight"); }
+        }
+        public void ButtonDetailFlight()
+        {
+            IsDetailFlight = DuocChon;
+            IsContinueButton = KhongDuocChon;
+            IsDuocChon1 = DuocChon;           
+            IsDuocChon2 = KhongDuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
+            IsDuocChon7 = KhongDuocChon;
+        }
+        private ButtonDuocChon isBackButton_DetailFlight= new ButtonDuocChon(false);
+
+        public ButtonDuocChon IsBackButton_DetailFlight
+        {
+            get { return isBackButton_DetailFlight; }
+            set { isBackButton_DetailFlight = value; OnPropertyChanged("IsBackButton_DetailFlight"); }
+        }
+        public RelayCommand chooseBack_DetailFlightCommand { get; private set; }
+        public void ButtonBack_DetailFlight()
+        {
+            if (IsDuocChon3.NewVisibility == "Visible")
+            {
+                IsContinueButton = KhongDuocChon;
+                IsDuocChon1 = KhongDuocChon;
+                IsDetailFlight = KhongDuocChon;
+                IsDuocChon2 = KhongDuocChon;
+                IsDuocChon3 = DuocChon;
+                IsDuocChon4 = KhongDuocChon;
+                IsDuocChon5 = KhongDuocChon;
+                IsDuocChon6 = KhongDuocChon;
+                IsDuocChon7 = KhongDuocChon;
+            }
+            else
+            {
+                IsContinueButton = KhongDuocChon;
+                IsDuocChon1 = DuocChon;
+                IsDetailFlight = KhongDuocChon;
+                IsDuocChon2 = KhongDuocChon;
+                IsDuocChon3 = KhongDuocChon;
+                IsDuocChon4 = KhongDuocChon;
+                IsDuocChon5 = KhongDuocChon;
+                IsDuocChon6 = KhongDuocChon;
+                IsDuocChon7 = KhongDuocChon;
+            }
+        }
+
+
+        public BindableCollection<SanBayTrungGian> intermediaryAirport;
+        public BindableCollection<SanBayTrungGian> IntermediaryAirport
+        {
+            get { return intermediaryAirport; }
+            set { intermediaryAirport = value; OnPropertyChanged("IntermediaryAirport"); }
+        }
+        public BindableCollection<ChiTietHangGhe> detailTypeSticket_DetailFlight;
+        public BindableCollection<ChiTietHangGhe> DetailTypeSticket_DetailFlight
+        {
+            get { return detailTypeSticket_DetailFlight; }
+            set { detailTypeSticket_DetailFlight = value; OnPropertyChanged("DetailTypeSticket_DetailFlight"); }
+        }
+        private RelayCommand2<object> chooseDetailFlight;
+
+        public RelayCommand2<object> ChooseDetailFlight
+        {
+            get { return chooseDetailFlight; }
+        }
+        private bool CheckSelected_DetailFlight(object obj)
+        {
+            return true;
+            ChuyenBay selected = obj as ChuyenBay;
+            if (selected != null) return true;
+            return false;
+            
+        }
+
+        private void ButtonDetailFlight(object obj)
+        {
+            if (IsDuocChon3.NewVisibility == "Visible")
+            {
+                IsDetailFlight = DuocChon;
+                IsContinueButton = KhongDuocChon;
+                IsDuocChon1 = KhongDuocChon;
+                IsDuocChon2 = KhongDuocChon;
+                IsDuocChon3 = DuocChon;
+                IsDuocChon4 = KhongDuocChon;
+                IsDuocChon5 = KhongDuocChon;
+                IsDuocChon6 = KhongDuocChon;
+                IsDuocChon7 = KhongDuocChon;
+                ChuyenBay selected = obj as ChuyenBay;
+                SelectedFlight = selected;
+                intermediaryAirport = new BindableCollection<SanBayTrungGian>(selectedFlight.SanBayTrungGian);
+                DetailTypeSticket_DetailFlight = new BindableCollection<ChiTietHangGhe>(selectedFlight.ChiTietHangGhesList);
+                OnPropertyChanged("IntermediaryAirport");
+                OnPropertyChanged("DetailTypeSticket_DetailFlight");
+            }
+            else
+            {
+                ButtonDetailFlight();
+                ChuyenBay selected = obj as ChuyenBay;
+                SelectedFlight = selected;
+                intermediaryAirport = new BindableCollection<SanBayTrungGian>(selectedFlight.SanBayTrungGian);
+                DetailTypeSticket_DetailFlight = new BindableCollection<ChiTietHangGhe>(selectedFlight.ChiTietHangGhesList);
+                OnPropertyChanged("IntermediaryAirport");
+                OnPropertyChanged("DetailTypeSticket_DetailFlight");
+            }
         }
 
         #endregion

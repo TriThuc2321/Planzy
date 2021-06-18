@@ -14,6 +14,8 @@
     <None Remove="Views\logo.png" />
     <None Remove="back_ground_login.jpg" />
     <None Remove="clodeIcon.png" />
+    <None Remove="Views\plane_logo.jpg" />
+    <None Remove="Views\pngtree-airplane-clipart-airplane-passenger-plane-png-image_2389936.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +41,8 @@
     <Resource Include="LoginRegister\Image\back_ground_login.jpg" />
     <Resource Include="LoginRegister\Image\clodeIcon.png" />
     <Resource Include="LoginRegister\Image\googleLoginBackground.png" />
+    <Resource Include="Views\plane_logo.jpg" />
+    <Resource Include="Views\pngtree-airplane-clipart-airplane-passenger-plane-png-image_2389936.jpg" />
   </ItemGroup>
 
 </Project>

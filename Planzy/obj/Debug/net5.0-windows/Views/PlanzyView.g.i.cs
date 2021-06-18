@@ -471,6 +471,14 @@ namespace Planzy.Views {
         #line default
         #line hidden
         
+        
+        #line 2168 "..\..\..\..\Views\PlanzyView.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Grid gr_ChiTietChuyenBay;
+        
+        #line default
+        #line hidden
+        
         private bool _contentLoaded;
         
         /// <summary>
@@ -666,6 +674,9 @@ namespace Planzy.Views {
             return;
             case 53:
             this.lvsBookedSticket = ((System.Windows.Controls.ListView)(target));
+            return;
+            case 43:
+            this.gr_ChiTietChuyenBay = ((System.Windows.Controls.Grid)(target));
             return;
             }
             this._contentLoaded = true;
