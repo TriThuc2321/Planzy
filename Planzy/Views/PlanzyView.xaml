@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:loc ="clr-namespace:Planzy.Models.Util"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1200"
+             d:DesignHeight="600" d:DesignWidth="1000"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:bt ="clr-namespace:Planzy.Views" 
              xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"            
@@ -164,7 +164,7 @@
             <Grid Grid.Column="1" Margin="10,10, 25,10" >
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
                     <Grid Background="White">
-                        <Grid Name ="gr_DatVe" Visibility="{Binding IsDuocChon1.NewVisibility}">
+                        <Grid Name ="gr_DatVe" Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
@@ -488,7 +488,7 @@
                                 </Grid>
                         </Grid>
                         </Grid>
-                        <Grid x:Name ="gr_BanVe" Visibility="{Binding IsDuocChon2.NewVisibility}">
+                        <Grid x:Name ="gr_BanVe" Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
@@ -830,7 +830,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}"
+                        <Grid Name ="gr_Tracuu" Visibility="Hidden"
                               >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"></ColumnDefinition>
@@ -1091,7 +1091,7 @@
 
 
                         </Grid>
-                        <Grid Name ="gr_NhanLich" Visibility="{Binding IsDuocChon4.NewVisibility}">
+                        <Grid Name ="gr_NhanLich" Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="126"></RowDefinition>
                                 <RowDefinition Height="84"></RowDefinition>
@@ -1659,7 +1659,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_DoanhThu" Visibility="{Binding IsDuocChon5.NewVisibility}" Margin="15">
+                        <Grid Name ="gr_DoanhThu" Visibility="Hidden" Margin="15">
                             <Grid Visibility="{Binding IsVisibleBieuDo}" x:Name="BieuDoView">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="60"/>
@@ -2087,7 +2087,7 @@
                                 </ScrollViewer>
                             </Grid>
                         </Grid>
-                        <Grid Name="gr_ChiTietDatVe" Visibility="{Binding IsContinueButton.NewVisibility}"
+                        <Grid Name="gr_ChiTietDatVe" Visibility="Hidden"
                               Background="White">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"></RowDefinition>
@@ -2499,7 +2499,7 @@
                             </Grid>
 
                         </Grid>
-                        <Grid x:Name ="gr_NguoiDung"  Visibility="{Binding IsDuocChon6.NewVisibility}">
+                        <Grid x:Name ="gr_NguoiDung"  Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="100"/>
                                 <RowDefinition Height="50"/>
@@ -2636,7 +2636,7 @@
                             </Grid>
 
                         </Grid>
-                        <Grid x:Name ="gr_Vedadat" Background="White" Visibility="{Binding IsDuocChon7.NewVisibility}">
+                        <Grid x:Name ="gr_Vedadat" Background="White" Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="60"></RowDefinition>
                                 <RowDefinition ></RowDefinition>
@@ -2746,7 +2746,7 @@
                             </Grid>
 
                         </Grid>
-                        <Grid Name ="gr_ChiTietChuyenBay" Background="LightBlue" Visibility="{Binding IsDetailFlight.NewVisibility}">
+                        <Grid Name ="gr_ChiTietChuyenBay" Background="LightBlue" Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="10"></RowDefinition>
                                 <RowDefinition Height="60"></RowDefinition>
@@ -3012,7 +3012,7 @@
 
 
                         </Grid>
-                        <Grid Name="gr_ChiTietBanVe" Visibility="{Binding IsContinueButton_SellTicket.NewVisibility}"
+                        <Grid Name="gr_ChiTietBanVe" Visibility="Hidden"
                               Background="White">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"></RowDefinition>
@@ -3368,10 +3368,10 @@
                                                     FontWeight="Bold"
                                                     Width="100"
                                                     Height="40"
-                                                          SelectedItem="{Binding TicketType_SellTicket}"
+                                                    SelectedItem="{Binding TicketTypeText_Setting}"
                                                     Foreground="#FF5867AC"
                                                      materialDesign:HintAssist.Hint="Chọn Hạng Vé"
-                                                     ItemsSource="{Binding ListTicketType_SellTicket}"
+                                                     ItemsSource="{Binding ListTicketTypeText_Setting}"
                                                         Style="{StaticResource MaterialDesignFloatingHintComboBox}">
                                                     <ComboBox.ItemsPanel>
                                                         <ItemsPanelTemplate>
@@ -3439,76 +3439,98 @@
                                            HorizontalAlignment="Left"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="Auto"/>
+                                           Width="Auto"
+                                           Margin="0 0 0 0"/>
                                     <StackPanel Grid.Row="1" Grid.Column="0" 
-                                            Orientation="Horizontal">
+                                                Orientation="Horizontal"
+                                                Margin="20 0 0 0">
                                         <Label Content="Mã hạng vé: "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="Auto"/>
-                                        <TextBox Width="50"
-                                             VerticalContentAlignment="Bottom"
-                                             FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                                        <TextBox Width="40"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Text="{Binding TicketType_Setting.MaLoaiHangGhe}"
                                                 />
                                         <Label Content="Tên hạng vé: "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="Auto"/>
-                                        <TextBox Width="150"
-                                             VerticalContentAlignment="Bottom"
-                                             FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                        <TextBox Width="100"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Text="{Binding TicketType_Setting.TenLoaiHangGhe}"
                                                 />
                                         <Label Content="Tỷ lệ: "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="Auto"/>
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                               Margin="10 0 0 0"/>
                                         <TextBox Width="40"
-                                             VerticalContentAlignment="Bottom"
-                                             FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Text="{Binding TicketType_Setting.TyLe}"
                                                 />
                                         <Label Content="Danh sách: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="Auto"/>
+                                           Width="Auto"
+                                               Margin="10 0 0 0"/>
                                         <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
-                                              VerticalAlignment="Bottom" Width="200"
-                                              Foreground="Black"
+                                              VerticalAlignment="Bottom" Width="220"
                                               FontSize="15"
-                                              FontWeight="Bold" BorderBrush="#FF5867AC">
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              SelectedItem="{Binding TicketType_Setting}"
+                                              Foreground="#FF5867AC"                                              
+                                              ItemsSource="{Binding ListTicketType_Setting}"
+                                              >
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding MaLoaiHangGhe}" Width="20"/>
+                                                        <TextBlock Text=" - " Width="20"/>
+                                                        <TextBlock Text="{Binding TenLoaiHangGhe}" Width="150"/>
+                                                        <TextBlock Text=" - " Width="20"/>
+                                                        <TextBlock Text="{Binding TyLe}" Width="30"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
                                         </ComboBox>
                                     </StackPanel>
                                     <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
                                             Orientation="Horizontal" HorizontalAlignment="Right">
                                         <Button Content="Thêm" VerticalAlignment="Center" Margin="5"
                                                 HorizontalAlignment="Center"
-                                                Width="auto"
+                                                Width="100"
                                                 Height="30"
                                                 Padding="4"
                                                 Foreground="#000"  
-                                                Background="#FF80E66A" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
                                                 />
                                         <Button Content="Xóa" VerticalAlignment="Center" Margin=" 5"
                                                 HorizontalAlignment="Center"
-                                                Width="auto"
+                                                Width="100"
                                                 Height="30"
                                                 Padding="4"
                                                 Foreground="#000"  
-                                                Background="#FFE05050" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
                                                 />
                                         <Button Content="Hủy" VerticalAlignment="Center" Margin="5"
                                                 HorizontalAlignment="Center"
-                                                Width="auto"
+                                                Width="100"
                                                 Height="30"
                                                 Padding="4"
                                                 Foreground="#000"  
-                                                Background="#FFE05050" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
                                                 />
                                     </StackPanel>
                                 </StackPanel>

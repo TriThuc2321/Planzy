@@ -159,6 +159,8 @@ namespace Planzy.ViewModels
             set { LabelThangDaChon = value; OnPropertyChanged("labelThangDaChon"); }
         }
         #endregion
+
+
         public PlanzyViewModel(string gmailUser, Window parentWindow)
         {
 
@@ -345,6 +347,9 @@ namespace Planzy.ViewModels
                     ite.Destination = temp2;
                 }
             }
+
+
+            ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(loaiHangGheServices.GetAll());
 
 
         }
@@ -3633,6 +3638,30 @@ namespace Planzy.ViewModels
 
             }
         }
+        #endregion
+
+        #region Loai hang ve
+        private LoaiHangGhe ticketType_Setting;
+        public LoaiHangGhe TicketType_Setting
+        {
+            get { return ticketType_Setting; }
+            set
+            {
+                ticketType_Setting = value;
+                OnPropertyChanged("TicketType_Setting");
+            }
+        }
+        private ObservableCollection<LoaiHangGhe> listTicketType_Setting;
+        public ObservableCollection<LoaiHangGhe> ListTicketType_Setting
+        {
+            get { return listTicketType_Setting; }
+            set { listTicketType_Setting = value; OnPropertyChanged("ListTicketType_Setting"); }
+        }
+
+
+       
+
+
         #endregion
     }
 }
