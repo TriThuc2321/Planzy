@@ -294,7 +294,6 @@ D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\nets
 D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp2.0\System.Management.dll
 D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 D:\Nhap_mon_di_dong\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netstandard2.0\System.ServiceProcess.ServiceController.dll
-D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache
 D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\Caliburn.Micro.Platform.Core.dll
 D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\Caliburn.Micro.Platform.dll
 D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\Caliburn.Micro.Core.dll
@@ -336,3 +335,4 @@ D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netstandard2.0
 D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netcoreapp2.0\System.Management.dll
 D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netstandard2.0\System.ServiceProcess.ServiceController.dll
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache

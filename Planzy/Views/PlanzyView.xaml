@@ -127,7 +127,7 @@
                 </Button>
                 <Button Name="btn_User" Grid.Row="5" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon6.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand6}" >
                     <StackPanel Orientation="Horizontal" Width="150" Height="50">
-                        <materialDesign:PackIcon Name="ic_User" Kind="Account" 
+                        <materialDesign:PackIcon Name="ic_User" Kind="AccountOutline" 
                                       Height="30" Width="30" 
                                       VerticalAlignment="Center" Margin="5,5,5,5"
                                       Foreground="{Binding IsDuocChon6.NewForeground}"/>
@@ -142,7 +142,23 @@
                                Foreground="{Binding IsDuocChon6.NewForeground}"/>
                     </StackPanel>
                 </Button>
-             
+                <Button Name="btn_Setting" Grid.Row="6" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon8.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand8}" >
+                    <StackPanel Orientation="Horizontal" Width="150" Height="50">
+                        <materialDesign:PackIcon Name="ic_Setting" Kind="CogOutline" 
+                                      Height="30" Width="30" 
+                                      VerticalAlignment="Center" Margin="5,5,5,5"
+                                      Foreground="{Binding IsDuocChon8.NewForeground}"/>
+                        <Label Name="lb_Setting"
+                               Content="Cài đặt" Width="100" Height="50" 
+                               VerticalAlignment="Center" 
+                               VerticalContentAlignment="Center" 
+                               HorizontalAlignment="Right" 
+                               HorizontalContentAlignment="Center" FontSize="15"
+                               FontWeight="Bold"
+                               Margin="5,5,5,5"
+                               Foreground="{Binding IsDuocChon8.NewForeground}"/>
+                    </StackPanel>
+                </Button>
                 
             </Grid>
             <Grid Grid.Column="1" Margin="10,10, 25,10" >
@@ -1081,7 +1097,7 @@
                                 <RowDefinition Height="84"></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <Grid Grid.Row="0">
+                            <Grid Grid.Row="0" Margin="15 0 15 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="50"/>
@@ -1228,7 +1244,7 @@
                                 
                                 
                             </Grid>
-                            <Grid Grid.Row="1">
+                            <Grid Grid.Row="1" Margin="15 0 15 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="90"></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
@@ -1354,7 +1370,7 @@
                                              loc:FocusExtension.IsFocused="{Binding IsFocusSoGheHang8}"/>
                                 </StackPanel>
                             </Grid>
-                            <Grid Grid.Row="2">
+                            <Grid Grid.Row="2" Margin="15 0 15 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
@@ -1643,7 +1659,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_DoanhThu" Visibility="{Binding IsDuocChon5.NewVisibility}">
+                        <Grid Name ="gr_DoanhThu" Visibility="{Binding IsDuocChon5.NewVisibility}" Margin="15">
                             <Grid Visibility="{Binding IsVisibleBieuDo}" x:Name="BieuDoView">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="60"/>
@@ -1820,7 +1836,7 @@
                                                    Width="60"
                                                    HorizontalAlignment="Left"></Image>
                                         </Grid>
-                                        <ListView Grid.Row="2" Margin="10" x:Name="listBaoCaoThang" ItemsSource="{Binding doanhThuThangDaChon}" BorderBrush="Black" VerticalContentAlignment="Stretch">
+                                        <ListView Grid.Row="2" Width="720" x:Name="listBaoCaoThang" ItemsSource="{Binding doanhThuThangDaChon}" BorderBrush="Black" VerticalContentAlignment="Stretch">
                                             <ListView.View>
                                                 <GridView>
                                                     <GridViewColumn Header="Mã chuyến bay" Width="Auto" >
@@ -1982,7 +1998,7 @@
                                                    Width="60"
                                                    HorizontalAlignment="Left"></Image>
                                         </Grid>
-                                        <ListView Grid.Row="2" Margin="10" x:Name="listBaoCaoNam" ItemsSource="{Binding DoanhThuThangs}" BorderBrush="Black" VerticalContentAlignment="Stretch">
+                                        <ListView Grid.Row="2" Width="600" x:Name="listBaoCaoNam" ItemsSource="{Binding DoanhThuThangs}" BorderBrush="Black" VerticalContentAlignment="Stretch">
                                             <ListView.View>
                                                 <GridView>
                                                     <GridViewColumn Header="Tháng" Width="Auto" >
@@ -3405,6 +3421,58 @@
                                 </Grid>
                             </Grid>
 
+                        </Grid>
+                        <Grid Name ="gr_Setting" Margin ="15" Visibility="{Binding IsDuocChon8.NewVisibility}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <StackPanel Grid.Row="1" Grid.Column="0" 
+                                            Orientation="Horizontal">
+                                    <Label Content="Mã hạng vé: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                    <TextBox Width="100"/>
+                                    <Label Content="Tên hạng vé: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                    <TextBox Width="100"/>
+                                    <Label Content="Tỷ lệ: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                    <TextBox Width="100"/>
+                                    <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="200"
+                                              Foreground="Black"
+                                              FontSize="15"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Id}" Width="50"/>
+                                                    <TextBlock Text=" - " Width="20"/>
+                                                    <TextBlock Text="{Binding TenSanBay}" Width="130"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Grid>
+                            <Grid Grid.Row="2">
+
+                            </Grid>
                         </Grid>
                     </Grid>
                     
