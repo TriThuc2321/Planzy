@@ -3433,41 +3433,84 @@
                                 
                             </Grid>
                             <Grid Grid.Row="1">
-                                <StackPanel Grid.Row="1" Grid.Column="0" 
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="Quy định về hạng vé: "
+                                           VerticalContentAlignment="Bottom"
+                                           HorizontalAlignment="Left"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="Auto"/>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" 
                                             Orientation="Horizontal">
-                                    <Label Content="Mã hạng vé: "
+                                        <Label Content="Mã hạng vé: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="100"/>
-                                    <TextBox Width="100"/>
-                                    <Label Content="Tên hạng vé: "
+                                           Width="Auto"/>
+                                        <TextBox Width="50"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                />
+                                        <Label Content="Tên hạng vé: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="100"/>
-                                    <TextBox Width="100"/>
-                                    <Label Content="Tỷ lệ: "
+                                           Width="Auto"/>
+                                        <TextBox Width="150"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                />
+                                        <Label Content="Tỷ lệ: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="100"/>
-                                    <TextBox Width="100"/>
-                                    <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                           Width="Auto"/>
+                                        <TextBox Width="40"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                />
+                                        <Label Content="Danh sách: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="Auto"/>
+                                        <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
                                               VerticalAlignment="Bottom" Width="200"
                                               Foreground="Black"
                                               FontSize="15"
                                               FontWeight="Bold" BorderBrush="#FF5867AC">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Id}" Width="50"/>
-                                                    <TextBlock Text=" - " Width="20"/>
-                                                    <TextBlock Text="{Binding TenSanBay}" Width="130"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
+                                            Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Content="Thêm" VerticalAlignment="Center" Margin="5"
+                                                HorizontalAlignment="Center"
+                                                Width="auto"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="#FF80E66A" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                />
+                                        <Button Content="Xóa" VerticalAlignment="Center" Margin=" 5"
+                                                HorizontalAlignment="Center"
+                                                Width="auto"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="#FFE05050" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                />
+                                        <Button Content="Hủy" VerticalAlignment="Center" Margin="5"
+                                                HorizontalAlignment="Center"
+                                                Width="auto"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="#FFE05050" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                />
+                                    </StackPanel>
                                 </StackPanel>
                             </Grid>
                             <Grid Grid.Row="2">
