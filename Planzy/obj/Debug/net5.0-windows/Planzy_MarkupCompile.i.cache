@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\
 Planzy
 none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
-D:\Nhap_mon_di_dong\Planzy\Planzy\App.xaml
+D:\GitHub\Planzy\Planzy\App.xaml
 11-1754850862
 
 53-288332506
-222-833003259
+222696849051
 LoginRegister\ForgotPassword.xaml;LoginRegister\Login.xaml;LoginRegister\Register.xaml;MainWindow.xaml;ResourcesXAML\MyResource.xaml;Views\CustomMessageBoxWindow.xaml;Views\InternetCheckingView.xaml;Views\MyChartTooltip.xaml;Views\MyChartToolTipForDTNam.xaml;Views\PlanzyView.xaml;Views\UpdateInforUser.xaml;
 
 True
