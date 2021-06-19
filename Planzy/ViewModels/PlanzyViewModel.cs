@@ -307,9 +307,11 @@ namespace Planzy.ViewModels
                 {
                     string temp1;
                     string temp2;
-                    ChuyenBayServices.GetFlight(ite.FlightID,out temp1, out temp2);
+                    DateTime temp3;
+                    ChuyenBayServices.GetFlight(ite.FlightID,out temp1, out temp2, out temp3);
                     ite.Departure = temp1;
                     ite.Destination = temp2;
+                    ite.FlownDate = temp3;
                 }
             }
 
@@ -2516,6 +2518,7 @@ namespace Planzy.ViewModels
             OnPropertyChanged("ListSticketType");
             SticketTypeAmount = null;
             BookingSticket.FlightID = selectedFlight.MaChuyenBay;
+            BookingSticket.FlownDate = selectedFlight.NgayBay;
 
         }
         private BookingSticket bookingSticket;
@@ -2647,21 +2650,42 @@ namespace Planzy.ViewModels
         }
         private void ButtonPay(object obj)
         {
-    
+            
+            DateTime bookingDate_check = DateTime.Now.AddDays(0);                      
+            TimeSpan interval = selectedFlight.NgayBay.Subtract(bookingDate_check);
+            double count = interval.Days * 24 + interval.Hours + ((interval.Minutes * 100)/60)*0.01;
+            if (count < float.Parse(ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_DAT_VE))
+            {
+                CustomMessageBox.Show("Đã quá hạn đặt vé cho chuyến bay này !", "Thông báo");
+                return; ;
+            }
+
+
+           
+
             BookingSticket.BookingSticketID = selectedFlight.MaChuyenBay +"-" + BookingSticketServices.RandomString(6);
+            BookingSticket.FlownDate = selectedFlight.NgayBay;
             BookingSticketServices.BookingSticketProcess(BookingSticket,user.ID);
             hashtable_AmountSticketType.Remove(sticketType);
             if (SticketTypeAmount != "0")
             hashtable_AmountSticketType.Add(sticketType,(int.Parse( SticketTypeAmount) - 1).ToString());
+            for (int i = 0; i < selectedFlight.ChiTietHangGhesList.Count;i ++)
+            {
+                if (SelectedFlight.ChiTietHangGhesList[i].TenLoaiHangGhe == sticketType)
+                    SelectedFlight.ChiTietHangGhesList[i].SoLuongGheConLai = (Int32.Parse(SelectedFlight.ChiTietHangGhesList[i].SoLuongGheConLai) - 1).ToString();
+            }
+            OnPropertyChanged("SelectedFlight");
             SticketTypeAmount = hashtable_AmountSticketType[sticketType].ToString();
             OnPropertyChanged("SticketTypeAmount");
             OnPropertyChanged("Hashtable_AmountSticketType");
-            MessageBox.Show("Đặt vé thành công !", "Thông báo", MessageBoxButton.OK);
+            CustomMessageBox.Show("Đặt vé thành công !", "Thông báo", MessageBoxButton.OK);
             string temp1;
             string temp2;
-            ChuyenBayServices.GetFlight(BookingSticket.FlightID, out temp1, out temp2);
+            DateTime temp3;
+            ChuyenBayServices.GetFlight(BookingSticket.FlightID, out temp1, out temp2, out temp3);
             BookingSticket.Departure = temp1;
             BookingSticket.Destination = temp2;
+            BookingSticket.FlownDate = temp3;
             ListBookedSticket.Add(BookingSticket);
             OnPropertyChanged("ListBookedSticket");
 
@@ -2685,7 +2709,7 @@ namespace Planzy.ViewModels
             ChuyenBay selectedFlightToChange = obj as ChuyenBay;
             if (selectedFlightToChange != null || selectedFlightToChange.IsDaBay == false)
             {
-                MessageBox.Show("Sửa đi thằng lồn!", "Thông báo", MessageBoxButton.OK);
+                
                 Button4();
                 foreach(ChuyenBay chuyenBay in ChuyenBaysList)
                 {
@@ -2700,7 +2724,7 @@ namespace Planzy.ViewModels
             }        
             else
             {
-                MessageBox.Show("Không Thể Sửa Chuyến Bay Đã Bay !", "Thông báo", MessageBoxButton.OK);
+                CustomMessageBox.Show("Không Thể Sửa Chuyến Bay Đã Bay !", "Thông báo", MessageBoxButton.OK);
             }
         }
 
@@ -2757,10 +2781,49 @@ namespace Planzy.ViewModels
             if (selected != null) return true;
             return false;
         }
+        private void UpdateList(string FlightID, string stickerType)
+        {
+            for (int i = 0;i < FlightSearchList_FlightBooking.Count;i++)
+            {
+                if (FlightSearchList_FlightBooking[i].MaChuyenBay == FlightID)
+                {
+                    for (int j = 0; j < FlightSearchList_FlightBooking[i].ChiTietHangGhesList.Count; j++)
+                    {
+                        if (FlightSearchList_FlightBooking[i].ChiTietHangGhesList[j].MaLoaiHangGhe == stickerType)
+                            FlightSearchList_FlightBooking[i].ChiTietHangGhesList[j].SoLuongGheConLai = (Int32.Parse(FlightSearchList_FlightBooking[i].ChiTietHangGhesList[j].SoLuongGheConLai) + 1).ToString();
+                        OnPropertyChanged("FlightSearchList_FlightBooking");
+                        OnPropertyChanged("FlightSearchList");
+                    }
+                    break;
+                }
+            }
+            //for (int i = 0;i < FlightSearchList.Count;i++)
+            //{
+            //    if (FlightSearchList[i].MaChuyenBay == FlightID)
+            //    {
+            //        for (int j = 0; j < FlightSearchList[i].ChiTietHangGhesList.Count; j++)
+            //        {
+            //            if (FlightSearchList[i].ChiTietHangGhesList[j].MaLoaiHangGhe == stickerType)
+            //                FlightSearchList[i].ChiTietHangGhesList[j].SoLuongGheConLai = (Int32.Parse(FlightSearchList[i].ChiTietHangGhesList[j].SoLuongGheConLai) + 1).ToString();
+            //            OnPropertyChanged("FlightSearchList");
+            //        }
+            //        break;
+            //    }
+            //}
+        }
 
         private void ButtonDelete_BookedSticket(object obj)
         {
             BookingSticket selected = obj as BookingSticket;
+            DateTime bookingDate_check = DateTime.Now.AddDays(0);
+            TimeSpan interval = selectedFlight.NgayBay.Subtract(bookingDate_check);
+            double count = interval.Days * 24 + interval.Hours + ((interval.Minutes * 100) / 60) * 0.01;
+            if (count < float.Parse(ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_HUY_VE))
+            {
+                CustomMessageBox.Show("Đã quá hạn đặt vé cho chuyến bay này !", "Thông báo");
+                return; 
+            }
+
             string temp = String.Format("Bạn có muốn hủy vé  \"{0}\"?", selected.BookingSticketID);
             MessageBoxResult result = MessageBox.Show(temp,"Thông báo", MessageBoxButton.YesNo);
             switch (result)
@@ -2770,13 +2833,14 @@ namespace Planzy.ViewModels
                         if (selected != null)
                             ListBookedSticket.Remove(selected);
                         OnPropertyChanged("ListBookedSticket");
+                        UpdateList(selected.FlightID,selected.SticketTypeID);
                         BookingSticketServices.DeletingSticketProcess(selected);
-                        MessageBox.Show("Xóa Thành Công", "Planzy Thông Báo !");
+                        CustomMessageBox.Show("Xóa Thành Công", "Planzy Thông Báo !");
                         break;
                     }
                 case MessageBoxResult.No:
                     {
-                        MessageBox.Show("Oh well, too bad!", "My App");
+                        CustomMessageBox.Show("Oh well, too bad!", "My App");
                         break;
                     }
                

@@ -62,9 +62,16 @@ namespace Planzy.Models.BookingSticketModel
                 string query = string.Format("delete  from CHI_TIET_PHIEU_DAT_CHO WHERE MA_PHIEU ='{0}' " +
                     " delete  from PHIEU_DAT_CHO WHERE MA_PHIEU = '{0}'", sticket.BookingSticketID);
 
+
+
                 SqlCommand command = new SqlCommand(query, BookingSticketConnection);
                 command.ExecuteNonQuery();
-                
+
+
+                query = string.Format("UPDATE CHI_TIET_HANG_GHE SET SO_LUONG_CON_LAI = SO_LUONG_CON_LAI + 1 WHERE MA_LOAI_HANG_GHE = '{0}' and MA_CHUYEN_BAY = '{1}'",
+                 sticket.SticketTypeID, sticket.FlightID);
+                command = new SqlCommand(query, BookingSticketConnection);
+                command.ExecuteNonQuery();
             }
             catch (Exception e)
             {

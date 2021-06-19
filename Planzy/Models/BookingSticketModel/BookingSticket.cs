@@ -29,7 +29,8 @@ namespace Planzy.Models.BookingSticketModel
             contact = null;
             cost = null;
             gmail = null;
-            bookingDate = DateTime.UtcNow.AddDays(0);
+            bookingDate = DateTime.Now.AddDays(0);
+            flownDate = DateTime.Now.AddDays(0);
             address = null;
             request = null;
         }
@@ -166,6 +167,13 @@ namespace Planzy.Models.BookingSticketModel
         {
             get { return bookingDate; }
             set { bookingDate = value; OnPropertyChanged("BookingDate"); }
+        }
+        private DateTime flownDate = DateTime.UtcNow.AddDays(0);
+
+        public DateTime FlownDate
+        {
+            get { return flownDate; }
+            set { flownDate = value; OnPropertyChanged("FlownDate"); }
         }
 
         private string gmail;

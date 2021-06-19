@@ -440,7 +440,7 @@ namespace Planzy.Models.ChuyenBayModel
             }
             
         }
-        public static void GetFlight(string ID, out string departure, out string destination)
+        public static void GetFlight(string ID, out string departure, out string destination,out DateTime Flowndate)
         {
             foreach (ChuyenBay ite in ChuyenBaysList)
             {
@@ -448,11 +448,13 @@ namespace Planzy.Models.ChuyenBayModel
                 {
                     departure = ite.SanBayDen.ToString();
                     destination = ite.SanBayDi.ToString();
+                    Flowndate = ite.NgayBay;
                     return;
                 }
             }
             departure = null;
             destination = null;
+            Flowndate = DateTime.Now.AddDays(0);
             
         }
 
