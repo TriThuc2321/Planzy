@@ -242,7 +242,7 @@ namespace Planzy.ViewModels
             InsertTickTypeCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { insertTicket_Setting(); });
             DeleteTickTypeCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { deleteTicket_Setting(); });
             ResetTickTypeCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { resetTicket_Setting(); });
-
+            SaveCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { save_Setting(); });
 
             #region Xử lý giao diện ban đầu
             LoadUIHangGheTheoQuyDinh();
@@ -352,9 +352,17 @@ namespace Planzy.ViewModels
                 }
             }
 
-            BackupListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(loaiHangGheServices.GetAll());
+            backupListTicketType_Setting = new List<LoaiHangGhe>();
+            LoadSQL();
             ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(loaiHangGheServices.GetAll());
 
+            /*ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>();
+            for(int i = 0; i<backupListTicketType_Setting.Count; i ++)
+            {
+                ListTicketType_Setting.Add(backupListTicketType_Setting[i]);
+            }*/
+              
+            
 
         }
         private List<SanBay> sanbaysList;
@@ -3663,7 +3671,17 @@ namespace Planzy.ViewModels
         public ICommand ResetTickTypeCommand_Setting { get; set; }
         void resetTicket_Setting()
         {
-            ListTicketType_Setting = BackupListTicketType_Setting;
+            ListTicketType_Setting.Clear();
+            backupListTicketType_Setting.Clear();
+            LoadSQL();
+            ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(backupListTicketType_Setting); 
+
+        }
+        public ICommand SaveCommand_Setting { get; set; }
+        void save_Setting()
+        {
+            
+
         }
 
 
@@ -3684,13 +3702,45 @@ namespace Planzy.ViewModels
             get { return listTicketType_Setting; }
             set { listTicketType_Setting = value; OnPropertyChanged("ListTicketType_Setting"); }
         }
-        private ObservableCollection<LoaiHangGhe> backupListTicketType_Setting;
-        public ObservableCollection<LoaiHangGhe> BackupListTicketType_Setting
-        {
-            get { return backupListTicketType_Setting; }
-            set { backupListTicketType_Setting = value; OnPropertyChanged("BackupListTicketType_Setting"); }
-        }
+        private List<LoaiHangGhe> backupListTicketType_Setting;
 
+        private SqlConnection Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
+        public void LoadSQL()
+        {
+            try
+            {
+                Connection.Open();
+                #region Truy vấn dữ liệu từ sql
+                SqlCommand command = new SqlCommand("SELECT * FROM LOAI_HANG_GHE ", Connection);
+                command.CommandType = CommandType.Text;
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                #endregion
+                if (dataTable.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        LoaiHangGhe hangGhe = new LoaiHangGhe();
+                        hangGhe.MaLoaiHangGhe = row["MA_LOAI_HANG_GHE"].ToString();
+                        hangGhe.TenLoaiHangGhe = row["TEN_LOAI_HANG_GHE"].ToString();
+                        hangGhe.TyLe = row["TY_LE"].ToString();
+                        backupListTicketType_Setting.Add(hangGhe);
+                    }
+                }
+
+                var newList = backupListTicketType_Setting.OrderByDescending(e => Convert.ToInt32(e.TyLe));
+                backupListTicketType_Setting = new List<LoaiHangGhe>(newList);
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
 
 
 

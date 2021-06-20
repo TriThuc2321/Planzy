@@ -28,11 +28,11 @@
                                                 FontWeight="Bold"
                                                 Foreground="#FF5867AC"
                                                 Width="Auto"/>
-                <TextBox Width="30"
+                <Label Width="30"
                                                 VerticalContentAlignment="Bottom"
                                                 FontSize="10"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 Text="{Binding Id}"
+                                                Content="{Binding Id}"
                                                 />
                 <Label Content="Tên hạng vé: "
                                                 VerticalContentAlignment="Bottom"
@@ -69,12 +69,12 @@
                     Visibility="{Binding ErrorMessageVisibility}"
                     />
                 <Label
-                    Content="Đăng nhập thành công"
+                    Content="Thêm thành công"
                     Width="auto"
                     HorizontalAlignment="Right"
                     Margin="0 0 40 0"
-                    Foreground="Green"
-                    FontStyle="Italic"
+                    Foreground="Green"                    
+                    FontWeight="DemiBold"
                     Visibility="{Binding SucessMessageVisibility}"
                     />
                 <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 40 0"

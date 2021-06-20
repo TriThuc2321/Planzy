@@ -488,7 +488,7 @@
                                 </Grid>
                         </Grid>
                         </Grid>
-                        <Grid x:Name ="gr_BanVe" Visibility="Hidden">
+                        <Grid x:Name ="gr_BanVe" Visibility="{Binding IsDuocChon2.NewVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
@@ -503,9 +503,11 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal" Background="White">
-                                                        <Button Content=" Show " 
+                                                        <Button Content=" Chi tiết " 
                                                                     Background="Black"
                                                                     Foreground="White"
+                                                                 Command="{Binding ElementName=lvsBanve , Path= DataContext.ChooseDetailFlight}"
+                                                                CommandParameter="{Binding}"
                                                              Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                                             ></Button>
                                                         <TextBlock Text=" "></TextBlock>
@@ -2746,7 +2748,7 @@
                             </Grid>
 
                         </Grid>
-                        <Grid Name ="gr_ChiTietChuyenBay" Background="LightBlue" Visibility="Hidden">
+                        <Grid Name ="gr_ChiTietChuyenBay" Background="LightBlue" Visibility="{Binding DetailTypeSticket_DetailFlight}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="10"></RowDefinition>
                                 <RowDefinition Height="60"></RowDefinition>
@@ -3422,7 +3424,7 @@
                             </Grid>
 
                         </Grid>
-                        <Grid Name ="gr_Setting" Margin ="15" Visibility="{Binding IsDuocChon8.NewVisibility}">
+                        <Grid Name ="gr_Setting" Margin ="15" Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
@@ -3449,11 +3451,11 @@
                                                 FontWeight="Bold"
                                                 Foreground="#FF5867AC"
                                                 Width="Auto"/>
-                                        <TextBox Width="30"
+                                        <Label Width="30"
                                                 VerticalContentAlignment="Bottom"
                                                 FontSize="10"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 Text="{Binding TicketType_Setting.MaLoaiHangGhe}"
+                                                 Content="{Binding TicketType_Setting.MaLoaiHangGhe}"
                                                 />
                                         <Label Content="Tên hạng vé: "
                                                 VerticalContentAlignment="Bottom"
@@ -3530,7 +3532,7 @@
                                                 FontSize="12" 
                                                 FontWeight="Bold" 
                                                 BorderBrush="{x:Null}"
-                                                Command="{Binding TickTypeCommand_Setting}"
+                                                Command="{Binding DeleteTickTypeCommand_Setting}"
                                                 />
                                         <Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
                                                 HorizontalAlignment="Center"
@@ -3561,7 +3563,8 @@
                                                 Padding="4"
                                                 Foreground="#000"  
                                                 Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
-                                                />
+                                                Command="{Binding SaveCommand_Setting}"
+                                            />
                                     <Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
                                                 HorizontalAlignment="Center"
                                                 Width="100"
