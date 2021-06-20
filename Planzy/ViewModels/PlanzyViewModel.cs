@@ -244,6 +244,9 @@ namespace Planzy.ViewModels
             ResetTickTypeCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { resetTicket_Setting(); });
             SaveCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { save_Setting(); });
 
+            chooseDetailFlight_SellTicket = new RelayCommand2<object>(CheckSelected_DetailFlight_SellTicket, ButtonDetailFlight_SellTicket);
+            chooseBack_DetailFlightCommand_SellTicket = new RelayCommand(ButtonBack_DetailFlight_SellTicket);
+
             #region Xử lý giao diện ban đầu
             LoadUIHangGheTheoQuyDinh();
             chonLayoutCommand1 = new RelayCommand(Button1);
@@ -3388,6 +3391,8 @@ namespace Planzy.ViewModels
         {
             IsContinueButton_SellTicket = DuocChon;
             IsContinueButton = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+            IsDetailFlight = KhongDuocChon;
             IsDuocChon1 = KhongDuocChon;
             IsDuocChon2 = KhongDuocChon;
             IsDuocChon3 = KhongDuocChon;
@@ -3648,6 +3653,127 @@ namespace Planzy.ViewModels
                 dateofSelectedFlight_SellTicket = value;
                 OnPropertyChanged("DateofSelectedFlight_SellTicket");
 
+            }
+        }
+        #endregion
+
+        #region chi tiết chuyến bay bán vé
+
+        private ButtonDuocChon isDetailFlight_SellTicket = new ButtonDuocChon(false);
+
+        public ButtonDuocChon IsDetailFlight_SellTicket
+        {
+            get { return isDetailFlight_SellTicket; }
+            set { isDetailFlight_SellTicket = value; OnPropertyChanged("IsDetailFlight_SellTicket"); }
+        }
+        public void ButtonDetailFlight_SellTicket()
+        {
+            IsDetailFlight = KhongDuocChon;
+            IsDetailFlight_SellTicket = DuocChon;
+            IsContinueButton = KhongDuocChon;
+            IsDuocChon1 = KhongDuocChon;
+            IsDuocChon2 = DuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
+            IsDuocChon7 = KhongDuocChon;
+        }
+        private ButtonDuocChon isBackButton_DetailFlight_SellTicket = new ButtonDuocChon(false);
+
+        public ButtonDuocChon IsBackButton_DetailFlight_SellTicket
+        {
+            get { return isBackButton_DetailFlight_SellTicket; }
+            set { isBackButton_DetailFlight_SellTicket = value; OnPropertyChanged("IsBackButton_DetailFlight_SellTicket"); }
+        }
+        public RelayCommand chooseBack_DetailFlightCommand_SellTicket { get; private set; }
+        public void ButtonBack_DetailFlight_SellTicket()
+        {
+            if (IsDuocChon3.NewVisibility == "Visible")
+            {
+                IsContinueButton = KhongDuocChon;
+                IsDuocChon1 = KhongDuocChon;
+                IsDetailFlight = KhongDuocChon;
+                IsDetailFlight_SellTicket = KhongDuocChon;
+                IsDuocChon2 = KhongDuocChon;
+                IsDuocChon3 = DuocChon;
+                IsDuocChon4 = KhongDuocChon;
+                IsDuocChon5 = KhongDuocChon;
+                IsDuocChon6 = KhongDuocChon;
+                IsDuocChon7 = KhongDuocChon;
+            }
+            else
+            {
+                IsContinueButton = KhongDuocChon;
+                IsDuocChon1 = KhongDuocChon;
+                IsDetailFlight = KhongDuocChon;
+                IsDetailFlight_SellTicket = KhongDuocChon;
+                IsDuocChon2 = DuocChon;
+                IsDuocChon3 = KhongDuocChon;
+                IsDuocChon4 = KhongDuocChon;
+                IsDuocChon5 = KhongDuocChon;
+                IsDuocChon6 = KhongDuocChon;
+                IsDuocChon7 = KhongDuocChon;
+            }
+        }
+
+
+        public BindableCollection<SanBayTrungGian> intermediaryAirport_SellTicket;
+        public BindableCollection<SanBayTrungGian> IntermediaryAirport_SellTicket
+        {
+            get { return intermediaryAirport_SellTicket; }
+            set { intermediaryAirport_SellTicket = value; OnPropertyChanged("IntermediaryAirport_SellTicket"); }
+        }
+        public BindableCollection<ChiTietHangGhe> detailTypeSticket_DetailFlight_SellTicket;
+        public BindableCollection<ChiTietHangGhe> DetailTypeSticket_DetailFlight_SellTicket
+        {
+            get { return detailTypeSticket_DetailFlight_SellTicket; }
+            set { detailTypeSticket_DetailFlight_SellTicket = value; OnPropertyChanged("DetailTypeSticket_DetailFlight_SellTicket"); }
+        }
+        private RelayCommand2<object> chooseDetailFlight_SellTicket;
+
+        public RelayCommand2<object> ChooseDetailFlight_SellTicket
+        {
+            get { return chooseDetailFlight_SellTicket; }
+        }
+        private bool CheckSelected_DetailFlight_SellTicket(object obj)
+        {
+            return true;
+            ChuyenBay selected = obj as ChuyenBay;
+            if (selected != null) return true;
+            return false;
+
+        }
+
+        private void ButtonDetailFlight_SellTicket(object obj)
+        {
+            if (IsDuocChon3.NewVisibility == "Visible")
+            {
+                IsDetailFlight = DuocChon;
+                IsContinueButton = KhongDuocChon;
+                IsDuocChon1 = KhongDuocChon;
+                IsDuocChon2 = KhongDuocChon;
+                IsDuocChon3 = DuocChon;
+                IsDuocChon4 = KhongDuocChon;
+                IsDuocChon5 = KhongDuocChon;
+                IsDuocChon6 = KhongDuocChon;
+                IsDuocChon7 = KhongDuocChon;
+                ChuyenBay selected = obj as ChuyenBay;
+                SelectedFlight_SellTicket = selected;
+                intermediaryAirport_SellTicket = new BindableCollection<SanBayTrungGian>(selectedFlight_SellTicket.SanBayTrungGian);
+                DetailTypeSticket_DetailFlight_SellTicket = new BindableCollection<ChiTietHangGhe>(selectedFlight_SellTicket.ChiTietHangGhesList);
+                OnPropertyChanged("IntermediaryAirport_SellTicket");
+                OnPropertyChanged("DetailTypeSticket_DetailFlight_SellTicket");
+            }
+            else
+            {
+                ButtonDetailFlight_SellTicket();
+                ChuyenBay selected = obj as ChuyenBay;
+                SelectedFlight_SellTicket = selected;
+                intermediaryAirport_SellTicket = new BindableCollection<SanBayTrungGian>(selectedFlight_SellTicket.SanBayTrungGian);
+                DetailTypeSticket_DetailFlight_SellTicket = new BindableCollection<ChiTietHangGhe>(selectedFlight_SellTicket.ChiTietHangGhesList);
+                OnPropertyChanged("IntermediaryAirport_SellTicket");
+                OnPropertyChanged("DetailTypeSticket_DetailFlight_SellTicket");
             }
         }
         #endregion
