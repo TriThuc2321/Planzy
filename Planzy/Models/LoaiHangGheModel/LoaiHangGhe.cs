@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 namespace Planzy.Models.LoaiHangGheModel
 {
-    class LoaiHangGhe : INotifyPropertyChanged
+    public class LoaiHangGhe : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)

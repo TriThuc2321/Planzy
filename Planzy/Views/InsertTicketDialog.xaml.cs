@@ -20,12 +20,12 @@ namespace Planzy.Views
     /// </summary>
     public partial class InsertTicketDialog : Window
     {
-        InsertTicketDialogViewModel insert;
+        public InsertTicketDialogViewModel viewModel;
         public InsertTicketDialog()
         {
             InitializeComponent();
-            insert = new InsertTicketDialogViewModel();
-            this.DataContext = insert;
+            viewModel = new InsertTicketDialogViewModel();
+            this.DataContext = viewModel;
         }
     }
 }

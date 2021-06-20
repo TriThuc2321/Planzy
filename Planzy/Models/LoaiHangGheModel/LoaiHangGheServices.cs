@@ -18,16 +18,15 @@ namespace Planzy.Models.LoaiHangGheModel
         {
             LoaiHangGhesList = new List<LoaiHangGhe>();
             LoadSQL();
-            while (LoaiHangGhesList.Count != 8)
-            {
-                LoaiHangGhesList.Add(new LoaiHangGhe());
-            }
         }    
         public List<LoaiHangGhe> GetAll()
         {
             return LoaiHangGhesList;
         }
-
+        public void Add(LoaiHangGhe loaiHangGhe)
+        {
+            LoaiHangGhesList.Add(loaiHangGhe);
+        }
         public bool LoadSQL()
         {
             bool result;

@@ -3651,7 +3651,8 @@ namespace Planzy.ViewModels
         {
             InsertTicketDialog insertTicketDialog = new InsertTicketDialog();
             insertTicketDialog.ShowDialog();
-
+            ListTicketType_Setting.Add(insertTicketDialog.viewModel.GetResult());
+            
         }
         public ICommand DeleteTickTypeCommand_Setting { get; set; }
         void deleteTicket_Setting()
