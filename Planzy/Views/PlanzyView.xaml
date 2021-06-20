@@ -3538,6 +3538,28 @@
                             <Grid Grid.Row="2">
 
                             </Grid>
+                            <Grid Grid.Row="3">
+                                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
+                                            Orientation="Horizontal" HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom">
+                                    <Button Content="Lưu" VerticalAlignment="Center" Margin=" 5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                />
+                                    <Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                />
+                                </StackPanel>
+                            </Grid>
                         </Grid>
                     </Grid>
                     
