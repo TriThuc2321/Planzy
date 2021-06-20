@@ -239,6 +239,10 @@ namespace Planzy.ViewModels
             huyThemVaSuaChuyenBayCommand = new RelayCommand(huyThemVaSuaChuyenBay);
             luuSuaChuyenBayCommand = new RelayCommand(luuSuaChuyenBay);
 
+            InsertTickTypeCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { insertTicket_Setting(); });
+            DeleteTickTypeCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { deleteTicket_Setting(); });
+            ResetTickTypeCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { resetTicket_Setting(); });
+
 
             #region Xử lý giao diện ban đầu
             LoadUIHangGheTheoQuyDinh();
@@ -348,7 +352,7 @@ namespace Planzy.ViewModels
                 }
             }
 
-
+            BackupListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(loaiHangGheServices.GetAll());
             ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(loaiHangGheServices.GetAll());
 
 
@@ -3641,6 +3645,28 @@ namespace Planzy.ViewModels
         #endregion
 
         #region Loai hang ve
+
+        public ICommand InsertTickTypeCommand_Setting { get; set; }
+        void insertTicket_Setting()
+        {
+            InsertTicketDialog insertTicketDialog = new InsertTicketDialog();
+            insertTicketDialog.ShowDialog();
+
+        }
+        public ICommand DeleteTickTypeCommand_Setting { get; set; }
+        void deleteTicket_Setting()
+        {
+            if (TicketType_Setting != null)
+                ListTicketType_Setting.Remove(TicketType_Setting);
+        }
+        public ICommand ResetTickTypeCommand_Setting { get; set; }
+        void resetTicket_Setting()
+        {
+            ListTicketType_Setting = BackupListTicketType_Setting;
+        }
+
+
+
         private LoaiHangGhe ticketType_Setting;
         public LoaiHangGhe TicketType_Setting
         {
@@ -3657,9 +3683,15 @@ namespace Planzy.ViewModels
             get { return listTicketType_Setting; }
             set { listTicketType_Setting = value; OnPropertyChanged("ListTicketType_Setting"); }
         }
+        private ObservableCollection<LoaiHangGhe> backupListTicketType_Setting;
+        public ObservableCollection<LoaiHangGhe> BackupListTicketType_Setting
+        {
+            get { return backupListTicketType_Setting; }
+            set { backupListTicketType_Setting = value; OnPropertyChanged("BackupListTicketType_Setting"); }
+        }
 
 
-       
+
 
 
         #endregion

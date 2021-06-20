@@ -8,9 +8,9 @@
              d:DesignHeight="600" d:DesignWidth="1000"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:bt ="clr-namespace:Planzy.Views" 
-             xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"            
+             xmlns:viewmodels="clr-namespace:Planzy.ViewModels"             
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             xmlns:chartTool ="clr-namespace:Planzy.Views" xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+             xmlns:chartTool ="clr-namespace:Planzy.Views" xmlns:sys="clr-namespace:System;assembly=System.Runtime" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}">
     <!--d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"-->
     <UserControl.Resources>
         <sys:Double x:Key="TextSizeForButton" >12</sys:Double>
@@ -3368,10 +3368,10 @@
                                                     FontWeight="Bold"
                                                     Width="100"
                                                     Height="40"
-                                                    SelectedItem="{Binding TicketTypeText_Setting}"
+                                                    SelectedItem="{Binding TicketType_Setting}"
                                                     Foreground="#FF5867AC"
                                                      materialDesign:HintAssist.Hint="Chọn Hạng Vé"
-                                                     ItemsSource="{Binding ListTicketTypeText_Setting}"
+                                                     ItemsSource="{Binding ListTicketType_Setting}"
                                                         Style="{StaticResource MaterialDesignFloatingHintComboBox}">
                                                     <ComboBox.ItemsPanel>
                                                         <ItemsPanelTemplate>
@@ -3449,9 +3449,9 @@
                                                 FontWeight="Bold"
                                                 Foreground="#FF5867AC"
                                                 Width="Auto"/>
-                                        <TextBox Width="40"
+                                        <TextBox Width="30"
                                                 VerticalContentAlignment="Bottom"
-                                                FontSize="15"
+                                                FontSize="10"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                  Text="{Binding TicketType_Setting.MaLoaiHangGhe}"
                                                 />
@@ -3463,7 +3463,7 @@
                                                 Margin="10 0 0 0"/>
                                         <TextBox Width="100"
                                                 VerticalContentAlignment="Bottom"
-                                                FontSize="15"
+                                                FontSize="10"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                  Text="{Binding TicketType_Setting.TenLoaiHangGhe}"
                                                 />
@@ -3475,7 +3475,7 @@
                                                Margin="10 0 0 0"/>
                                         <TextBox Width="40"
                                                 VerticalContentAlignment="Bottom"
-                                                FontSize="15"
+                                                FontSize="10"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                  Text="{Binding TicketType_Setting.TyLe}"
                                                 />
@@ -3486,11 +3486,11 @@
                                            Width="Auto"
                                                Margin="10 0 0 0"/>
                                         <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
-                                              VerticalAlignment="Bottom" Width="220"
-                                              FontSize="15"
+                                              VerticalAlignment="Bottom" Width="230"
+                                              FontSize="10"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
                                               SelectedItem="{Binding TicketType_Setting}"
-                                              Foreground="#FF5867AC"                                              
+                                              Foreground="Black"                                              
                                               ItemsSource="{Binding ListTicketType_Setting}"
                                               >
                                             <ComboBox.ItemTemplate>
@@ -3498,7 +3498,7 @@
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="{Binding MaLoaiHangGhe}" Width="20"/>
                                                         <TextBlock Text=" - " Width="20"/>
-                                                        <TextBlock Text="{Binding TenLoaiHangGhe}" Width="150"/>
+                                                        <TextBlock Text="{Binding TenLoaiHangGhe}" Width="120"/>
                                                         <TextBlock Text=" - " Width="20"/>
                                                         <TextBlock Text="{Binding TyLe}" Width="30"/>
                                                     </StackPanel>
@@ -3514,7 +3514,11 @@
                                                 Height="30"
                                                 Padding="4"
                                                 Foreground="#000"  
-                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                Background="SkyBlue"
+                                                FontSize="12" 
+                                                FontWeight="Bold" 
+                                                BorderBrush="{x:Null}"
+                                                Command="{Binding InsertTickTypeCommand_Setting}"
                                                 />
                                         <Button Content="Xóa" VerticalAlignment="Center" Margin=" 5"
                                                 HorizontalAlignment="Center"
@@ -3522,15 +3526,23 @@
                                                 Height="30"
                                                 Padding="4"
                                                 Foreground="#000"  
-                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                Background="SkyBlue" 
+                                                FontSize="12" 
+                                                FontWeight="Bold" 
+                                                BorderBrush="{x:Null}"
+                                                Command="{Binding TickTypeCommand_Setting}"
                                                 />
-                                        <Button Content="Hủy" VerticalAlignment="Center" Margin="5"
+                                        <Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
                                                 HorizontalAlignment="Center"
                                                 Width="100"
                                                 Height="30"
                                                 Padding="4"
                                                 Foreground="#000"  
-                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                Background="SkyBlue"
+                                                FontSize="12"
+                                                FontWeight="Bold"
+                                                BorderBrush="{x:Null}"
+                                                Command="{Binding ResetTickTypeCommand_Setting}"
                                                 />
                                     </StackPanel>
                                 </StackPanel>
