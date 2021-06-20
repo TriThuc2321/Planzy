@@ -2448,7 +2448,7 @@
                                 <RowDefinition ></RowDefinition>
                             </Grid.RowDefinitions>
                             <StackPanel  Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Background="CadetBlue">
-                                <Button Width="100" Margin="10 0 0 0" FontSize="15" Background="White" Content="Back"
+                                <Button Width="100" Margin="10 0 0 0" FontSize="15" Background="White" Content="Quay lại"
                                          Command="{Binding chooseBack_BookedStickedComamnd}"
                                                                Height="35"></Button>
                                 <TextBlock Text="Vé Đã Đặt"  FontSize="25"

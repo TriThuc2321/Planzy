@@ -313,6 +313,18 @@ namespace Planzy.ViewModels
                     ite.Destination = temp2;
                     ite.FlownDate = temp3;
                 }
+                for (int i = 0; i < ListBookedSticket.Count; i++)
+                {
+                    DateTime bookingDate_check = DateTime.Now.AddDays(0);
+
+                    TimeSpan interval = ListBookedSticket[i].FlownDate.Subtract(bookingDate_check);
+                    double count = interval.Days * 24 + interval.Hours + ((interval.Minutes * 100) / 60) * 0.01;
+                    if (count < 0)
+                    {
+                        ListBookedSticket.RemoveAt(i);
+                        i--;
+                    }
+                }
             }
 
 
@@ -2657,12 +2669,8 @@ namespace Planzy.ViewModels
             if (count < float.Parse(ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_DAT_VE))
             {
                 CustomMessageBox.Show("Đã quá hạn đặt vé cho chuyến bay này !", "Thông báo");
-                return; ;
+                return; 
             }
-
-
-           
-
             BookingSticket.BookingSticketID = selectedFlight.MaChuyenBay +"-" + BookingSticketServices.RandomString(6);
             BookingSticket.FlownDate = selectedFlight.NgayBay;
             BookingSticketServices.BookingSticketProcess(BookingSticket,user.ID);
@@ -2687,6 +2695,23 @@ namespace Planzy.ViewModels
             BookingSticket.Destination = temp2;
             BookingSticket.FlownDate = temp3;
             ListBookedSticket.Add(BookingSticket);
+            //// Set lai ve moi
+            BookingSticket = new BookingSticket();
+            BookingSticket.Departure = selectedFlight.SanBayDi.ToString();
+            BookingSticket.Destination = selectedFlight.SanBayDen.ToString();
+            BookingSticket.FlightID = selectedFlight.MaChuyenBay;
+            BookingSticket.FlownDate = selectedFlight.NgayBay;
+            if (SticketType == "Hạng nhất")
+                BookingSticket.Cost = (Int32.Parse(selectedFlight.GiaVeCoBan) * 1.5).ToString() + " VND";
+            else if (SticketType == "Thương gia")
+                BookingSticket.Cost = ((int)(Int32.Parse(selectedFlight.GiaVeCoBan) * 1.3)).ToString() + " VND";
+            else if (SticketType == "Phổ thông đặc biệt")
+                BookingSticket.Cost = ((int)(Int32.Parse(selectedFlight.GiaVeCoBan) * 1.15)).ToString() + " VND";
+            else if (SticketType == "Phổ thông")
+                BookingSticket.Cost = selectedFlight.GiaVeCoBan + " VND";
+            BookingSticket.SticketTypeID = hashtable_SticketID[sticketType].ToString();
+            ////////
+
             OnPropertyChanged("ListBookedSticket");
 
         }
@@ -2816,11 +2841,12 @@ namespace Planzy.ViewModels
         {
             BookingSticket selected = obj as BookingSticket;
             DateTime bookingDate_check = DateTime.Now.AddDays(0);
-            TimeSpan interval = selectedFlight.NgayBay.Subtract(bookingDate_check);
+            
+            TimeSpan interval = selected.FlownDate.Subtract(bookingDate_check);
             double count = interval.Days * 24 + interval.Hours + ((interval.Minutes * 100) / 60) * 0.01;
             if (count < float.Parse(ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_HUY_VE))
             {
-                CustomMessageBox.Show("Đã quá hạn đặt vé cho chuyến bay này !", "Thông báo");
+                CustomMessageBox.Show("Đã quá hạn hủy vé cho chuyến bay này !", "Thông báo");
                 return; 
             }
 
