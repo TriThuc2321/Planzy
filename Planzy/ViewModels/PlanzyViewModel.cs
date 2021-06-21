@@ -3806,7 +3806,8 @@ namespace Planzy.ViewModels
         public ICommand SaveCommand_Setting { get; set; }
         void save_Setting()
         {
-            
+            ThamSoQuyDinh thamSoQuyDinh = new ThamSoQuyDinh();
+
 
         }
 
