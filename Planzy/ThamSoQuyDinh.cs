@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Planzy
 {
-    public static class ThamSoQuyDinh
+    public class ThamSoQuyDinh
     {
         private static SqlConnection SanBayConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
         public static string SO_SAN_BAY_TOI_DA;

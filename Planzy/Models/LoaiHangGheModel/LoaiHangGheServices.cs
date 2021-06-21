@@ -13,7 +13,6 @@ namespace Planzy.Models.LoaiHangGheModel
     {
         private  SqlConnection SanBayConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
         private List<LoaiHangGhe> LoaiHangGhesList;
-        private const int SO_HANG_GHE_TOI_DA = 8;
         public LoaiHangGheServices()
         {
             LoaiHangGhesList = new List<LoaiHangGhe>();
@@ -48,6 +47,7 @@ namespace Planzy.Models.LoaiHangGheModel
                         hangGhe.MaLoaiHangGhe = row["MA_LOAI_HANG_GHE"].ToString();
                         hangGhe.TenLoaiHangGhe = row["TEN_LOAI_HANG_GHE"].ToString();
                         hangGhe.TyLe = row["TY_LE"].ToString();
+                        hangGhe.KhaDung = row["KHA_DUNG"].ToString();
                         LoaiHangGhesList.Add(hangGhe);
                     }
                 }

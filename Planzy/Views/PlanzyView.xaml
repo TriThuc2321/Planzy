@@ -3423,7 +3423,7 @@
                             </Grid>
 
                         </Grid>
-                        <Grid Name ="gr_Setting" Margin ="15" Visibility="{Binding IsDuocChon8.NewVisibility}">
+                        <Grid Name ="gr_Setting" Margin ="15" Background="White" Visibility="{Binding IsDuocChon8.NewVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
@@ -3575,7 +3575,7 @@
                                 </StackPanel>
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_ChiTietChuyenBay_SellTicket" Background="LightBlue" Visibility="{Binding IsDetailFlight_SellTicket.NewVisibility}">
+                        <Grid Name ="gr_ChiTietChuyenBay_SellTicket" Background="LightBlue" Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="10"></RowDefinition>
                                 <RowDefinition Height="60"></RowDefinition>

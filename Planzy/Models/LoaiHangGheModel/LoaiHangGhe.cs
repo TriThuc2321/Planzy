@@ -41,6 +41,13 @@ namespace Planzy.Models.LoaiHangGheModel
             get { return tyLe; }
             set { tyLe = value; OnPropertyChanged("TyLe"); }
         }
+        private string khaDung;
+
+        public string KhaDung
+        {
+            get { return khaDung; }
+            set { khaDung = value; OnPropertyChanged("KhaDung"); }
+        }
 
     }
 }
