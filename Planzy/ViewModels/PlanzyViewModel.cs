@@ -363,7 +363,8 @@ namespace Planzy.ViewModels
                 {
                     string temp1;
                     string temp2;
-                    ChuyenBayServices.GetFlight(ite.FlightId, out temp1, out temp2);
+                    DateTime temp3;
+                    ChuyenBayServices.GetFlight(ite.FlightId, out temp1, out temp2, out temp3);
                     ite.Departure = temp1;
                     ite.Destination = temp2;
                 }
@@ -2666,14 +2667,22 @@ namespace Planzy.ViewModels
                     if (hashtable_AmountSticketType[sticketType].ToString() != "0")
                     {
                         BookingSticket.SticketTypeID = hashtable_SticketID[sticketType].ToString();
-                        if (SticketType == "Hạng nhất")
-                            BookingSticket.Cost = (Int32.Parse(selectedFlight.GiaVeCoBan) * 1.5).ToString() + " VND";
-                        else if (SticketType == "Thương gia")
-                            BookingSticket.Cost = ((int)(Int32.Parse(selectedFlight.GiaVeCoBan) * 1.3)).ToString() + " VND";
-                        else if (SticketType == "Phổ thông đặc biệt")
-                            BookingSticket.Cost = ((int)(Int32.Parse(selectedFlight.GiaVeCoBan) * 1.15)).ToString() + " VND";
-                        else if (SticketType == "Phổ thông")
-                            BookingSticket.Cost = selectedFlight.GiaVeCoBan + " VND";
+                        //if (SticketType == "Hạng nhất")
+                        //    BookingSticket.Cost = (Int32.Parse(selectedFlight.GiaVeCoBan) * 1.5).ToString() + " VND";
+                        //else if (SticketType == "Thương gia")
+                        //    BookingSticket.Cost = ((int)(Int32.Parse(selectedFlight.GiaVeCoBan) * 1.3)).ToString() + " VND";
+                        //else if (SticketType == "Phổ thông đặc biệt")
+                        //    BookingSticket.Cost = ((int)(Int32.Parse(selectedFlight.GiaVeCoBan) * 1.15)).ToString() + " VND";
+                        //else if (SticketType == "Phổ thông")
+                        //    BookingSticket.Cost = selectedFlight.GiaVeCoBan + " VND";
+                        foreach (ChiTietHangGhe temp in selectedFlight.ChiTietHangGhesList)
+                        {
+                            if (temp.TenLoaiHangGhe == sticketType)
+                            {
+                                BookingSticket.Cost = (Int32.Parse(selectedFlight.GiaVeCoBan) * Int32.Parse(temp.TyLe)).ToString() + " VND";
+                            }
+                        }
+                       
                     }
                 }
                 OnPropertyChanged("SticketType");
@@ -2778,14 +2787,22 @@ namespace Planzy.ViewModels
             BookingSticket.Destination = selectedFlight.SanBayDen.ToString();
             BookingSticket.FlightID = selectedFlight.MaChuyenBay;
             BookingSticket.FlownDate = selectedFlight.NgayBay;
-            if (SticketType == "Hạng nhất")
-                BookingSticket.Cost = (Int32.Parse(selectedFlight.GiaVeCoBan) * 1.5).ToString() + " VND";
-            else if (SticketType == "Thương gia")
-                BookingSticket.Cost = ((int)(Int32.Parse(selectedFlight.GiaVeCoBan) * 1.3)).ToString() + " VND";
-            else if (SticketType == "Phổ thông đặc biệt")
-                BookingSticket.Cost = ((int)(Int32.Parse(selectedFlight.GiaVeCoBan) * 1.15)).ToString() + " VND";
-            else if (SticketType == "Phổ thông")
-                BookingSticket.Cost = selectedFlight.GiaVeCoBan + " VND";
+            //if (SticketType == "Hạng nhất")
+            //    BookingSticket.Cost = (Int32.Parse(selectedFlight.GiaVeCoBan) * 1.5).ToString() + " VND";
+            //else if (SticketType == "Thương gia")
+            //    BookingSticket.Cost = ((int)(Int32.Parse(selectedFlight.GiaVeCoBan) * 1.3)).ToString() + " VND";
+            //else if (SticketType == "Phổ thông đặc biệt")
+            //    BookingSticket.Cost = ((int)(Int32.Parse(selectedFlight.GiaVeCoBan) * 1.15)).ToString() + " VND";
+            //else if (SticketType == "Phổ thông")
+            //    BookingSticket.Cost = selectedFlight.GiaVeCoBan + " VND";
+            foreach (ChiTietHangGhe temp in selectedFlight.ChiTietHangGhesList)
+            {
+                BookingSticket.SticketTypeID = hashtable_SticketID[sticketType].ToString();
+                if (temp.TenLoaiHangGhe == sticketType)
+                {
+                    BookingSticket.Cost = (Int32.Parse(selectedFlight.GiaVeCoBan) * Int32.Parse(temp.TyLe)).ToString() + " VND";
+                }
+            }
             BookingSticket.SticketTypeID = hashtable_SticketID[sticketType].ToString();
             ////////
 
@@ -3580,7 +3597,8 @@ namespace Planzy.ViewModels
             MessageBox.Show("Ban vé roi nghen !", "Thông báo", MessageBoxButton.OK);
             string temp1;
             string temp2;
-            ChuyenBayServices.GetFlight(SellTicket.FlightId, out temp1, out temp2);
+            DateTime temp3;
+            ChuyenBayServices.GetFlight(SellTicket.FlightId, out temp1, out temp2,out temp3);
             SellTicket.Departure = temp1;
             SellTicket.Destination = temp2;
             ListSellTicket.Add(sellTicket);

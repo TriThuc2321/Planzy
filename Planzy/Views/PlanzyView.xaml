@@ -2704,7 +2704,7 @@
                                                                 <TextBlock Text="{Binding CMND}"></TextBlock>
                                                             </StackPanel>
                                                             <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Text="Hạng ghế : : "></TextBlock>
+                                                                <TextBlock Text="Hạng ghế : "></TextBlock>
                                                                 <TextBlock Text="{Binding SticketTypeID}"></TextBlock>
                                                             </StackPanel>
                                                             <StackPanel Orientation="Horizontal">
