@@ -6,9 +6,11 @@
         xmlns:local="clr-namespace:Planzy.Views"
         ResizeMode="NoResize"
         WindowStyle="None"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        WindowStartupLocation="CenterScreen"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:InsertTicketDialogViewModel}"
         mc:Ignorable="d"
-        Title="InsertTicketDialog" Height="150" Width="500">
+        Title="InsertTicketDialog" Height="150" Width="500"
+        Name="InsertticketView">
     <Grid>
         <Border BorderThickness="2" BorderBrush="#FF5867AC">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="30 0 0 0">
@@ -26,11 +28,11 @@
                                                 FontWeight="Bold"
                                                 Foreground="#FF5867AC"
                                                 Width="Auto"/>
-                <TextBox Width="30"
+                <Label Width="30"
                                                 VerticalContentAlignment="Bottom"
                                                 FontSize="10"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 Text="{Binding IdTicket}"
+                                                Content="{Binding Id}"
                                                 />
                 <Label Content="Tên hạng vé: "
                                                 VerticalContentAlignment="Bottom"
@@ -42,7 +44,7 @@
                                                 VerticalContentAlignment="Bottom"
                                                 FontSize="10"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 Text="{Binding NameTicket}"
+                                                 Text="{Binding Name}"
                                                 />
                 <Label Content="Tỷ lệ: "
                                                 VerticalContentAlignment="Bottom"
@@ -54,18 +56,41 @@
                                                 VerticalContentAlignment="Bottom"
                                                 FontSize="10"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 
+                                                 Text="{Binding Ratio}"
                                                 />
             </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 40 0"
+                <Label
+                    Content="Vui lòng nhập đủ thông tin"
+                    Width="auto"
+                    HorizontalAlignment="Right"
+                    Margin="0 0 40 0"
+                    Foreground="Red"
+                    FontStyle="Italic"
+                    Visibility="{Binding ErrorMessageVisibility}"
+                    />
+                <Label
+                    Content="Thêm thành công"
+                    Width="auto"
+                    HorizontalAlignment="Right"
+                    Margin="0 0 40 0"
+                    Foreground="Green"                    
+                    FontWeight="DemiBold"
+                    Visibility="{Binding SucessMessageVisibility}"
+                    />
+                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 40 0"
                         Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="Thêm" VerticalAlignment="Center" Margin="5 5 0 5"                                                 
-                        HorizontalAlignment="Center"                                                
-                        Width="100"                                              
-                        Height="30"                                                                
-                        Padding="4"                                             
-                        Foreground="#000"                                                
-                        Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                            HorizontalAlignment="Center"                                                
+                            Width="100"                                              
+                            Height="30"                                                                
+                            Padding="4"                                             
+                            Foreground="#000"                                                
+                            Background="SkyBlue" 
+                            FontSize="12" 
+                            FontWeight="Bold"
+                            BorderBrush="{x:Null}"
+                            Command="{Binding InsertCommand}"
+                            CommandParameter="{Binding ElementName=InsertticketView}"
                         />
                 <Button Content="Hủy" VerticalAlignment="Center" Margin="5 5 0 5"                                                
                         HorizontalAlignment="Center"                                               
@@ -73,7 +98,12 @@
                         Height="30"                                            
                         Padding="4"                                              
                         Foreground="#000"                                             
-                        Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                        Background="SkyBlue" 
+                        FontSize="12" 
+                        FontWeight="Bold" 
+                        BorderBrush="{x:Null}"
+                        Command="{Binding CancelCommand}"
+                        CommandParameter="{Binding ElementName=InsertticketView}"
                         />
                 </StackPanel>
             </StackPanel>

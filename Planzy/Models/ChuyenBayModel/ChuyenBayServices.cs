@@ -514,6 +514,22 @@ namespace Planzy.Models.ChuyenBayModel
             else
             return new List<ChuyenBay>();
         }
+        public static void GetFlight(string ID, out string departure, out string destination, out DateTime Flowndate)
+        {
+            foreach (ChuyenBay ite in ChuyenBaysList)
+            {
+                if (ite.MaChuyenBay == ID)
+                {
+                    departure = ite.SanBayDen.ToString();
+                    destination = ite.SanBayDi.ToString();
+                    Flowndate = ite.NgayBay;
+                    return;
+                }
+            }
+            departure = null;
+            destination = null;
+            Flowndate = DateTime.Now.AddDays(0);
 
+        }
     }
 }

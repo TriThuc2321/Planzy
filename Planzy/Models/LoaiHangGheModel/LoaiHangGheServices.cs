@@ -11,23 +11,22 @@ namespace Planzy.Models.LoaiHangGheModel
 {
     class LoaiHangGheServices
     {
-        private static SqlConnection SanBayConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
-        private static List<LoaiHangGhe> LoaiHangGhesList;
+        private  SqlConnection SanBayConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
+        private List<LoaiHangGhe> LoaiHangGhesList;
         private const int SO_HANG_GHE_TOI_DA = 8;
         public LoaiHangGheServices()
         {
             LoaiHangGhesList = new List<LoaiHangGhe>();
             LoadSQL();
-            while (LoaiHangGhesList.Count != 8)
-            {
-                LoaiHangGhesList.Add(new LoaiHangGhe());
-            }
         }    
         public List<LoaiHangGhe> GetAll()
         {
             return LoaiHangGhesList;
         }
-
+        public void Add(LoaiHangGhe loaiHangGhe)
+        {
+            LoaiHangGhesList.Add(loaiHangGhe);
+        }
         public bool LoadSQL()
         {
             bool result;
@@ -66,6 +65,35 @@ namespace Planzy.Models.LoaiHangGheModel
                 SanBayConnection.Close();
             }
             return result;
+        }
+
+        public string GetId(int k)
+        {
+            string temp = RandomString(k);
+            while (true)
+            {
+                int i = 0;
+                for ( i = 0; i < LoaiHangGhesList.Count; i++)
+                {
+                    if (temp == LoaiHangGhesList[i].MaLoaiHangGhe)
+                    {
+                        temp = RandomString(k);
+                        break;
+                    }
+                }
+                if (i == LoaiHangGhesList.Count) return temp;
+            }
+            
+
+
+        }
+
+        private  Random random = new Random();
+        public string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
