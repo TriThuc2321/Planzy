@@ -38,6 +38,7 @@ using System.Printing;
 using Planzy.Views;
 using System.Windows.Threading;
 using System.Net;
+using Planzy.Models.BanVe;
 using Caliburn.Micro;
 
 namespace Planzy.ViewModels
@@ -158,6 +159,8 @@ namespace Planzy.ViewModels
             set { LabelThangDaChon = value; OnPropertyChanged("labelThangDaChon"); }
         }
         #endregion
+
+
         public PlanzyViewModel(string gmailUser, Window parentWindow)
         {
 
@@ -216,6 +219,14 @@ namespace Planzy.ViewModels
 
             #endregion
 
+            #region sell ticket
+            searchFlightCommand_SellTicket = new RelayCommand(searchFlight_SellTicket);
+            showAllFightsCommand_SellTicket = new RelayCommand(showAllFlights_SellTicket);
+            chooseContinueButton_SellTicketCommand = new RelayCommand2<object>((p) => p != null, ButtonContinue_SellTicket);
+            chooseBackButtonCommand_SellTicket = new RelayCommand(ButtonBack_SellTicket);
+            choosePayButtonCommand_SellTicket = new RelayCommand2<object>(checkPassangerInfor_SellTicket, ButtonPay_SellTicket);
+            #endregion
+
             LoadData();
             doiViTriSanBayCommand = new RelayCommand(DoiViTriSanBay);
             xoaSanBayTrungGianCommand = new RelayCommand(xoaSanBayTrungGian);
@@ -228,6 +239,14 @@ namespace Planzy.ViewModels
             huyThemVaSuaChuyenBayCommand = new RelayCommand(huyThemVaSuaChuyenBay);
             luuSuaChuyenBayCommand = new RelayCommand(luuSuaChuyenBay);
 
+            InsertTickTypeCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { insertTicket_Setting(); });
+            DeleteTickTypeCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { deleteTicket_Setting(); });
+            ResetTickTypeCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { resetTicket_Setting(); });
+            SaveCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { save_Setting(); });
+
+            chooseDetailFlight_SellTicket = new RelayCommand2<object>(CheckSelected_DetailFlight_SellTicket, ButtonDetailFlight_SellTicket);
+            chooseBack_DetailFlightCommand_SellTicket = new RelayCommand(ButtonBack_DetailFlight_SellTicket);
+
             #region Xử lý giao diện ban đầu
             LoadUIHangGheTheoQuyDinh();
             chonLayoutCommand1 = new RelayCommand(Button1);
@@ -236,6 +255,7 @@ namespace Planzy.ViewModels
             chonLayoutCommand4 = new RelayCommand(Button4);
             chonLayoutCommand5 = new RelayCommand(Button5);
             chonLayoutCommand6 = new RelayCommand(Button6);
+            chonLayoutCommand8 = new RelayCommand(Button8);
             
 
             #endregion
@@ -262,9 +282,6 @@ namespace Planzy.ViewModels
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
-            
-
-
         }
 
        
@@ -330,10 +347,39 @@ namespace Planzy.ViewModels
 
 
 
+            //Thuc
+            DepartureList_SellTicket = new ObservableCollection<SanBay>(sanBayServices.GetAll());
+            DestinationList_SellTicket = new ObservableCollection<SanBay>(sanBayServices.GetAll());
+            backupList_SellTicket = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetFlownFlightList());
+            FlightSearchList_SellTicket = new ObservableCollection<ChuyenBay>(backupList_SellTicket);
+            listTicketType_SellTicket = new ObservableCollection<string>();
+            hashtable_AmountTicketType_SellTicket = new Hashtable();
+            hashtable_TicketId_SellTicket = new Hashtable();
+            SellTicket = new FlightTicket();
+            ListSellTicket = new ObservableCollection<FlightTicket>(FlightTicketServices.GetFlightBookingList(user.ID));
+            if (ListSellTicket.Count != 0)
+            {
+                foreach (FlightTicket ite in ListSellTicket)
+                {
+                    string temp1;
+                    string temp2;
+                    ChuyenBayServices.GetFlight(ite.FlightId, out temp1, out temp2);
+                    ite.Departure = temp1;
+                    ite.Destination = temp2;
+                }
+            }
 
+            backupListTicketType_Setting = new List<LoaiHangGhe>();
+            LoadSQL();
+            ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(loaiHangGheServices.GetAll());
 
-
-
+            /*ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>();
+            for(int i = 0; i<backupListTicketType_Setting.Count; i ++)
+            {
+                ListTicketType_Setting.Add(backupListTicketType_Setting[i]);
+            }*/
+              
+            
 
         }
         private List<SanBay> sanbaysList;
@@ -485,6 +531,13 @@ namespace Planzy.ViewModels
             get { return isDuocChon7; }
             set { isDuocChon7 = value; OnPropertyChanged("IsDuocChon7"); }
         }
+
+        private ButtonDuocChon isDuocChon8 = new ButtonDuocChon(false);
+        public ButtonDuocChon IsDuocChon8
+        {
+            get { return isDuocChon8; }
+            set { isDuocChon8 = value; OnPropertyChanged("IsDuocChon8"); }
+        }
         private RelayCommand chonLayoutCommand1;
 
         public RelayCommand ChonLayoutCommand1
@@ -527,6 +580,12 @@ namespace Planzy.ViewModels
         {
             get { return chonLayoutCommand7; }
         }
+        private RelayCommand chonLayoutCommand8;
+
+        public RelayCommand ChonLayoutCommand8
+        {
+            get { return chonLayoutCommand8; }
+        }
         public void Button1()
         {
             IsDuocChon1 = DuocChon;
@@ -538,6 +597,7 @@ namespace Planzy.ViewModels
             IsDuocChon6 = KhongDuocChon;
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
+            IsDuocChon8 = KhongDuocChon;
         }
         public void Button2()
         {
@@ -550,6 +610,7 @@ namespace Planzy.ViewModels
             IsDuocChon6 = KhongDuocChon;
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
+            IsDuocChon8 = KhongDuocChon;
         }
         public void Button3()
         {
@@ -562,6 +623,7 @@ namespace Planzy.ViewModels
             IsDuocChon6 = KhongDuocChon;
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
+            IsDuocChon8 = KhongDuocChon;
         }
         public void Button4()
         {
@@ -574,6 +636,7 @@ namespace Planzy.ViewModels
             IsDuocChon6 = KhongDuocChon;
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
+            IsDuocChon8 = KhongDuocChon;
         }
         public void Button5()
         {
@@ -586,6 +649,7 @@ namespace Planzy.ViewModels
             IsDuocChon6 = KhongDuocChon;
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
+            IsDuocChon8 = KhongDuocChon;
         }
         public void Button6()
         {
@@ -598,6 +662,7 @@ namespace Planzy.ViewModels
             IsDuocChon6 = DuocChon;
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
+            IsDuocChon8 = KhongDuocChon;
         }
         public void Button7()
         {
@@ -610,6 +675,19 @@ namespace Planzy.ViewModels
             IsDuocChon6 = KhongDuocChon;
             IsDuocChon7 = DuocChon;
             IsDetailFlight = KhongDuocChon;
+            IsDuocChon8 = KhongDuocChon;
+        }
+        public void Button8()
+        {
+            IsDuocChon1 = KhongDuocChon;
+            IsDuocChon2 = KhongDuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsContinueButton = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
+            IsDuocChon7 = KhongDuocChon;
+            IsDuocChon8 = DuocChon;
         }
         #endregion
         #region Xử lý xóa sân bay trung gian
@@ -2456,7 +2534,6 @@ namespace Planzy.ViewModels
                     i = -1;
                 }
 
-
             for (int i = 0; i < flightSearchList_FlightBooking.Count; i++)
             {
                 if (flightSearchList_FlightBooking[i].NgayBay == SelectedDate_FlightBooking) continue;
@@ -2997,7 +3074,6 @@ namespace Planzy.ViewModels
 
         #endregion
 
-
         #region user
 
 
@@ -3340,5 +3416,559 @@ namespace Planzy.ViewModels
         #endregion
         #endregion
 
+        #region Sell ticket
+        public RelayCommand searchFlightCommand_SellTicket { get; private set; }
+        private void searchFlight_SellTicket(object obj)
+        {
+            selectedFlight_SellTicket = null;
+            OnPropertyChanged("SelectedFlight_SellTicket");
+            ObservableCollection<ChuyenBay> temp = new ObservableCollection<ChuyenBay>(BackupList_SellTicket);
+            flightSearchList_SellTicket = temp;
+
+            if (selectedDestination_SellTicket != null)
+                for (int i = 0; i < flightSearchList_SellTicket.Count; i++)
+                {
+                    if (flightSearchList_SellTicket[i].SanBayDen.Id == selectedDestination_SellTicket.Id) continue;
+                    flightSearchList_SellTicket.RemoveAt(i);
+                    i = -1;
+                }
+            if (selectedDeparture_SellTicket != null)
+                for (int i = 0; i < flightSearchList_SellTicket.Count; i++)
+                {
+                    if (flightSearchList_SellTicket[i].SanBayDi.Id == selectedDeparture_SellTicket.Id) continue;
+                    flightSearchList_SellTicket.RemoveAt(i);
+                    i = -1;
+                }
+
+            for (int i = 0; i < flightSearchList_SellTicket.Count; i++)
+            {
+                if (flightSearchList_SellTicket[i].NgayBay == SelectedDate_SellTicket) continue;
+                flightSearchList_SellTicket.RemoveAt(i);
+                i = -1;
+            }
+            OnPropertyChanged("FlightSearchList_SellTicket");
+
+        }
+
+        public RelayCommand showAllFightsCommand_SellTicket { get; private set; }
+        private void showAllFlights_SellTicket(object obj)
+        {
+            //selectedFlight = null;
+            //OnPropertyChanged("SelectedFlight");
+            selectedDate_SellTicket = DateTime.UtcNow.AddDays(1);
+            SanBay temp1 = selectedDestination_SellTicket;
+            SanBay temp2 = selectedDeparture_SellTicket;
+            departureList_SellTicket.Remove(selectedDeparture_SellTicket);
+            destinationList_SellTicket.Remove(selectedDestination_SellTicket);
+            if (temp2 != null)
+                departureList_SellTicket.Add(temp2);
+            if (temp1 != null)
+                destinationList_SellTicket.Add(temp1);
+            selectedDeparture_SellTicket = null;
+            selectedDestination_SellTicket = null;
+            ObservableCollection<ChuyenBay> temp = new ObservableCollection<ChuyenBay>(BackupList_SellTicket);
+            flightSearchList_SellTicket = temp;
+            OnPropertyChanged("FlightSearchList_SellTicket");
+        }
+
+        private ICommand chooseContinueButton_SellTicketCommand;
+
+        public ICommand ChooseContinueButton_SellTicketCommand
+        {
+            get { return chooseContinueButton_SellTicketCommand; }
+        }
+        private ButtonDuocChon isContinueButton_SellTicket = new ButtonDuocChon(false);
+
+        public ButtonDuocChon IsContinueButton_SellTicket
+        {
+            get { return isContinueButton_SellTicket; }
+            set { isContinueButton_SellTicket = value; OnPropertyChanged("IsContinueButton_SellTicket"); }
+        }
+
+        public void ButtonContinue_SellTicket(object p)
+        {
+            IsContinueButton_SellTicket = DuocChon;
+            IsContinueButton = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+            IsDetailFlight = KhongDuocChon;
+            IsDuocChon1 = KhongDuocChon;
+            IsDuocChon2 = KhongDuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
+
+            ListTicketType_SellTicket.Clear();
+            hashtable_AmountTicketType_SellTicket.Clear(); // Dictionary from Name to Amount
+            hashtable_TicketId_SellTicket.Clear(); /// Dictionary from Name to ID
+            foreach (ChiTietHangGhe ite in selectedFlight_SellTicket.ChiTietHangGhesList)
+            {
+                if (ite.SoLuongGheConLai == "0")
+                {
+                    hashtable_AmountTicketType_SellTicket.Add(ite.TenLoaiHangGhe, "Hết vé");
+                    hashtable_TicketId_SellTicket.Add(ite.TenLoaiHangGhe, ite.MaLoaiHangGhe);
+                }
+                else
+                {
+                    hashtable_AmountTicketType_SellTicket.Add(ite.TenLoaiHangGhe, ite.SoLuongGheConLai);
+                    hashtable_TicketId_SellTicket.Add(ite.TenLoaiHangGhe, ite.MaLoaiHangGhe);
+                }
+                ListTicketType_SellTicket.Add(ite.TenLoaiHangGhe);
+            }
+            OnPropertyChanged("ListTicketType_SellTicket");
+            TicketTypeAmount_SellTicket = null;
+            SellTicket.FlightId = selectedFlight_SellTicket.MaChuyenBay;
+
+        }
+
+        private RelayCommand chooseBackButtonCommand_SellTicket;
+
+        public RelayCommand ChooseBackButtonCommand_SellTicket
+        {
+            get { return chooseBackButtonCommand_SellTicket; }
+        }
+        public void ButtonBack_SellTicket()
+        {
+            IsContinueButton_SellTicket = KhongDuocChon;
+            IsContinueButton = KhongDuocChon;
+            IsDuocChon1 = KhongDuocChon;
+            IsDuocChon2 = DuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
+            sellTicket = new FlightTicket();
+            OnPropertyChanged("SellTicket");
+        }
+        private bool checkPassangerInfor_SellTicket(object obj)
+        {
+            if (string.IsNullOrEmpty(SellTicket.Passenger) || string.IsNullOrEmpty(SellTicket.CMND) || string.IsNullOrEmpty(SellTicket.Address)
+                || string.IsNullOrEmpty(SellTicket.PhoneNumber) || TicketTypeAmount_SellTicket == "Hết vé" || string.IsNullOrEmpty(TicketTypeAmount_SellTicket)) return false;
+            return true;
+        }
+
+
+
+
+
+
+
+
+        private ObservableCollection<FlightTicket> listSellTicket;
+        public ObservableCollection<FlightTicket> ListSellTicket
+        {
+            get { return listSellTicket; }
+            set { listSellTicket = value; OnPropertyChanged("ListSellTicket"); }
+        }
+        private RelayCommand2<object> choosePayButtonCommand_SellTicket;
+
+        public RelayCommand2<object> ChoosePayButtonCommand_SellTicket
+        {
+            get { return choosePayButtonCommand_SellTicket; }
+        }
+        private void ButtonPay_SellTicket(object obj)
+        {
+
+            SellTicket.TicketId = selectedFlight_SellTicket.MaChuyenBay + "-" + FlightTicketServices.RandomString(6);
+            FlightTicketServices.Add(SellTicket, user.ID);
+            hashtable_AmountTicketType_SellTicket.Remove(TicketType_SellTicket);
+            if (TicketTypeAmount_SellTicket != "0")
+                hashtable_AmountTicketType_SellTicket.Add(TicketType_SellTicket, (int.Parse(TicketTypeAmount_SellTicket) - 1).ToString());
+            TicketTypeAmount_SellTicket = hashtable_AmountTicketType_SellTicket[TicketType_SellTicket].ToString();
+            OnPropertyChanged("TicketTypeAmount_SellTicket");
+            OnPropertyChanged("Hashtable_AmountTicketType_SellTicket");
+            MessageBox.Show("Ban vé roi nghen !", "Thông báo", MessageBoxButton.OK);
+            string temp1;
+            string temp2;
+            ChuyenBayServices.GetFlight(SellTicket.FlightId, out temp1, out temp2);
+            SellTicket.Departure = temp1;
+            SellTicket.Destination = temp2;
+            ListSellTicket.Add(sellTicket);
+            OnPropertyChanged("ListSellTicket");
+
+        }
+        private FlightTicket sellTicket;
+        public FlightTicket SellTicket
+        {
+            get { return sellTicket; }
+            set { sellTicket = value; OnPropertyChanged("SellTicket"); }
+
+        }
+        private string requestComboxBackground_SellTicket = "LightSlateGray";
+        public string RequestComboxBackground_SellTicket
+        {
+            get { return requestComboxBackground_SellTicket; }
+            set { requestComboxBackground_SellTicket = value; OnPropertyChanged("RequestComboxBackground_SellTicket"); }
+        }
+        private bool isSetRequest_SellTicket = false;
+        public bool IsSetRequest_SellTicket
+        {
+            get { return isSetRequest_SellTicket; }
+            set
+            {
+                isSetRequest_SellTicket = value;
+                if (isSetRequest_SellTicket == true)
+                    RequestComboxBackground_SellTicket = "White";
+                else RequestComboxBackground_SellTicket = "LightSlateGray";
+                OnPropertyChanged("IsSetRequest_SellTicket");
+            }
+        }
+        private Hashtable hashtable_TicketId_SellTicket;
+        public Hashtable Hashtable_TicketId_SellTicket
+        {
+            get { return hashtable_TicketId_SellTicket; }
+            set { hashtable_TicketId_SellTicket = value; OnPropertyChanged("Hashtable_TicketId_SellTicket"); }
+        }
+        private string ticketType_SellTicket;
+        public string TicketType_SellTicket
+        {
+            get { return ticketType_SellTicket; }
+            set
+            {
+                ticketType_SellTicket = value;
+                if (ticketType_SellTicket != null)
+                {
+                    TicketTypeAmount_SellTicket = hashtable_AmountTicketType_SellTicket[ticketType_SellTicket].ToString();
+                    if (hashtable_AmountTicketType_SellTicket[ticketType_SellTicket].ToString() != "0")
+                    {
+                        SellTicket.TicketTypeId = hashtable_TicketId_SellTicket[ticketType_SellTicket].ToString();
+                        if (ticketType_SellTicket == "Hạng nhất")
+                            SellTicket.Cost = (Int32.Parse(selectedFlight_SellTicket.GiaVeCoBan) * 1.5).ToString() + " VND";
+                        else if (ticketType_SellTicket == "Thương gia")
+                            SellTicket.Cost = ((int)(Int32.Parse(selectedFlight_SellTicket.GiaVeCoBan) * 1.3)).ToString() + " VND";
+                        else if (ticketType_SellTicket == "Phổ thông đặc biệt")
+                            SellTicket.Cost = ((int)(Int32.Parse(selectedFlight_SellTicket.GiaVeCoBan) * 1.15)).ToString() + " VND";
+                        else if (ticketType_SellTicket == "Phổ thông")
+                            SellTicket.Cost = selectedFlight_SellTicket.GiaVeCoBan + " VND";
+                    }
+                }
+                OnPropertyChanged("TicketType_SellTicket");
+            }
+        }
+
+        private string ticketTypeAmount_SellTicket;
+        public string TicketTypeAmount_SellTicket
+        {
+            get { return ticketTypeAmount_SellTicket; }
+            set
+            {
+                ticketTypeAmount_SellTicket = value;
+                OnPropertyChanged("TicketTypeAmount_SellTicket");
+            }
+        }
+        private Hashtable hashtable_AmountTicketType_SellTicket;
+        public Hashtable Hashtable_AmountTicketType_SellTicket
+        {
+            get { return hashtable_AmountTicketType_SellTicket; }
+            set { hashtable_AmountTicketType_SellTicket = value; OnPropertyChanged("Hashtable_AmountTicketType_SellTicket"); }
+        }
+        private ObservableCollection<string> listTicketType_SellTicket;
+        public ObservableCollection<string> ListTicketType_SellTicket
+        {
+            get { return listTicketType_SellTicket; }
+            set { listTicketType_SellTicket = value; OnPropertyChanged("ListTicketType_SellTicket"); }
+        }
+        private DateTime selectedDate_SellTicket = DateTime.UtcNow.AddDays(0);
+        public DateTime SelectedDate_SellTicket
+        {
+            get { return selectedDate_SellTicket; }
+            set { selectedDate_SellTicket = value; OnPropertyChanged("SelectedDate_SellTicket"); }
+        }
+
+        private ObservableCollection<SanBay> departureList_SellTicket;
+        public ObservableCollection<SanBay> DepartureList_SellTicket
+        {
+            get { return departureList_SellTicket; }
+            set { departureList_SellTicket = value; OnPropertyChanged("DepartureList_SellTicket"); }
+        }
+
+        private SanBay selectedDeparture_SellTicket;
+        public SanBay SelectedDeparture_SellTicket
+        {
+            get { return selectedDeparture_SellTicket; }
+            set
+            {
+                if (selectedDeparture_SellTicket != null)
+                    DestinationList_SellTicket.Add(selectedDeparture_SellTicket);
+                selectedDeparture_SellTicket = value;
+                DestinationList_SellTicket.Remove(selectedDeparture_SellTicket);
+                OnPropertyChanged("SelectedDeparture_SellTicket");
+            }
+        }
+
+        private ObservableCollection<SanBay> destinationList_SellTicket;
+        public ObservableCollection<SanBay> DestinationList_SellTicket
+        {
+            get { return destinationList_SellTicket; }
+            set { destinationList_SellTicket = value; OnPropertyChanged("DestinationList_SellTicket"); }
+        }
+
+        private SanBay selectedDestination_SellTicket;
+        public SanBay SelectedDestination_SellTicket
+        {
+            get { return selectedDestination_SellTicket; }
+            set
+            {
+                if (selectedDestination_SellTicket != null)
+                    DepartureList_SellTicket.Add(selectedDestination_SellTicket);
+                selectedDestination_SellTicket = value;
+                DepartureList_SellTicket.Remove(selectedDestination_SellTicket);
+                OnPropertyChanged("SelectedDestination_SellTicket");
+            }
+        }
+
+        private ObservableCollection<ChuyenBay> flightSearchList_SellTicket;
+        public ObservableCollection<ChuyenBay> FlightSearchList_SellTicket
+        {
+            get { return flightSearchList_SellTicket; }
+            set { flightSearchList_SellTicket = value; OnPropertyChanged("FlightSearchList_SellTicket"); }
+        }
+
+
+        private ObservableCollection<ChuyenBay> backupList_SellTicket;
+        public ObservableCollection<ChuyenBay> BackupList_SellTicket
+        {
+            get { return backupList_SellTicket; }
+            set { backupList_SellTicket = value; OnPropertyChanged("BackupList_SellTicket"); }
+        }
+        private ChuyenBay selectedFlight_SellTicket;
+        public ChuyenBay SelectedFlight_SellTicket
+        {
+            get { return selectedFlight_SellTicket; }
+            set
+            {
+                selectedFlight_SellTicket = value;
+                DateofSelectedFlight_SellTicket = value.NgayBay.GetDateTimeFormats();
+                OnPropertyChanged("SelectedFlight_SellTicket");
+            }
+        }
+        private string[] dateofSelectedFlight_SellTicket;
+        public string[] DateofSelectedFlight_SellTicket
+        {
+            get { return dateofSelectedFlight_SellTicket; }
+            set
+            {
+                dateofSelectedFlight_SellTicket = value;
+                OnPropertyChanged("DateofSelectedFlight_SellTicket");
+
+            }
+        }
+        #endregion
+
+        #region chi tiết chuyến bay bán vé
+
+        private ButtonDuocChon isDetailFlight_SellTicket = new ButtonDuocChon(false);
+
+        public ButtonDuocChon IsDetailFlight_SellTicket
+        {
+            get { return isDetailFlight_SellTicket; }
+            set { isDetailFlight_SellTicket = value; OnPropertyChanged("IsDetailFlight_SellTicket"); }
+        }
+        public void ButtonDetailFlight_SellTicket()
+        {
+            IsDetailFlight = KhongDuocChon;
+            IsDetailFlight_SellTicket = DuocChon;
+            IsContinueButton = KhongDuocChon;
+            IsDuocChon1 = KhongDuocChon;
+            IsDuocChon2 = DuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
+            IsDuocChon7 = KhongDuocChon;
+        }
+        private ButtonDuocChon isBackButton_DetailFlight_SellTicket = new ButtonDuocChon(false);
+
+        public ButtonDuocChon IsBackButton_DetailFlight_SellTicket
+        {
+            get { return isBackButton_DetailFlight_SellTicket; }
+            set { isBackButton_DetailFlight_SellTicket = value; OnPropertyChanged("IsBackButton_DetailFlight_SellTicket"); }
+        }
+        public RelayCommand chooseBack_DetailFlightCommand_SellTicket { get; private set; }
+        public void ButtonBack_DetailFlight_SellTicket()
+        {
+            if (IsDuocChon3.NewVisibility == "Visible")
+            {
+                IsContinueButton = KhongDuocChon;
+                IsDuocChon1 = KhongDuocChon;
+                IsDetailFlight = KhongDuocChon;
+                IsDetailFlight_SellTicket = KhongDuocChon;
+                IsDuocChon2 = KhongDuocChon;
+                IsDuocChon3 = DuocChon;
+                IsDuocChon4 = KhongDuocChon;
+                IsDuocChon5 = KhongDuocChon;
+                IsDuocChon6 = KhongDuocChon;
+                IsDuocChon7 = KhongDuocChon;
+            }
+            else
+            {
+                IsContinueButton = KhongDuocChon;
+                IsDuocChon1 = KhongDuocChon;
+                IsDetailFlight = KhongDuocChon;
+                IsDetailFlight_SellTicket = KhongDuocChon;
+                IsDuocChon2 = DuocChon;
+                IsDuocChon3 = KhongDuocChon;
+                IsDuocChon4 = KhongDuocChon;
+                IsDuocChon5 = KhongDuocChon;
+                IsDuocChon6 = KhongDuocChon;
+                IsDuocChon7 = KhongDuocChon;
+            }
+        }
+
+
+        public BindableCollection<SanBayTrungGian> intermediaryAirport_SellTicket;
+        public BindableCollection<SanBayTrungGian> IntermediaryAirport_SellTicket
+        {
+            get { return intermediaryAirport_SellTicket; }
+            set { intermediaryAirport_SellTicket = value; OnPropertyChanged("IntermediaryAirport_SellTicket"); }
+        }
+        public BindableCollection<ChiTietHangGhe> detailTypeSticket_DetailFlight_SellTicket;
+        public BindableCollection<ChiTietHangGhe> DetailTypeSticket_DetailFlight_SellTicket
+        {
+            get { return detailTypeSticket_DetailFlight_SellTicket; }
+            set { detailTypeSticket_DetailFlight_SellTicket = value; OnPropertyChanged("DetailTypeSticket_DetailFlight_SellTicket"); }
+        }
+        private RelayCommand2<object> chooseDetailFlight_SellTicket;
+
+        public RelayCommand2<object> ChooseDetailFlight_SellTicket
+        {
+            get { return chooseDetailFlight_SellTicket; }
+        }
+        private bool CheckSelected_DetailFlight_SellTicket(object obj)
+        {
+            return true;
+            ChuyenBay selected = obj as ChuyenBay;
+            if (selected != null) return true;
+            return false;
+
+        }
+
+        private void ButtonDetailFlight_SellTicket(object obj)
+        {
+            if (IsDuocChon3.NewVisibility == "Visible")
+            {
+                IsDetailFlight = DuocChon;
+                IsContinueButton = KhongDuocChon;
+                IsDuocChon1 = KhongDuocChon;
+                IsDuocChon2 = KhongDuocChon;
+                IsDuocChon3 = DuocChon;
+                IsDuocChon4 = KhongDuocChon;
+                IsDuocChon5 = KhongDuocChon;
+                IsDuocChon6 = KhongDuocChon;
+                IsDuocChon7 = KhongDuocChon;
+                ChuyenBay selected = obj as ChuyenBay;
+                SelectedFlight_SellTicket = selected;
+                intermediaryAirport_SellTicket = new BindableCollection<SanBayTrungGian>(selectedFlight_SellTicket.SanBayTrungGian);
+                DetailTypeSticket_DetailFlight_SellTicket = new BindableCollection<ChiTietHangGhe>(selectedFlight_SellTicket.ChiTietHangGhesList);
+                OnPropertyChanged("IntermediaryAirport_SellTicket");
+                OnPropertyChanged("DetailTypeSticket_DetailFlight_SellTicket");
+            }
+            else
+            {
+                ButtonDetailFlight_SellTicket();
+                ChuyenBay selected = obj as ChuyenBay;
+                SelectedFlight_SellTicket = selected;
+                intermediaryAirport_SellTicket = new BindableCollection<SanBayTrungGian>(selectedFlight_SellTicket.SanBayTrungGian);
+                DetailTypeSticket_DetailFlight_SellTicket = new BindableCollection<ChiTietHangGhe>(selectedFlight_SellTicket.ChiTietHangGhesList);
+                OnPropertyChanged("IntermediaryAirport_SellTicket");
+                OnPropertyChanged("DetailTypeSticket_DetailFlight_SellTicket");
+            }
+        }
+        #endregion
+
+        #region Loai hang ve
+
+        public ICommand InsertTickTypeCommand_Setting { get; set; }
+        void insertTicket_Setting()
+        {
+            InsertTicketDialog insertTicketDialog = new InsertTicketDialog();
+            insertTicketDialog.ShowDialog();
+            ListTicketType_Setting.Add(insertTicketDialog.viewModel.GetResult());
+            
+        }
+        public ICommand DeleteTickTypeCommand_Setting { get; set; }
+        void deleteTicket_Setting()
+        {
+            if (TicketType_Setting != null)
+                ListTicketType_Setting.Remove(TicketType_Setting);
+        }
+        public ICommand ResetTickTypeCommand_Setting { get; set; }
+        void resetTicket_Setting()
+        {
+            ListTicketType_Setting.Clear();
+            backupListTicketType_Setting.Clear();
+            LoadSQL();
+            ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(backupListTicketType_Setting); 
+
+        }
+        public ICommand SaveCommand_Setting { get; set; }
+        void save_Setting()
+        {
+            
+
+        }
+
+
+
+        private LoaiHangGhe ticketType_Setting;
+        public LoaiHangGhe TicketType_Setting
+        {
+            get { return ticketType_Setting; }
+            set
+            {
+                ticketType_Setting = value;
+                OnPropertyChanged("TicketType_Setting");
+            }
+        }
+        private ObservableCollection<LoaiHangGhe> listTicketType_Setting;
+        public ObservableCollection<LoaiHangGhe> ListTicketType_Setting
+        {
+            get { return listTicketType_Setting; }
+            set { listTicketType_Setting = value; OnPropertyChanged("ListTicketType_Setting"); }
+        }
+        private List<LoaiHangGhe> backupListTicketType_Setting;
+
+        private SqlConnection Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
+        public void LoadSQL()
+        {
+            try
+            {
+                Connection.Open();
+                #region Truy vấn dữ liệu từ sql
+                SqlCommand command = new SqlCommand("SELECT * FROM LOAI_HANG_GHE ", Connection);
+                command.CommandType = CommandType.Text;
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                #endregion
+                if (dataTable.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        LoaiHangGhe hangGhe = new LoaiHangGhe();
+                        hangGhe.MaLoaiHangGhe = row["MA_LOAI_HANG_GHE"].ToString();
+                        hangGhe.TenLoaiHangGhe = row["TEN_LOAI_HANG_GHE"].ToString();
+                        hangGhe.TyLe = row["TY_LE"].ToString();
+                        backupListTicketType_Setting.Add(hangGhe);
+                    }
+                }
+
+                var newList = backupListTicketType_Setting.OrderByDescending(e => Convert.ToInt32(e.TyLe));
+                backupListTicketType_Setting = new List<LoaiHangGhe>(newList);
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+
+
+
+        #endregion
     }
 }

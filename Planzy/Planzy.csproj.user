@@ -16,6 +16,9 @@
     <Compile Update="LoginRegister\Register.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\InsertTicketDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\InternetCheckingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -40,6 +43,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="LoginRegister\Login.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\InsertTicketDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\InternetCheckingView.xaml">

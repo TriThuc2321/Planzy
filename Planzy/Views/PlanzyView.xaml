@@ -8,10 +8,9 @@
              d:DesignHeight="600" d:DesignWidth="1000"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:bt ="clr-namespace:Planzy.Views" 
-             xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"
-             Visibility="{Binding StateOfWindow}"
+             xmlns:viewmodels="clr-namespace:Planzy.ViewModels"             
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             xmlns:chartTool ="clr-namespace:Planzy.Views" xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+             xmlns:chartTool ="clr-namespace:Planzy.Views" xmlns:sys="clr-namespace:System;assembly=System.Runtime" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}">
     <!--d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"-->
     <UserControl.Resources>
         <sys:Double x:Key="TextSizeForButton" >12</sys:Double>
@@ -128,7 +127,7 @@
                 </Button>
                 <Button Name="btn_User" Grid.Row="5" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon6.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand6}" >
                     <StackPanel Orientation="Horizontal" Width="150" Height="50">
-                        <materialDesign:PackIcon Name="ic_User" Kind="Account" 
+                        <materialDesign:PackIcon Name="ic_User" Kind="AccountOutline" 
                                       Height="30" Width="30" 
                                       VerticalAlignment="Center" Margin="5,5,5,5"
                                       Foreground="{Binding IsDuocChon6.NewForeground}"/>
@@ -145,12 +144,29 @@
                 </Button>
 
 
+                <Button Name="btn_Setting" Grid.Row="6" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon8.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand8}" >
+                    <StackPanel Orientation="Horizontal" Width="150" Height="50">
+                        <materialDesign:PackIcon Name="ic_Setting" Kind="CogOutline" 
+                                      Height="30" Width="30" 
+                                      VerticalAlignment="Center" Margin="5,5,5,5"
+                                      Foreground="{Binding IsDuocChon8.NewForeground}"/>
+                        <Label Name="lb_Setting"
+                               Content="Cài đặt" Width="100" Height="50" 
+                               VerticalAlignment="Center" 
+                               VerticalContentAlignment="Center" 
+                               HorizontalAlignment="Right" 
+                               HorizontalContentAlignment="Center" FontSize="15"
+                               FontWeight="Bold"
+                               Margin="5,5,5,5"
+                               Foreground="{Binding IsDuocChon8.NewForeground}"/>
+                    </StackPanel>
+                </Button>
+                
             </Grid>
             <Grid Grid.Column="1" Margin="10,10, 25,10" >
                 <Border BorderThickness="2" BorderBrush="#FF5867AC">
                     <Grid Background="White">
                         <Grid Name ="gr_DatVe" Visibility="{Binding IsDuocChon1.NewVisibility}">
-
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
@@ -160,7 +176,6 @@
                                       Grid.Row="1"
                                       SelectedItem="{Binding SelectedFlight}"
                                          >
-
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="Mã Chuyến Bay" Width="200">
@@ -467,198 +482,347 @@
                             </Grid>
                         </Grid>
                         <Grid x:Name ="gr_BanVe" Visibility="{Binding IsDuocChon2.NewVisibility}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="200"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <ListView x:Name="lvsBanve" 
+                                      ItemsSource="{Binding FlightSearchList_SellTicket}" 
+                                      Grid.Row="1"
+                                      SelectedItem="{Binding SelectedFlight_SellTicket}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Mã Chuyến Bay" Width="200">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal" Background="White">
+                                                        <Button Content=" Chi tiết " 
+                                                                    Background="Black"
+                                                                    Foreground="White"
+                                                                 Command="{Binding ElementName=lvsBanve , Path= DataContext.ChooseDetailFlight_SellTicket}"
+                                                                CommandParameter="{Binding}"
+                                                             Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                                            ></Button>
+                                                        <TextBlock Text=" "></TextBlock>
+                                                        <TextBlock Text="{Binding MaChuyenBay}"                                                                       
+                                                                       FontSize="15"></TextBlock>
+                                                        <TextBlock Text="   "></TextBlock>
 
-                            <Grid Grid.Column="1">
-                                <Button Grid.Column="0" Grid.Row="1"
-                                        Height="20"
-                                        Width="26"
-                                        Background="#FF5867AC" BorderBrush="{x:Null}"
-                                        Grid.ColumnSpan="2"
-                                        Command="{Binding DoiViTriSanBayCommand}" HorizontalAlignment="Center" 
-                                        VerticalAlignment="Top"
-                                        Margin="0 17 0 0"
-                                        >
-                                    <materialDesign:PackIcon Kind="ArrowLeftRightBold"/>
-                                </Button>
-                            </Grid>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
 
-                            <Grid Grid.Column="0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
+                                        <GridViewColumn Header="Sân Bay Đến" Width="200">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding SanBayDen.TenSanBay}"></TextBlock>
 
-                                <Grid Grid.Row="0">
-                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Header="Sân Bay Đi" Width="200">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding SanBayDi.TenSanBay}"></TextBlock>
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Header="Ngày Khởi Hành" Width="200">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NgayBay}"></TextBlock>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Header="Thời Gian" Width="200">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding ThoiGianBay}"></TextBlock>
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Header="Số Vé Còn Lại" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding SoGheHang1}"></TextBlock>
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="1" Grid.Row="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+
+                                </Grid>
+
+                                <Grid Grid.Column="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="2">
+                                        <StackPanel Grid.Row="1" Grid.Column="0" 
                                             Orientation="Horizontal"
                                             Margin="20 0 0 10">
-                                        <Label Content="Điểm xuất phát: "
+                                            <Label Content="Điểm xuất phát: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                        <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                            <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
                                               VerticalAlignment="Bottom" Width="200"
                                               Foreground="Black"
                                               FontSize="15"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
-                                              ItemsSource="{Binding SanBayDisList, Mode=TwoWay}"
-                                              SelectedItem="{Binding SanBayDiDaChon, Mode=TwoWay}" TabIndex="2">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Id}" Width="50"/>
-                                                        <TextBlock Text=" - " Width="20"/>
-                                                        <TextBlock Text="{Binding TenSanBay}" Width="130"/>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                    </StackPanel>
-                                </Grid>
+                                              ItemsSource="{Binding DepartureList_SellTicket, Mode=TwoWay}"
+                                              SelectedItem="{Binding SelectedDeparture_SellTicket, Mode=TwoWay}" TabIndex="2">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Id}" Width="50"/>
+                                                            <TextBlock Text=" - " Width="20"/>
+                                                            <TextBlock Text="{Binding TenSanBay}" Width="130"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Grid>
 
-                                <Grid Grid.Row="1">
-                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                    <Grid Grid.Row="0">
+                                        <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
-                                            Margin="20 0 0 10">
-                                        <Label Content="Hành khách: "
+                                            Margin="20 5 25 10"
+                                            Background="LightBlue">
+                                            <Label Content="Mã Chuyến Bay Đã Chọn: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="100"/>
-                                        <TextBox Width="200" Text="{Binding Passenger}" 
+                                           Width="150"/>
+                                            <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.MaChuyenBay}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
+                                             IsReadOnly="True"
                                              FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
-                                    </StackPanel>
-                                </Grid>
+                                        </StackPanel>
+                                    </Grid>
 
-                                <Grid Grid.Row="2">
-                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                    <Grid Grid.Row="1">
+                                        <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
-                                            Margin="20 0 0 10">
-                                        <Label Content="Điện thoại: "
+                                            Margin="20 0 25 10"
+                                                    Background="LightBlue">
+                                            <Label Content="Điểm xuất phát: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                        <TextBox Width="200" Text="{Binding PhoneNumber}"                                             
+                                            <TextBox Width="240" Text="{Binding SelectedFlight_SellTicket.SanBayDi.TenSanBay}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
-                                    </StackPanel>
-                                </Grid>
-
-                                <Grid Grid.Row="3">
-                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0"
+                                                     IsReadOnly="True"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Row="3">
+                                        <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
                                             Margin="20 0 0 10">
-                                        <Label Content="Ngày đi: "
+                                            <Label Content="Ngày đi: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"/>
-                                        <DatePicker Width="200"
+                                            <DatePicker Width="200"
                                                 Foreground="Black"
                                                 FontWeight="Bold"
                                                 FontSize="15"
                                                 VerticalAlignment="Bottom" BorderBrush="#FF5867AC"
-                                                SelectedDate="{Binding FlightDate}" TabIndex="4"
+                                                SelectedDate="{Binding SelectedDate_SellTicket}" TabIndex="4"
                                                 />
-                                    </StackPanel>
+                                        </StackPanel>
+
+                                    </Grid>
+
+
+
+
                                 </Grid>
 
-                            </Grid>
-
-                            <Grid Grid.Column="2">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="0">
-                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                <Grid Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 0 10"
+                                            Background="Wheat"
+                                                    Visibility="Hidden">
+                                            <Label Content="Ngày đi: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                            <DatePicker Width="200"
+                                                Foreground="Black"
+                                                FontWeight="Bold"
+                                                FontSize="15"
+                                                VerticalAlignment="Bottom" BorderBrush="#FF5867AC"
+                                                SelectedDate="{Binding SelectedDate_SellTicket}" TabIndex="4"
+                                                />
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
                                             Margin="20 0 20 10">
-                                        <Label Content="Điểm đến: "
+                                            <Label Content="Điểm đến: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="70"/>
-                                        <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
-                                              VerticalAlignment="Bottom" Width="240"
-                                              Foreground="Black"
-                                              FontSize="15"
-                                              FontWeight="Bold" BorderBrush="#FF5867AC"
-                                              ItemsSource="{Binding SanBayDensList, Mode=TwoWay}"
-                                              SelectedItem="{Binding SanBayDenDaChon, Mode=TwoWay}" TabIndex="2">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Id}" Width="50"/>
-                                                        <TextBlock Text=" - " Width="20"/>
-                                                        <TextBlock Text="{Binding TenSanBay}" Width="130"/>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                    </StackPanel>
-                                </Grid>
-
-                                <Grid Grid.Row="1">
-                                    <StackPanel Grid.Row="0" Grid.Column="0" 
-                                            Orientation="Horizontal"
-                                            Margin="20 0 0 10">
-                                        <Label Content="CMND: "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="70"/>
-                                        <TextBox Width="240" Text="{Binding CMND}" 
-                                             VerticalContentAlignment="Bottom"
-                                             FontSize="15"
-                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Grid.Row="2">
-                                    <StackPanel Grid.Row="0" Grid.Column="0" 
-                                            Orientation="Horizontal"
-                                            Margin="20 0 0 10">
-                                        <Label Content="Hạng vé: "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="70"/>
-                                        <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                            <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
                                               VerticalAlignment="Bottom" Width="200"
                                               Foreground="Black"
                                               FontSize="15"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
-                                              ItemsSource="{Binding SanBayDisList, Mode=TwoWay}"
-                                              SelectedItem="{Binding SanBayDiDaChon, Mode=TwoWay}" TabIndex="2">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Id}" Width="50"/>
-                                                        <TextBlock Text=" - " Width="20"/>
-                                                        <TextBlock Text="{Binding TenSanBay}" Width="130"/>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                    </StackPanel>
-                                </Grid>
+                                              ItemsSource="{Binding DestinationList_SellTicket, Mode=TwoWay}"
+                                              SelectedItem="{Binding SelectedDestination_SellTicket, Mode=TwoWay}" TabIndex="2">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Id}" Width="50"/>
+                                                            <TextBlock Text=" - " Width="20"/>
+                                                            <TextBlock Text="{Binding TenSanBay}" Width="130"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Grid>
 
+                                    <Grid Grid.Row="1">
+                                        <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 20 10"
+                                                Background="LightBlue">
+                                            <Label Content="Điểm đến: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="70"/>
+                                            <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="200"
+                                              Foreground="Black"
+                                              FontSize="15"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              ItemsSource="{Binding DestinationList_SellTicket, Mode=TwoWay}"
+                                              SelectedItem="{Binding SelectedDestination_SellTicket, Mode=TwoWay}" TabIndex="2">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Id}" Width="50"/>
+                                                            <TextBlock Text=" - " Width="20"/>
+                                                            <TextBlock Text="{Binding TenSanBay}" Width="130"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 0 20 10"
+                                                Background="LightBlue">
+                                            <Label Content="Điểm đến: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="70"/>
+                                            <TextBox Width="240" Text="{Binding SelectedFlight_SellTicket.SanBayDen.TenSanBay}" 
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" 
+                                                 IsReadOnly="True"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <DockPanel Grid.Row="3">
+                                        <Button
+                                            Content="Tìm Chuyến Bay"
+                                            Height="40"
+                                            FontSize="10"
+                                            Width="120"
+                                            Background="White"
+                                            Margin=" 20 5 5 5"
+                                            Command="{Binding searchFlightCommand_SellTicket}"
+                                                >
+                                        </Button>
+                                        <Button
+                                                Content="Xem Tất Cả"
+                                                Height="40"
+                                            FontSize="10"
+                                            Background="White"
+                                                Width="90"
+                                            Margin=" 10 5 0 5"
+                                            Command="{Binding showAllFightsCommand_SellTicket}"
+                                                >
+                                        </Button>
+
+                                        <Button Content="Tiếp Tục"
+                                                Height="40"
+                                                FontSize="10"
+                                                Width="90"
+                                                HorizontalAlignment="Right"
+                                                Background="White"
+                                                Margin="5 5 10 5"
+                                                Command="{Binding ChooseContinueButton_SellTicketCommand}"
+                                                CommandParameter="{Binding SelectedItem,ElementName=lvsBanve}"
+                                                ></Button>
+                                    </DockPanel>
+
+                                </Grid>
                             </Grid>
                         </Grid>
                         <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}"
@@ -903,7 +1067,7 @@
                                 <RowDefinition Height="84"></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <Grid Grid.Row="0">
+                            <Grid Grid.Row="0" Margin="15 0 15 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="50"/>
@@ -1050,7 +1214,7 @@
 
 
                             </Grid>
-                            <Grid Grid.Row="1">
+                            <Grid Grid.Row="1" Margin="15 0 15 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="90"></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
@@ -1176,7 +1340,7 @@
                                              loc:FocusExtension.IsFocused="{Binding IsFocusSoGheHang8}"/>
                                 </StackPanel>
                             </Grid>
-                            <Grid Grid.Row="2">
+                            <Grid Grid.Row="2" Margin="15 0 15 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
@@ -1465,7 +1629,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_DoanhThu" Visibility="{Binding IsDuocChon5.NewVisibility}">
+                        <Grid Name ="gr_DoanhThu" Visibility="{Binding IsDuocChon5.NewVisibility}" Margin="15">
                             <Grid Visibility="{Binding IsVisibleBieuDo}" x:Name="BieuDoView">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="60"/>
@@ -1595,7 +1759,8 @@
                                                 Background="#FF5867AC" FontSize="{DynamicResource ResourceKey= TextSizeForButton}" BorderBrush="{x:Null}" Margin="10,0,0,0"
                                                 FontWeight="Bold"
                                                 />
-                                    <Button Content="Xuất biểu đồ" 
+
+                                        <Button Content="Xuất biểu đồ" 
                                                 Command="{Binding XuatPDFVisualCommand}" 
                                                 CommandParameter="{Binding ElementName=viewBaoCaoThang}"
                                                 HorizontalAlignment="Right"
@@ -1642,7 +1807,7 @@
                                                    Width="60"
                                                    HorizontalAlignment="Left"></Image>
                                         </Grid>
-                                        <ListView Grid.Row="2" Margin="10" x:Name="listBaoCaoThang" ItemsSource="{Binding doanhThuThangDaChon}" BorderBrush="Black" VerticalContentAlignment="Stretch">
+                                        <ListView Grid.Row="2" Width="720" x:Name="listBaoCaoThang" ItemsSource="{Binding doanhThuThangDaChon}" BorderBrush="Black" VerticalContentAlignment="Stretch">
                                             <ListView.View>
                                                 <GridView>
                                                     <GridViewColumn Header="Mã chuyến bay" Width="Auto" >
@@ -1804,7 +1969,7 @@
                                                    Width="60"
                                                    HorizontalAlignment="Left"></Image>
                                         </Grid>
-                                        <ListView Grid.Row="2" Margin="10" x:Name="listBaoCaoNam" ItemsSource="{Binding DoanhThuThangs}" BorderBrush="Black" VerticalContentAlignment="Stretch">
+                                        <ListView Grid.Row="2" Width="600" x:Name="listBaoCaoNam" ItemsSource="{Binding DoanhThuThangs}" BorderBrush="Black" VerticalContentAlignment="Stretch">
                                             <ListView.View>
                                                 <GridView>
                                                     <GridViewColumn Header="Tháng" Width="Auto" >
@@ -2820,6 +2985,832 @@
                                 <Image Source="/Views/logo.png" ></Image>
                                 <Label Content=" Thông Tin Chuyến Bay" Foreground="Black" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0 17 0 0"/>
 
+
+                            </Grid>
+
+
+                        </Grid>
+                        <Grid Name="gr_ChiTietBanVe" Visibility="{Binding IsContinueButton_SellTicket.NewVisibility}"
+                              Background="White">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="2" Background="White">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="230"></ColumnDefinition>
+                                    <ColumnDefinition Width="120"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="1"
+                                            Orientation="Horizontal">
+                                    <Label 
+                                       FontSize="15"
+                                       FontWeight="Bold"
+                                    VerticalContentAlignment="Center"
+                                    Foreground="#FF5867AC">Tổng Tiền:</Label>
+                                    <Label FontSize="15"
+                                       FontWeight="Bold"
+                                       Width="150"
+                                       Content="{Binding SellTicket.Cost}"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="Black">
+
+                                    </Label>
+                                </StackPanel>
+
+                                <Button Grid.Column="2"
+                                    HorizontalAlignment="Center"
+                                        Background="LightGreen"
+                                        Margin="0 0 10 0"
+                                         Command="{Binding ChoosePayButtonCommand_SellTicket}"
+                                         CommandParameter="{Binding Children,ElementName=PassengerInforGrid_SellTicket}">
+                                    Thanh Toán
+                                </Button>
+                            </Grid>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Button 
+                                    BorderBrush="{x:Null}"
+                                    Background="White"
+                                    Grid.Column="0"
+                                    Content="Quay lại"
+                                    Command="{Binding ChooseBackButtonCommand_SellTicket}"
+                                    Margin="10 0 0 0">
+                                </Button>
+                                <Image Grid.Column="1"
+                                    Source="/Views/logo.png"
+                                       Margin="0 10 95 -10"
+                                       ></Image>
+                            </Grid>
+
+                            <Grid Grid.Row="1" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"></RowDefinition>
+                                    <RowDefinition Height="130" ></RowDefinition>
+                                    <RowDefinition ></RowDefinition>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Label Content="Vé Chuyến Bay"
+                                           HorizontalAlignment="Center"
+                                           FontSize="25"
+                                           FontWeight="Bold"
+                                           Margin="0 8 0 0"                                         
+                                           ></Label>
+                                </Grid>
+
+                                <Grid Grid.Row="1"  Background="LightBlue" 
+                                      Margin="15 10 15 0" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition Width="40"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="20"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <Label Content="Thông Tin Chuyến Bay"
+                                           HorizontalAlignment="Left"
+                                           FontSize="15"
+                                           FontWeight="Bold"
+                                                   Margin="20 0 0 0"
+                                          
+                                           ></Label>
+                                        </Grid>
+                                        <StackPanel Grid.Row="1"
+                                            Orientation="Horizontal"
+                                                    Margin="20 0 0 0">
+                                            <Label Content="Mã Chuyến Bay "
+                                                VerticalContentAlignment="Center"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="100"/>
+                                            <TextBox Width="170" Text="{Binding SelectedFlight_SellTicket.MaChuyenBay}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             IsReadOnly="True"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="2"
+                                                    Orientation="Horizontal"
+                                                    Margin="20 0 0 0">
+                                            <Label 
+                                                Content="Ngày Bay "
+                                                VerticalContentAlignment="Center"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="100"/>
+
+                                            <TextBox Text="{Binding DateofSelectedFlight_SellTicket[11]}"
+                                                    Foreground="Black"
+                                                    FontWeight="Bold"
+                                                    FontSize="15"
+                                                    Width="170"
+                                                    IsReadOnly="True"
+                                                    VerticalAlignment="Bottom" 
+                                                    BorderBrush="#FF5867AC">
+
+                                            </TextBox>
+                                        </StackPanel>
+
+
+                                    </Grid>
+                                    <Grid Grid.Column="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="20"></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+
+                                        <StackPanel Grid.Row="1"
+                                            Orientation="Horizontal"
+                                                    Margin="20 0 0 0">
+                                            <Label Content="Sân Bay Đến "
+                                           VerticalContentAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                            <TextBox Width="170" Text="{Binding SelectedFlight_SellTicket.SanBayDen.TenSanBay}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                                     IsReadOnly="True"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="2"
+                                            Orientation="Horizontal"
+                                                    Margin="20 0 0 0">
+                                            <Label Content="Sân Bay Đi"
+                                           VerticalContentAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                            <TextBox Width="170" Text="{Binding SelectedFlight_SellTicket.SanBayDi.TenSanBay}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                                     IsReadOnly="True"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                        </StackPanel>
+
+                                    </Grid>
+
+
+                                </Grid>
+
+                                <Grid Name="PassengerInforGrid_SellTicket"
+                                    Grid.Row="2" Background="LightBlue" 
+                                      Margin="15 10 15 0"
+                                >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition Width="40"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+
+                                        </Grid.RowDefinitions>
+                                        <Label Content="Thông Tin Hành Khách"
+                                               FontSize="15"
+                                               FontWeight="Bold"
+                                               Margin="20 15 0 0 "
+                                               ></Label>
+                                        <Grid Grid.Row="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition Height="30"></RowDefinition>
+
+                                            </Grid.RowDefinitions>
+
+                                            <StackPanel Grid.Row="0"
+                                            Orientation="Horizontal"
+                                                    Margin="20 0 0 0"
+                                                        >
+                                                <ComboBox
+                                                     materialDesign:HintAssist.Hint="Quý danh "
+                                                    Margin="5 0 10 0"
+                                                    FontSize="12"
+                                                    FontWeight="Bold"
+                                                    Foreground="Black"
+                                                    HorizontalContentAlignment="Center">
+                                                    <ComboBoxItem
+                                                        Content="Ông" />
+                                                    <ComboBoxItem
+                                                        Content="Bà" />
+                                                    <ComboBoxItem
+                                                        Content="Anh" />
+                                                    <ComboBoxItem
+                                                        Content="Chị" />
+                                                </ComboBox>
+
+                                                <TextBox
+                                                    Name="PassengerName_SellTicket"
+                                                     materialDesign:HintAssist.Hint="Họ và Tên"
+                                                    Text="{Binding SellTicket.Passenger}"
+                                                     VerticalAlignment="Center" 
+                                                    Margin="20 0 0 0"
+                                                    FontSize="12"
+                                                    FontWeight="Bold"
+                                                    Width="160"                                        
+                                                    Foreground="#FF5867AC"/>
+
+
+
+
+
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Row="1"
+                                            Orientation="Horizontal"
+                                                    Margin="20 0 0 0">
+                                                <Label Content="Số điện thoại "
+                                           VerticalContentAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                                <TextBox 
+                                                    Name="PhoneNumber_SellTicket"
+                                                    Width="170"
+                                                         Text="{Binding SellTicket.PhoneNumber}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="12"
+                                             Height="30"
+                                             Margin="0 0 0 10"
+                                             MaxLength="11"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Row="2"
+                                            Orientation="Horizontal"
+                                                    Margin="20 0 0 0">
+                                                <Label Content="Gmail"
+                                           VerticalContentAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                                <TextBox Width="170"
+                                                         Text="{Binding SellTicket.Gmail}"
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="12"
+                                             Height="30"
+                                              Margin="0 0 0 10"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Row="3"
+                                            Orientation="Horizontal"
+                                                    Margin="20 0 0 0">
+                                                <Label Content="Địa chỉ "
+                                           VerticalContentAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                                <TextBox 
+                                                    Name="Address_SellTicket"
+                                                    Width="170" 
+                                                         Text="{Binding SellTicket.Address}"
+                                             VerticalContentAlignment="Bottom"                                             
+                                             FontSize="12"
+                                             Margin="0 0 0 15"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                            </StackPanel>
+
+                                        </Grid>
+
+                                    </Grid>
+                                    <Grid Grid.Column="2" Background="LightBlue"
+                                        >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition Height="30"></RowDefinition>
+
+
+
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Grid.Row="0"
+                                            Orientation="Horizontal"
+                                                    Margin="20 0 0 0">
+                                                <Label Content="Số CMND "
+                                           VerticalContentAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="100"/>
+                                                <TextBox 
+                                                    Name="CMND_SellTicket"
+                                                    Width="170" 
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="12"
+                                             Margin="0 0 0 15"
+                                                         Text="{Binding SellTicket.CMND}"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="1"
+                                            Orientation="Horizontal"
+                                                    Margin="20 0 0 0">
+                                                <Label Content="Hạng vé"
+                                           VerticalContentAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="80"/>
+                                                <ComboBox Name="comboxtickettype_SellTicket"
+                                                      VerticalAlignment="Center" 
+                                                    Margin="0 -15 0 0"
+                                                    FontSize="12"
+                                                    FontWeight="Bold"
+                                                    Width="100"
+                                                    Height="40"
+                                                    SelectedItem="{Binding TicketType_Setting}"
+                                                    Foreground="#FF5867AC"
+                                                     materialDesign:HintAssist.Hint="Chọn Hạng Vé"
+                                                     ItemsSource="{Binding ListTicketType_Setting}"
+                                                        Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                                    <ComboBox.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <VirtualizingStackPanel />
+                                                        </ItemsPanelTemplate>
+                                                    </ComboBox.ItemsPanel>
+                                                </ComboBox>
+                                                <TextBox
+                                                    Name="TicketTypeAmount_SellTicket"
+                                                     materialDesign:HintAssist.Hint="Số Lượng Còn Lại"
+                                                    Text="{Binding TicketTypeAmount_SellTicket}"
+                                                     VerticalAlignment="Center" 
+                                                    Margin="20 0 0 0"
+                                                    FontSize="12"
+                                                    FontWeight="Bold"
+                                                    Width="100"
+                                                    IsReadOnly="True"                                                    
+                                                    Foreground="#FF5867AC"/>
+
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="2"
+                                                Grid.RowSpan="2">
+                                                <CheckBox
+                                                 IsChecked="{Binding IsSetRequest_SellTicket}"
+                                                 Content="Yêu cầu khách hàng nếu có"
+                                                    FontSize="12"
+                                                     Margin="20 0 0 0"
+                                                    FontWeight="SemiBold"
+                                                    Foreground="#FF5867AC"/>
+                                                <TextBox
+                                                Text="{Binding SellTicket.Request}"
+                                                VerticalAlignment="Top"
+                                                Height="80"   
+                                                FontSize="10"
+                                                FontWeight="SemiBold"
+                                                AcceptsReturn="True"
+                                                TextWrapping="Wrap"
+                                                VerticalScrollBarVisibility="Auto"
+                                                Background="{Binding RequestComboxBackground_SellTicket}"                                                   
+                                                Margin="20 10 10 10"
+                                                IsEnabled="{Binding IsSetRequest_SellTicket}"
+                                                MaxLength="100"/>
+                                            </StackPanel>
+
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+
+                        </Grid>
+                        <Grid Name ="gr_Setting" Margin ="15" Visibility="{Binding IsDuocChon8.NewVisibility}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="Quy định về hạng vé: "
+                                           VerticalContentAlignment="Bottom"
+                                           HorizontalAlignment="Left"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="Auto"
+                                           Margin="0 0 0 0"/>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" 
+                                                Orientation="Horizontal"
+                                                Margin="20 0 0 0">
+                                        <Label Content="Mã hạng vé: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                                        <Label Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Content="{Binding TicketType_Setting.MaLoaiHangGhe}"
+                                                />
+                                        <Label Content="Tên hạng vé: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                        <TextBox Width="100"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Text="{Binding TicketType_Setting.TenLoaiHangGhe}"
+                                                />
+                                        <Label Content="Tỷ lệ: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                               Margin="10 0 0 0"/>
+                                        <TextBox Width="40"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Text="{Binding TicketType_Setting.TyLe}"
+                                                />
+                                        <Label Content="Danh sách: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="Auto"
+                                               Margin="10 0 0 0"/>
+                                        <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="230"
+                                              FontSize="10"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              SelectedItem="{Binding TicketType_Setting}"
+                                              Foreground="Black"                                              
+                                              ItemsSource="{Binding ListTicketType_Setting}"
+                                              >
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding MaLoaiHangGhe}" Width="20"/>
+                                                        <TextBlock Text=" - " Width="20"/>
+                                                        <TextBlock Text="{Binding TenLoaiHangGhe}" Width="120"/>
+                                                        <TextBlock Text=" - " Width="20"/>
+                                                        <TextBlock Text="{Binding TyLe}" Width="30"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
+                                            Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Content="Thêm" VerticalAlignment="Center" Margin="5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue"
+                                                FontSize="12" 
+                                                FontWeight="Bold" 
+                                                BorderBrush="{x:Null}"
+                                                Command="{Binding InsertTickTypeCommand_Setting}"
+                                                />
+                                        <Button Content="Xóa" VerticalAlignment="Center" Margin=" 5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" 
+                                                FontSize="12" 
+                                                FontWeight="Bold" 
+                                                BorderBrush="{x:Null}"
+                                                Command="{Binding DeleteTickTypeCommand_Setting}"
+                                                />
+                                        <Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue"
+                                                FontSize="12"
+                                                FontWeight="Bold"
+                                                BorderBrush="{x:Null}"
+                                                Command="{Binding ResetTickTypeCommand_Setting}"
+                                                />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                            <Grid Grid.Row="2">
+
+                            </Grid>
+                            <Grid Grid.Row="3">
+                                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
+                                            Orientation="Horizontal" HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom">
+                                    <Button Content="Lưu" VerticalAlignment="Center" Margin=" 5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                Command="{Binding SaveCommand_Setting}"
+                                            />
+                                    <Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                />
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                        <Grid Name ="gr_ChiTietChuyenBay_SellTicket" Background="LightBlue" Visibility="{Binding IsDetailFlight_SellTicket.NewVisibility}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="10"></RowDefinition>
+                                <RowDefinition Height="60"></RowDefinition>
+                                <RowDefinition Height="120"></RowDefinition>
+                                <RowDefinition Height="150"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="4" Background="White" Margin="10 5 10 10"                                 >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0">
+                                    <ScrollViewer>
+                                        <ItemsControl Grid.Column="1" ItemsSource="{Binding DetailTypeSticket_DetailFlight_SellTicket}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical"></StackPanel>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border BorderBrush="Black">
+                                                        <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 5 25 10"
+                                            Background="LightBlue">
+                                                            <Label Content= "{Binding TenLoaiHangGhe }"
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="150"/>
+                                                            <TextBox Width="150" Text="{Binding SoLuongGheConLai }" 
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             IsReadOnly="True"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+
+
+
+                                </Grid>
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 5 25 10"
+                                            Background="LightBlue">
+                                        <Label Content="Ngày bay: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="120"/>
+                                        <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.NgayBay}" 
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="12"
+                                             IsReadOnly="True"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 5 25 10"
+                                            Background="LightBlue">
+                                        <Label Content="Thời gian bay: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="120"/>
+                                        <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.GiaVeCoBan}" 
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="12"
+                                             IsReadOnly="True"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
+                                    </StackPanel>
+                                    <Button Grid.Row="2" Grid.Column="1" Content="Bán vé"
+                                            Command="{Binding ChooseContinueButton_SellTicketCommand}"
+                                                CommandParameter="{Binding SelectedItem,ElementName=lvsBanve}"
+                                            Visibility="{Binding IsDuocChon2.NewVisibility}" FontSize="15" FontWeight="Bold" Margin="0 0 10 0" HorizontalAlignment="Right" Width="100" Background="LightGreen"></Button>
+
+                                </Grid>
+                            </Grid>
+                            <Grid Grid.Row="2" Background="White" Margin="10 5 10 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 5 25 10"
+                                            Background="LightBlue">
+                                        <Label Content="Mã Chuyến Bay Đã Chọn: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="150"/>
+                                        <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.MaChuyenBay}" 
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             IsReadOnly="True"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 5 25 10"
+                                            Background="LightBlue">
+                                        <Label Content="Thời gian bay: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="150"/>
+                                        <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.ThoiGianBay}" 
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             IsReadOnly="True"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
+                                    </StackPanel>
+
+                                </Grid>
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 5 25 10"
+                                            Background="LightBlue">
+                                        <Label Content="Sân bay đi: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="150"/>
+                                        <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.SanBayDi.TenSanBay}" 
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             IsReadOnly="True"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" 
+                                            Orientation="Horizontal"
+                                            Margin="20 5 25 10"
+                                            Background="LightBlue">
+                                        <Label Content="Sân bay đến: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="150"/>
+                                        <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.SanBayDen.TenSanBay}" 
+                                             VerticalContentAlignment="Bottom"
+                                             FontSize="15"
+                                             IsReadOnly="True"
+                                             FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
+                                    </StackPanel>
+
+                                </Grid>
+
+                            </Grid>
+                            <Grid Grid.Row="0">
+                                <!--Left Corner-->
+
+                                <Polygon
+                 Fill="CadetBlue"
+                HorizontalAlignment="Left"
+                Margin="60,0,100,0"
+                Height="10"
+                Stretch="Uniform"
+                VerticalAlignment="Top"
+                
+                >
+                                    <Polygon.Points>
+                                        <Point X="0" Y="0"/>
+                                        <Point X="4" Y="4"/>
+                                        <Point X="4" Y="0"/>
+                                    </Polygon.Points>
+                                </Polygon>
+
+                                <!--Center-->
+
+                                <Rectangle
+                Fill="CadetBlue"
+                Margin="70,0,80,0"
+                HorizontalAlignment="Stretch"
+                />
+
+                                <!--Right Conrner-->
+
+                                <Polygon
+                Fill="CadetBlue"
+                HorizontalAlignment="Right"
+                Margin="40,0,70,0"
+                Height="10"
+                Stretch="Uniform"
+                VerticalAlignment="Top">
+                                    <Polygon.Points>
+                                        <Point X="0" Y="0"/>
+                                        <Point X="-4" Y="4"/>
+                                        <Point X="-4" Y="0"/>
+                                    </Polygon.Points>
+                                </Polygon>
+
+                            </Grid>
+                            <Grid Grid.Row="3" Background="White" Margin="10 5 10 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0" Background="CadetBlue">
+                                    <StackPanel Orientation="Vertical" Margin="0 10 0 0" HorizontalAlignment="Center">
+                                        <Image Height="70" Width="70" Stretch="Fill" Source="/Views/pngtree-airplane-clipart-airplane-passenger-plane-png-image_2389936.jpg"></Image>
+                                        <TextBlock Text="Sân bay trung gian" FontWeight="Bold" Margin="10 5 10 0"/>
+
+                                        <TextBlock Text=" Thời gian dừng "  FontWeight="Bold" Margin="10 10 0 0" />
+                                    </StackPanel>
+                                </Grid>
+                                <ScrollViewer Grid.Column="1">
+                                    <ItemsControl Grid.Column="1" ItemsSource="{Binding IntermediaryAirport_SellTicket}">
+
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"></StackPanel>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="CadetBlue" BorderThickness="1" Margin="5 2 5 2">
+                                                    <StackPanel Width="100" Orientation="Vertical" Margin="10 10 10 0" HorizontalAlignment="Center">
+
+                                                        <Image Height="70" Width="70" Stretch="Fill" Source="/Views/pngtree-airplane-clipart-airplane-passenger-plane-png-image_2389936.jpg" VerticalAlignment="Top"></Image>
+                                                        <TextBlock Text="{Binding TenSanBay}" FontWeight="Bold" Margin="10 5 0 0" FontSize="15"/>
+
+                                                        <TextBlock Text="{Binding ThoiGianDung,StringFormat='{}{0} Phút'}"  FontWeight="Bold" Margin="10 5 0 0" FontSize="15" />
+
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Image Source="/Views/logo.png" ></Image>
+                                <Label Content=" Thông Tin Chuyến Bay" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0 17 0 0"/>
+                                <Button Width="100" Content="Quay lại" FontWeight="Bold" Command="{Binding chooseBack_DetailFlightCommand_SellTicket}" Background="LightCoral" HorizontalAlignment="Left" Margin="10 0 0 0"/>
 
                             </Grid>
 

@@ -72,7 +72,7 @@ namespace Planzy.Models.BookingSticketModel
             }
         }
         private string flightID;
-
+         
         public string FlightID
         {
             get { return flightID; }

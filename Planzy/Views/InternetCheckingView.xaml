@@ -44,11 +44,11 @@
                 />
                 
                 <Label 
-                    Content="No internet access" 
+                    Content="Không có kết nối Interet" 
                     Foreground="AliceBlue"
                     FontStyle="Italic"
                     Height="20"
-                    Margin="20 0 0 0"
+                    Margin="15 0 0 0"
                     Visibility="{Binding TextVisibility}"
                 />
                 

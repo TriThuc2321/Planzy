@@ -96,14 +96,11 @@ namespace Planzy.LoginRegister
         {
             string path = "./RemeberAccount.txt";
             if (RememberAccount == true)
-            {
-               
-                if ((accountRemember != null && accountRemember != "") && (passwordRemember != null && passwordRemember != ""))
+            {               
+                if (accountRemember != null && accountRemember != "")
                 {
-
                     StreamWriter sw = new StreamWriter(path);
                     sw.WriteLine(accountRemember);
-                    sw.WriteLine(userServices.Encode(passwordRemember));
                     sw.Close();
                 }
                 
@@ -122,13 +119,12 @@ namespace Planzy.LoginRegister
         {
             this.parentView = p;
             string path = "./RemeberAccount.txt";
-
+            
 
             if (File.Exists(path))
             {
                 StreamReader sr = new StreamReader(path);
                 Account = sr.ReadLine();
-                Password = sr.ReadLine();
                 RememberAccount = true;
             }
         }
@@ -185,6 +181,7 @@ namespace Planzy.LoginRegister
                         MainWindow mainForm = new MainWindow(listUsers[i].Gmail);
                         mainForm.Show();
                         timer.Stop();
+                        checkBoxClick();
                         CreateTxt();
                         p.Close();
                     }
