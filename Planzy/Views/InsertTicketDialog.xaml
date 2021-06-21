@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterScreen"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:InsertTicketDialogViewModel}"
         mc:Ignorable="d"
-        Title="InsertTicketDialog" Height="150" Width="500"
+        Title="InsertTicketDialog" Height="170" Width="500"
         Name="InsertticketView">
     <Grid>
         <Border BorderThickness="2" BorderBrush="#FF5867AC">
@@ -58,9 +58,15 @@
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                  Text="{Binding Ratio}"
                                                 />
-            </StackPanel>
+                    <Label Content="%"
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                               />
+                </StackPanel>
                 <Label
-                    Content="Vui lòng nhập đủ thông tin"
+                    Content="{Binding ErrorMessage}"
                     Width="auto"
                     HorizontalAlignment="Right"
                     Margin="0 0 40 0"

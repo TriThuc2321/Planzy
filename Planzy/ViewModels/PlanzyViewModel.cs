@@ -3944,9 +3944,10 @@ namespace Planzy.ViewModels
         {
             get { return ticketType_Setting; }
             set
-            {
+            {               
                 ticketType_Setting = value;
                 OnPropertyChanged("TicketType_Setting");
+
             }
         }
         private ObservableCollection<LoaiHangGhe> listTicketType_Setting;
@@ -3994,7 +3995,7 @@ namespace Planzy.ViewModels
                 Connection.Close();
             }
         }
-
+        
 
 
 

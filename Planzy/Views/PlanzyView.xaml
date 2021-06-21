@@ -3437,12 +3437,17 @@
                                                 Foreground="#FF5867AC"
                                                 Width="Auto"
                                                Margin="10 0 0 0"/>
-                                        <TextBox Width="40"
+                                        <TextBox Width="30"
                                                 VerticalContentAlignment="Bottom"
                                                 FontSize="10"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                  Text="{Binding TicketType_Setting.TyLe}"
                                                 />
+                                        <Label Content="%"
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
                                         <Label Content="Danh sách: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
@@ -3464,7 +3469,7 @@
                                                         <TextBlock Text=" - " Width="20"/>
                                                         <TextBlock Text="{Binding TenLoaiHangGhe}" Width="120"/>
                                                         <TextBlock Text=" - " Width="20"/>
-                                                        <TextBlock Text="{Binding TyLe}" Width="30"/>
+                                                        <TextBlock Text="{Binding TyLe, StringFormat='{}{0}%'}" Width="30"/>
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
@@ -3616,7 +3621,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="120"/>
-                                        <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.GiaVeCoBan}" 
+                                        <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.ThoiGianBay}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="12"
                                              IsReadOnly="True"
