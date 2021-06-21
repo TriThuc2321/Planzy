@@ -372,7 +372,7 @@ namespace Planzy.ViewModels
 
             backupListTicketType_Setting = new List<LoaiHangGhe>();
             LoadSQL();
-            ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(loaiHangGheServices.GetAll());
+            ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(loaiHangGheServices.GetAll_KhaDung());
 
             /*ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>();
             for(int i = 0; i<backupListTicketType_Setting.Count; i ++)
@@ -3931,8 +3931,9 @@ namespace Planzy.ViewModels
         public ICommand SaveCommand_Setting { get; set; }
         void save_Setting()
         {
-
             ThamSoQuyDinh thamSoQuyDinh = new ThamSoQuyDinh();
+            List<LoaiHangGhe> temp = new List<LoaiHangGhe>(ListTicketType_Setting);
+            thamSoQuyDinh.updateTicketTypeToSql(temp);
 
         }
 
@@ -3963,7 +3964,7 @@ namespace Planzy.ViewModels
             {
                 Connection.Open();
                 #region Truy vấn dữ liệu từ sql
-                SqlCommand command = new SqlCommand("SELECT * FROM LOAI_HANG_GHE ", Connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM LOAI_HANG_GHE WHERE KHA_DUNG = '1'", Connection);
                 command.CommandType = CommandType.Text;
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
                 DataTable dataTable = new DataTable();

@@ -37,7 +37,7 @@ namespace Planzy.ViewModels
 
             loaiHangGheServices = new LoaiHangGheServices();
 
-            Id = loaiHangGheServices.GetId(1);
+            Id = loaiHangGheServices.GetId(2);
 
             ErrorMessageVisibility = "Collapsed";
             SucessMessageVisibility = "Collapsed";

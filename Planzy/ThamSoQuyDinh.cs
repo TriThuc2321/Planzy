@@ -109,8 +109,114 @@ namespace Planzy
             return result;
         }
         #region loaihangghe
+        List<LoaiHangGhe> listUpdate;
+        List<LoaiHangGhe> listInsert;
+        List<LoaiHangGhe> listDelete;
+        LoaiHangGheServices loaiHangGheServices;
+        List<SqlCommand> listSqlCommands;
+        public void updateTicketTypeToSql(List<LoaiHangGhe> listTicketType)
+        {
+            for(int i=0; i<listTicketType.Count; i++)
+            {
+                listTicketType[i].KhaDung = "1";
+            }
+
+            classify(listTicketType);
+
+            listSqlCommands = new List<SqlCommand>();
+
+            for (int i=0; i<listInsert.Count; i++)
+            {
+                string query = "INSERT INTO LOAI_HANG_GHE (MA_LOAI_HANG_GHE, TEN_LOAI_HANG_GHE, TY_LE, KHA_DUNG) VALUES(@Maloaihangghe, @Tenloaihangghe, @Tyle, @Khadung)";
+                SqlCommand command = new SqlCommand(query, SanBayConnection);
+
+                command.Parameters.AddWithValue("@Maloaihangghe", listInsert[i].MaLoaiHangGhe);
+                command.Parameters.AddWithValue("@Tenloaihangghe", listInsert[i].TenLoaiHangGhe);
+                command.Parameters.AddWithValue("@Tyle", listInsert[i].TyLe);
+                command.Parameters.AddWithValue("@Khadung", "1");
+
+                listSqlCommands.Add(command);
+            }
+            
+            for(int i=0; i<listUpdate.Count; i++)
+            {
+                string query = "UPDATE LOAI_HANG_GHE SET TEN_LOAI_HANG_GHE = @Tenloaihangghe, TY_LE = @Tyle, KHA_DUNG = @Khadung WHERE MA_LOAI_HANG_GHE = @Maloaihangghe";
+                SqlCommand command = new SqlCommand(query, SanBayConnection);
+
+                command.Parameters.AddWithValue("@Maloaihangghe", listUpdate[i].MaLoaiHangGhe);
+                command.Parameters.AddWithValue("@Tenloaihangghe", listUpdate[i].TenLoaiHangGhe);
+                command.Parameters.AddWithValue("@Tyle", listUpdate[i].TyLe);
+                command.Parameters.AddWithValue("@Khadung", "1");
+
+                listSqlCommands.Add(command);
+            }
+
+            for (int i = 0; i < listDelete.Count; i++)
+            {
+                string query = "UPDATE LOAI_HANG_GHE SET KHA_DUNG = @Khadung WHERE MA_LOAI_HANG_GHE = @Maloaihangghe";
+                SqlCommand command = new SqlCommand(query, SanBayConnection);
+
+                command.Parameters.AddWithValue("@Maloaihangghe", listDelete[i].MaLoaiHangGhe);
+                command.Parameters.AddWithValue("@Khadung", "0");
+
+                listSqlCommands.Add(command);
+            }
 
 
+            try
+            {
+                SanBayConnection.Open();
+                for(int i=0; i<listSqlCommands.Count; i++)
+                {
+                    listSqlCommands[i].ExecuteNonQuery();
+                }
+
+            }
+            catch (SqlException e)
+            {
+
+            }
+            finally
+            {
+                SanBayConnection.Close();
+            }
+        }
+        void classify(List<LoaiHangGhe> list)
+        {
+            loaiHangGheServices = new LoaiHangGheServices();
+            List<LoaiHangGhe> listSql = loaiHangGheServices.GetAll(); 
+
+            listInsert = new List<LoaiHangGhe>();
+            listUpdate = new List<LoaiHangGhe>();
+            listDelete = new List<LoaiHangGhe>();
+
+            for(int i =0; i< list.Count; i++)
+            {
+                int k = 0;
+                if (listSql.Contains(list[i])) continue;
+
+                for( k =0; k<listSql.Count; k++)
+                {
+                    if(listSql[k].MaLoaiHangGhe == list[i].MaLoaiHangGhe) { 
+                        listUpdate.Add(list[i]);  
+                        break; 
+                    }
+                    
+                }
+                if(k == listSql.Count) { listInsert.Add(list[i]); }
+            }
+            
+            for(int i=0; i< listSql.Count; i++)
+            {
+                int k = 0;
+                for( k =0; k<list.Count(); k++)
+                {
+                    if (listSql[i].MaLoaiHangGhe == list[k].MaLoaiHangGhe) break;
+                }
+                if (k == list.Count) listDelete.Add(listSql[i]);
+            }
+        }
+        
 
         #endregion
     }

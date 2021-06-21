@@ -19,6 +19,7 @@ namespace Planzy.Models.LoaiHangGheModel
             MaLoaiHangGhe = "";
             TenLoaiHangGhe = "";
             TyLe = "";
+            KhaDung = "";
         }
         private string maLoaiHangGhe;
 
