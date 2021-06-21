@@ -35,6 +35,7 @@ namespace Planzy.Models.BanVe
             cost = null;
             gmail = null;
             SaleDate = DateTime.UtcNow.AddDays(0);
+            flownDate = DateTime.Now.AddDays(0);
             address = null;
             request = null;
 
@@ -174,7 +175,13 @@ namespace Planzy.Models.BanVe
             get { return saleDate; }
             set { saleDate = value; OnPropertyChanged("SaleDate"); }
         }
+        private DateTime flownDate = DateTime.UtcNow.AddDays(0);
 
+        public DateTime FlownDate
+        {
+            get { return flownDate; }
+            set { flownDate = value; OnPropertyChanged("FlownDate"); }
+        }
         private string gmail;
 
         public string Gmail
