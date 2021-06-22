@@ -2788,7 +2788,7 @@
                                             Orientation="Horizontal"
                                             Margin="20 5 25 10"
                                             Background="LightBlue">
-                                        <Label Content="Thời gian bay: "
+                                        <Label Content="Giá vé cơ bản: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
@@ -2799,7 +2799,7 @@
                                              IsReadOnly="True"
                                              FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
                                     </StackPanel>
-                                    <Button Grid.Row="2" Grid.Column="1" Content="Đặt vé"
+                                    <Button Grid.Row="2" Grid.Column="1" Content="Đặt vé" BorderBrush="{x:Null}"
                                             Command="{Binding ChooseContinueButtonCommand}"
                                                 CommandParameter="{Binding SelectedItem,ElementName=lvsDatve}"
                                             Visibility="{Binding IsDuocChon1.NewVisibility}" FontSize="15" FontWeight="Bold" Margin="0 0 10 0" HorizontalAlignment="Right" Width="100" Background="LightGreen"></Button>

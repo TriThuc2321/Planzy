@@ -343,3 +343,6 @@ D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InsertTicketDia
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\ThemSanBay.g.cs
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\ThemSanBay.baml
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache
+D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache
+D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Views\ThemSanBay.g.cs
+D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Views\ThemSanBay.baml
