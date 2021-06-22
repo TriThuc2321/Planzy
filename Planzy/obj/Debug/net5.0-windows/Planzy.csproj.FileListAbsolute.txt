@@ -340,6 +340,6 @@ D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InsertTicketDialog.
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InsertTicketDialog.baml
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InsertTicketDialog.g.cs
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InsertTicketDialog.baml
-D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\ThemSanBay.g.cs
 D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Views\ThemSanBay.baml
+D:\Nhap_mon_di_dong\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache

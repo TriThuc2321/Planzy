@@ -314,7 +314,13 @@ namespace Planzy.ViewModels
             SanBaysQuyDinh = new ObservableCollection<SanBay>(sanBayServices.GetSanBayHoatDong());
 
             SanBayTrungGianSapThemsList = new ObservableCollection<SanBay>(sanBayServices.GetSanBayHoatDong());
-            LoaiHangGhesList = loaiHangGheServices.GetAll();
+            LoaiHangGhesList = new List<LoaiHangGhe>( loaiHangGheServices.GetAll_KhaDung());
+            #region tùy chỉnh binding giao diện loại hạng ghế
+            for(int i = LoaiHangGhesList.Count;i< 8;i++)
+            {
+                LoaiHangGhesList.Add(new LoaiHangGhe());
+            }    
+            #endregion
             //SanBayTrungGiansList = new ObservableCollection<SanBayTrungGian>(sanBayTrungGianService.GetAll());
             ChuyenBaysList = new ObservableCollection<ChuyenBay>(chuyenBayServices.GetAll());
 
@@ -1189,7 +1195,12 @@ namespace Planzy.ViewModels
         public DateTime NgayBay
         {
             get { return ngayBay; }
-            set { ngayBay = value; OnPropertyChanged("NgayBay"); }
+            set {
+                if(value<=DateTime.Now)
+                {
+                    CustomMessageBox.Show("Ngày bay sớm nhất là: " + ngayBay.ToShortDateString(), "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }    
+                ngayBay = value; OnPropertyChanged("NgayBay"); }
         }
         private string giaVeCoBan;
 
@@ -1775,6 +1786,10 @@ namespace Planzy.ViewModels
                 }
             }
             LoadUIHangGheTheoChuyenBay(ChuyenBayDaChon.SoLoaiHangGhe.ToString());
+            for(int i = 0;i<ChuyenBayDaChon.ChiTietHangGhesList.Count;i++)
+            {
+                LoaiHangGhesList[i].TenLoaiHangGhe = ChuyenBayDaChon.ChiTietHangGhesList[i].TenLoaiHangGhe;
+            }    
             // kiểm tra rằng chuyến bay đang sửa chửa để hiện thông báo
             maChuyenBayDaChonTrongList = ChuyenBayDaChon.MaChuyenBay;
             isDangSua = true;
@@ -1971,6 +1986,13 @@ namespace Planzy.ViewModels
                         FlightSearchList.RemoveAt(i);
                         FlightSearchList.Add(ChuyenBayDaChon);
                     }
+                }
+                #endregion
+                LoaiHangGhesList = new List<LoaiHangGhe>(loaiHangGheServices.GetAll_KhaDung());
+                #region tùy chỉnh binding giao diện loại hạng ghế
+                for (int i = LoaiHangGhesList.Count; i < 8; i++)
+                {
+                    LoaiHangGhesList.Add(new LoaiHangGhe());
                 }
                 #endregion
                 #region Cập nhập dữ liệu
@@ -2273,6 +2295,13 @@ namespace Planzy.ViewModels
 
         public void LoadUIHangGheTheoChuyenBay(string SoLuongCacHangVe)
         {
+            LoaiHangGhesList = new List<LoaiHangGhe>(loaiHangGheServices.GetAll_KhaDung());
+            #region tùy chỉnh binding giao diện loại hạng ghế
+            for (int i = LoaiHangGhesList.Count; i < 8; i++)
+            {
+                LoaiHangGhesList.Add(new LoaiHangGhe());
+            }
+            #endregion
             if (SoLuongCacHangVe == "1")
             {
                 IsVisibleHang1 = "Visible";
@@ -4000,46 +4029,57 @@ namespace Planzy.ViewModels
         public ICommand ResetTickTypeCommand_Setting { get; set; }
         void resetTicket_Setting()
         {
-            ListTicketType_Setting.Clear();
-            backupListTicketType_Setting.Clear();
-            LoadSQL();
-            ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(backupListTicketType_Setting);
-            #region hủy lưu quy định chuyến bay
-            SanBaysQuyDinh = new ObservableCollection<SanBay>(sanBayServices.GetSanBayHoatDong());
-            sanBaysDaXoa = new List<SanBay>();
-            sanBayMoiThem = new List<SanBay>();
-            ThoiGianBayToiThieu = ThamSoQuyDinh.THOI_GIAN_BAY_TOI_THIEU;
-            SoSanBayTrungGianToiDa = ThamSoQuyDinh.SO_SAN_BAY_TRUNG_GIAN_TOI_DA;
-            ThoiGianDungToiThieu = ThamSoQuyDinh.THOI_GIAN_DUNG_TOI_THIEU;
-            ThoiGianDungToiDa = ThamSoQuyDinh.THOI_GIAN_DUNG_TOI_DA;
-            #endregion
-            #region huy lưu quy định đặt vé
-            ThoiGianHuyVeTreNhat = ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_HUY_VE;
-            ThoiGianDatVeTreNhat = ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_DAT_VE;
-            #endregion
+            MessageBoxResult rs = CustomMessageBox.Show("Xác nhận đặt lại?", "Cảnh báo", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            if (rs == MessageBoxResult.OK)
+            {
+                ListTicketType_Setting.Clear();
+                backupListTicketType_Setting.Clear();
+                LoadSQL();
+                ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(backupListTicketType_Setting);
+                #region hủy lưu quy định chuyến bay
+                SanBaysQuyDinh = new ObservableCollection<SanBay>(sanBayServices.GetSanBayHoatDong());
+                sanBaysDaXoa = new List<SanBay>();
+                sanBayMoiThem = new List<SanBay>();
+                ThoiGianBayToiThieu = ThamSoQuyDinh.THOI_GIAN_BAY_TOI_THIEU;
+                SoSanBayTrungGianToiDa = ThamSoQuyDinh.SO_SAN_BAY_TRUNG_GIAN_TOI_DA;
+                ThoiGianDungToiThieu = ThamSoQuyDinh.THOI_GIAN_DUNG_TOI_THIEU;
+                ThoiGianDungToiDa = ThamSoQuyDinh.THOI_GIAN_DUNG_TOI_DA;
+                #endregion
+                #region huy lưu quy định đặt vé
+                ThoiGianHuyVeTreNhat = ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_HUY_VE;
+                ThoiGianDatVeTreNhat = ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_DAT_VE;
+                #endregion
+            }
 
         }
         public ICommand SaveCommand_Setting { get; set; }
         void save_Setting()
         {
-            #region Lưu quy định chuyến bay và đặt vé
-            foreach(SanBay sanBay in sanBaysDaXoa)
+            MessageBoxResult rs = CustomMessageBox.Show("Xác nhận lưu và khởi động lại ứng dụng?", "Cảnh báo", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            if (rs == MessageBoxResult.OK)
             {
-                sanBayServices.DungHoatDongSanBay(sanBay.Id);
-            }
-            foreach (SanBay sanBay in sanBayMoiThem)
-            {
-                sanBayServices.Add(sanBay);
-            }
-            ThamSoQuyDinh.LoadThamSoQuyDinhXuongSQL(ThoiGianBayToiThieu, SoSanBayTrungGianToiDa, ThoiGianDungToiDa, ThoiGianDungToiThieu, loaiHangGheServices.GetHangGheThucSu().Count.ToString(), ThoiGianHuyVeTreNhat, ThoiGianDatVeTreNhat);
-            #endregion
-            #region restart app
+                #region Lưu quy định chuyến bay và đặt vé
+                foreach (SanBay sanBay in sanBaysDaXoa)
+                {
+                    sanBayServices.DungHoatDongSanBay(sanBay.Id);
+                }
+                foreach (SanBay sanBay in sanBayMoiThem)
+                {
+                    sanBayServices.Add(sanBay);
+                }
 
-            logOut();
-            #endregion
-            List<LoaiHangGhe> temp = new List<LoaiHangGhe>(ListTicketType_Setting);
-            ThamSoQuyDinh.updateTicketTypeToSql(temp);
+                #endregion
 
+                List<LoaiHangGhe> temp = new List<LoaiHangGhe>(ListTicketType_Setting);
+                ThamSoQuyDinh.updateTicketTypeToSql(temp);
+                ThamSoQuyDinh.LoadThamSoQuyDinhXuongSQL(ThoiGianBayToiThieu, SoSanBayTrungGianToiDa, ThoiGianDungToiDa, ThoiGianDungToiThieu, temp.Count.ToString(), ThoiGianHuyVeTreNhat, ThoiGianDatVeTreNhat);
+                #region restart app
+
+                logOut();
+                #endregion
+            }
+            else 
+            { }
         }
 
 
@@ -4438,9 +4478,9 @@ namespace Planzy.ViewModels
                     {
                         if (ThoiGianDatVeTreNhat != "")
                         {
-                            if (Convert.ToInt32(value) >= Convert.ToInt32(ThoiGianDatVeTreNhat))
+                            if (Convert.ToInt32(value) <= Convert.ToInt32(ThoiGianDatVeTreNhat))
                             {
-                                CustomMessageBox.Show("Thời gian hủy cần nhỏ hơn thời gian đặt", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                CustomMessageBox.Show("Thời gian hủy cần trước thời gian đặt", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                                 return;
                             }
                             else
@@ -4478,9 +4518,9 @@ namespace Planzy.ViewModels
                     {
                         if (ThoiGianHuyVeTreNhat != "")
                         {
-                            if (Convert.ToInt32(value) <= Convert.ToInt32(ThoiGianHuyVeTreNhat))
+                            if (Convert.ToInt32(value) >= Convert.ToInt32(ThoiGianHuyVeTreNhat))
                             {
-                                CustomMessageBox.Show("Thời gian dừng hủy cần nhỏ hơn thời gian đặt", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                CustomMessageBox.Show("Thời gian hủy cần trước thời gian đặt", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
                                 return;
                             }
                             else

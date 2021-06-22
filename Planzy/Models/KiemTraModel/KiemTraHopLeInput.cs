@@ -72,6 +72,8 @@ namespace Planzy.Models.KiemTraModel
 
         public static bool KiemTraChuoiSoNguyen(string test)
         {
+            if (test == null)
+                return false;
             for (int i = 0; i < test.Length; i++)
             {
                 int j;
@@ -85,7 +87,7 @@ namespace Planzy.Models.KiemTraModel
                 if (j == SO.Length)
                     return false;
             }
-            if (Convert.ToInt32(test) > 0)
+            if (test != "" && Convert.ToInt32(test) > 0)
                 return true;
             else
                 return false;

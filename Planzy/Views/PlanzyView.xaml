@@ -3619,7 +3619,7 @@
                                                 BorderBrush="{x:Null}"
                                                 Command="{Binding DeleteTickTypeCommand_Setting}"
                                                 />
-                                        <Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
+                                        <!--<Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
                                                 HorizontalAlignment="Center"
                                                 Width="100"
                                                 Height="30"
@@ -3630,7 +3630,7 @@
                                                 FontWeight="Bold"
                                                 BorderBrush="{x:Null}"
                                                 Command="{Binding ResetTickTypeCommand_Setting}"
-                                                />
+                                                />-->
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>

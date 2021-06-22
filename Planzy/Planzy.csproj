@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="logo.png" />
     <None Remove="Resources\Images\CanhBaoimage.png" />
     <None Remove="Resources\Images\HoanTatImage.png" />
     <None Remove="Resources\Images\LoiImage.png" />
@@ -28,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="logo.png" />
     <Resource Include="Resources\Images\CanhBaoimage.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

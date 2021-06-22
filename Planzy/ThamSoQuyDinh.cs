@@ -74,8 +74,8 @@ namespace Planzy
                     THOI_GIAN_DUNG_TOI_THIEU + "','" +
                     SO_LUONG_CAC_HANG_VE + "','" +
                     THOI_GIAN_CHAM_NHAT_HUY_VE + "','" +
-                    THOI_GIAN_CHAM_NHAT_DAT_VE + "','" + 
-                    ")",SanBayConnection);
+                    THOI_GIAN_CHAM_NHAT_DAT_VE +
+                    "')",SanBayConnection);
                 command.ExecuteNonQuery();
                 result = true;
             }

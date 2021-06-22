@@ -286,6 +286,7 @@ namespace Planzy.Models.ChuyenBayModel
             foreach (ChuyenBay chuyenBay in ChuyenBaysList)
             {
                 chuyenBay.ChiTietHangGhesList = chiTietHangGheServices.TimListHangGhe(chuyenBay.MaChuyenBay);
+                    chuyenBay.SoLoaiHangGhe = chuyenBay.ChiTietHangGhesList.Count();
             }
         }
         //public SanBay SearchID(string Id)

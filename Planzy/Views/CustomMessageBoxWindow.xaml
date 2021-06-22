@@ -16,7 +16,7 @@
         Title=""
         MinHeight="155" 
         MaxWidth="470" 
-        MinWidth="154"
+        MinWidth="154" Icon="/Views/logo.png"
         >
     <Grid>
         <Grid.RowDefinitions>
@@ -42,9 +42,8 @@
                     MaxWidth="400" 
                     Width="Auto"
                     FontSize="16"
-                    FontWeight="Bold"
                     VerticalAlignment="Top" 
-                    Foreground="#FF5867AC"
+                    Foreground="#000"
                     Margin="20,20,41,15" />
             </DockPanel>
         </Grid>
@@ -72,7 +71,7 @@
                         Margin="0" 
                         Content="Hủy"
                         FontSize="15"
-                        Foreground="#FFFFFF"/>
+                        Foreground="#000"/>
                 </Button>
                 <Button 
                     Name="Button_No" 
@@ -92,7 +91,7 @@
                         Margin="0" 
                         Content="Không"
                         FontSize="15"
-                        Foreground="#FFFFFF"/>
+                        Foreground="#000"/>
                 </Button>
                 <Button 
                     Name="Button_Yes" 
@@ -112,7 +111,7 @@
                         Margin="0" 
                         Content="Có"
                         FontSize="15"
-                        Foreground="#FFFFFF"/>
+                        Foreground="#000"/>
                 </Button>
                 <Button 
                     Name="Button_OK" 
@@ -130,7 +129,7 @@
                         Margin="0" 
                         FontSize="15"
                         Content="OK"
-                        Foreground="#ffffff"/>
+                        Foreground="#000"/>
                 </Button>
             </DockPanel>
         </Grid>
