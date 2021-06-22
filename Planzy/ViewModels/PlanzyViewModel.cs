@@ -3931,9 +3931,8 @@ namespace Planzy.ViewModels
         public ICommand SaveCommand_Setting { get; set; }
         void save_Setting()
         {
-            ThamSoQuyDinh thamSoQuyDinh = new ThamSoQuyDinh();
             List<LoaiHangGhe> temp = new List<LoaiHangGhe>(ListTicketType_Setting);
-            thamSoQuyDinh.updateTicketTypeToSql(temp);
+            ThamSoQuyDinh.updateTicketTypeToSql(temp);
 
         }
 

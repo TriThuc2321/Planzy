@@ -1,4 +1,5 @@
 ﻿using Planzy.Models.LoaiHangGheModel;
+using Planzy.Models.ChiTietHangGheModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -109,12 +110,12 @@ namespace Planzy
             return result;
         }
         #region loaihangghe
-        List<LoaiHangGhe> listUpdate;
-        List<LoaiHangGhe> listInsert;
-        List<LoaiHangGhe> listDelete;
-        LoaiHangGheServices loaiHangGheServices;
-        List<SqlCommand> listSqlCommands;
-        public void updateTicketTypeToSql(List<LoaiHangGhe> listTicketType)
+        static List<LoaiHangGhe> listUpdate;
+        static List<LoaiHangGhe> listInsert;
+        static List<LoaiHangGhe> listDelete;
+        static LoaiHangGheServices loaiHangGheServices;
+        static List<SqlCommand> listSqlCommands;
+        public static void updateTicketTypeToSql(List<LoaiHangGhe> listTicketType)
         {
             for(int i=0; i<listTicketType.Count; i++)
             {
@@ -162,6 +163,9 @@ namespace Planzy
                 listSqlCommands.Add(command);
             }
 
+            string deleteCTHG = "DELETE CHI_TIET_HANG_GHE WHERE CHI_TIET_HANG_GHE.MA_CHUYEN_BAY IN(SELECT CTHG.MA_CHUYEN_BAY FROM CHUYEN_BAY CB, CHI_TIET_HANG_GHE CTHG, LOAI_HANG_GHE LHG WHERE CB.MA_CHUYEN_BAY = CTHG.MA_CHUYEN_BAY AND CTHG.MA_LOAI_HANG_GHE = LHG.MA_LOAI_HANG_GHE AND CB.DA_BAY = 0 AND CTHG.SO_LUONG_TONG = CTHG.SO_LUONG_CON_LAI AND LHG.KHA_DUNG = '0')";
+            SqlCommand commandCTHG = new SqlCommand(deleteCTHG, SanBayConnection);
+            listSqlCommands.Add(commandCTHG);
 
             try
             {
@@ -181,7 +185,7 @@ namespace Planzy
                 SanBayConnection.Close();
             }
         }
-        void classify(List<LoaiHangGhe> list)
+        static void classify(List<LoaiHangGhe> list)
         {
             loaiHangGheServices = new LoaiHangGheServices();
             List<LoaiHangGhe> listSql = loaiHangGheServices.GetAll(); 
@@ -215,6 +219,7 @@ namespace Planzy
                 }
                 if (k == list.Count) listDelete.Add(listSql[i]);
             }
+
         }
         
 
