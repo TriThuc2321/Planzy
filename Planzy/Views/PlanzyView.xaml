@@ -3388,10 +3388,10 @@
                         </Grid>
                         <Grid Name ="gr_Setting" Margin ="15" Visibility="{Binding IsDuocChon8.NewVisibility}">
                             <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="100"></RowDefinition>
+                                <RowDefinition Height="80"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <StackPanel Orientation="Vertical">
@@ -3630,7 +3630,44 @@
                                 </StackPanel>
                             </Grid>
                             <Grid Grid.Row="2">
-
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="Quy định đặt vé: "
+                                           VerticalContentAlignment="Bottom"
+                                           HorizontalAlignment="Left"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="Auto"
+                                           Margin="0 0 0 0"/>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" 
+                                                Orientation="Horizontal"
+                                                Margin="20 0 0 0">
+                                        <Label Content="Thời gian chậm nhất hủy vé trước giờ bay: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                                        <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                Text="{Binding ThoiGianHuyVeTreNhat}"
+                                                 ToolTip="Giờ"
+                                                />
+                                        <Label Content="Thời gian chậm nhất đặt vé trước giờ bay: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                        <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                Text="{Binding ThoiGianDatVeTreNhat}"
+                                                 ToolTip="Giờ"
+                                                />
+                                    </StackPanel>
+                                </StackPanel>
                             </Grid>
                             <Grid Grid.Row="3">
                                 <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
@@ -3652,7 +3689,8 @@
                                                 Padding="4"
                                                 Foreground="#000"  
                                                 Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
-                                                />
+                                                Command="{Binding ResetTickTypeCommand_Setting}"    
+                                            />
                                 </StackPanel>
                             </Grid>
                         </Grid>

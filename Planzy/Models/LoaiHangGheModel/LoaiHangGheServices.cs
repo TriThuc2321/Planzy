@@ -14,15 +14,24 @@ namespace Planzy.Models.LoaiHangGheModel
         private  SqlConnection SanBayConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
         private List<LoaiHangGhe> LoaiHangGhesList;
         private const int SO_HANG_GHE_TOI_DA = 8;
+        private int SoHangGheThucSu;
         public LoaiHangGheServices()
         {
             LoaiHangGhesList = new List<LoaiHangGhe>();
             LoadSQL();
+            for(int i = LoaiHangGhesList.Count;i<SO_HANG_GHE_TOI_DA;i++)
+            {
+                LoaiHangGhesList.Add(new LoaiHangGhe());
+            }    
         }    
         public List<LoaiHangGhe> GetAll()
         {
             return LoaiHangGhesList;
         }
+        public List<LoaiHangGhe> GetHangGheThucSu()
+        {
+            return LoaiHangGhesList.GetRange(0, SoHangGheThucSu);
+        }    
         public void Add(LoaiHangGhe loaiHangGhe)
         {
             LoaiHangGhesList.Add(loaiHangGhe);
@@ -64,6 +73,7 @@ namespace Planzy.Models.LoaiHangGheModel
             {
                 SanBayConnection.Close();
             }
+            SoHangGheThucSu = LoaiHangGhesList.Count;
             return result;
         }
 

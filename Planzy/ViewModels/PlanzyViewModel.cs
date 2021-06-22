@@ -60,6 +60,7 @@ namespace Planzy.ViewModels
         ChuyenBayServices chuyenBayServices;
         LoaiHangGheServices loaiHangGheServices;
         ChiTietHangGheServices chiTietHangGheServices;
+
         #region Khai báo cho biểu đồ
         private DispatcherTimer chuyenBayTimer;
 
@@ -199,12 +200,15 @@ namespace Planzy.ViewModels
             chuyenBayTimer.Tick += denGioBay;
             chuyenBayTimer.Start();
             #endregion
+
             #region Tham số quy định
             ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
             ThoiGianBayToiThieu = ThamSoQuyDinh.THOI_GIAN_BAY_TOI_THIEU;
             SoSanBayTrungGianToiDa = ThamSoQuyDinh.SO_SAN_BAY_TRUNG_GIAN_TOI_DA;
             ThoiGianDungToiThieu = ThamSoQuyDinh.THOI_GIAN_DUNG_TOI_THIEU;
             ThoiGianDungToiDa = ThamSoQuyDinh.THOI_GIAN_DUNG_TOI_DA;
+            ThoiGianHuyVeTreNhat = ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_HUY_VE;
+            ThoiGianDatVeTreNhat = ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_DAT_VE;
             #endregion
 
             //Thuc
@@ -245,6 +249,8 @@ namespace Planzy.ViewModels
             #region thay đổi quy định
             themSanBayQuyDinhCommand = new RelayCommand(themSanBayQuyDinh);
             xoaSanBayQuyDinhCommand = new RelayCommand(xoaSanBayQuyDinh);
+            huyThemSanBayCommand = new RelayCommand(huyThemSanBay);
+            xacNhanThemSanBayCommand = new RelayCommand(xacNhanThemSanBay);
             #endregion
 
             InsertTickTypeCommand_Setting = new RelayCommand2<Window>((p) => { return true; }, (p) => { insertTicket_Setting(); });
@@ -381,7 +387,7 @@ namespace Planzy.ViewModels
 
             backupListTicketType_Setting = new List<LoaiHangGhe>();
             LoadSQL();
-            ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(loaiHangGheServices.GetAll());
+            ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(loaiHangGheServices.GetHangGheThucSu());
 
             /*ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>();
             for(int i = 0; i<backupListTicketType_Setting.Count; i ++)
@@ -3998,13 +4004,39 @@ namespace Planzy.ViewModels
             backupListTicketType_Setting.Clear();
             LoadSQL();
             ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(backupListTicketType_Setting);
+            #region hủy lưu quy định chuyến bay
+            SanBaysQuyDinh = new ObservableCollection<SanBay>(sanBayServices.GetSanBayHoatDong());
+            sanBaysDaXoa = new List<SanBay>();
+            sanBayMoiThem = new List<SanBay>();
+            ThoiGianBayToiThieu = ThamSoQuyDinh.THOI_GIAN_BAY_TOI_THIEU;
+            SoSanBayTrungGianToiDa = ThamSoQuyDinh.SO_SAN_BAY_TRUNG_GIAN_TOI_DA;
+            ThoiGianDungToiThieu = ThamSoQuyDinh.THOI_GIAN_DUNG_TOI_THIEU;
+            ThoiGianDungToiDa = ThamSoQuyDinh.THOI_GIAN_DUNG_TOI_DA;
+            #endregion
+            #region huy lưu quy định đặt vé
+            ThoiGianHuyVeTreNhat = ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_HUY_VE;
+            ThoiGianDatVeTreNhat = ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_DAT_VE;
+            #endregion
 
         }
         public ICommand SaveCommand_Setting { get; set; }
         void save_Setting()
         {
+            #region Lưu quy định chuyến bay và đặt vé
+            foreach(SanBay sanBay in sanBaysDaXoa)
+            {
+                sanBayServices.DungHoatDongSanBay(sanBay.Id);
+            }
+            foreach (SanBay sanBay in sanBayMoiThem)
+            {
+                sanBayServices.Add(sanBay);
+            }
+            ThamSoQuyDinh.LoadThamSoQuyDinhXuongSQL(ThoiGianBayToiThieu, SoSanBayTrungGianToiDa, ThoiGianDungToiDa, ThoiGianDungToiThieu, loaiHangGheServices.GetHangGheThucSu().Count.ToString(), ThoiGianHuyVeTreNhat, ThoiGianDatVeTreNhat);
+            #endregion
+            #region restart app
 
-
+            logOut();
+            #endregion
         }
 
 
@@ -4070,33 +4102,142 @@ namespace Planzy.ViewModels
 
         #endregion
         #region Quy định chuyến bay
-        private string thoiGianBayToiThieu;
+        private string thoiGianBayToiThieu = "";
 
         public string ThoiGianBayToiThieu
         {
             get { return thoiGianBayToiThieu; }
-            set { thoiGianBayToiThieu = value; OnPropertyChanged("ThoiGianBayToiThieu"); }
+            set 
+            {
+                if (value != null)
+                {
+                    if(value != "")
+                    {
+                        if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                        {
+                            #region Kiểm tra quy định
+                            thoiGianBayToiThieu = value;
+                            #endregion
+                        }
+                        else
+                        {
+                            CustomMessageBox.Show("Cần nhập số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                    }
+                    else
+                    {
+
+                    }    
+                }
+                OnPropertyChanged("ThoiGianBayToiThieu"); }
         }
-        private string soSanBayTrungGianToiDa;
+        private string soSanBayTrungGianToiDa= "";
 
         public string SoSanBayTrungGianToiDa
         {
             get { return soSanBayTrungGianToiDa; }
-            set { soSanBayTrungGianToiDa = value; OnPropertyChanged("SoSanBayTrungGianToiDa"); }
+            set {
+                if (value != null)
+                {
+                    if (value != "")
+                    {
+                        if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                        {
+                            #region Kiểm tra quy định
+                            soSanBayTrungGianToiDa = value;
+                            #endregion
+                        }
+                        else
+                        {
+                            CustomMessageBox.Show("Cần nhập số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+                OnPropertyChanged("SoSanBayTrungGianToiDa"); }
         }
-        private string thoiGianDungToiThieu;
+        private string thoiGianDungToiThieu = "";
 
         public string ThoiGianDungToiThieu
         {
             get { return thoiGianDungToiThieu; }
-            set { thoiGianDungToiThieu = value; OnPropertyChanged("ThoiGianDungToiThieu"); }
+            set {
+                if (value != "")
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        if (ThoiGianDungToiDa != "")
+                        {
+                            if (Convert.ToInt32(value) >= Convert.ToInt32(ThoiGianDungToiDa))
+                            {
+                                CustomMessageBox.Show("Thời gian dừng tối thiếu cần nhỏ hơn thời gian dừng tối đa", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                return;
+                            }
+                            else
+                            {
+                                thoiGianDungToiThieu = value;
+                            }
+                        }
+                        else
+                        {
+                            thoiGianDungToiThieu = value;
+                        }
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Cần nhập số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+                else
+                {
+
+                }
+                OnPropertyChanged("ThoiGianDungToiThieu"); }
         }
-        private string thoiGianDungToiDa;
+        private string thoiGianDungToiDa = "";
 
         public string ThoiGianDungToiDa
         {
             get { return thoiGianDungToiDa; }
-            set { thoiGianDungToiDa = value; OnPropertyChanged("ThoiGianDungToiDa"); }
+            set {
+                if (value != "")
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        if (ThoiGianDungToiThieu != "")
+                        {
+                            if (Convert.ToInt32(value) <= Convert.ToInt32(ThoiGianDungToiThieu))
+                            {
+                                CustomMessageBox.Show("Thời gian dừng tối thiếu cần nhỏ hơn thời gian dừng tối đa", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                return;
+                            }
+                            else
+                            {
+                                thoiGianDungToiDa = value;
+                            }
+                        }
+                        else
+                        {
+                            thoiGianDungToiDa = value;
+                        }
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Cần nhập số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+                else
+                {
+
+                }
+                OnPropertyChanged("ThoiGianDungToiDa"); }
         }
         private ObservableCollection<SanBay> sanBaysQuyDinh;
         public ObservableCollection<SanBay> SanBaysQuyDinh
@@ -4123,6 +4264,18 @@ namespace Planzy.ViewModels
         {
             get { return themSanBayQuyDinhCommand; }
         }
+        private RelayCommand xacNhanThemSanBayCommand;
+
+        public RelayCommand XacNhanThemSanBayCommand
+        {
+            get { return xacNhanThemSanBayCommand; }
+        }
+        private RelayCommand huyThemSanBayCommand;
+
+        public RelayCommand HuyThemSanBayCommand
+        {
+            get { return huyThemSanBayCommand; }
+        }
         public void xoaSanBayQuyDinh()
         {
             if (SanBayQuyDinhDaChon == null)
@@ -4133,13 +4286,222 @@ namespace Planzy.ViewModels
             {
                 sanBaysDaXoa.Add(SanBayQuyDinhDaChon);
                 SanBaysQuyDinh.Remove(SanBayQuyDinhDaChon);
-                sanBayServices.DungHoatDongSanBay(sanBaysDaXoa[sanBaysDaXoa.Count -1].Id);
             }    
         }
+        ThemSanBay themSanBay;
+        List<SanBay> sanBayMoiThem = new List<SanBay>();
         public void themSanBayQuyDinh()
         {
+            themSanBay = new ThemSanBay();
+            themSanBay.DataContext = this;
+            themSanBay.Show();
 
         }
+        private string canhBaoNhapDayDuVisible = "Hidden";
+
+        public string CanhBaoNhapDayDuVisible
+        {
+            get { return canhBaoNhapDayDuVisible; }
+            set { canhBaoNhapDayDuVisible = value; OnPropertyChanged("CanhBaoNhapDayDuVisible"); }
+        }
+        private string thongBaoNhapThanhCongVisible = "Hidden";
+
+        public string ThongBaoNhapThanhCongVisible
+        {
+            get { return thongBaoNhapThanhCongVisible; }
+            set { thongBaoNhapThanhCongVisible = value; OnPropertyChanged("ThongBaoNhapThanhCongVisible"); }
+        }
+        private string maSanBay = "";
+
+        public string MaSanBay
+        {
+            get { return maSanBay; }
+            set 
+            {
+                if (value != null)
+                {
+                    if (KiemTraHopLeInput.KiemTraMa(value))
+                    {
+                        maSanBay = value.ToUpper();
+                        CanhBaoSaiDinhDangVisible = "Hidden";
+                        CanhBaoMaDaTonTaiVisible = "Hidden";
+                    }
+                    else
+                    {
+                        CanhBaoSaiDinhDangVisible = "Visible";
+                        CanhBaoMaDaTonTaiVisible = "Hidden";
+                    }
+                }
+                else
+                {
+                    maSanBay = value;
+                    CanhBaoSaiDinhDangVisible = "Hidden";
+                    CanhBaoMaDaTonTaiVisible = "Hidden";
+                }
+                 OnPropertyChanged("MaSanBay");
+            }
+        }
+        private string tenSanBay = "";
+
+        public string TenSanBay
+        {
+            get { return tenSanBay; }
+            set
+            {
+                tenSanBay = value; OnPropertyChanged("TenSanBay");   
+            }
+        }
+        private string canhBaoSaiDinhDangVisible = "Hidden";
+
+        public string CanhBaoSaiDinhDangVisible
+        {
+            get { return canhBaoSaiDinhDangVisible; }
+            set { canhBaoSaiDinhDangVisible = value; OnPropertyChanged("CanhBaoSaiDinhDangVisible"); }
+        }
+        private string canhBaoMaDaTonTaiVisible = "Hidden";
+
+        public string CanhBaoMaDaTonTaiVisible
+        {
+            get { return canhBaoMaDaTonTaiVisible; }
+            set { canhBaoMaDaTonTaiVisible = value; OnPropertyChanged("CanhBaoMaDaTonTaiVisible"); }
+        }
+
+        public void huyThemSanBay()
+        {
+            MaSanBay = "";
+            TenSanBay = "";
+            CanhBaoNhapDayDuVisible = "Hidden";
+            ThongBaoNhapThanhCongVisible = "Hidden";
+            themSanBay.Close();
+        }
+        public void xacNhanThemSanBay()
+        {
+            if ((TenSanBay == "" || MaSanBay == ""))
+            {
+                CanhBaoNhapDayDuVisible = "Visible";
+
+            }
+            else
+            {
+                foreach (SanBay sanBay in SanbaysList)
+                {
+                    if (MaSanBay == sanBay.Id)
+                    {
+                        CanhBaoMaDaTonTaiVisible = "Visible";
+                        CanhBaoSaiDinhDangVisible = "Hidden";
+                        return;
+                    }
+                }
+                CanhBaoMaDaTonTaiVisible = "Hidden";
+                CanhBaoSaiDinhDangVisible = "Hidden";
+                CanhBaoNhapDayDuVisible = "Hidden";
+                ThongBaoNhapThanhCongVisible = "Visible";
+
+                SanBay newSanBay = new SanBay();
+                newSanBay.Id = MaSanBay;
+                newSanBay.TenSanBay = TenSanBay;
+                sanBayMoiThem.Add(newSanBay);
+                SanBaysQuyDinh.Add(newSanBay);
+
+                xacNhanTimer = new DispatcherTimer();
+                xacNhanTimer.Interval = TimeSpan.FromSeconds(1);
+                xacNhanTimer.Tick += xacNhanTimerTick;
+                xacNhanTimer.Start();
+            }    
+        }
+        DispatcherTimer xacNhanTimer;
+        private void xacNhanTimerTick(object sender, EventArgs e)
+        {
+            xacNhanTimer.Stop();
+            themSanBay.Close();
+            MaSanBay = "";
+            TenSanBay = "";
+            CanhBaoNhapDayDuVisible = "Hidden";
+            ThongBaoNhapThanhCongVisible = "Hidden";
+        }
+        #endregion
+        #region Quy định đặt vé
+        private string thoiGianHuyVeTreNhat = "";
+
+        public string ThoiGianHuyVeTreNhat
+        {
+            get { return thoiGianHuyVeTreNhat; }
+            set 
+            {
+                if (value != "")
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        if (ThoiGianDatVeTreNhat != "")
+                        {
+                            if (Convert.ToInt32(value) >= Convert.ToInt32(ThoiGianDatVeTreNhat))
+                            {
+                                CustomMessageBox.Show("Thời gian hủy cần nhỏ hơn thời gian đặt", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                return;
+                            }
+                            else
+                            {
+                                thoiGianHuyVeTreNhat = value;
+                            }
+                        }
+                        else
+                        {
+                            thoiGianHuyVeTreNhat = value;
+                        }
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Cần nhập số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+                else
+                {
+
+                }
+                OnPropertyChanged("ThoiGianHuyVeTreNhat"); }
+        }
+        private string thoiGianDatVeTreNhat = "";
+
+        public string ThoiGianDatVeTreNhat
+        {
+            get { return thoiGianDatVeTreNhat; }
+            set 
+            {
+                if (value != "")
+                {
+                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    {
+                        if (ThoiGianHuyVeTreNhat != "")
+                        {
+                            if (Convert.ToInt32(value) <= Convert.ToInt32(ThoiGianHuyVeTreNhat))
+                            {
+                                CustomMessageBox.Show("Thời gian dừng hủy cần nhỏ hơn thời gian đặt", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                return;
+                            }
+                            else
+                            {
+                                thoiGianDatVeTreNhat = value;
+                            }
+                        }
+                        else
+                        {
+                            thoiGianDatVeTreNhat = value;
+                        }
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Cần nhập số nguyên dương", "Nhắc nhở", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+                else
+                {
+
+                }
+                OnPropertyChanged("ThoiGianDatVeTreNhat"); }
+        }
+
         #endregion
     }
 }

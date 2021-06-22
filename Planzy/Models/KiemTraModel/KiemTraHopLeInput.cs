@@ -85,7 +85,10 @@ namespace Planzy.Models.KiemTraModel
                 if (j == SO.Length)
                     return false;
             }
-            return true; ;
+            if (Convert.ToInt32(test) > 0)
+                return true;
+            else
+                return false;
         }
     }
 }

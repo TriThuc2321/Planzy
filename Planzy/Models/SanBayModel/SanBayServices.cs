@@ -245,7 +245,7 @@ namespace Planzy.Models.SanBayModel
             {
                 SanBayConnection.Open();
                 SqlCommand command = new SqlCommand("insert into SAN_BAY(MA_SAN_BAY,TEN_SAN_BAY,HOAT_DONG) VALUES ('" +
-                    sanBay.Id + "','" +
+                    sanBay.Id + "',N'" +
                     sanBay.TenSanBay + "','True')", SanBayConnection);
                 command.ExecuteNonQuery();
                 result = true;
