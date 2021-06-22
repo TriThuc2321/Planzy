@@ -2793,7 +2793,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="120"/>
-                                        <TextBox Width="150" Text="{Binding SelectedFlight.GiaVeCoBan}" 
+                                        <TextBox Width="150"   Text="{Binding SelectedFlight.GiaVeCoBan, StringFormat='{}{0} VND'}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="12"
                                              IsReadOnly="True"
@@ -2840,7 +2840,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="150"/>
-                                        <TextBox Width="150" Text="{Binding SelectedFlight.ThoiGianBay}" 
+                                        <TextBox Width="150"   Text="{Binding SelectedFlight.ThoiGianBay, StringFormat='{}{0} Phút'}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              IsReadOnly="True"
