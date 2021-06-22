@@ -172,7 +172,7 @@ namespace Planzy.Models.Users
             if (number.Length > 11 || number.Length < 10) return false;
             for (int i = 0; i < number.Length; i++)
             {
-                if (number[i] < 48 && number[i] > 57) return false;
+                if (number[i] < 48 || number[i] > 57) return false;
             }
             return true;
         }
@@ -181,7 +181,7 @@ namespace Planzy.Models.Users
             if (cmnd.Length != 9) return false;
             for (int i = 0; i < cmnd.Length; i++)
             {
-                if (cmnd[i] < 48 && cmnd[i] > 57) return false;
+                if (cmnd[i] < 48 || cmnd[i] > 57) return false;
             }
             return true;
         }

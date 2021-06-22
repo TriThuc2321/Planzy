@@ -37,7 +37,7 @@ namespace Planzy.ViewModels
 
             loaiHangGheServices = new LoaiHangGheServices();
 
-            Id = loaiHangGheServices.GetId(1);
+            Id = loaiHangGheServices.GetId(2);
 
             ErrorMessageVisibility = "Collapsed";
             SucessMessageVisibility = "Collapsed";
@@ -72,9 +72,7 @@ namespace Planzy.ViewModels
                 timer.Start();
             }
             else
-            {
-                ErrorMessageVisibility = "Visible";
-                SucessMessageVisibility = "Collapsed";
+            {               
                 TicketType = null;
             }
         }
@@ -82,15 +80,30 @@ namespace Planzy.ViewModels
         {
             if (Id == null || Id == "" || Name == null || Name == "" || Ratio == null || Ratio == "")
             {
+                ErrorMessage = "Vui lòng nhập đủ thông tin";
+                ErrorMessageVisibility = "Visible";
                 return false;
             }
-
+            if (!IsNumber(Ratio))
+            {
+                ErrorMessage = "Tỷ lệ thuộc số nguyên dương";
+                ErrorMessageVisibility = "Visible";
+                return false;
+            }
 
 
             return true;
 
         }
 
+        bool IsNumber(string number)
+        {
+            for (int i = 0; i < number.Length; i++)
+            {
+                if (number[i] < 48 || number[i] > 57) return false;
+            }
+            return true;
+        }
 
 
 
@@ -107,6 +120,16 @@ namespace Planzy.ViewModels
             {
                 errorMessageVisibility = value;
                 OnPropertyChanged("ErrorMessageVisibility");
+            }
+        }
+        private string errorMessage;
+        public string ErrorMessage
+        {
+            get { return errorMessage; }
+            set
+            {
+                errorMessage = value;
+                OnPropertyChanged("ErrorMessage");
             }
         }
         private string sucessMessageVisibility;

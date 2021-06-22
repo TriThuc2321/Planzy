@@ -15,9 +15,11 @@ namespace Planzy.Models.LoaiHangGheModel
         private List<LoaiHangGhe> LoaiHangGhesList;
         private const int SO_HANG_GHE_TOI_DA = 8;
         private int SoHangGheThucSu;
+        private List<LoaiHangGhe> ListloaiHangGheKhaDung;
         public LoaiHangGheServices()
         {
             LoaiHangGhesList = new List<LoaiHangGhe>();
+            ListloaiHangGheKhaDung = new List<LoaiHangGhe>();
             LoadSQL();
             for(int i = LoaiHangGhesList.Count;i<SO_HANG_GHE_TOI_DA;i++)
             {
@@ -32,6 +34,10 @@ namespace Planzy.Models.LoaiHangGheModel
         {
             return LoaiHangGhesList.GetRange(0, SoHangGheThucSu);
         }    
+        public List<LoaiHangGhe> GetAll_KhaDung()
+        {
+            return ListloaiHangGheKhaDung;
+        }
         public void Add(LoaiHangGhe loaiHangGhe)
         {
             LoaiHangGhesList.Add(loaiHangGhe);
@@ -57,12 +63,17 @@ namespace Planzy.Models.LoaiHangGheModel
                         hangGhe.MaLoaiHangGhe = row["MA_LOAI_HANG_GHE"].ToString();
                         hangGhe.TenLoaiHangGhe = row["TEN_LOAI_HANG_GHE"].ToString();
                         hangGhe.TyLe = row["TY_LE"].ToString();
+                        hangGhe.KhaDung = row["KHA_DUNG"].ToString();
                         LoaiHangGhesList.Add(hangGhe);
+                        if (hangGhe.KhaDung == "1") ListloaiHangGheKhaDung.Add(hangGhe);
                     }
                 }
 
                 var newList = LoaiHangGhesList.OrderByDescending(e =>Convert.ToInt32( e.TyLe));
                 LoaiHangGhesList = new List<LoaiHangGhe>(newList);
+
+                var newListKhaDung = ListloaiHangGheKhaDung.OrderByDescending(e => Convert.ToInt32(e.TyLe));
+                ListloaiHangGheKhaDung = new List<LoaiHangGhe>(newListKhaDung);
                 result = true;
             }
             catch

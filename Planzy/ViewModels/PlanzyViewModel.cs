@@ -387,7 +387,7 @@ namespace Planzy.ViewModels
 
             backupListTicketType_Setting = new List<LoaiHangGhe>();
             LoadSQL();
-            ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(loaiHangGheServices.GetHangGheThucSu());
+            ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>(loaiHangGheServices.GetAll_KhaDung());
 
             /*ListTicketType_Setting = new ObservableCollection<LoaiHangGhe>();
             for(int i = 0; i<backupListTicketType_Setting.Count; i ++)
@@ -4037,6 +4037,9 @@ namespace Planzy.ViewModels
 
             logOut();
             #endregion
+            List<LoaiHangGhe> temp = new List<LoaiHangGhe>(ListTicketType_Setting);
+            ThamSoQuyDinh.updateTicketTypeToSql(temp);
+
         }
 
 
@@ -4046,9 +4049,10 @@ namespace Planzy.ViewModels
         {
             get { return ticketType_Setting; }
             set
-            {
+            {               
                 ticketType_Setting = value;
                 OnPropertyChanged("TicketType_Setting");
+
             }
         }
         private ObservableCollection<LoaiHangGhe> listTicketType_Setting;
@@ -4066,7 +4070,7 @@ namespace Planzy.ViewModels
             {
                 Connection.Open();
                 #region Truy vấn dữ liệu từ sql
-                SqlCommand command = new SqlCommand("SELECT * FROM LOAI_HANG_GHE ", Connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM LOAI_HANG_GHE WHERE KHA_DUNG = '1'", Connection);
                 command.CommandType = CommandType.Text;
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
                 DataTable dataTable = new DataTable();
@@ -4096,7 +4100,7 @@ namespace Planzy.ViewModels
                 Connection.Close();
             }
         }
-
+        
 
 
 
