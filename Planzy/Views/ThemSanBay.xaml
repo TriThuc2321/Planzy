@@ -1,0 +1,117 @@
+﻿<Window x:Class="Planzy.Views.ThemSanBay"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Planzy.Views"
+        mc:Ignorable="d"
+        Title="ThemSanBay" Height="150" Width="450" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True" ShowInTaskbar="False">
+    <Grid>
+        <Grid>
+            <Border BorderThickness="2" BorderBrush="#FF5867AC">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="30 0 0 0">
+                    <Label Content="Thêm sân bay: "
+                   VerticalContentAlignment="Bottom"
+                   HorizontalAlignment="Left"
+                   FontWeight="Bold"
+                   Foreground="#FF5867AC"
+                   Width="Auto"
+                   Margin="0 0 0 0"
+                   FontSize="13"/>
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="20 5 0 0">
+                        <Label Content="Mã sân bay: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                        <TextBox Width="50"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                Text="{Binding MaSanBay}"
+                                 ToolTip="Chữ và số in hoa không dấu"
+                                                />
+                        <Label Content="Tên sân bay: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                        <TextBox Width="160"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Text="{Binding TenSanBay}"
+                                                />
+                    </StackPanel>
+                    <Grid>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Vertical">
+                            <Label
+                    Content="Vui lòng nhập đủ thông tin"
+                    Width="auto"
+                    HorizontalAlignment="Right"
+                    Margin="0 0 20 0"
+                    Foreground="Red"
+                    FontStyle="Italic"
+                    Visibility="{Binding CanhBaoNhapDayDuVisible}"
+                    />
+                            <Label
+                    Content="Thêm thành công"
+                    Width="auto"
+                    HorizontalAlignment="Right"
+                    Margin="0 0 20 0"
+                    Foreground="Green"                    
+                    FontWeight="DemiBold"
+                    Visibility="{Binding ThongBaoNhapThanhCongVisible}"
+                    />
+                        </StackPanel >
+                        <Label
+                    Content="Mã gồm chữ và số in hoa không dấu"
+                    Width="auto"
+                    HorizontalAlignment="Left"
+                    Margin="20 0 0 0"
+                    Foreground="Red"
+                    FontStyle="Italic"
+                    Visibility="{Binding CanhBaoSaiDinhDangVisible}"/>
+                        <Label
+                    Content="Mã sân bay đã tồn tại"
+                    Width="auto"
+                    HorizontalAlignment="Left"
+                    Margin="20 0 0 0"
+                    Foreground="Red"
+                    FontStyle="Italic"
+                    Visibility="{Binding CanhBaoMaDaTonTaiVisible}"/>
+                    </Grid>
+                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 20 0"
+                        Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Thêm" VerticalAlignment="Center" Margin="5 5 0 5"                                                 
+                            HorizontalAlignment="Center"                                                
+                            Width="100"                                              
+                            Height="30"                                                                
+                            Padding="4"                                             
+                            Foreground="#000"                                                
+                            Background="SkyBlue" 
+                            FontSize="12" 
+                            FontWeight="Bold"
+                            BorderBrush="{x:Null}"
+                                Command="{Binding XacNhanThemSanBayCommand}"
+                        />
+                        <Button Content="Hủy" VerticalAlignment="Center" Margin="5 5 0 5"                                                
+                        HorizontalAlignment="Center"                                               
+                        Width="100"                                              
+                        Height="30"                                            
+                        Padding="4"                                              
+                        Foreground="#000"                                             
+                        Background="SkyBlue" 
+                        FontSize="12" 
+                        FontWeight="Bold" 
+                        BorderBrush="{x:Null}"
+                        Command="{Binding HuyThemSanBayCommand}"
+                        />
+                    </StackPanel>
+                </StackPanel>
+
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

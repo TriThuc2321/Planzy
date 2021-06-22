@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Planzy.Models.BookingSticketModel;
 using Planzy.Models.ChiTietHangGheModel;
 using Planzy.Models.ChuyenBayModel;
 using Planzy.Models.SanBayModel;
@@ -78,9 +79,9 @@ namespace Planzy.Models.ChuyenBayModel
                 return false;
             }    
         }
-        public bool Delete(string Id,SanBayTrungGianService sanBayTrungGianService, ChiTietHangGheServices chiTietHangGheServices)
+        public bool Delete(string Id,SanBayTrungGianService sanBayTrungGianService, ChiTietHangGheServices chiTietHangGheServices, ObservableCollection<BookingSticket> bookingStickets)
         {
-            if (XoaChuyenBaySql(Id, sanBayTrungGianService, chiTietHangGheServices))
+            if (XoaChuyenBaySql(Id, sanBayTrungGianService, chiTietHangGheServices, bookingStickets))
             {
                 bool isDeleted = false;
                 for (int index = 0; index < ChuyenBaysList.Count; index++)
@@ -154,8 +155,46 @@ namespace Planzy.Models.ChuyenBayModel
             }
             return result;
         }
-        public bool XoaChuyenBaySql(String maChuyenBay, SanBayTrungGianService sanBayTrungGianService, ChiTietHangGheServices chiTietHangGheServices)
+        public bool XoaChuyenBaySql(string maChuyenBay, SanBayTrungGianService sanBayTrungGianService, ChiTietHangGheServices chiTietHangGheServices, ObservableCollection<BookingSticket> bookingStickets)
         {
+            #region xóa phiếu đặt chỗ
+            List<string> listphieuDat = new List<string>();
+            SanBayConnection.Open();
+            SqlCommand command1 = new SqlCommand("Select * from PHIEU_DAT_CHO where MA_CHUYEN_BAY = '" + maChuyenBay + "'", SanBayConnection);
+            command1.CommandType = CommandType.Text;
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(command1);
+            DataTable dataTable = new DataTable();
+            dataAdapter.Fill(dataTable);
+            SanBayConnection.Close();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                BookingSticketServices.XoaPhieuDatCho(row["MA_PHIEU"].ToString());
+                for(int i = 0;i<bookingStickets.Count;i++)
+                {
+                    if (bookingStickets[i].BookingSticketID == row["MA_PHIEU"].ToString())
+                    {
+                        bookingStickets.RemoveAt(i);
+                    }    
+                }    
+            }
+
+            #endregion
+            #region xóa vé
+            SanBayConnection.Open();
+            SqlCommand command2 = new SqlCommand("Select * from VE_CHUYEN_BAY where MA_CHUYEN_BAY = '" + maChuyenBay + "'", SanBayConnection);
+            command2.CommandType = CommandType.Text;
+            SqlDataAdapter dataAdapter2 = new SqlDataAdapter(command2);
+            DataTable dataTable2 = new DataTable();
+            dataAdapter2.Fill(dataTable2);
+            
+            foreach (DataRow row in dataTable2.Rows)
+            {
+                SqlCommand deletecommand = new SqlCommand("delete from CHI_TIET_BAN_VE WHERE MA_VE = '" + row["MA_VE"].ToString() + "' " + 
+                    "DELETE FROM VE_CHUYEN_BAY WHERE MA_VE = '"+ row["MA_VE"].ToString() + "'", SanBayConnection);
+                deletecommand.ExecuteNonQuery();
+            }
+            SanBayConnection.Close();
+            #endregion
             if (sanBayTrungGianService.ClearSpecializeSanBay(maChuyenBay) && chiTietHangGheServices.Delete(maChuyenBay))
             {
                 bool result;
@@ -247,6 +286,7 @@ namespace Planzy.Models.ChuyenBayModel
             foreach (ChuyenBay chuyenBay in ChuyenBaysList)
             {
                 chuyenBay.ChiTietHangGhesList = chiTietHangGheServices.TimListHangGhe(chuyenBay.MaChuyenBay);
+                    chuyenBay.SoLoaiHangGhe = chuyenBay.ChiTietHangGhesList.Count();
             }
         }
         //public SanBay SearchID(string Id)

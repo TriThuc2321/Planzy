@@ -22,6 +22,7 @@ namespace Planzy.Models.SanBayModel
         {
             Id = sanBay.id;
             TenSanBay = sanBay.tenSanBay;
+            IsHoatDong = sanBay.IsHoatDong;
         }
         private string id;
 
@@ -37,6 +38,7 @@ namespace Planzy.Models.SanBayModel
             get { return tenSanBay; }
             set { tenSanBay = value; OnPropertyChanged("TenSanBay"); }
         }
+        public bool IsHoatDong;
 
         public override string ToString()
         {

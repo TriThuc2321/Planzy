@@ -3392,13 +3392,131 @@
                         </Grid>
                         <Grid Name ="gr_Setting" Margin ="15" Background="White" Visibility="{Binding IsDuocChon8.NewVisibility}">
                             <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="100"></RowDefinition>
+                                <RowDefinition Height="80"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
-                                
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="Quy định về chuyến bay và sân bay: "
+                                           VerticalContentAlignment="Bottom"
+                                           HorizontalAlignment="Left"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="Auto"
+                                           Margin="0 0 0 0"/>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" 
+                                                Orientation="Horizontal"
+                                                Margin="20 0 0 0">
+                                        <Label Content="Thời gian bay tối thiểu: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                                        <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                Text="{Binding ThoiGianBayToiThieu}"
+                                                 ToolTip="Phút"
+                                                />
+                                        <Label Content="Số sân bay trung gian tối đa: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                        <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                Text="{Binding SoSanBayTrungGianToiDa}"
+                                                 ToolTip="Số nguyên dương"
+                                                />
+                                        <Label Content="Thời gian dừng từ: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                        <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 ToolTip="Phút"
+                                                 Text="{Binding ThoiGianDungToiThieu}"
+                                                />
+                                        <Label Content="đến: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                        <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 ToolTip="Phút"
+                                                 Text="{Binding ThoiGianDungToiDa}"
+                                                />
+                                    </StackPanel>
+                                    <Grid>
+                                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
+                                            Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                            <Button Content="Thêm" VerticalAlignment="Center" Margin="5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue"
+                                                FontSize="12" 
+                                                FontWeight="Bold" 
+                                                BorderBrush="{x:Null}"
+                                                    Command="{Binding ThemSanBayQuyDinhCommand}"
+                                                />
+                                            <Button Content="Xóa" VerticalAlignment="Center" Margin=" 5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" 
+                                                FontSize="12" 
+                                                FontWeight="Bold" 
+                                                BorderBrush="{x:Null}"
+                                                    Command="{Binding XoaSanBayQuyDinhCommand}"
+                                                />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="20 0 0 0"
+                                            Orientation="Horizontal" HorizontalAlignment="Left">
+                                            <Label Content="Danh sách sân bay: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                                            <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="230"
+                                              FontSize="10"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              Foreground="Black"                                              
+                                              ItemsSource="{Binding SanBaysQuyDinh}"
+                                              SelectedItem="{Binding SanBayQuyDinhDaChon}"        >
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Id}" Width="20"/>
+                                                            <TextBlock Text=" - " Width="20"/>
+                                                            <TextBlock Text="{Binding TenSanBay}" Width="120"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Grid>
+                                    
+                                </StackPanel>
                             </Grid>
                             <Grid Grid.Row="1">
                                 <StackPanel Orientation="Vertical">
@@ -3505,7 +3623,7 @@
                                                 BorderBrush="{x:Null}"
                                                 Command="{Binding DeleteTickTypeCommand_Setting}"
                                                 />
-                                        <Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
+                                        <!--<Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
                                                 HorizontalAlignment="Center"
                                                 Width="100"
                                                 Height="30"
@@ -3516,12 +3634,49 @@
                                                 FontWeight="Bold"
                                                 BorderBrush="{x:Null}"
                                                 Command="{Binding ResetTickTypeCommand_Setting}"
-                                                />
+                                                />-->
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>
                             <Grid Grid.Row="2">
-
+                                <StackPanel Orientation="Vertical">
+                                    <Label Content="Quy định đặt vé: "
+                                           VerticalContentAlignment="Bottom"
+                                           HorizontalAlignment="Left"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="Auto"
+                                           Margin="0 0 0 0"/>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" 
+                                                Orientation="Horizontal"
+                                                Margin="20 0 0 0">
+                                        <Label Content="Thời gian chậm nhất hủy vé trước giờ bay: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                                        <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                Text="{Binding ThoiGianHuyVeTreNhat}"
+                                                 ToolTip="Giờ"
+                                                />
+                                        <Label Content="Thời gian chậm nhất đặt vé trước giờ bay: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                        <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="10"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                Text="{Binding ThoiGianDatVeTreNhat}"
+                                                 ToolTip="Giờ"
+                                                />
+                                    </StackPanel>
+                                </StackPanel>
                             </Grid>
                             <Grid Grid.Row="3">
                                 <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
@@ -3543,7 +3698,8 @@
                                                 Padding="4"
                                                 Foreground="#000"  
                                                 Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
-                                                />
+                                                Command="{Binding ResetTickTypeCommand_Setting}"    
+                                            />
                                 </StackPanel>
                             </Grid>
                         </Grid>

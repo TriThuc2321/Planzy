@@ -75,6 +75,28 @@ namespace Planzy.Models.BookingSticketModel
                 BookingSticketConnection.Close();
             }
         }
+        public static void XoaPhieuDatCho(string maPhieu)
+        {
+
+            try
+            {
+                BookingSticketConnection.Open();
+                string query = string.Format("delete  from CHI_TIET_PHIEU_DAT_CHO WHERE MA_PHIEU ='{0}' " +
+                    " delete  from PHIEU_DAT_CHO WHERE MA_PHIEU = '{0}'", maPhieu);
+
+                SqlCommand command = new SqlCommand(query, BookingSticketConnection);
+                command.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+                BookingSticketConnection.Close();
+            }
+        }
         private static Random random = new Random();
         public static string RandomString(int length)
         {

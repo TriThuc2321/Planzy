@@ -22,6 +22,18 @@ namespace Planzy.Models.SanBayModel
         {
             return SanBaysList;
         }
+        public List<SanBay> GetSanBayHoatDong()
+        {
+            List<SanBay> newList = new List<SanBay>();
+            foreach(SanBay sanBay in SanBaysList)
+            {
+                if(sanBay.IsHoatDong == true)
+                {
+                    newList.Add(sanBay);
+                }    
+            }
+            return newList;
+        }
         public bool Add(SanBay newSanbay)
         {
             if (SanBaysList.Contains(newSanbay))
@@ -30,7 +42,7 @@ namespace Planzy.Models.SanBayModel
             }
             else
             {
-                SanBaysList.Add(newSanbay);
+                ThemSanBaySQL(newSanbay);
                 return true;
             }
         }
@@ -98,6 +110,7 @@ namespace Planzy.Models.SanBayModel
                         SanBay sanBay = new SanBay();
                         sanBay.Id = row["MA_SAN_BAY"].ToString();
                         sanBay.TenSanBay = row["TEN_SAN_BAY"].ToString();
+                        sanBay.IsHoatDong = Convert.ToBoolean(row["HOAT_DONG"].ToString());
                         SanBaysList.Add(sanBay);
                     }
                 }
@@ -151,6 +164,7 @@ namespace Planzy.Models.SanBayModel
                         SanBay sanBay = new SanBay();
                         sanBay.Id = row["MA_SAN_BAY"].ToString();
                         sanBay.TenSanBay = row["TEN_SAN_BAY"].ToString();
+                        sanBay.IsHoatDong = Convert.ToBoolean(row["HOAT_DONG"].ToString());
                         list.Add(sanBay);
                     }
                 }
@@ -204,6 +218,47 @@ namespace Planzy.Models.SanBayModel
                 SanBayConnection_.Close();
             }
             return airportName;
+        }
+
+        public void DungHoatDongSanBay(string maSanBay)
+        {
+
+            try
+            {
+                SanBayConnection.Open();
+                SqlCommand command = new SqlCommand("update SAN_BAY set HOAT_DONG = 'False' where MA_SAN_BAY = '"+ maSanBay+"'", SanBayConnection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+                SanBayConnection.Close();
+            }
+        }
+        public bool ThemSanBaySQL(SanBay sanBay)
+        {
+            bool result;
+            try
+            {
+                SanBayConnection.Open();
+                SqlCommand command = new SqlCommand("insert into SAN_BAY(MA_SAN_BAY,TEN_SAN_BAY,HOAT_DONG) VALUES ('" +
+                    sanBay.Id + "',N'" +
+                    sanBay.TenSanBay + "','True')", SanBayConnection);
+                command.ExecuteNonQuery();
+                result = true;
+            }
+            catch (Exception e)
+            {
+                result = false;
+            }
+            finally
+            {
+                SanBayConnection.Close();
+            }
+            return result;
         }
     }
 

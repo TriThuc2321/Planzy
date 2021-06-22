@@ -25,6 +25,9 @@
     <Compile Update="Views\PlanzyView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\ThemSanBay.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\UpdateInforUser.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -52,6 +55,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\PlanzyView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ThemSanBay.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\UpdateInforUser.xaml">

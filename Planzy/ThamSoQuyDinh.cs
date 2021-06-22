@@ -1,4 +1,5 @@
 ﻿using Planzy.Models.LoaiHangGheModel;
+using Planzy.Models.ChiTietHangGheModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,10 +11,9 @@ using System.Threading.Tasks;
 
 namespace Planzy
 {
-    public class ThamSoQuyDinh
+    public static class ThamSoQuyDinh
     {
         private static SqlConnection SanBayConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
-        public static string SO_SAN_BAY_TOI_DA;
         public static string THOI_GIAN_BAY_TOI_THIEU;
         public static string SO_SAN_BAY_TRUNG_GIAN_TOI_DA;
         public static string THOI_GIAN_DUNG_TOI_DA;
@@ -21,10 +21,6 @@ namespace Planzy
         public static string SO_LUONG_CAC_HANG_VE;
         public static string THOI_GIAN_CHAM_NHAT_HUY_VE;
         public static string THOI_GIAN_CHAM_NHAT_DAT_VE;
-        public static string TY_LE_HANG_GHE_LOAI_1;
-        public static string TY_LE_HANG_GHE_LOAI_2;
-        public static string TY_LE_HANG_GHE_LOAI_3;
-        public static string TY_LE_HANG_GHE_LOAI_4;
         public static bool LoadThamSoQuyDinhTuSQL()
         {
             bool result;
@@ -36,7 +32,6 @@ namespace Planzy
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command);
                 DataTable dataTable = new DataTable();
                 sqlDataAdapter.Fill(dataTable);
-                SO_SAN_BAY_TOI_DA = dataTable.Rows[0]["SO_SAN_BAY_TOI_DA"].ToString();
                 THOI_GIAN_BAY_TOI_THIEU = dataTable.Rows[0]["THOI_GIAN_BAY_TOI_THIEU"].ToString();
                 SO_SAN_BAY_TRUNG_GIAN_TOI_DA = dataTable.Rows[0]["SO_SAN_BAY_TRUNG_GIAN_TOI_DA"].ToString();
                 THOI_GIAN_DUNG_TOI_DA = dataTable.Rows[0]["THOI_GIAN_DUNG_TOI_DA"].ToString();
@@ -44,10 +39,6 @@ namespace Planzy
                 SO_LUONG_CAC_HANG_VE = dataTable.Rows[0]["SO_LUONG_CAC_HANG_VE"].ToString();
                 THOI_GIAN_CHAM_NHAT_HUY_VE = dataTable.Rows[0]["THOI_GIAN_CHAM_NHAT_HUY_VE"].ToString();
                 THOI_GIAN_CHAM_NHAT_DAT_VE = dataTable.Rows[0]["THOI_GIAN_CHAM_NHAT_DAT_VE"].ToString();
-                TY_LE_HANG_GHE_LOAI_1 = dataTable.Rows[0]["TY_LE_HANG_GHE_LOAI_1"].ToString();
-                TY_LE_HANG_GHE_LOAI_2 = dataTable.Rows[0]["TY_LE_HANG_GHE_LOAI_2"].ToString();
-                TY_LE_HANG_GHE_LOAI_3 = dataTable.Rows[0]["TY_LE_HANG_GHE_LOAI_3"].ToString();
-                TY_LE_HANG_GHE_LOAI_4 = dataTable.Rows[0]["TY_LE_HANG_GHE_LOAI_4"].ToString();
 
                 result = true;
             }
@@ -61,18 +52,14 @@ namespace Planzy
             }
             return result;
         }
-        public static bool LoadThamSoQuyDinhXuongSQL (string SO_SAN_BAY_TOI_DA,
+        public static bool LoadThamSoQuyDinhXuongSQL (
             string THOI_GIAN_BAY_TOI_THIEU,
             string SO_SAN_BAY_TRUNG_GIAN_TOI_DA, 
             string THOI_GIAN_DUNG_TOI_DA,
             string THOI_GIAN_DUNG_TOI_THIEU,
             string SO_LUONG_CAC_HANG_VE,
             string THOI_GIAN_CHAM_NHAT_HUY_VE,
-            string THOI_GIAN_CHAM_NHAT_DAT_VE,
-            string TY_LE_HANG_GHE_LOAI_1,
-            string TY_LE_HANG_GHE_LOAI_2,
-            string TY_LE_HANG_GHE_LOAI_3,
-            string TY_LE_HANG_GHE_LOAI_4)
+            string THOI_GIAN_CHAM_NHAT_DAT_VE)
         {
             bool result;
             try
@@ -81,20 +68,15 @@ namespace Planzy
                 SqlCommand command = new SqlCommand("delete from THAM_SO_QUY_DINH", SanBayConnection);
                 command.ExecuteNonQuery();
 
-                command = new SqlCommand("Insert into THAM_SO_QUY_DINH(SO_SAN_BAY_TOI_DA,THOI_GIAN_BAY_TOI_THIEU, SO_SAN_BAY_TRUNG_GIAN_TOI_DA, THOI_GIAN_DUNG_TOI_DA, THOI_GIAN_DUNG_TOI_THIEU, SO_LUONG_CAC_HANG_VE, THOI_GIAN_CHAM_NHAT_HUY_VE, THOI_GIAN_CHAM_NHAT_DAT_VE, TY_LE_HANG_GHE_LOAI_1, TY_LE_HANG_GHE_LOAI_2, TY_LE_HANG_GHE_LOAI_3, TY_LE_HANG_GHE_LOAI_4) values ('" +
-                    SO_SAN_BAY_TOI_DA + "','" +
+                command = new SqlCommand("Insert into THAM_SO_QUY_DINH(THOI_GIAN_BAY_TOI_THIEU, SO_SAN_BAY_TRUNG_GIAN_TOI_DA, THOI_GIAN_DUNG_TOI_DA, THOI_GIAN_DUNG_TOI_THIEU, SO_LUONG_CAC_HANG_VE, THOI_GIAN_CHAM_NHAT_HUY_VE, THOI_GIAN_CHAM_NHAT_DAT_VE) values ('" +
                     THOI_GIAN_BAY_TOI_THIEU + "','" +
                     SO_SAN_BAY_TRUNG_GIAN_TOI_DA + "','" +
                     THOI_GIAN_DUNG_TOI_DA + "','" +
                     THOI_GIAN_DUNG_TOI_THIEU + "','" +
                     SO_LUONG_CAC_HANG_VE + "','" +
                     THOI_GIAN_CHAM_NHAT_HUY_VE + "','" +
-                    THOI_GIAN_CHAM_NHAT_DAT_VE + "','" + 
-                    TY_LE_HANG_GHE_LOAI_1 + "','" +
-                    TY_LE_HANG_GHE_LOAI_2 + "','" +
-                    TY_LE_HANG_GHE_LOAI_3 + "','" +
-                    TY_LE_HANG_GHE_LOAI_4 + "','" +
-                    ")",SanBayConnection);
+                    THOI_GIAN_CHAM_NHAT_DAT_VE +
+                    "')",SanBayConnection);
                 command.ExecuteNonQuery();
                 result = true;
             }
@@ -109,12 +91,12 @@ namespace Planzy
             return result;
         }
         #region loaihangghe
-        List<LoaiHangGhe> listUpdate;
-        List<LoaiHangGhe> listInsert;
-        List<LoaiHangGhe> listDelete;
-        LoaiHangGheServices loaiHangGheServices;
-        List<SqlCommand> listSqlCommands;
-        public void updateTicketTypeToSql(List<LoaiHangGhe> listTicketType)
+        static List<LoaiHangGhe> listUpdate;
+        static List<LoaiHangGhe> listInsert;
+        static List<LoaiHangGhe> listDelete;
+        static LoaiHangGheServices loaiHangGheServices;
+        static List<SqlCommand> listSqlCommands;
+        public static void updateTicketTypeToSql(List<LoaiHangGhe> listTicketType)
         {
             for(int i=0; i<listTicketType.Count; i++)
             {
@@ -162,6 +144,9 @@ namespace Planzy
                 listSqlCommands.Add(command);
             }
 
+            string deleteCTHG = "DELETE CHI_TIET_HANG_GHE WHERE CHI_TIET_HANG_GHE.MA_CHUYEN_BAY IN(SELECT CTHG.MA_CHUYEN_BAY FROM CHUYEN_BAY CB, CHI_TIET_HANG_GHE CTHG, LOAI_HANG_GHE LHG WHERE CB.MA_CHUYEN_BAY = CTHG.MA_CHUYEN_BAY AND CTHG.MA_LOAI_HANG_GHE = LHG.MA_LOAI_HANG_GHE AND CB.DA_BAY = 0 AND CTHG.SO_LUONG_TONG = CTHG.SO_LUONG_CON_LAI AND LHG.KHA_DUNG = '0')";
+            SqlCommand commandCTHG = new SqlCommand(deleteCTHG, SanBayConnection);
+            listSqlCommands.Add(commandCTHG);
 
             try
             {
@@ -181,7 +166,7 @@ namespace Planzy
                 SanBayConnection.Close();
             }
         }
-        void classify(List<LoaiHangGhe> list)
+        static void classify(List<LoaiHangGhe> list)
         {
             loaiHangGheServices = new LoaiHangGheServices();
             List<LoaiHangGhe> listSql = loaiHangGheServices.GetAll(); 
@@ -215,6 +200,7 @@ namespace Planzy
                 }
                 if (k == list.Count) listDelete.Add(listSql[i]);
             }
+
         }
         
 

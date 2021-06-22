@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterScreen"
         Title="Planzy" Height="600" Width="1000"
         xmlns:myView ="clr-namespace:Planzy.Views" xmlns:viewmodels="clr-namespace:Planzy.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"
-        Name="MainWindowView" WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize"
+        Name="MainWindowView" WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize" Icon="/logo.png"
         >
     <Grid>
         <myView:PlanzyView/>

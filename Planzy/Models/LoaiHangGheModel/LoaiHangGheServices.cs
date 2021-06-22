@@ -13,17 +13,28 @@ namespace Planzy.Models.LoaiHangGheModel
     {
         private  SqlConnection SanBayConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
         private List<LoaiHangGhe> LoaiHangGhesList;
+        public const int SO_HANG_GHE_TOI_DA = 8;
+        private int SoHangGheThucSu;
         private List<LoaiHangGhe> ListloaiHangGheKhaDung;
         public LoaiHangGheServices()
         {
             LoaiHangGhesList = new List<LoaiHangGhe>();
             ListloaiHangGheKhaDung = new List<LoaiHangGhe>();
             LoadSQL();
+            LoaiHangGhesList = new List<LoaiHangGhe>(ListloaiHangGheKhaDung);
+            for(int i = LoaiHangGhesList.Count;i<SO_HANG_GHE_TOI_DA;i++)
+            {
+                LoaiHangGhesList.Add(new LoaiHangGhe());
+            }    
         }    
         public List<LoaiHangGhe> GetAll()
         {
             return LoaiHangGhesList;
         }
+        public List<LoaiHangGhe> GetHangGheThucSu()
+        {
+            return LoaiHangGhesList.GetRange(0, SoHangGheThucSu);
+        }    
         public List<LoaiHangGhe> GetAll_KhaDung()
         {
             return ListloaiHangGheKhaDung;
@@ -54,7 +65,7 @@ namespace Planzy.Models.LoaiHangGheModel
                         hangGhe.TenLoaiHangGhe = row["TEN_LOAI_HANG_GHE"].ToString();
                         hangGhe.TyLe = row["TY_LE"].ToString();
                         hangGhe.KhaDung = row["KHA_DUNG"].ToString();
-                        LoaiHangGhesList.Add(hangGhe);
+                        //LoaiHangGhesList.Add(hangGhe);
                         if (hangGhe.KhaDung == "1") ListloaiHangGheKhaDung.Add(hangGhe);
                     }
                 }
@@ -74,6 +85,7 @@ namespace Planzy.Models.LoaiHangGheModel
             {
                 SanBayConnection.Close();
             }
+            SoHangGheThucSu = LoaiHangGhesList.Count;
             return result;
         }
 
