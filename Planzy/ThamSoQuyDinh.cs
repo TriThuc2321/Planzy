@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Planzy
 {
-    public class ThamSoQuyDinh
+    public static class ThamSoQuyDinh
     {
         private static SqlConnection SanBayConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
         public static string SO_SAN_BAY_TOI_DA;
@@ -109,12 +109,12 @@ namespace Planzy
             return result;
         }
         #region loaihangghe
-        List<LoaiHangGhe> listUpdate;
-        List<LoaiHangGhe> listInsert;
-        List<LoaiHangGhe> listDelete;
-        LoaiHangGheServices loaiHangGheServices;
-        List<SqlCommand> listSqlCommands;
-        public void updateTicketTypeToSql(List<LoaiHangGhe> listTicketType)
+        static List<LoaiHangGhe> listUpdate;
+        static List<LoaiHangGhe> listInsert;
+        static List<LoaiHangGhe> listDelete;
+        static LoaiHangGheServices loaiHangGheServices;
+        static List<SqlCommand> listSqlCommands;
+        public static void updateTicketTypeToSql(List<LoaiHangGhe> listTicketType)
         {
             for(int i=0; i<listTicketType.Count; i++)
             {
@@ -181,7 +181,7 @@ namespace Planzy
                 SanBayConnection.Close();
             }
         }
-        void classify(List<LoaiHangGhe> list)
+        static void classify(List<LoaiHangGhe> list)
         {
             loaiHangGheServices = new LoaiHangGheServices();
             List<LoaiHangGhe> listSql = loaiHangGheServices.GetAll(); 
