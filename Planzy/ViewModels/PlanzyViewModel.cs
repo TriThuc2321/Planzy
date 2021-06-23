@@ -2694,7 +2694,8 @@ namespace Planzy.ViewModels
         public void ButtonContinue(object p)
         {
             IsContinueButton = DuocChon;
-            IsDuocChon1 = KhongDuocChon;
+            IsDuocChon1 = DuocChon;
+            
             IsDuocChon2 = KhongDuocChon;
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = KhongDuocChon;
