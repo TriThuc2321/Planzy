@@ -1785,7 +1785,7 @@ namespace Planzy.ViewModels
                     return;
                 }
             }
-            LoadUIHangGheTheoChuyenBay(ChuyenBayDaChon.SoLoaiHangGhe.ToString());
+            LoadUIHangGheTheoChuyenBay(ChuyenBayDaChon.SoLoaiHangGhe.ToString(),ChuyenBayDaChon.ChiTietHangGhesList);
             for(int i = 0;i<ChuyenBayDaChon.ChiTietHangGhesList.Count;i++)
             {
                 LoaiHangGhesList[i].TenLoaiHangGhe = ChuyenBayDaChon.ChiTietHangGhesList[i].TenLoaiHangGhe;
@@ -1988,13 +1988,15 @@ namespace Planzy.ViewModels
                     }
                 }
                 #endregion
-                LoaiHangGhesList = new List<LoaiHangGhe>(loaiHangGheServices.GetAll_KhaDung());
+                List<LoaiHangGhe> temp = new List<LoaiHangGhe>(loaiHangGheServices.GetAll_KhaDung());
                 #region tùy chỉnh binding giao diện loại hạng ghế
-                for (int i = LoaiHangGhesList.Count; i < 8; i++)
+                for (int i = temp.Count; i < 8; i++)
                 {
-                    LoaiHangGhesList.Add(new LoaiHangGhe());
+                    temp.Add(new LoaiHangGhe());
                 }
+                LoaiHangGhesList = temp;
                 #endregion
+                CustomMessageBox.Show("Lưu thành công", "Thông báo", System.Windows.MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 #region Cập nhập dữ liệu
                 LoadUIHangGheTheoQuyDinh();
                 chuyenBayServices.Update(ChuyenBayDaChon);
@@ -2004,7 +2006,7 @@ namespace Planzy.ViewModels
                 chiTietHangGheServices.ThemListChiTietHangGhe(ChuyenBayDaChon.ChiTietHangGhesList);
                 #endregion
 
-                CustomMessageBox.Show("Lưu thành công", "Thông báo", System.Windows.MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                
             }
             //else if (chuyenBayServices.IsEditable(MaChuyenBay))
             //{
@@ -2203,6 +2205,12 @@ namespace Planzy.ViewModels
         }
         public void LoadUIHangGheTheoQuyDinh()
         {
+            List<LoaiHangGhe> temp = new List<LoaiHangGhe>(loaiHangGheServices.GetAll_KhaDung());
+            for(int i = temp.Count;i<8;i++)
+            {
+                temp.Add(new LoaiHangGhe());
+            }
+            LoaiHangGhesList = temp;
             if (ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE == "1")
             {
                 IsVisibleHang1 = "Visible";
@@ -2293,14 +2301,20 @@ namespace Planzy.ViewModels
             }
         }
 
-        public void LoadUIHangGheTheoChuyenBay(string SoLuongCacHangVe)
+        public void LoadUIHangGheTheoChuyenBay(string SoLuongCacHangVe,List<ChiTietHangGhe> chiTietHangGhes)
         {
-            LoaiHangGhesList = new List<LoaiHangGhe>(loaiHangGheServices.GetAll_KhaDung());
+            List<LoaiHangGhe> temp = new List<LoaiHangGhe>();
+
             #region tùy chỉnh binding giao diện loại hạng ghế
-            for (int i = LoaiHangGhesList.Count; i < 8; i++)
+            for (int i = 0; i < chiTietHangGhes.Count; i++)
             {
-                LoaiHangGhesList.Add(new LoaiHangGhe());
+                temp.Add(new LoaiHangGhe(chiTietHangGhes[i].MaLoaiHangGhe, chiTietHangGhes[i].TenLoaiHangGhe));
             }
+            for (int i = temp.Count;i<8;i++)
+            {
+                temp.Add(new LoaiHangGhe());
+            }
+            LoaiHangGhesList = temp;
             #endregion
             if (SoLuongCacHangVe == "1")
             {
@@ -2569,6 +2583,7 @@ namespace Planzy.ViewModels
             set
             {
                 selectedFlight = value;
+                if(value != null)
                 DateofSelectedFlight = value.NgayBay.GetDateTimeFormats();
 
                 OnPropertyChanged("SelectedFlight");
@@ -3873,6 +3888,7 @@ namespace Planzy.ViewModels
             set
             {
                 selectedFlight_SellTicket = value;
+                if (value != null)
                 DateofSelectedFlight_SellTicket = value.NgayBay.GetDateTimeFormats();
                 OnPropertyChanged("SelectedFlight_SellTicket");
             }
