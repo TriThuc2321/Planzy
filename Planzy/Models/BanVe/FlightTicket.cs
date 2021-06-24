@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Planzy.Models.BanVe
 {
-    class FlightTicket: INotifyPropertyChanged
+    public class FlightTicket: INotifyPropertyChanged
     {
         private static SqlConnection Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
 
