@@ -37,10 +37,12 @@ namespace Planzy.LoginRegister
         User user;
         List<User> listUsers;
         Window parentView;
+        DispatcherTimer timerUI;
 
         private DispatcherTimer timer;
         private string accountRemember;
         private string passwordRemember;
+        private string temp_email;
 
         public ICommand LoginGoogleCommand { get; set; }
         public ICommand PasswordChangCommand { get; set; }
@@ -76,6 +78,10 @@ namespace Planzy.LoginRegister
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
+
+            timerUI = new DispatcherTimer();
+            timerUI.Interval = TimeSpan.FromSeconds(0.4);
+            timerUI.Tick += timerUI_Tick;
         }
 
         private void checkBoxClick()
@@ -140,6 +146,13 @@ namespace Planzy.LoginRegister
                 timer.Start();
             }
         }
+        private void timerUI_Tick(object sender, EventArgs e)
+        {
+            timerUI.Stop();
+            MainWindow mainForm = new MainWindow(temp_email);
+            mainForm.Show();
+            parentView.Close();
+        }
 
         public bool IsConnectedToInternet()
         {
@@ -178,12 +191,13 @@ namespace Planzy.LoginRegister
                         LoginSuccessVisibility = "Visible";
                         EnterEmailVisibility = "Collapsed";
                         AccountNotNullVisibility = "Collapsed";
-                        MainWindow mainForm = new MainWindow(listUsers[i].Gmail);
-                        mainForm.Show();
+                        temp_email = listUsers[i].Gmail;
                         timer.Stop();
                         checkBoxClick();
-                        CreateTxt();
-                        p.Close();
+                        CreateTxt();                       
+                        timerUI.Start();
+                        break;
+                        
                     }
                     else
                     {

@@ -497,16 +497,16 @@
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal" Background="White">
                                                         <Button Content=" Chi tiết " 
-                                                                    Background="Black"
-                                                                    Foreground="White"
+                                                                    Background="LightBlue"
                                                                  Command="{Binding ElementName=lvsBanve , Path= DataContext.ChooseDetailFlight_SellTicket}"
                                                                 CommandParameter="{Binding}"
                                                              Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                                             ></Button>
-                                                        <TextBlock Text=" "></TextBlock>
+                                                        <TextBlock Text=" " Margin="0 5 0 0"></TextBlock>
                                                         <TextBlock Text="{Binding MaChuyenBay}"                                                                       
-                                                                       FontSize="15"></TextBlock>
-                                                        <TextBlock Text="   "></TextBlock>
+                                                                   FontSize="15"
+                                                                   Margin="0 5 0 0"></TextBlock>
+                                                        <TextBlock Text="   " Margin="0 5 0 0"></TextBlock>
 
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -517,7 +517,7 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding SanBayDen.TenSanBay}"></TextBlock>
+                                                        <TextBlock Text="{Binding SanBayDen.TenSanBay}" Margin="0 5 0 0"></TextBlock>
 
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -528,7 +528,7 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding SanBayDi.TenSanBay}"></TextBlock>
+                                                        <TextBlock Text="{Binding SanBayDi.TenSanBay}" Margin="0 5 0 0"></TextBlock>
 
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -539,7 +539,7 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding NgayBay}"></TextBlock>
+                                                        <TextBlock Text="{Binding NgayBay}" Margin="0 5 0 0"></TextBlock>
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
@@ -549,7 +549,7 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding ThoiGianBay}"></TextBlock>
+                                                        <TextBlock Text="{Binding ThoiGianBay}" Margin="0 5 0 0"></TextBlock>
 
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -2476,7 +2476,6 @@
 
                             <Grid Grid.Row="0">
                                 <Image Name="ProfilePic" Height="50" Width="50"
-                                       Source="{Binding ProfilePic}"
                                        Stretch="Fill"
                                        />
                             </Grid>
@@ -3336,10 +3335,10 @@
                                                     FontWeight="Bold"
                                                     Width="100"
                                                     Height="40"
-                                                    SelectedItem="{Binding TicketType_Setting}"
+                                                    SelectedItem="{Binding TicketType_SellTicket}"
                                                     Foreground="#FF5867AC"
                                                      materialDesign:HintAssist.Hint="Chọn Hạng Vé"
-                                                     ItemsSource="{Binding ListTicketType_Setting}"
+                                                     ItemsSource="{Binding ListTicketType_SellTicket}"
                                                         Style="{StaticResource MaterialDesignFloatingHintComboBox}">
                                                     <ComboBox.ItemsPanel>
                                                         <ItemsPanelTemplate>
@@ -3703,7 +3702,7 @@
                                 </StackPanel>
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_ChiTietChuyenBay_SellTicket" Background="LightBlue" Visibility="Hidden">
+                        <Grid Name ="gr_ChiTietChuyenBay_SellTicket" Background="LightBlue" Visibility="{Binding IsDetailFlight_SellTicket.NewVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="10"></RowDefinition>
                                 <RowDefinition Height="60"></RowDefinition>
@@ -3776,12 +3775,12 @@
                                             Orientation="Horizontal"
                                             Margin="20 5 25 10"
                                             Background="LightBlue">
-                                        <Label Content="Thời gian bay: "
+                                        <Label Content="Giá vé cơ bản: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="120"/>
-                                        <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.ThoiGianBay}" 
+                                        <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.ThoiGianBay, StringFormat='{}{0} VND'}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="12"
                                              IsReadOnly="True"
@@ -3828,7 +3827,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="150"/>
-                                        <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.ThoiGianBay}" 
+                                        <TextBox Width="150" Text="{Binding SelectedFlight_SellTicket.ThoiGianBay, StringFormat='{}{0} Phút'}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              IsReadOnly="True"

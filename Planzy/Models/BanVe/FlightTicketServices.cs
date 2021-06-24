@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Planzy.Models.BanVe
 {
-    class FlightTicketServices
+    public class FlightTicketServices
     {
         private static SqlConnection SellTicketConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["PlanzyConnection"].ConnectionString);
         public static void Add(FlightTicket ticket, string account)
