@@ -6,11 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.ComponentModel;
 namespace Planzy.Models.DoanhThuThangModel
 {
-    class DoanhThuThang
+    class DoanhThuThang: INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         public string Thang { get; set; }
         public string NgayBayString { get; set; }
         public int SoChuyenBay { get; set; }

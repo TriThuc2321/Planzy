@@ -9,7 +9,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Planzy.Models.DoanhThuThangModel
 {
     class DoanhThuThangServices
@@ -20,7 +19,7 @@ namespace Planzy.Models.DoanhThuThangModel
             get; set;
         }
         public List<string> labels { get; set; }
-        public int tongDoanhThu = 0;
+        private int tongDoanhThu = 0;
         public float tongDoanhThuTrieuDong = 0;
 
         public List<List<ChuyenBay>> chuyenBayCuaNam = new List<List<ChuyenBay>>()
@@ -129,6 +128,8 @@ namespace Planzy.Models.DoanhThuThangModel
         {
             doanhThuThangs[chuyenBay.NgayBay.Month - 1].doanhThuServices.ThemDoanhThu(chuyenBay);
             doanhThuThangs[chuyenBay.NgayBay.Month - 1].SoChuyenBay++;
+            doanhThuThangs[chuyenBay.NgayBay.Month - 1].DoanhThu += doanhThuThangs[chuyenBay.NgayBay.Month - 1].doanhThuServices.doanhThuTangThem;
+            doanhThuThangs[chuyenBay.NgayBay.Month - 1].DoanhThuTrieuDong = (float)doanhThuThangs[chuyenBay.NgayBay.Month - 1].DoanhThu / 1000000;
             tongDoanhThu += doanhThuThangs[chuyenBay.NgayBay.Month - 1].doanhThuServices.doanhThuTangThem;
             tongDoanhThuTrieuDong = (float)tongDoanhThu / 1000000;
 
@@ -154,7 +155,7 @@ namespace Planzy.Models.DoanhThuThangModel
                 DoanhThuThang doanhThuThang = new DoanhThuThang(doanhThuChuyenBayCuaNam[i]);
                 doanhThuThang.DoanhThu = doanhThuThang.doanhThuServices.tongDoanhThu;
                 doanhThuThang.DoanhThuTrieuDong = doanhThuThang.doanhThuServices.tongDoanhThuTrieuDong;
-                doanhThuThang.SoChuyenBay = chuyenBayCuaNam[i].Count;
+                doanhThuThang.SoChuyenBay = doanhThuChuyenBayCuaNam[i].Count;
                 doanhThuThang.Thang = (i + 1).ToString();
                 tongDoanhThu += doanhThuThang.DoanhThu;
 

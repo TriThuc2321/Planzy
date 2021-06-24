@@ -13,6 +13,7 @@
              xmlns:chartTool ="clr-namespace:Planzy.Views" xmlns:sys="clr-namespace:System;assembly=System.Runtime" d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}">
     <!--d:DataContext="{d:DesignInstance Type=viewmodels:PlanzyViewModel}"-->
     <UserControl.Resources>
+        <loc:MyConverter x:Key="myConverter"></loc:MyConverter>
         <sys:Double x:Key="TextSizeForButton" >12</sys:Double>
     </UserControl.Resources>
     <Grid Background="#FFE1F3F9">
@@ -36,7 +37,10 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button Name="btn_DatVe" Grid.Row="0" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon1.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand1}">
+                <Button Name="btn_DatVe" 
+                        Grid.Row="0" 
+                        Visibility="{Binding IsVisibleButtonDatVe}"
+                        Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon1.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand1}">
                     <StackPanel Orientation="Horizontal" Width="150" Height="50">
                         <materialDesign:PackIcon Name="ic_DatVe" 
                                       Kind="TicketOutline" 
@@ -54,7 +58,10 @@
                                Foreground="{Binding IsDuocChon1.NewForeground}"/>
                     </StackPanel>
                 </Button>
-                <Button Name="btn_BanVe" Grid.Row="1" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon2.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand2}" >
+                <Button Name="btn_BanVe" 
+                        Visibility="{Binding IsVisibleButtonBanVe}"
+                        Grid.Row="{Binding GridRowButtonBanVe}"
+                        Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon2.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand2}" >
                     <StackPanel Orientation="Horizontal" Width="150" Height="50">
                         <materialDesign:PackIcon Name="ic_BanVe" 
                                       Kind="TicketOutline" 
@@ -72,7 +79,9 @@
                                Foreground="{Binding IsDuocChon2.NewForeground}"/>
                     </StackPanel>
                 </Button>
-                <Button Name="btn_TraCuu" Grid.Row="2" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon3.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand3}" >
+                <Button Name="btn_TraCuu" 
+                        Grid.Row="{Binding GridRowButtonTraCuu}" 
+                        Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon3.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand3}" >
                     <StackPanel Orientation="Horizontal" Width="150" Height="50">
                         <materialDesign:PackIcon Name="ic_TraCuu" 
                                       Kind="Search" 
@@ -90,7 +99,9 @@
                                Foreground="{Binding IsDuocChon3.NewForeground}"/>
                     </StackPanel>
                 </Button>
-                <Button Name="btn_NhanLich" Grid.Row="3" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon4.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand4}" >
+                <Button Name="btn_NhanLich" 
+                        Visibility="{Binding IsVisibleButtonNhanLich}"
+                        Grid.Row="{Binding GridRowButtonNhanLich}" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon4.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand4}" >
                     <StackPanel Orientation="Horizontal" Width="150" Height="50">
                         <materialDesign:PackIcon Name="ic_NhanLich" 
                                       Kind="AirplaneTakeoff" 
@@ -108,7 +119,9 @@
                                Foreground="{Binding IsDuocChon4.NewForeground}"/>
                     </StackPanel>
                 </Button>
-                <Button Name="btn_DoanhThu" Grid.Row="4" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon5.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand5}" >
+                <Button Name="btn_DoanhThu" 
+                        Visibility="{Binding IsVisibleButtonDoanhThu}"
+                        Grid.Row="{Binding GridRowButtonDoanhThu}" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon5.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand5}" >
                     <StackPanel Orientation="Horizontal" Width="150" Height="50">
                         <materialDesign:PackIcon Name="ic_DoanhThu" Kind="ChartBoxOutline" 
                                       Height="30" Width="30" 
@@ -125,7 +138,8 @@
                                Foreground="{Binding IsDuocChon5.NewForeground}"/>
                     </StackPanel>
                 </Button>
-                <Button Name="btn_User" Grid.Row="5" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon6.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand6}" >
+                <Button Name="btn_User" 
+                        Grid.Row="{Binding GridRowButtonNguoiDung}" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon6.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand6}" >
                     <StackPanel Orientation="Horizontal" Width="150" Height="50">
                         <materialDesign:PackIcon Name="ic_User" Kind="AccountOutline" 
                                       Height="30" Width="30" 
@@ -142,7 +156,9 @@
                                Foreground="{Binding IsDuocChon6.NewForeground}"/>
                     </StackPanel>
                 </Button>
-                <Button Name="btn_Setting" Grid.Row="6" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon8.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand8}" >
+                <Button Name="btn_Setting" 
+                        Visibility="{Binding IsVisibleButtonCaiDat}"
+                        Grid.Row="{Binding GridRowButtonCaiDat}" Height="50" Padding="0,0,0,0" Background="{Binding IsDuocChon8.NewBackground}" BorderBrush="{x:Null}" Margin="5,0,5,0" Command="{Binding ChonLayoutCommand8}" >
                     <StackPanel Orientation="Horizontal" Width="150" Height="50">
                         <materialDesign:PackIcon Name="ic_Setting" Kind="CogOutline" 
                                       Height="30" Width="30" 
@@ -169,7 +185,7 @@
                                 <RowDefinition Height="200"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
-                            <ListView x:Name="lvsDatve" 
+                            <ListView x:Name="lvsDatve" Margin="15"
                                       ItemsSource="{Binding FlightSearchList_FlightBooking}" 
                                       Grid.Row="1"
                                       SelectedItem="{Binding SelectedFlight}"
@@ -181,7 +197,10 @@
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal" Background="White">
                                                         <Button Content=" Chi tiết " 
-                                                                    Background="LightBlue"
+                                                                    Background="SkyBlue"
+                                                                Height="30"
+                                                                FontSize="12"
+                                                                FontWeight="Bold"
                                                                     
                                                              Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                                                 Command="{Binding ElementName= lvsDatve, Path= DataContext.ChooseDetailFlight}"
@@ -437,38 +456,38 @@
                                     <DockPanel Grid.Row="3">
                                         <Button
                                                 Content="Tìm Chuyến Bay"
-                                                Height="40"
-                                            FontSize="10"
+                                                Height="30"
+                                            FontSize="12"
                                             BorderBrush="{x:Null}"
-                                                Width="120"
+                                                Width="130"
                                             FontWeight="Bold"
-                                            Background="White"
-                                            Margin=" 10 5 5 5"
+                                            Background="SkyBlue"
+                                            Margin=" 0 5 5 5"
                                             Command="{Binding searchFlightCommand_FlightBooking}"
                                                 >
                                         </Button>
 
                                         <Button
                                                 Content="Xem Tất Cả"
-                                                Height="40"
-                                            FontSize="10"
+                                                Height="30"
+                                            FontSize="12"
                                             FontWeight="Bold"
-                                            Background="White"
+                                            Background="SkyBlue"
                                             BorderBrush="{x:Null}"
-                                                Width="90"
-                                            Margin=" 10 5 5 5"
+                                                Width="100"
+                                            Margin=" 0 5 5 5"
                                             Command="{Binding showAllFightsCommand_FlightBooking}"
                                                 >
                                         </Button>
 
                                         <Button Content="Tiếp Tục"
-                                                Height="40"
-                                                FontSize="10"
-                                                Width="90"
+                                                Height="30"
+                                                FontSize="12"
+                                                Width="100"
                                                 FontWeight="Bold"
-                                                Background="LightGreen"
+                                                Background="SkyBlue"
                                                 BorderBrush="{x:Null}"
-                                                Margin="5 5 5 5"
+                                                Margin="0 5 15 5"
                                                 Command="{Binding ChooseContinueButtonCommand}"
                                                 CommandParameter="{Binding SelectedItem,ElementName=lvsDatve}"
                                                 ></Button>
@@ -816,7 +835,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}"
+                        <Grid Name ="gr_Tracuu" Visibility="{Binding IsDuocChon3.NewVisibility}" Margin="15"
                               >
 
                             <Grid.RowDefinitions>
@@ -835,9 +854,9 @@
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <StackPanel Orientation="Horizontal"  Grid.Row="0" Background="White" Grid.ColumnSpan="2">
-                                    <StackPanel Orientation="Horizontal" Margin="30 0 0 10">
+                                    <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
                                         <Label Grid.Row="1"
-                                            Content="Điểm đi: "
+                                            Content="Sân bay đi: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
@@ -869,7 +888,7 @@
                                     <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
 
                                         <Label Grid.Row="1"
-                                            Content="Điểm đến: "
+                                            Content="Sân bay đến: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
@@ -929,11 +948,12 @@
                                     <TextBlock Text=" " Height="5" Width="5"></TextBlock>
 
                                     <Button
+                                        Visibility="{Binding IsVisibleButtonSuaTrongTraCuu}"
                                        BorderBrush="{x:Null}"
-                                        Background="LightGreen"
-                                        FontSize="10"
+                                        Background="#FF80E66A"
+                                        FontSize="12"
                                         FontWeight="Bold"
-                                        Height="40"
+                                        Height="30"
                                         Width="100"
                                          Command="{Binding ChooseChangeButtonCommand_FlightSearch}" 
                                         CommandParameter="{Binding SelectedItem, ElementName=lvsTracuu}"
@@ -942,21 +962,21 @@
                                     </Button>
                                     <Button
                                       BorderBrush="{x:Null}"
-                                        FontSize="10"
-                                        Height="40"
+                                        FontSize="12"
+                                        Height="30"
                                         FontWeight="Bold"
-                                         Background="White"
+                                         Background="SkyBlue"
                                         Width="100"
                                          Command="{Binding searchFlightCommand}" 
                                          Content="Tìm kiếm">
                                     </Button>
                                     <Button
                                         BorderBrush="{x:Null}"
-                                        FontSize="10"
-                                        Height="40"
+                                        FontSize="12"
+                                        Height="30"
                                         Width="100"
                                         FontWeight="Bold"
-                                         Background="White"
+                                         Background="SkyBlue"
                                          Command="{Binding resetCommand}" 
                                          Content="Làm mới"
                                         Margin="20,0,0,0">
@@ -980,10 +1000,10 @@
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
                                                         <Button Content=" Chi tiết " 
-                                                                    Background="LightBlue"
-                                                                    
-                                                                
-                                                              
+                                                                    Background="SkyBlue"
+                                                                    FontWeight="Bold"
+                                                                    Height="30"
+                                                                    FontSize="12"
                                                                      Command="{Binding ElementName= lvsTracuu, Path= DataContext.ChooseDetailFlight}"
                                                                 CommandParameter="{Binding}"
                                                                
@@ -1073,12 +1093,12 @@
                                 <Button Grid.Column="0" Grid.Row="1"
                                         Height="20"
                                         Width="26"
-                                        Background="#FF5867AC" BorderBrush="{x:Null}"
+                                        Background="SkyBlue" BorderBrush="{x:Null}"
                                         Grid.ColumnSpan="2"
                                         Padding="0"
                                         Command="{Binding DoiViTriSanBayCommand}" HorizontalAlignment="Left" Margin="344,10,0,10"
                                         >
-                                    <materialDesign:PackIcon Kind="ArrowLeftRightBold" Foreground="White"/>
+                                    <materialDesign:PackIcon Kind="ArrowLeftRightBold" Foreground="Black"/>
                                 </Button>
                                 <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal">
@@ -1232,8 +1252,8 @@
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="80"/>
-                                    <TextBox Width="70" Text="{Binding SoGheHang1}"
+                                           Width="Auto"/>
+                                    <TextBox Width="30" Text="{Binding SoGheHang1}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="7"
@@ -1245,8 +1265,8 @@
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="80"/>
-                                    <TextBox Width="70" Text="{Binding SoGheHang2}"
+                                           Width="Auto"/>
+                                    <TextBox Width="30" Text="{Binding SoGheHang2}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="8"
@@ -1258,8 +1278,8 @@
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="80"/>
-                                    <TextBox Width="70" Text="{Binding SoGheHang3}"
+                                           Width="Auto"/>
+                                    <TextBox Width="30" Text="{Binding SoGheHang3}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="9"
@@ -1272,8 +1292,8 @@
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="80"/>
-                                    <TextBox Width="70" Text="{Binding SoGheHang4}"
+                                           Width="auto"/>
+                                    <TextBox Width="30" Text="{Binding SoGheHang4}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
@@ -1285,8 +1305,8 @@
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="80"/>
-                                    <TextBox Width="70" Text="{Binding SoGheHang5}"
+                                           Width="auto"/>
+                                    <TextBox Width="30" Text="{Binding SoGheHang5}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
@@ -1298,8 +1318,8 @@
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="80"/>
-                                    <TextBox Width="70" Text="{Binding SoGheHang6}"
+                                           Width="auto"/>
+                                    <TextBox Width="30" Text="{Binding SoGheHang6}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
@@ -1311,8 +1331,8 @@
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="80"/>
-                                    <TextBox Width="70" Text="{Binding SoGheHang7}"
+                                           Width="auto"/>
+                                    <TextBox Width="30" Text="{Binding SoGheHang7}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
@@ -1324,8 +1344,8 @@
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="80"/>
-                                    <TextBox Width="70" Text="{Binding SoGheHang8}"
+                                           Width="auto"/>
+                                    <TextBox Width="30" Text="{Binding SoGheHang8}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
@@ -1338,19 +1358,20 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="70"/>
                                     <RowDefinition/>
                                     <RowDefinition Height="50"/>
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0" Grid.Column="0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label Content="Sân bay trung gian: "
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Sân bay trung gian: "
                                            VerticalContentAlignment="Bottom"
                                            HorizontalAlignment="Left"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="123"/>
-                                        <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                            <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
                                               VerticalAlignment="Bottom" Width="54"
                                               Foreground="Black"
                                               FontSize="15"
@@ -1359,62 +1380,69 @@
                                               Visibility="{Binding IsVisible}"
                                               ItemsSource="{Binding SanBayTrungGianSapThemsList, Mode=TwoWay}"
                                               SelectedItem="{Binding SanBayTrungGianSapThem, Mode=TwoWay}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Id}" Width="40"/>
-                                                        <TextBlock Text=" - " Width="20"/>
-                                                        <TextBlock Text="{Binding TenSanBay}" Width="130"/>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                        <Label Content="Thời gian dừng: "
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Id}" Width="40"/>
+                                                            <TextBlock Text=" - " Width="20"/>
+                                                            <TextBlock Text="{Binding TenSanBay}" Width="130"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                            <Label Content="Thời gian dừng: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="100"
                                                Visibility="{Binding IsVisible}"/>
-                                        <TextBox Width="35" Text="{Binding ThoiGianDungSapThem}"
+                                            <TextBox Width="30" Text="{Binding ThoiGianDungSapThem}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC"
                                                  Visibility="{Binding IsVisible}"
                                                  loc:FocusExtension.IsFocused="{Binding IsFocusThoiGianDung}"/>
-                                        <Button Content=" Xác Nhận " VerticalAlignment="Bottom" Margin=" 10,0,0,0"
+                                            
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
+                                            <Button Content=" Xác Nhận " VerticalAlignment="Bottom" Margin=" 10,0,0,0"
                                                 Visibility="{Binding IsVisible}"
                                                                     Width="Auto"
-                                                                    Height="20"
-                                                                    Padding="0"
-                                                                    Foreground="#ffffff"
+                                                                    Height="30"
+                                                                    Padding="10 0 10 0"
+                                                                    Foreground="#000"
+                                                FontWeight="Bold"
                                                                     Command="{Binding XacNhanThemCommand}" 
-                                                                    Background="#FF80E66A" FontSize="10" BorderBrush="{x:Null}"
+                                                                    Background="#FF80E66A" FontSize="12" BorderBrush="{x:Null}"
                                                                     />
-                                        <Grid Width="10"/>
-                                        <Button Content="Hủy" VerticalAlignment="Bottom" 
+                                            <Grid Width="10"/>
+                                            <Button Content="Hủy" VerticalAlignment="Bottom" 
                                                 Visibility="{Binding IsVisible}"
                                                 HorizontalAlignment="Right"
-                                                Width="30"
-                                                Height="20"
-                                                Padding="0"
-                                                                    Foreground="#ffffff"
+                                                Width="auto"
+                                                FontWeight="Bold"
+                                                Height="30"
+                                                Padding="10 0 10 0"
+                                                                    Foreground="#000"
                                                                     Command="{Binding HuyThemCommand}" 
                                                                     CommandParameter="{Binding}" 
-                                                                    Background="#FFE05050" FontSize="10" BorderBrush="{x:Null}"
+                                                                    Background="#FFE05050" FontSize="12" BorderBrush="{x:Null}"
                                                                     />
+                                        </StackPanel>
                                     </StackPanel>
+                                    
                                 </Grid>
                                 <Grid Grid.Column="1" Grid.Row="0">
-                                    <Label Content="Danh sách lịch bay: "
+                                    <Label Content="Danh sách lịch bay: " VerticalAlignment="Top"
                                            VerticalContentAlignment="Bottom"
                                            HorizontalAlignment="Left"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="200"/>
                                 </Grid>
-                                <Grid Grid.Row="1" Grid.Column="0">
+                                <Grid Grid.Row="1" Grid.Column="0" Width="auto">
 
-                                    <ListView Margin="10" x:Name="listviewSanBayTrungGian" ItemsSource="{Binding SanBayTrungGiansList}" BorderBrush="Black">
+                                    <ListView  Margin="10" x:Name="listviewSanBayTrungGian" ItemsSource="{Binding SanBayTrungGiansList}" BorderBrush="Black">
                                         <ListView.View>
                                             <GridView>
                                                 <GridViewColumn Header="Mã" Width="Auto" >
@@ -1429,7 +1457,7 @@
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
                                                 </GridViewColumn>
-                                                <GridViewColumn Header="Tên" Width="150" >
+                                                <GridViewColumn Header="Tên" Width="auto" >
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <StackPanel>
@@ -1450,7 +1478,7 @@
                                                                     Width="30"
                                                                     Height="20"
                                                                     Padding="0"
-                                                                    Foreground="#ffffff"
+                                                                    Foreground="#000"
                                                                     Command="{Binding DataContext.ThemSanBayTrungGianCommand, ElementName=listviewSanBayTrungGian}" 
                                                                     CommandParameter="{Binding}" 
                                                                     Background="#FF80E66A" FontSize="10"
@@ -1460,7 +1488,7 @@
                                                                     Width="30"
                                                                     Height="20"
                                                                     Padding="0"
-                                                                    Foreground="#ffffff"
+                                                                    Foreground="#000"
                                                                     Command="{Binding DataContext.XoaSanBayTrungGianCommand, ElementName=listviewSanBayTrungGian}" 
                                                                     CommandParameter="{Binding}" 
                                                                     Background="#FFE05050" FontSize="10"
@@ -1539,12 +1567,13 @@
                                 </Grid>
                                 <Grid Grid.Row="2" Grid.Column="0">
                                     <Button Content="Thêm sân bay trung gian"
-                                            Width="120"
-                                            Height="20"
-                                            Padding="0"
-                                            Foreground="#ffffff"
+                                            Width="170"
+                                            FontWeight="Bold"
+                                            Height="30"
+                                            Padding="10 0 10 0"
+                                            Foreground="#000"
                                             Command="{Binding ThemSanBayTrungGianCommand}" 
-                                            Background="#FF80E66A" FontSize="10"
+                                            Background="SkyBlue" FontSize="12"
                                             BorderBrush="{x:Null}"
                                             Visibility="{Binding IsVisibleThemChuyenBayTrungGian}"
                                             />
@@ -1554,7 +1583,7 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid Grid.Column="0">
@@ -1562,22 +1591,24 @@
                                                 Visibility="{Binding IsVisibleLuuChuyenBay}"
                                                 Command="{Binding LuuSuaChuyenBayCommand}"
                                                 HorizontalAlignment="Center"
-                                                Width="30"
-                                                Height="20"
-                                                Padding="0"
-                                                Foreground="#ffffff"  
-                                                Background="#FF5867AC" FontSize="10" BorderBrush="{x:Null}"
+                                                Width="auto"
+                                                Height="30"
+                                                FontWeight="Bold"
+                                                Padding="10 0 10 0"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="12" BorderBrush="{x:Null}"
                                                 />
                                     </Grid>
                                     <Grid Grid.Column="1">
                                         <Button Content="Sửa" VerticalAlignment="Center" 
                                                 Visibility="{Binding IsVisibleSuaChuyenBay}"
                                                 HorizontalAlignment="Center"
-                                                Width="30"
-                                                Height="20"
-                                                Padding="0"
-                                                Foreground="#ffffff"  
-                                                Background="#FF5867AC" FontSize="10" BorderBrush="{x:Null}"
+                                                Width="auto"
+                                                Height="30"
+                                                Padding="10 0 10 0"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="12" BorderBrush="{x:Null}"
+                                                FontWeight="Bold"
                                                 Command="{Binding SuaChuyenBayCommand}"
                                                 />
                                     </Grid>
@@ -1586,11 +1617,12 @@
                                                 Visibility="{Binding IsVisibleXoaChuyenBay}"
                                                 Command="{Binding XoaChuyenBayCommand}"
                                                 HorizontalAlignment="Center"
-                                                Width="30"
-                                                Height="20"
-                                                Padding="0"
-                                                Foreground="#ffffff"  
-                                                Background="#FFE05050" FontSize="10" BorderBrush="{x:Null}"
+                                                Width="auto"
+                                                Height="30"
+                                                Padding="10 0 10 0"
+                                                FontWeight="Bold"
+                                                Foreground="#000"  
+                                                Background="#FFE05050" FontSize="12" BorderBrush="{x:Null}"
                                                 />
                                     </Grid>
                                     <Grid Grid.Column="3">
@@ -1600,8 +1632,9 @@
                                                 Visibility="{Binding IsVisibleNhanLichChuyenBay}"
                                                 Width="Auto"
                                                 Height="30"
-                                                Padding="0"
-                                                Foreground="#ffffff"
+                                                Padding="10 0 10 0"
+                                                FontWeight="Bold"
+                                                Foreground="#000"
                                                 Command="{Binding ThemChuyenBayCommand}" 
                                                 Background="#FF80E66A" FontSize="12" BorderBrush="{x:Null}"
                                                 />
@@ -1611,11 +1644,12 @@
                                                 Visibility="{Binding IsVisibleHuyThaoTac}"
                                                 Command="{Binding HuyThemVaSuaChuyenBayCommand}"
                                                 HorizontalAlignment="Center"
-                                                Width="30"
-                                                Height="20"
-                                                Padding="0"
-                                                Foreground="#ffffff"  
-                                                Background="#FFE05050" FontSize="10" BorderBrush="{x:Null}"
+                                                Width="auto"
+                                                Height="30"
+                                                Padding="10 0 10 0"
+                                                FontWeight="Bold"
+                                                Foreground="#000"  
+                                                Background="#FFE05050" FontSize="12" BorderBrush="{x:Null}"
                                                 />
                                     </Grid>
                                 </Grid>
@@ -1673,10 +1707,10 @@
                                                 Command="{Binding ReviewBieuDoCommand}"
                                                 HorizontalAlignment="Right"
                                                 Width="Auto"
-                                                Height="Auto"
-                                                Padding="4"
-                                                Foreground="#ffffff"  
-                                                Background="#FF5867AC" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="0,0,10,0"
+                                                Height="30"
+                                                Padding="10 0 10 0"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="0,0,10,0"
                                                 FontWeight="Bold"
                                                 />
                                 </Grid>
@@ -1744,10 +1778,10 @@
                                                 Command="{Binding TroVeBieuDoCommand}"
                                                 HorizontalAlignment="Left"
                                                 Width="Auto"
-                                                Height="Auto"
-                                                Padding="4"
-                                                Foreground="#ffffff"  
-                                                Background="#FF5867AC" FontSize="{DynamicResource ResourceKey= TextSizeForButton}" BorderBrush="{x:Null}" Margin="10,0,0,0"
+                                                Height="30"
+                                                Padding="10 0 10 0"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="{DynamicResource ResourceKey= TextSizeForButton}" BorderBrush="{x:Null}" Margin="10,0,0,0"
                                                 FontWeight="Bold"
                                                 />
 
@@ -1757,10 +1791,10 @@
                                                 HorizontalAlignment="Right"
                                                 VerticalAlignment="Bottom"
                                                 Width="Auto"
-                                                Height="Auto"
-                                                Padding="4"
-                                                Foreground="#ffffff"  
-                                                Background="#FF5867AC" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="0,0,10,0"
+                                                Height="30"
+                                                Padding="10 0 10 0"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="0,0,10,0"
                                                 FontWeight="Bold"/>
                                 </Grid>
                                 <ScrollViewer Grid.Row="2" x:Name="duLieuBaoCaoThang">
@@ -1909,10 +1943,10 @@
                                                 Command="{Binding TroVeBieuDoCommand}"
                                                 HorizontalAlignment="Left"
                                                 Width="Auto"
-                                                Height="Auto"
-                                                Padding="4"
-                                                Foreground="#ffffff"  
-                                                Background="#FF5867AC" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="10,0,0,0"
+                                                Height="30"
+                                                Padding="10 0 10 0"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="10,0,0,0"
                                                 FontWeight="Bold"
                                                 />
                                     <Button Content="Xuất biểu đồ" 
@@ -1921,10 +1955,10 @@
                                                 HorizontalAlignment="Right"
                                                 VerticalAlignment="Bottom"
                                                 Width="Auto"
-                                                Height="Auto"
-                                                Padding="4"
-                                                Foreground="#ffffff"  
-                                                Background="#FF5867AC" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="0,0,10,0"
+                                                Height="30"
+                                                Padding="10 0 10 0"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="0,0,10,0"
                                                 FontWeight="Bold"/>
                                 </Grid>
                                 <ScrollViewer Grid.Row="2" x:Name="duLieuBaoCaoNam">
@@ -2568,24 +2602,31 @@
                             <Grid Grid.Row="6">
                                 <StackPanel Orientation="Horizontal">
                                     <Button
-                                    Width="200"
-                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"                                 
+                                        FontSize="12"
+                                        FontWeight="Bold"
+                                    Width="200"                                
                                     Content="Cập nhật thông tin" 
                                     Background="SkyBlue"
                                         Margin="30 0 0 0"
                                         Command="{Binding UpdateUserCommand}"
+                                    BorderBrush="{x:Null}"
                                     />
                                     <Button
+                                        FontSize="12"
+                                        FontWeight="Bold"
+                                        Visibility="{Binding IsVisibleButtonVeDaDat}"
                                     Width="200"
-                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    BorderBrush="{x:Null}"
                                     Content="Vé đã đặt" 
                                     Command="{Binding chooseBookedSticketCommand}"
                                     Background="SkyBlue"
                                         Margin="30 0 0 0"
                                     />
                                     <Button
+                                        FontSize="12"
+                                        FontWeight="Bold"
                                     Width="200"
-                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    BorderBrush="{x:Null}"
                                     Content="Đăng xuất" 
                                     Background="SkyBlue"
                                         Margin="30 0 0 0"
