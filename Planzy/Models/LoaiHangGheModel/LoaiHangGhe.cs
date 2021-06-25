@@ -24,6 +24,11 @@ namespace Planzy.Models.LoaiHangGheModel
             TyLe = "";
             KhaDung = "";
         }
+        public LoaiHangGhe(string ma,string ten)
+        {
+            MaLoaiHangGhe = ma;
+            TenLoaiHangGhe = ten;
+        }
         private string maLoaiHangGhe;
 
         public string MaLoaiHangGhe

@@ -86,7 +86,7 @@ namespace Planzy.Models.DoanhThuModel
             DoanhThu doanhThu = new DoanhThu();
             doanhThu.MaChuyenBay = chuyenBay.MaChuyenBay;
             doanhThu.NgayBay = chuyenBay.NgayBay;
-            doanhThu.NgayBayString = doanhThu.NgayBay.ToShortDateString();
+            doanhThu.NgayBayString = doanhThu.NgayBay.ToString();
             int tongSoVeDaBan = 0;
             int doanhThuVe = 0;
             foreach (ChiTietHangGhe chiTietHangGhe in chuyenBay.ChiTietHangGhesList)

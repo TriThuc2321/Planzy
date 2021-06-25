@@ -67,6 +67,7 @@ namespace Planzy.ViewModels
         public void denGioBay(object sender, EventArgs e)
         {
             chuyenBayTimer.Stop();
+            List<ChuyenBay> chuyenBayDaBays = new List<ChuyenBay>();
             foreach (ChuyenBay chuyenBay in ChuyenBaysList)
             {
                 if (chuyenBay.NgayBay == DateTime.Now)
@@ -87,6 +88,11 @@ namespace Planzy.ViewModels
                                 DoanhThuThangServices newDT = new DoanhThuThangServices(chuyenBay.NgayBay.Year.ToString());
                                 newDT.ThemDoanhThu(chuyenBay);
                             }
+                            chuyenBayServices.Delete(chuyenBay.MaChuyenBay, sanBayTrungGianService, chiTietHangGheServices, ListBookedSticket);
+                            chuyenBayDaBays.Add(chuyenBay);
+                            FlightSearchList_FlightBooking.Remove(chuyenBay);
+                            FlightSearchList_SellTicket.Remove(chuyenBay);
+                            FlightSearchList.Remove(chuyenBay);
                         }
                     }
                     else if (chuyenBay.GioBay.Hour == DateTime.Now.Hour)
@@ -107,6 +113,11 @@ namespace Planzy.ViewModels
                                     DoanhThuThangServices newDT = new DoanhThuThangServices(chuyenBay.NgayBay.Year.ToString());
                                     newDT.ThemDoanhThu(chuyenBay);
                                 }
+                                chuyenBayServices.Delete(chuyenBay.MaChuyenBay, sanBayTrungGianService, chiTietHangGheServices, ListBookedSticket);
+                                chuyenBayDaBays.Add(chuyenBay);
+                                FlightSearchList_FlightBooking.Remove(chuyenBay);
+                                FlightSearchList_SellTicket.Remove(chuyenBay);
+                                FlightSearchList.Remove(chuyenBay);
                             }
                         }
                     }
@@ -127,10 +138,19 @@ namespace Planzy.ViewModels
                             DoanhThuThangServices newDT = new DoanhThuThangServices(chuyenBay.NgayBay.Year.ToString());
                             newDT.ThemDoanhThu(chuyenBay);
                         }
+                        chuyenBayServices.Delete(chuyenBay.MaChuyenBay, sanBayTrungGianService, chiTietHangGheServices, ListBookedSticket);
+                        chuyenBayDaBays.Add(chuyenBay);
+                        FlightSearchList_FlightBooking.Remove(chuyenBay);
+                        FlightSearchList_SellTicket.Remove(chuyenBay);
+                        FlightSearchList.Remove(chuyenBay);
                     }
                 }
 
             }
+            foreach(ChuyenBay chuyenBay in chuyenBayDaBays)
+            {
+                ChuyenBaysList.Remove(chuyenBay);
+            }    
             chuyenBayTimer.Start();
         }
         private DoanhThuThangServices doanhThuThangServices;
@@ -172,6 +192,11 @@ namespace Planzy.ViewModels
             chuyenBayServices = new ChuyenBayServices(sanBayTrungGianService, sanBayServices, chiTietHangGheServices);
 
             #region biểu đồ
+            DanhSachNam = new List<string>();
+            for(int i = 2010;i<=DateTime.Now.Year;i++)
+            {
+                DanhSachNam.Add(i.ToString());
+            }    
             //doanhThuThangServices = new DoanhThuThangServices(DanhSachNamDaChon,chuyenBayServices);
             doanhThuThangServices = new DoanhThuThangServices(DanhSachNamDaChon);
             DoanhThuThangs = doanhThuThangServices.doanhThuThangs;
@@ -270,7 +295,14 @@ namespace Planzy.ViewModels
             chonLayoutCommand5 = new RelayCommand(Button5);
             chonLayoutCommand6 = new RelayCommand(Button6);
             chonLayoutCommand8 = new RelayCommand(Button8);
-
+            #region xử lý giao diện phân quyền
+            if (user.Rank == "Admin")
+                LoadPhanQuyenAdmin();
+            else if (user.Rank == "Staff")
+                LoadPhanQuyenNhanVien();
+            else
+                LoadPhanQuyenKhachHang();
+            #endregion
 
             #endregion
             //Thien
@@ -1785,7 +1817,7 @@ namespace Planzy.ViewModels
                     return;
                 }
             }
-            LoadUIHangGheTheoChuyenBay(ChuyenBayDaChon.SoLoaiHangGhe.ToString());
+            LoadUIHangGheTheoChuyenBay(ChuyenBayDaChon.SoLoaiHangGhe.ToString(),ChuyenBayDaChon.ChiTietHangGhesList);
             for(int i = 0;i<ChuyenBayDaChon.ChiTietHangGhesList.Count;i++)
             {
                 LoaiHangGhesList[i].TenLoaiHangGhe = ChuyenBayDaChon.ChiTietHangGhesList[i].TenLoaiHangGhe;
@@ -1988,13 +2020,15 @@ namespace Planzy.ViewModels
                     }
                 }
                 #endregion
-                LoaiHangGhesList = new List<LoaiHangGhe>(loaiHangGheServices.GetAll_KhaDung());
+                List<LoaiHangGhe> temp = new List<LoaiHangGhe>(loaiHangGheServices.GetAll_KhaDung());
                 #region tùy chỉnh binding giao diện loại hạng ghế
-                for (int i = LoaiHangGhesList.Count; i < 8; i++)
+                for (int i = temp.Count; i < 8; i++)
                 {
-                    LoaiHangGhesList.Add(new LoaiHangGhe());
+                    temp.Add(new LoaiHangGhe());
                 }
+                LoaiHangGhesList = temp;
                 #endregion
+                CustomMessageBox.Show("Lưu thành công", "Thông báo", System.Windows.MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 #region Cập nhập dữ liệu
                 LoadUIHangGheTheoQuyDinh();
                 chuyenBayServices.Update(ChuyenBayDaChon);
@@ -2004,7 +2038,7 @@ namespace Planzy.ViewModels
                 chiTietHangGheServices.ThemListChiTietHangGhe(ChuyenBayDaChon.ChiTietHangGhesList);
                 #endregion
 
-                CustomMessageBox.Show("Lưu thành công", "Thông báo", System.Windows.MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                
             }
             //else if (chuyenBayServices.IsEditable(MaChuyenBay))
             //{
@@ -2203,6 +2237,12 @@ namespace Planzy.ViewModels
         }
         public void LoadUIHangGheTheoQuyDinh()
         {
+            List<LoaiHangGhe> temp = new List<LoaiHangGhe>(loaiHangGheServices.GetAll_KhaDung());
+            for(int i = temp.Count;i<8;i++)
+            {
+                temp.Add(new LoaiHangGhe());
+            }
+            LoaiHangGhesList = temp;
             if (ThamSoQuyDinh.SO_LUONG_CAC_HANG_VE == "1")
             {
                 IsVisibleHang1 = "Visible";
@@ -2293,14 +2333,20 @@ namespace Planzy.ViewModels
             }
         }
 
-        public void LoadUIHangGheTheoChuyenBay(string SoLuongCacHangVe)
+        public void LoadUIHangGheTheoChuyenBay(string SoLuongCacHangVe,List<ChiTietHangGhe> chiTietHangGhes)
         {
-            LoaiHangGhesList = new List<LoaiHangGhe>(loaiHangGheServices.GetAll_KhaDung());
+            List<LoaiHangGhe> temp = new List<LoaiHangGhe>();
+
             #region tùy chỉnh binding giao diện loại hạng ghế
-            for (int i = LoaiHangGhesList.Count; i < 8; i++)
+            for (int i = 0; i < chiTietHangGhes.Count; i++)
             {
-                LoaiHangGhesList.Add(new LoaiHangGhe());
+                temp.Add(new LoaiHangGhe(chiTietHangGhes[i].MaLoaiHangGhe, chiTietHangGhes[i].TenLoaiHangGhe));
             }
+            for (int i = temp.Count;i<8;i++)
+            {
+                temp.Add(new LoaiHangGhe());
+            }
+            LoaiHangGhesList = temp;
             #endregion
             if (SoLuongCacHangVe == "1")
             {
@@ -2569,6 +2615,7 @@ namespace Planzy.ViewModels
             set
             {
                 selectedFlight = value;
+                if(value != null)
                 DateofSelectedFlight = value.NgayBay.GetDateTimeFormats();
 
                 OnPropertyChanged("SelectedFlight");
@@ -3380,10 +3427,7 @@ namespace Planzy.ViewModels
             }
         }
 
-        private List<string> danhSachNam = new List<string>()
-        {
-           "2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021"
-        };
+        private List<string> danhSachNam;
 
         public List<string> DanhSachNam
         {
@@ -3391,7 +3435,7 @@ namespace Planzy.ViewModels
             set { danhSachNam = value; }
         }
 
-        private string danhSachNamDaChon = "2021";
+        private string danhSachNamDaChon = DateTime.Now.Year.ToString();
 
         public string DanhSachNamDaChon
         {
@@ -3936,6 +3980,7 @@ namespace Planzy.ViewModels
             set
             {
                 selectedFlight_SellTicket = value;
+                if (value != null)
                 DateofSelectedFlight_SellTicket = value.NgayBay.GetDateTimeFormats();
                 OnPropertyChanged("SelectedFlight_SellTicket");
             }
@@ -4610,6 +4655,131 @@ namespace Planzy.ViewModels
                 OnPropertyChanged("ThoiGianDatVeTreNhat"); }
         }
 
+        #endregion
+        #region LoadUIPhanQuyen
+        private string isVisibleButtonDatVe = "Hidden";
+
+        public string IsVisibleButtonDatVe
+        {
+            get { return isVisibleButtonDatVe; }
+            set { isVisibleButtonDatVe = value; OnPropertyChanged("IsVisibleButtonDatVe"); }
+        }
+        private string isVisibleButtonBanVe = "Hidden";
+
+        public string IsVisibleButtonBanVe
+        {
+            get { return isVisibleButtonBanVe; }
+            set { isVisibleButtonBanVe = value; OnPropertyChanged("IsVisibleButtonBanVe"); }
+        }
+        private string isVisibleButtonNhanLich = "Hidden";
+
+        public string IsVisibleButtonNhanLich
+        {
+            get { return isVisibleButtonNhanLich; }
+            set { isVisibleButtonNhanLich = value; OnPropertyChanged("IsVisibleButtonNhanLich"); }
+        }
+        private string isVisibleButtonDoanhThu = "Hidden";
+
+        public string IsVisibleButtonDoanhThu
+        {
+            get { return isVisibleButtonDoanhThu; }
+            set { isVisibleButtonDoanhThu = value; OnPropertyChanged("IsVisibleButtonDoanhThu"); }
+        }
+        private string isVisibleButtonCaiDat = "Hidden";
+
+        public string IsVisibleButtonCaiDat
+        {
+            get { return isVisibleButtonCaiDat; }
+            set { isVisibleButtonCaiDat = value; OnPropertyChanged("IsVisibleButtonCaiDat"); }
+        }
+        private string isVisibleButtonSuaTrongTraCuu = "Hidden";
+
+        public string IsVisibleButtonSuaTrongTraCuu
+        {
+            get { return isVisibleButtonSuaTrongTraCuu; }
+            set { isVisibleButtonSuaTrongTraCuu = value; OnPropertyChanged("IsVisibleButtonSuaTrongTraCuu"); }
+        }
+        private string isVisibleButtonVeDaDat = "Hidden";
+
+        public string IsVisibleButtonVeDaDat
+        {
+            get { return isVisibleButtonVeDaDat; }
+            set { isVisibleButtonVeDaDat = value; OnPropertyChanged("IsVisibleButtonVeDaDat"); }
+        }
+
+        private string gridRowButtonBanVe = "0";
+
+        public string GridRowButtonBanVe
+        {
+            get { return gridRowButtonBanVe; }
+            set { gridRowButtonBanVe = value; OnPropertyChanged("GridRowButtonBanVe"); }
+        }
+        private string gridRowButtonTraCuu = "0";
+
+        public string GridRowButtonTraCuu
+        {
+            get { return gridRowButtonTraCuu; }
+            set { gridRowButtonTraCuu = value; OnPropertyChanged("GridRowButtonTraCuu"); }
+        }
+        private string gridRowButtonNhanLich = "0";
+
+        public string GridRowButtonNhanLich
+        {
+            get { return gridRowButtonNhanLich; }
+            set { gridRowButtonNhanLich = value; OnPropertyChanged("GridRowButtonNhanLich"); }
+        }
+        private string gridRowButtonDoanhThu = "0";
+
+        public string GridRowButtonDoanhThu
+        {
+            get { return gridRowButtonDoanhThu; }
+            set { gridRowButtonDoanhThu = value; OnPropertyChanged("GridRowButtonDoanhThu"); }
+        }
+        private string gridRowButtonNguoiDung = "0";
+
+        public string GridRowButtonNguoiDung
+        {
+            get { return gridRowButtonNguoiDung; }
+            set { gridRowButtonNguoiDung = value; OnPropertyChanged("GridRowButtonNguoiDung"); }
+        }
+        private string gridRowButtonCaiDat = "0";
+
+        public string GridRowButtonCaiDat
+        {
+            get { return gridRowButtonCaiDat; }
+            set { gridRowButtonCaiDat = value; OnPropertyChanged("GridRowButtonCaiDat"); }
+        }
+        public void LoadPhanQuyenAdmin()
+        {
+            IsVisibleButtonVeDaDat = "Visible";
+            IsVisibleButtonSuaTrongTraCuu = "Visible";
+            IsVisibleButtonBanVe = "Visible";GridRowButtonBanVe = "1";
+            IsVisibleButtonDatVe = "Visible";GridRowButtonTraCuu = "2";
+            IsVisibleButtonNhanLich = "Visible";GridRowButtonNhanLich = "3";
+            IsVisibleButtonDoanhThu = "Visible";GridRowButtonDoanhThu = "4";
+            IsVisibleButtonCaiDat = "Visible"; GridRowButtonCaiDat = "6";
+            GridRowButtonNguoiDung = "5";
+        }
+        public void LoadPhanQuyenNhanVien()
+        {
+            IsVisibleButtonVeDaDat = "Hidden";
+            IsVisibleButtonSuaTrongTraCuu = "Visible";
+            IsVisibleButtonBanVe = "Visible"; GridRowButtonBanVe = "0";
+            IsVisibleButtonNhanLich = "Visible"; GridRowButtonNhanLich = "2";
+            IsVisibleButtonDoanhThu = "Visible"; GridRowButtonDoanhThu = "3";
+            GridRowButtonTraCuu = "1";
+            GridRowButtonNguoiDung = "4";
+            GridRowButtonCaiDat = "5";
+            Button2();
+        }
+        public void LoadPhanQuyenKhachHang()
+        {
+            IsVisibleButtonVeDaDat = "Visible";
+            IsVisibleButtonSuaTrongTraCuu = "Hidden";
+            IsVisibleButtonDatVe = "Visible";
+            GridRowButtonTraCuu = "1";
+            GridRowButtonNguoiDung = "2";
+        }
         #endregion
     }
 }
