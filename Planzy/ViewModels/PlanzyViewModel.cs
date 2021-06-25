@@ -3670,7 +3670,7 @@ namespace Planzy.ViewModels
             IsDetailFlight_SellTicket = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon1 = KhongDuocChon;
-            IsDuocChon2 = KhongDuocChon;
+            IsDuocChon2 = DuocChon;
             IsDuocChon3 = KhongDuocChon;
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
@@ -3866,7 +3866,7 @@ namespace Planzy.ViewModels
         {
             get { return ticketType_SellTicket; }
             set
-            {
+            {                
                 ticketType_SellTicket = value;
                 if (ticketType_SellTicket != null)
                 {
@@ -3874,14 +3874,22 @@ namespace Planzy.ViewModels
                     if (hashtable_AmountTicketType_SellTicket[ticketType_SellTicket].ToString() != "0")
                     {
                         SellTicket.TicketTypeId = hashtable_TicketId_SellTicket[ticketType_SellTicket].ToString();
-                        if (ticketType_SellTicket == "Hạng nhất")
+
+                        /*if (ticketType_SellTicket == "Hạng nhất")
                             SellTicket.Cost = (Int32.Parse(selectedFlight_SellTicket.GiaVeCoBan) * 1.5).ToString() + " VND";
                         else if (ticketType_SellTicket == "Thương gia")
                             SellTicket.Cost = ((int)(Int32.Parse(selectedFlight_SellTicket.GiaVeCoBan) * 1.3)).ToString() + " VND";
                         else if (ticketType_SellTicket == "Phổ thông đặc biệt")
                             SellTicket.Cost = ((int)(Int32.Parse(selectedFlight_SellTicket.GiaVeCoBan) * 1.15)).ToString() + " VND";
                         else if (ticketType_SellTicket == "Phổ thông")
-                            SellTicket.Cost = selectedFlight_SellTicket.GiaVeCoBan + " VND";
+                            SellTicket.Cost = selectedFlight_SellTicket.GiaVeCoBan + " VND";*/
+                        foreach (ChiTietHangGhe temp in selectedFlight_SellTicket.ChiTietHangGhesList)
+                        {
+                            if (temp.TenLoaiHangGhe == ticketType_SellTicket)
+                            {
+                                SellTicket.Cost = (Int32.Parse(selectedFlight_SellTicket.GiaVeCoBan) * Int32.Parse(temp.TyLe)).ToString() + " VND";
+                            }
+                        }
                     }
                 }
                 OnPropertyChanged("TicketType_SellTicket");

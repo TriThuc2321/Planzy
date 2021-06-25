@@ -54,7 +54,7 @@ namespace Planzy.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Planzy;V1.0.0.0;component/views/mycharttooltip.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Planzy;component/views/mycharttooltip.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\MyChartTooltip.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
