@@ -3700,7 +3700,7 @@ namespace Planzy.ViewModels
         {
             get { return choosePayButtonCommand_SellTicket; }
         }
-        private void ButtonPay_SellTicket(object obj)
+        private void ButtonPay_SellTicket(object view)
         {
             DateTime bookingDate_check = DateTime.Now.AddDays(0);
             TimeSpan interval = selectedFlight_SellTicket.NgayBay.Subtract(bookingDate_check);
@@ -3710,57 +3710,61 @@ namespace Planzy.ViewModels
                 CustomMessageBox.Show("Đã quá hạn bán vé cho chuyến bay này !", "Thông báo");
                 return;
             }
-            SellTicket.TicketId = selectedFlight_SellTicket.MaChuyenBay + "-" + FlightTicketServices.RandomString(6);
-            SellTicket.FlownDate = selectedFlight_SellTicket.NgayBay;
-            FlightTicketServices.Add(SellTicket, user.ID);
-            hashtable_AmountTicketType_SellTicket.Remove(ticketType_SellTicket);
-            if (TicketTypeAmount_SellTicket != "0")
-                hashtable_AmountTicketType_SellTicket.Add(ticketType_SellTicket, (int.Parse(TicketTypeAmount_SellTicket) - 1).ToString());
-            for (int i = 0; i < selectedFlight_SellTicket.ChiTietHangGhesList.Count; i++)
+
+            PrintDialog printDialog = new PrintDialog();
+            PageMediaSize pageSize = new PageMediaSize(PageMediaSizeName.NorthAmericaLetter);
+            printDialog.PrintTicket.PageMediaSize = pageSize;
+            if (printDialog.ShowDialog() == true)
             {
-                if (SelectedFlight_SellTicket.ChiTietHangGhesList[i].TenLoaiHangGhe == sticketType)
-                    SelectedFlight_SellTicket.ChiTietHangGhesList[i].SoLuongGheConLai = (Int32.Parse(SelectedFlight_SellTicket.ChiTietHangGhesList[i].SoLuongGheConLai) - 1).ToString();
-            }
-            OnPropertyChanged("SelectedFlight_SellTicket");
-            TicketTypeAmount_SellTicket = hashtable_AmountTicketType_SellTicket[ticketType_SellTicket].ToString();
-            OnPropertyChanged("TicketTypeAmount_SellTicket");
-            OnPropertyChanged("Hashtable_AmountTicketType_SellTicket");
-            CustomMessageBox.Show("Bán vé thành công !", "Thông báo", MessageBoxButton.OK);
-            string temp1;
-            string temp2;
-            DateTime temp3;
-            ChuyenBayServices.GetFlight(SellTicket.FlightId, out temp1, out temp2, out temp3);
-            SellTicket.Departure = temp1;
-            SellTicket.Destination = temp2;
-            SellTicket.FlownDate = temp3;
-            ListSellTicket.Add(SellTicket);
-            //// Set lai ve moi
-            SellTicket = new FlightTicket();
-            SellTicket.Departure = selectedFlight_SellTicket.SanBayDi.ToString();
-            SellTicket.Destination = selectedFlight_SellTicket.SanBayDen.ToString();
-            SellTicket.FlightId = selectedFlight_SellTicket.MaChuyenBay;
-            SellTicket.FlownDate = selectedFlight_SellTicket.NgayBay;
-            foreach (ChiTietHangGhe temp in selectedFlight_SellTicket.ChiTietHangGhesList)
-            {
-                SellTicket.TicketId = hashtable_TicketId_SellTicket[ticketType_SellTicket].ToString();
-                if (temp.TenLoaiHangGhe == ticketType_SellTicket)
+                printDialog.PrintVisual((Grid)view, "test");
+
+                SellTicket.TicketId = selectedFlight_SellTicket.MaChuyenBay + "-" + FlightTicketServices.RandomString(6);
+                SellTicket.FlownDate = selectedFlight_SellTicket.NgayBay;
+                FlightTicketServices.Add(SellTicket, user.ID);
+                hashtable_AmountTicketType_SellTicket.Remove(ticketType_SellTicket);
+                if (TicketTypeAmount_SellTicket != "0")
+                    hashtable_AmountTicketType_SellTicket.Add(ticketType_SellTicket, (int.Parse(TicketTypeAmount_SellTicket) - 1).ToString());
+                for (int i = 0; i < selectedFlight_SellTicket.ChiTietHangGhesList.Count; i++)
                 {
-                    SellTicket.Cost = (Int32.Parse(selectedFlight_SellTicket.GiaVeCoBan) * Int32.Parse(temp.TyLe)).ToString() + " VND";
+                    if (SelectedFlight_SellTicket.ChiTietHangGhesList[i].TenLoaiHangGhe == sticketType)
+                        SelectedFlight_SellTicket.ChiTietHangGhesList[i].SoLuongGheConLai = (Int32.Parse(SelectedFlight_SellTicket.ChiTietHangGhesList[i].SoLuongGheConLai) - 1).ToString();
                 }
+                OnPropertyChanged("SelectedFlight_SellTicket");
+                TicketTypeAmount_SellTicket = hashtable_AmountTicketType_SellTicket[ticketType_SellTicket].ToString();
+                OnPropertyChanged("TicketTypeAmount_SellTicket");
+                OnPropertyChanged("Hashtable_AmountTicketType_SellTicket");
+
+                CustomMessageBox.Show("Xuất file thành công", "Thông báo");
+
+                string temp1;
+                string temp2;
+                DateTime temp3;
+                ChuyenBayServices.GetFlight(SellTicket.FlightId, out temp1, out temp2, out temp3);
+                SellTicket.Departure = temp1;
+                SellTicket.Destination = temp2;
+                SellTicket.FlownDate = temp3;
+                ListSellTicket.Add(SellTicket);
+                //// Set lai ve moi
+                SellTicket = new FlightTicket();
+                SellTicket.Departure = selectedFlight_SellTicket.SanBayDi.ToString();
+                SellTicket.Destination = selectedFlight_SellTicket.SanBayDen.ToString();
+                SellTicket.FlightId = selectedFlight_SellTicket.MaChuyenBay;
+                SellTicket.FlownDate = selectedFlight_SellTicket.NgayBay;
+                foreach (ChiTietHangGhe temp in selectedFlight_SellTicket.ChiTietHangGhesList)
+                {
+                    SellTicket.TicketId = hashtable_TicketId_SellTicket[ticketType_SellTicket].ToString();
+                    if (temp.TenLoaiHangGhe == ticketType_SellTicket)
+                    {
+                        SellTicket.Cost = (Int32.Parse(selectedFlight_SellTicket.GiaVeCoBan) * Int32.Parse(temp.TyLe)).ToString() + " VND";
+                    }
+                }
+                SellTicket.TicketId = hashtable_TicketId_SellTicket[ticketType_SellTicket].ToString();
+                ////////
+
+                OnPropertyChanged("ListSellTicket");
             }
-            SellTicket.TicketId = hashtable_TicketId_SellTicket[ticketType_SellTicket].ToString();
-            ////////
 
-            OnPropertyChanged("ListSellTicket");
-
-
-
-
-
-
-
-
-
+                     
 /*
             SellTicket.TicketId = selectedFlight_SellTicket.MaChuyenBay + "-" + FlightTicketServices.RandomString(6);
             FlightTicketServices.Add(SellTicket, user.ID);

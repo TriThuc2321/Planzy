@@ -132,6 +132,7 @@ namespace Planzy.LoginRegister
                 StreamReader sr = new StreamReader(path);
                 Account = sr.ReadLine();
                 RememberAccount = true;
+                sr.Close();
             }
         }
 

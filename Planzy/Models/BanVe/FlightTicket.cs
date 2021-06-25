@@ -168,14 +168,14 @@ namespace Planzy.Models.BanVe
             }
         }
 
-        private DateTime saleDate = DateTime.UtcNow.AddDays(0);
+        private DateTime saleDate = DateTime.Now.AddDays(0);
 
         public DateTime SaleDate
         {
             get { return saleDate; }
             set { saleDate = value; OnPropertyChanged("SaleDate"); }
         }
-        private DateTime flownDate = DateTime.UtcNow.AddDays(0);
+        private DateTime flownDate = DateTime.Now.AddDays(0);
 
         public DateTime FlownDate
         {

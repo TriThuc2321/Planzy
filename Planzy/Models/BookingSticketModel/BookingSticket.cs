@@ -161,14 +161,14 @@ namespace Planzy.Models.BookingSticketModel
             }
         }
 
-        private DateTime bookingDate = DateTime.UtcNow.AddDays(0);
+        private DateTime bookingDate = DateTime.Now.AddDays(0);
 
         public DateTime BookingDate
         {
             get { return bookingDate; }
             set { bookingDate = value; OnPropertyChanged("BookingDate"); }
         }
-        private DateTime flownDate = DateTime.UtcNow.AddDays(0);
+        private DateTime flownDate = DateTime.Now.AddDays(0);
 
         public DateTime FlownDate
         {
