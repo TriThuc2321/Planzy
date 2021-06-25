@@ -80,7 +80,7 @@ namespace Planzy.LoginRegister
             timer.Start();
 
             timerUI = new DispatcherTimer();
-            timerUI.Interval = TimeSpan.FromSeconds(0.4);
+            timerUI.Interval = TimeSpan.FromSeconds(0.5);
             timerUI.Tick += timerUI_Tick;
         }
 
