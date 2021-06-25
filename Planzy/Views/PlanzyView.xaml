@@ -505,7 +505,7 @@
                                 <RowDefinition Height="200"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
-                            <ListView x:Name="lvsBanve" 
+                            <ListView x:Name="lvsBanve" Margin="15"
                                       ItemsSource="{Binding FlightSearchList_SellTicket}" 
                                       Grid.Row="1"
                                       SelectedItem="{Binding SelectedFlight_SellTicket}">
@@ -516,10 +516,13 @@
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal" Background="White">
                                                         <Button Content=" Chi tiết " 
-                                                                    Background="LightBlue"
+                                                                    Background="SkyBlue"
+                                                                Height="30"
+                                                                FontWeight="Bold"
+                                                                FontSize="12"
                                                                  Command="{Binding ElementName=lvsBanve , Path= DataContext.ChooseDetailFlight_SellTicket}"
                                                                 CommandParameter="{Binding}"
-                                                             Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                                             
                                                             ></Button>
                                                         <TextBlock Text=" " Margin="0 5 0 0"></TextBlock>
                                                         <TextBlock Text="{Binding MaChuyenBay}"                                                                       
@@ -801,32 +804,38 @@
                                     <DockPanel Grid.Row="3">
                                         <Button
                                             Content="Tìm Chuyến Bay"
-                                            Height="40"
-                                            FontSize="10"
-                                            Width="120"
-                                            Background="White"
-                                            Margin=" 20 5 5 5"
+                                            Height="30"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Width="130"
+                                            Background="SkyBlue"
+                                            BorderBrush="{x:Null}"
+                                            Margin=" 0 5 5 5"
                                             Command="{Binding searchFlightCommand_SellTicket}"
                                                 >
                                         </Button>
                                         <Button
                                                 Content="Xem Tất Cả"
-                                                Height="40"
-                                            FontSize="10"
-                                            Background="White"
-                                                Width="90"
-                                            Margin=" 10 5 0 5"
+                                                Height="30"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Background="SkyBlue"
+                                                Width="100"
+                                            Margin=" 0 5 5 5"
+                                            BorderBrush="{x:Null}"
                                             Command="{Binding showAllFightsCommand_SellTicket}"
                                                 >
                                         </Button>
 
                                         <Button Content="Tiếp Tục"
-                                                Height="40"
-                                                FontSize="10"
-                                                Width="90"
+                                                Height="30"
+                                                FontSize="12"
+                                                FontWeight="Bold"
+                                                Width="100"
                                                 HorizontalAlignment="Right"
-                                                Background="White"
-                                                Margin="5 5 10 5"
+                                                Background="SkyBlue"
+                                                BorderBrush="{x:Null}"
+                                                Margin="0 5 15 5"
                                                 Command="{Binding ChooseContinueButton_SellTicketCommand}"
                                                 CommandParameter="{Binding SelectedItem,ElementName=lvsBanve}"
                                                 ></Button>
@@ -892,7 +901,7 @@
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="70"
+                                           Width="80"
                                            Margin="0,-5,0,0"
                                                />
                                         <ComboBox Name="comboboxDestination"
@@ -950,7 +959,7 @@
                                     <Button
                                         Visibility="{Binding IsVisibleButtonSuaTrongTraCuu}"
                                        BorderBrush="{x:Null}"
-                                        Background="#FF80E66A"
+                                        Background="SkyBlue"
                                         FontSize="12"
                                         FontWeight="Bold"
                                         Height="30"
@@ -2117,7 +2126,10 @@
                                 <Button Grid.Column="2"
                                         BorderBrush="{x:Null}"
                                     HorizontalAlignment="Center"
-                                        Background="LightGreen"
+                                        Background="#FF80E66A"
+                                        FontSize="12"
+                                        FontWeight="Bold"
+                                        Height="30"
                                         Margin="0 0 10 0"
                                          Command="{Binding ChoosePayButtonCommand}"
                                          CommandParameter="{Binding Children,ElementName=PassengerInforGrid}">
@@ -2132,7 +2144,10 @@
                                 </Grid.ColumnDefinitions>
                                 <Button 
                                     BorderBrush="{x:Null}"
-                                    Background="White"
+                                    Background="SkyBlue"
+                                    FontSize="12"
+                                    FontWeight="Bold"
+                                    Height="30"
                                     Grid.Column="0"
                                     Content="Quay lại"
                                     Command="{Binding ChooseBackButtonCommand}"
@@ -2842,7 +2857,7 @@
                                     <Button Grid.Row="2" Grid.Column="1" Content="Đặt vé" BorderBrush="{x:Null}"
                                             Command="{Binding ChooseContinueButtonCommand}"
                                                 CommandParameter="{Binding SelectedItem,ElementName=lvsDatve}"
-                                            Visibility="{Binding IsDuocChon1.NewVisibility}" FontSize="15" FontWeight="Bold" Margin="0 0 10 0" HorizontalAlignment="Right" Width="100" Background="LightGreen"></Button>
+                                            Visibility="{Binding IsDuocChon1.NewVisibility}" FontSize="12" Height="30" FontWeight="Bold" Margin="0 0 10 0" HorizontalAlignment="Right" Width="100" Background="#FF80E66A"></Button>
 
                                 </Grid>
                             </Grid>
@@ -3011,7 +3026,7 @@
                                 </ScrollViewer>
                             </Grid>
                             <Grid Grid.Row="1">
-                                <Button Width="100" Content="Quay lại" BorderBrush="{x:Null}" FontWeight="Bold" Command="{Binding chooseBack_DetailFlightCommand}" Background="LightCoral" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+                                <Button Width="100" Content="Quay lại" BorderBrush="{x:Null}" FontWeight="Bold" FontSize="12" Height="30" Command="{Binding chooseBack_DetailFlightCommand}" Background="#FFE05050" HorizontalAlignment="Left" Margin="10 0 0 0"/>
                                 <Image Source="/Views/logo.png" ></Image>
                                 <Label Content=" Thông Tin Chuyến Bay" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0 17 0 0"/>
 
@@ -3053,7 +3068,11 @@
 
                                 <Button Grid.Column="2"
                                     HorizontalAlignment="Center"
-                                        Background="LightGreen"
+                                        Background="#FF80E66A"
+                                        Height="30"
+                                        BorderBrush="{x:Null}"
+                                        FontSize="12"
+                                        FontWeight="Bold"
                                         Margin="0 0 10 0"
                                          Command="{Binding ChoosePayButtonCommand_SellTicket}"
                                          CommandParameter="{Binding Children,ElementName=PassengerInforGrid_SellTicket}">
@@ -3067,7 +3086,10 @@
                                 </Grid.ColumnDefinitions>
                                 <Button 
                                     BorderBrush="{x:Null}"
-                                    Background="White"
+                                    Background="SkyBlue"
+                                    FontSize="12"
+                                    FontWeight="Bold"
+                                    Height="30"
                                     Grid.Column="0"
                                     Content="Quay lại"
                                     Command="{Binding ChooseBackButtonCommand_SellTicket}"
@@ -3456,7 +3478,7 @@
                                                 Width="Auto"/>
                                         <TextBox Width="30"
                                                 VerticalContentAlignment="Bottom"
-                                                FontSize="10"
+                                                FontSize="15"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                 Text="{Binding ThoiGianBayToiThieu}"
                                                  ToolTip="Phút"
@@ -3469,7 +3491,7 @@
                                                 Margin="10 0 0 0"/>
                                         <TextBox Width="30"
                                                 VerticalContentAlignment="Bottom"
-                                                FontSize="10"
+                                                FontSize="15"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                 Text="{Binding SoSanBayTrungGianToiDa}"
                                                  ToolTip="Số nguyên dương"
@@ -3482,7 +3504,7 @@
                                                 Margin="10 0 0 0"/>
                                         <TextBox Width="30"
                                                 VerticalContentAlignment="Bottom"
-                                                FontSize="10"
+                                                FontSize="15"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                  ToolTip="Phút"
                                                  Text="{Binding ThoiGianDungToiThieu}"
@@ -3495,7 +3517,7 @@
                                                 Margin="10 0 0 0"/>
                                         <TextBox Width="30"
                                                 VerticalContentAlignment="Bottom"
-                                                FontSize="10"
+                                                FontSize="15"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                  ToolTip="Phút"
                                                  Text="{Binding ThoiGianDungToiDa}"
@@ -3504,7 +3526,7 @@
                                     <Grid>
                                         <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
                                             Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                            <Button Content="Thêm" VerticalAlignment="Center" Margin="5"
+                                            <Button Content="Thêm sân bay" VerticalAlignment="Center" Margin="5"
                                                 HorizontalAlignment="Center"
                                                 Width="100"
                                                 Height="30"
@@ -3538,7 +3560,7 @@
                                                 Width="Auto"/>
                                             <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
                                               VerticalAlignment="Bottom" Width="230"
-                                              FontSize="10"
+                                              FontSize="15"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
                                               Foreground="Black"                                              
                                               ItemsSource="{Binding SanBaysQuyDinh}"
@@ -3546,9 +3568,9 @@
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding Id}" Width="20"/>
+                                                            <TextBlock Text="{Binding Id}" Width="40"/>
                                                             <TextBlock Text=" - " Width="20"/>
-                                                            <TextBlock Text="{Binding TenSanBay}" Width="120"/>
+                                                            <TextBlock Text="{Binding TenSanBay}" Width="130"/>
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
@@ -3575,9 +3597,9 @@
                                                 FontWeight="Bold"
                                                 Foreground="#FF5867AC"
                                                 Width="Auto"/>
-                                        <Label Width="30"
+                                        <Label Width="20"
                                                 VerticalContentAlignment="Bottom"
-                                                FontSize="10"
+                                                FontSize="15"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                  Content="{Binding TicketType_Setting.MaLoaiHangGhe}"
                                                 />
@@ -3589,7 +3611,7 @@
                                                 Margin="10 0 0 0"/>
                                         <TextBox Width="100"
                                                 VerticalContentAlignment="Bottom"
-                                                FontSize="10"
+                                                FontSize="15"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                  Text="{Binding TicketType_Setting.TenLoaiHangGhe}"
                                                 />
@@ -3601,7 +3623,7 @@
                                                Margin="10 0 0 0"/>
                                         <TextBox Width="30"
                                                 VerticalContentAlignment="Bottom"
-                                                FontSize="10"
+                                                FontSize="15"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                  Text="{Binding TicketType_Setting.TyLe}"
                                                 />
@@ -3615,10 +3637,10 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="Auto"
-                                               Margin="10 0 0 0"/>
+                                               Margin="5 0 0 0"/>
                                         <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
-                                              VerticalAlignment="Bottom" Width="230"
-                                              FontSize="10"
+                                              VerticalAlignment="Bottom" Width="220"
+                                              FontSize="12"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
                                               SelectedItem="{Binding TicketType_Setting}"
                                               Foreground="Black"                                              
@@ -3629,7 +3651,7 @@
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="{Binding MaLoaiHangGhe}" Width="20"/>
                                                         <TextBlock Text=" - " Width="20"/>
-                                                        <TextBlock Text="{Binding TenLoaiHangGhe}" Width="120"/>
+                                                        <TextBlock Text="{Binding TenLoaiHangGhe}" Width="100"/>
                                                         <TextBlock Text=" - " Width="20"/>
                                                         <TextBlock Text="{Binding TyLe, StringFormat='{}{0}%'}" Width="30"/>
                                                     </StackPanel>
@@ -3697,7 +3719,7 @@
                                                 Width="Auto"/>
                                         <TextBox Width="30"
                                                 VerticalContentAlignment="Bottom"
-                                                FontSize="10"
+                                                FontSize="15"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                 Text="{Binding ThoiGianHuyVeTreNhat}"
                                                  ToolTip="Giờ"
@@ -3710,7 +3732,7 @@
                                                 Margin="10 0 0 0"/>
                                         <TextBox Width="30"
                                                 VerticalContentAlignment="Bottom"
-                                                FontSize="10"
+                                                FontSize="15"
                                                 FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
                                                 Text="{Binding ThoiGianDatVeTreNhat}"
                                                  ToolTip="Giờ"
@@ -3827,10 +3849,10 @@
                                              IsReadOnly="True"
                                              FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="0" />
                                     </StackPanel>
-                                    <Button Grid.Row="2" Grid.Column="1" Content="Bán vé"
+                                    <Button Grid.Row="2" Grid.Column="1" Content="Bán vé" BorderBrush="{x:Null}"
                                             Command="{Binding ChooseContinueButton_SellTicketCommand}"
                                                 CommandParameter="{Binding SelectedItem,ElementName=lvsBanve}"
-                                            Visibility="{Binding IsDuocChon2.NewVisibility}" FontSize="15" FontWeight="Bold" Margin="0 0 10 0" HorizontalAlignment="Right" Width="100" Background="LightGreen"></Button>
+                                            Visibility="{Binding IsDuocChon2.NewVisibility}" FontSize="12" FontWeight="Bold" Margin="0 0 10 0" Height="30" HorizontalAlignment="Right" Width="100" Background="#FF80E66A"></Button>
 
                                 </Grid>
                             </Grid>
@@ -4001,7 +4023,7 @@
                             <Grid Grid.Row="1">
                                 <Image Source="/Views/logo.png" ></Image>
                                 <Label Content=" Thông Tin Chuyến Bay" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0 17 0 0"/>
-                                <Button Width="100" Content="Quay lại" BorderBrush="{x:Null}" FontWeight="Bold" Command="{Binding chooseBack_DetailFlightCommand_SellTicket}" Background="LightCoral" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+                                <Button Width="100" Content="Quay lại" BorderBrush="{x:Null}" FontWeight="Bold" Command="{Binding chooseBack_DetailFlightCommand_SellTicket}" Background="#FFE05050" FontSize="12" Height="30" HorizontalAlignment="Left" Margin="10 0 0 0"/>
 
                             </Grid>
 
