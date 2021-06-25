@@ -4766,6 +4766,7 @@ namespace Planzy.ViewModels
             GridRowButtonTraCuu = "1";
             GridRowButtonNguoiDung = "4";
             GridRowButtonCaiDat = "5";
+            Button2();
         }
         public void LoadPhanQuyenKhachHang()
         {
