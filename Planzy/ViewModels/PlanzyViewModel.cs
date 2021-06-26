@@ -2096,7 +2096,7 @@ namespace Planzy.ViewModels
         }
         private void xoaChuyenBay()
         {
-            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn xóa", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn xóa?", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             foreach (ChiTietHangGhe chiTietHangGhe in ChuyenBayDaChon.ChiTietHangGhesList)
             {
                 if (Convert.ToInt32(chiTietHangGhe.SoLuongGheConLai) < Convert.ToInt32(chiTietHangGhe.SoLuongGhe) && ChuyenBayDaChon.IsDaBay == false)
@@ -2166,7 +2166,7 @@ namespace Planzy.ViewModels
         }
         public void huyThemVaSuaChuyenBay()
         {
-            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn hủy", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn hủy?", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (rs == MessageBoxResult.OK)
             {
                 if (isDangSua)

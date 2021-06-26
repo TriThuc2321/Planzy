@@ -217,22 +217,22 @@
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
 
-                                        <GridViewColumn Header="Sân Bay Đến" Width="200">
+                                        <GridViewColumn Header="Sân Bay Đi" Width="200">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding SanBayDen.TenSanBay}"  Margin="0 5 0 0"></TextBlock>
+                                                        <TextBlock Text="{Binding SanBayDi.TenSanBay}"  Margin="0 5 0 0"></TextBlock>
 
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
 
-                                        <GridViewColumn Header="Sân Bay Đi" Width="200">
+                                        <GridViewColumn Header="Sân Bay Đến" Width="200">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding SanBayDi.TenSanBay}"  Margin="0 5 0 0"></TextBlock>
+                                                        <TextBlock Text="{Binding SanBayDen.TenSanBay}"  Margin="0 5 0 0"></TextBlock>
 
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -295,7 +295,7 @@
                                         <StackPanel Grid.Row="1" Grid.Column="0" 
                                             Orientation="Horizontal"
                                             Margin="20 0 0 10">
-                                            <Label Content="Điểm xuất phát: "
+                                            <Label Content="Sân bay đi: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
@@ -411,11 +411,11 @@
                                         <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
                                             Margin="20 0 20 10">
-                                            <Label Content="Điểm đến: "
+                                            <Label Content="Sân bay đến: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="70"/>
+                                           Width="100"/>
                                             <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
                                               VerticalAlignment="Bottom" Width="200"
                                               Foreground="Black"
@@ -535,22 +535,22 @@
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
 
-                                        <GridViewColumn Header="Sân Bay Đến" Width="200">
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding SanBayDen.TenSanBay}" Margin="0 5 0 0"></TextBlock>
-
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
-
                                         <GridViewColumn Header="Sân Bay Đi" Width="200">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="{Binding SanBayDi.TenSanBay}" Margin="0 5 0 0"></TextBlock>
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        
+                                        <GridViewColumn Header="Sân Bay Đến" Width="200">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding SanBayDen.TenSanBay}" Margin="0 5 0 0"></TextBlock>
 
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -613,7 +613,7 @@
                                         <StackPanel Grid.Row="1" Grid.Column="0" 
                                             Orientation="Horizontal"
                                             Margin="20 0 0 10">
-                                            <Label Content="Điểm xuất phát: "
+                                            <Label Content="Sân bay đi: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
@@ -729,11 +729,11 @@
                                         <StackPanel Grid.Row="0" Grid.Column="0" 
                                             Orientation="Horizontal"
                                             Margin="20 0 20 10">
-                                            <Label Content="Điểm đến: "
+                                            <Label Content="Sân bay đến: "
                                            VerticalContentAlignment="Bottom"
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
-                                           Width="70"/>
+                                           Width="100"/>
                                             <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
                                               VerticalAlignment="Bottom" Width="200"
                                               Foreground="Black"
