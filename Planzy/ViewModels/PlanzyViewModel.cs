@@ -653,6 +653,7 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
         }
         public void Button2()
         {
@@ -679,6 +680,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+
         }
         public void Button4()
         {
@@ -692,6 +695,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+
         }
         public void Button5()
         {
@@ -705,6 +710,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+
         }
         public void Button6()
         {
@@ -718,6 +725,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+
         }
         public void Button7()
         {
@@ -731,6 +740,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = DuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+
         }
         public void Button8()
         {
@@ -743,6 +754,8 @@ namespace Planzy.ViewModels
             IsDuocChon6 = KhongDuocChon;
             IsDuocChon7 = KhongDuocChon;
             IsDuocChon8 = DuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+
         }
         #endregion
         #region Xử lý xóa sân bay trung gian
@@ -3025,7 +3038,7 @@ namespace Planzy.ViewModels
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
             IsContinueButton = KhongDuocChon;
-            IsDuocChon6 = KhongDuocChon;
+            IsDuocChon6 = DuocChon;
             IsDuocChon7 = DuocChon;
         }
         public RelayCommand chooseBack_BookedStickedComamnd { get; private set; }
