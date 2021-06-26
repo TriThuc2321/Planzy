@@ -2815,7 +2815,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="150"/>
-                                                            <TextBox Width="150" Text="{Binding SoLuongGheConLai }" 
+                                                            <TextBox Width="150" Text="{Binding SoLuongGheConLai,StringFormat='{}{0} Vé'}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              IsReadOnly="True"
@@ -3393,7 +3393,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="150"/>
-                                                            <TextBox Width="150" Text="{Binding SoLuongGheConLai }" 
+                                                            <TextBox Width="150" Text="{Binding SoLuongGheConLai,StringFormat='{}{0} Vé'}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              IsReadOnly="True"
