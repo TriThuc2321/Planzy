@@ -238,6 +238,7 @@ D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netstandard2.0
 D:\GitHub\Planzy\Planzy\bin\Debug\net5.0-windows\runtimes\win\lib\netstandard2.0\System.ServiceProcess.ServiceController.dll
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InsertTicketDialog.g.cs
 D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InsertTicketDialog.baml
+D:\GitHub\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InsertTicketDialog.g.cs
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Views\InsertTicketDialog.baml
 D:\Github_Clone\Planzy\Planzy\obj\Debug\net5.0-windows\Planzy.csprojAssemblyReference.cache

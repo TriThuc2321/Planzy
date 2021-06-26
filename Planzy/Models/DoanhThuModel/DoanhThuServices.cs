@@ -163,7 +163,5 @@ namespace Planzy.Models.DoanhThuModel
             }
             return result;
         }    
-        public DoanhThuServices()
-        { }
     }
 }

@@ -31,14 +31,5 @@ namespace Planzy.Models.DoanhThuThangModel
         {
             doanhThuServices = new DoanhThuServices(doanhThus);
         }
-        public DoanhThuThang(string Thang)
-        {
-            this.Thang = Thang;
-            doanhThuServices = new DoanhThuServices();
-            SoChuyenBay = 0;
-            DoanhThu = 0;
-            DoanhThuTrieuDong = 0;
-            TyLe = 0;
-        }
     }
 }
