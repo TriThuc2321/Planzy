@@ -219,6 +219,7 @@ namespace Planzy.ViewModels
             reviewBieuDoCommand = new RelayCommand(reviewBieuDo);
             troVeBieuDoCommand = new RelayCommand(troVeBieuDo);
             xuatPDFVisualCommand = new RelayCommand(xuatPDFVisual);
+            xoaDuLieuCommand = new RelayCommand(xoaDuLieuBieuDo);
 
             chuyenBayTimer = new DispatcherTimer();
             chuyenBayTimer.Interval = TimeSpan.FromSeconds(2);
@@ -652,6 +653,7 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
         }
         public void Button2()
         {
@@ -678,6 +680,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+
         }
         public void Button4()
         {
@@ -691,6 +695,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+
         }
         public void Button5()
         {
@@ -704,6 +710,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+
         }
         public void Button6()
         {
@@ -717,6 +725,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+
         }
         public void Button7()
         {
@@ -730,6 +740,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = DuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+
         }
         public void Button8()
         {
@@ -742,6 +754,8 @@ namespace Planzy.ViewModels
             IsDuocChon6 = KhongDuocChon;
             IsDuocChon7 = KhongDuocChon;
             IsDuocChon8 = DuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+
         }
         #endregion
         #region Xử lý xóa sân bay trung gian
@@ -2082,7 +2096,7 @@ namespace Planzy.ViewModels
         }
         private void xoaChuyenBay()
         {
-            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn xóa", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn xóa?", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             foreach (ChiTietHangGhe chiTietHangGhe in ChuyenBayDaChon.ChiTietHangGhesList)
             {
                 if (Convert.ToInt32(chiTietHangGhe.SoLuongGheConLai) < Convert.ToInt32(chiTietHangGhe.SoLuongGhe) && ChuyenBayDaChon.IsDaBay == false)
@@ -2152,7 +2166,7 @@ namespace Planzy.ViewModels
         }
         public void huyThemVaSuaChuyenBay()
         {
-            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn hủy", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn hủy?", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (rs == MessageBoxResult.OK)
             {
                 if (isDangSua)
@@ -3024,7 +3038,7 @@ namespace Planzy.ViewModels
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
             IsContinueButton = KhongDuocChon;
-            IsDuocChon6 = KhongDuocChon;
+            IsDuocChon6 = DuocChon;
             IsDuocChon7 = DuocChon;
         }
         public RelayCommand chooseBack_BookedStickedComamnd { get; private set; }
@@ -3102,12 +3116,12 @@ namespace Planzy.ViewModels
             double count = interval.Days * 24 + interval.Hours + ((interval.Minutes * 100) / 60) * 0.01;
             if (count < float.Parse(ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_HUY_VE))
             {
-                CustomMessageBox.Show("Đã quá hạn hủy vé cho chuyến bay này !", "Thông báo");
+                CustomMessageBox.Show("Đã quá hạn hủy vé cho chuyến bay này !", "Thông báo",MessageBoxButton.OK,MessageBoxImage.Warning);
                 return;
             }
 
             string temp = String.Format("Bạn có muốn hủy vé  \"{0}\"?", selected.BookingSticketID);
-            MessageBoxResult result = MessageBox.Show(temp, "Thông báo", MessageBoxButton.YesNo);
+            MessageBoxResult result = CustomMessageBox.Show(temp, "Thông báo", MessageBoxButton.YesNo,MessageBoxImage.Warning);
             switch (result)
             {
                 case MessageBoxResult.Yes:
@@ -3117,12 +3131,12 @@ namespace Planzy.ViewModels
                         OnPropertyChanged("ListBookedSticket");
                         UpdateList(selected.FlightID, selected.SticketTypeID);
                         BookingSticketServices.DeletingSticketProcess(selected);
-                        CustomMessageBox.Show("Xóa Thành Công", "Planzy Thông Báo !");
+                        CustomMessageBox.Show("Xóa Thành Công", "Thông Báo",MessageBoxButton.OK,MessageBoxImage.Asterisk);
                         break;
                     }
                 case MessageBoxResult.No:
                     {
-                        CustomMessageBox.Show("Oh well, too bad!", "My App");
+                        //CustomMessageBox.Show("Oh well, too bad!", "My App");
                         break;
                     }
 
@@ -3521,6 +3535,14 @@ namespace Planzy.ViewModels
             get { return isVisibleExportBaoCao; }
             set { isVisibleExportBaoCao = value; OnPropertyChanged("IsVisibleExportBaoCao"); }
         }
+        private string isVisibleXoaDuLieuBieuDo = "Hidden";
+
+        public string IsVisibleXoaDuLieuBieuDo
+        {
+            get { return isVisibleXoaDuLieuBieuDo; }
+            set { isVisibleXoaDuLieuBieuDo = value; OnPropertyChanged("IsVisibleXoaDuLieuBieuDo"); }
+        }
+
         private RelayCommand reviewBieuDoCommand;
         public RelayCommand ReviewBieuDoCommand
         {
@@ -3536,6 +3558,13 @@ namespace Planzy.ViewModels
         {
             get { return xuatPDFVisualCommand; }
         }
+        private RelayCommand xoaDuLieuCommand;
+
+        public RelayCommand XoaDuLieuCommand
+        {
+            get { return xoaDuLieuCommand; }
+        }
+
         public void reviewBieuDo()
         {
             if (ThangTrongDoanhThuDaChon == "Tất cả")
@@ -3582,7 +3611,17 @@ namespace Planzy.ViewModels
             if (printDialog.ShowDialog() == true)
             {
                 printDialog.PrintVisual((Grid)view, "test");
-                CustomMessageBox.Show("Xuất file thành công", "Thông báo");
+                CustomMessageBox.Show("Xuất file thành công", "Thông báo",MessageBoxButton.OK,MessageBoxImage.Asterisk);
+            }
+        }
+        public void xoaDuLieuBieuDo()
+        {
+            MessageBoxResult rs = CustomMessageBox.Show("Dữ liệu đã xóa không thể phục hồi, tiếp tục?", "Cảnh báo", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            if (rs == MessageBoxResult.OK)
+            {
+                doanhThuThangServices.XoaDuLieu(DanhSachNamDaChon, ThangTrongDoanhThuDaChon);
+                doanhThuThangDaChon = doanhThuThangServices.doanhThuThangs[Convert.ToInt32(ThangTrongDoanhThuDaChon) - 1].doanhThuServices.doanhThus;
+                OnPropertyChanged("doanhThuThangDaChon");
             }
         }
         private MyDatetime ngayLapBaoCao = new MyDatetime();
@@ -3751,7 +3790,7 @@ namespace Planzy.ViewModels
             double count = interval.Days * 24 + interval.Hours + ((interval.Minutes * 100) / 60) * 0.01;
             if (count < float.Parse(ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_DAT_VE))
             {
-                CustomMessageBox.Show("Đã quá hạn bán vé cho chuyến bay này !", "Thông báo");
+                CustomMessageBox.Show("Đã quá hạn bán vé cho chuyến bay này !", "Thông báo",MessageBoxButton.OK,MessageBoxImage.Warning);
                 return;
             }
 
@@ -3778,7 +3817,7 @@ namespace Planzy.ViewModels
                 OnPropertyChanged("TicketTypeAmount_SellTicket");
                 OnPropertyChanged("Hashtable_AmountTicketType_SellTicket");
 
-                CustomMessageBox.Show("Xuất file thành công", "Thông báo");
+                CustomMessageBox.Show("Xuất file thành công", "Thông báo",MessageBoxButton.OK,MessageBoxImage.Asterisk);
 
                 string temp1;
                 string temp2;
@@ -4767,10 +4806,11 @@ namespace Planzy.ViewModels
             IsVisibleButtonDoanhThu = "Visible";GridRowButtonDoanhThu = "4";
             IsVisibleButtonCaiDat = "Visible"; GridRowButtonCaiDat = "6";
             GridRowButtonNguoiDung = "5";
+            IsVisibleXoaDuLieuBieuDo = "Visible";
         }
         public void LoadPhanQuyenNhanVien()
         {
-            IsVisibleButtonVeDaDat = "Hidden";
+            IsVisibleButtonVeDaDat = "Collapsed";
             IsVisibleButtonSuaTrongTraCuu = "Visible";
             IsVisibleButtonBanVe = "Visible"; GridRowButtonBanVe = "0";
             IsVisibleButtonNhanLich = "Visible"; GridRowButtonNhanLich = "2";
