@@ -43,18 +43,8 @@ namespace Planzy.Models.BanVe
 
         }
 
-        bool checkEmail(string inputEmail)
-        {
-            if (inputEmail == null) return false;
-            string strRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
-                  @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
-                  @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
-            Regex re = new Regex(strRegex);
-            if (re.IsMatch(inputEmail))
-                return true;
-            else
-                return false;
-        }
+        
+        
 
         private string departure;
 
@@ -145,7 +135,7 @@ namespace Planzy.Models.BanVe
             {
                 if (value != null)
                 {
-                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    if (KiemTraHopLeInput.IsCMND(value))
                         cmnd = value;
                     else
                         CustomMessageBox.Show("CMND không hợp lệ", "Nhắc nhở", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
@@ -162,7 +152,7 @@ namespace Planzy.Models.BanVe
             {
                 if (value != null)
                 {
-                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
+                    if (KiemTraHopLeInput.IsPhoneNumber(value))
                         phoneNumber = value;
                     else
                         CustomMessageBox.Show("Số điện thoại không hợp lệ", "Nhắc nhở", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
@@ -209,7 +199,7 @@ namespace Planzy.Models.BanVe
             set
             {                
                 
-                if (checkEmail(value))
+                if (KiemTraHopLeInput.IsEmail(value))
                 {
                     gmail = value;
                 }

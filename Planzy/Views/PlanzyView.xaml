@@ -3896,7 +3896,7 @@
                                            Foreground="#FF5867AC"
                                            Width="100"/>
                                                     <TextBox Width="170"
-                                                         Text="{Binding SellTicket.Gmail_FlightTicket}"
+                                                         Text="{Binding SellTicket.Gmail}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="12"
                                              Height="30"
