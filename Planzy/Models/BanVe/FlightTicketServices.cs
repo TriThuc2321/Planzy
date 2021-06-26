@@ -58,7 +58,7 @@ namespace Planzy.Models.BanVe
             {
                 SellTicketConnection.Open();
                 string query = string.Format("delete  from CHI_TIET_BAN_VE WHERE MA_VE ='{0}' " +
-                    " delete  from VE_CHUYEN_BAY CHO WHERE MA_VE = '{0}'", ticket.TicketId);
+                    " delete  from VE_CHUYEN_BAY WHERE MA_VE = '{0}'", ticket.TicketId);
 
                 SqlCommand command = new SqlCommand(query, SellTicketConnection);
                 command.ExecuteNonQuery();
