@@ -219,7 +219,6 @@ namespace Planzy.ViewModels
             reviewBieuDoCommand = new RelayCommand(reviewBieuDo);
             troVeBieuDoCommand = new RelayCommand(troVeBieuDo);
             xuatPDFVisualCommand = new RelayCommand(xuatPDFVisual);
-            xoaDuLieuCommand = new RelayCommand(xoaDuLieuBieuDo);
 
             chuyenBayTimer = new DispatcherTimer();
             chuyenBayTimer.Interval = TimeSpan.FromSeconds(2);
@@ -259,6 +258,9 @@ namespace Planzy.ViewModels
             chooseContinueButton_SellTicketCommand = new RelayCommand2<object>((p) => p != null, ButtonContinue_SellTicket);
             chooseBackButtonCommand_SellTicket = new RelayCommand(ButtonBack_SellTicket);
             choosePayButtonCommand_SellTicket = new RelayCommand2<object>(checkPassangerInfor_SellTicket, ButtonPay_SellTicket);
+
+            chooseBack_SoldTicketComamnd = new RelayCommand(ButtonBack_SoldTicket);
+            chooseDeleteButtonCommand_SoldTicket = new RelayCommand2<object>(CheckSelected_SoldTicket, ButtonDelete_SoldTicket);
             #endregion
 
             LoadData();
@@ -286,6 +288,7 @@ namespace Planzy.ViewModels
 
             chooseDetailFlight_SellTicket = new RelayCommand2<object>(CheckSelected_DetailFlight_SellTicket, ButtonDetailFlight_SellTicket);
             chooseBack_DetailFlightCommand_SellTicket = new RelayCommand(ButtonBack_DetailFlight_SellTicket);
+            chooseSoldTicketCommand = new RelayCommand(Button_SoldTicket);
 
             #region Xử lý giao diện ban đầu
             LoadUIHangGheTheoQuyDinh();
@@ -410,10 +413,10 @@ namespace Planzy.ViewModels
             hashtable_AmountTicketType_SellTicket = new Hashtable();
             hashtable_TicketId_SellTicket = new Hashtable();
             SellTicket = new FlightTicket();
-            ListSellTicket = new ObservableCollection<FlightTicket>(FlightTicketServices.GetFlightBookingList(user.ID));
-            if (ListSellTicket.Count != 0)
+            ListSoldTicket = new ObservableCollection<FlightTicket>(FlightTicketServices.GetFlightBookingList(user.ID));
+            if (ListSoldTicket.Count != 0)
             {
-                foreach (FlightTicket ite in ListSellTicket)
+                foreach (FlightTicket ite in ListSoldTicket)
                 {
                     string temp1;
                     string temp2;
@@ -421,6 +424,20 @@ namespace Planzy.ViewModels
                     ChuyenBayServices.GetFlight(ite.FlightId, out temp1, out temp2, out temp3);
                     ite.Departure = temp1;
                     ite.Destination = temp2;
+                    ite.FlownDate = temp3;
+                }
+
+                for (int i = 0; i < ListSoldTicket.Count; i++)
+                {
+                    DateTime bookingDate_check = DateTime.Now.AddDays(0);
+
+                    TimeSpan interval = ListSoldTicket[i].FlownDate.Subtract(bookingDate_check);
+                    double count = interval.Days * 24 + interval.Hours + ((interval.Minutes * 100) / 60) * 0.01;
+                    if (count < 0)
+                    {
+                        ListSoldTicket.RemoveAt(i);
+                        i--;
+                    }
                 }
             }
 
@@ -586,7 +603,12 @@ namespace Planzy.ViewModels
             get { return isDuocChon7; }
             set { isDuocChon7 = value; OnPropertyChanged("IsDuocChon7"); }
         }
-
+        private ButtonDuocChon isDuocChon7_SoldTicket = new ButtonDuocChon(false);
+        public ButtonDuocChon IsDuocChon7_SoldTicket
+        {
+            get { return isDuocChon7_SoldTicket; }
+            set { isDuocChon7_SoldTicket = value; OnPropertyChanged("IsDuocChon7_SoldTicket"); }
+        }
         private ButtonDuocChon isDuocChon8 = new ButtonDuocChon(false);
         public ButtonDuocChon IsDuocChon8
         {
@@ -653,7 +675,9 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
             IsDetailFlight_SellTicket = KhongDuocChon;
+            IsDuocChon7_SoldTicket = KhongDuocChon;
         }
         public void Button2()
         {
@@ -667,6 +691,9 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
+            IsDuocChon7_SoldTicket = KhongDuocChon;
         }
         public void Button3()
         {
@@ -680,8 +707,9 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
             IsDetailFlight_SellTicket = KhongDuocChon;
-
+            IsDuocChon7_SoldTicket = KhongDuocChon;
         }
         public void Button4()
         {
@@ -695,8 +723,9 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
             IsDetailFlight_SellTicket = KhongDuocChon;
-
+            IsDuocChon7_SoldTicket = KhongDuocChon;
         }
         public void Button5()
         {
@@ -710,8 +739,9 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
             IsDetailFlight_SellTicket = KhongDuocChon;
-
+            IsDuocChon7_SoldTicket = KhongDuocChon;
         }
         public void Button6()
         {
@@ -725,8 +755,9 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
             IsDetailFlight_SellTicket = KhongDuocChon;
-
+            IsDuocChon7_SoldTicket = KhongDuocChon;
         }
         public void Button7()
         {
@@ -740,8 +771,9 @@ namespace Planzy.ViewModels
             IsDuocChon7 = DuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
             IsDetailFlight_SellTicket = KhongDuocChon;
-
+            IsDuocChon7_SoldTicket = KhongDuocChon;
         }
         public void Button8()
         {
@@ -754,8 +786,9 @@ namespace Planzy.ViewModels
             IsDuocChon6 = KhongDuocChon;
             IsDuocChon7 = KhongDuocChon;
             IsDuocChon8 = DuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
             IsDetailFlight_SellTicket = KhongDuocChon;
-
+            IsDuocChon7_SoldTicket = KhongDuocChon;
         }
         #endregion
         #region Xử lý xóa sân bay trung gian
@@ -2096,7 +2129,7 @@ namespace Planzy.ViewModels
         }
         private void xoaChuyenBay()
         {
-            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn xóa?", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn xóa", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             foreach (ChiTietHangGhe chiTietHangGhe in ChuyenBayDaChon.ChiTietHangGhesList)
             {
                 if (Convert.ToInt32(chiTietHangGhe.SoLuongGheConLai) < Convert.ToInt32(chiTietHangGhe.SoLuongGhe) && ChuyenBayDaChon.IsDaBay == false)
@@ -2166,7 +2199,7 @@ namespace Planzy.ViewModels
         }
         public void huyThemVaSuaChuyenBay()
         {
-            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn hủy?", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            MessageBoxResult rs = CustomMessageBox.Show("Bạn chắc chắn muốn hủy", "Cảnh báo", System.Windows.MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             if (rs == MessageBoxResult.OK)
             {
                 if (isDangSua)
@@ -3038,7 +3071,7 @@ namespace Planzy.ViewModels
             IsDuocChon4 = KhongDuocChon;
             IsDuocChon5 = KhongDuocChon;
             IsContinueButton = KhongDuocChon;
-            IsDuocChon6 = DuocChon;
+            IsDuocChon6 = KhongDuocChon;
             IsDuocChon7 = DuocChon;
         }
         public RelayCommand chooseBack_BookedStickedComamnd { get; private set; }
@@ -3116,12 +3149,12 @@ namespace Planzy.ViewModels
             double count = interval.Days * 24 + interval.Hours + ((interval.Minutes * 100) / 60) * 0.01;
             if (count < float.Parse(ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_HUY_VE))
             {
-                CustomMessageBox.Show("Đã quá hạn hủy vé cho chuyến bay này !", "Thông báo",MessageBoxButton.OK,MessageBoxImage.Warning);
+                CustomMessageBox.Show("Đã quá hạn hủy vé cho chuyến bay này !", "Thông báo");
                 return;
             }
 
             string temp = String.Format("Bạn có muốn hủy vé  \"{0}\"?", selected.BookingSticketID);
-            MessageBoxResult result = CustomMessageBox.Show(temp, "Thông báo", MessageBoxButton.YesNo,MessageBoxImage.Warning);
+            MessageBoxResult result = MessageBox.Show(temp, "Thông báo", MessageBoxButton.YesNo);
             switch (result)
             {
                 case MessageBoxResult.Yes:
@@ -3131,12 +3164,134 @@ namespace Planzy.ViewModels
                         OnPropertyChanged("ListBookedSticket");
                         UpdateList(selected.FlightID, selected.SticketTypeID);
                         BookingSticketServices.DeletingSticketProcess(selected);
-                        CustomMessageBox.Show("Xóa Thành Công", "Thông Báo",MessageBoxButton.OK,MessageBoxImage.Asterisk);
+                        CustomMessageBox.Show("Xóa Thành Công", "Planzy Thông Báo !");
                         break;
                     }
                 case MessageBoxResult.No:
                     {
-                        //CustomMessageBox.Show("Oh well, too bad!", "My App");
+                        CustomMessageBox.Show("Oh well, too bad!", "My App");
+                        break;
+                    }
+
+            }
+
+
+
+        }
+
+        #endregion
+
+        #region Vé đã bán 
+        public RelayCommand chooseSoldTicketCommand { get; private set; }
+        private void Button_SoldTicket(object obj)
+        {
+            IsDuocChon1 = KhongDuocChon;
+            IsDuocChon2 = KhongDuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsContinueButton = KhongDuocChon;
+            IsDuocChon6 = KhongDuocChon;
+            IsDuocChon7 = KhongDuocChon;
+            IsDuocChon7_SoldTicket = DuocChon;
+        }
+        public RelayCommand chooseBack_SoldTicketComamnd { get; private set; }
+
+        private void ButtonBack_SoldTicket(object obj)
+        {
+            IsDuocChon1 = KhongDuocChon;
+            IsDuocChon2 = KhongDuocChon;
+            IsDuocChon3 = KhongDuocChon;
+            IsDuocChon4 = KhongDuocChon;
+            IsDuocChon5 = KhongDuocChon;
+            IsContinueButton = KhongDuocChon;
+            IsDuocChon6 = DuocChon;
+            IsDuocChon7 = KhongDuocChon;
+            IsDuocChon7_SoldTicket = KhongDuocChon;
+        }
+
+
+        private ObservableCollection<FlightTicket> listSoldTicket;
+        public ObservableCollection<FlightTicket> ListSoldTicket
+        {
+            get { return listSoldTicket; }
+            set { listSoldTicket = value; OnPropertyChanged("ListSoldTicket"); }
+        }
+
+        private RelayCommand2<object> chooseDeleteButtonCommand_SoldTicket;
+
+        public RelayCommand2<object> ChooseDeleteButtonCommand_SoldTicket
+        {
+            get { return chooseDeleteButtonCommand_SoldTicket; }
+        }
+
+        private bool CheckSelected_SoldTicket(object obj)
+        {
+            FlightTicket selected = obj as FlightTicket;
+            if (selected != null) return true;
+            return false;
+        }
+        private void UpdateList_SoldTicket(string FlightID, string ticketType)
+        {
+            for (int i = 0; i < FlightSearchList_SellTicket.Count; i++)
+            {
+                if (FlightSearchList_SellTicket[i].MaChuyenBay == FlightID)
+                {
+                    for (int j = 0; j < FlightSearchList_SellTicket[i].ChiTietHangGhesList.Count; j++)
+                    {
+                        if (FlightSearchList_SellTicket[i].ChiTietHangGhesList[j].MaLoaiHangGhe == ticketType)
+                            FlightSearchList_SellTicket[i].ChiTietHangGhesList[j].SoLuongGheConLai = (Int32.Parse(FlightSearchList_SellTicket[i].ChiTietHangGhesList[j].SoLuongGheConLai) + 1).ToString();
+                        OnPropertyChanged("FlightSearchList_SellTicket");
+                        OnPropertyChanged("FlightSearchList");
+                    }
+                    break;
+                }
+            }
+            //for (int i = 0;i < FlightSearchList.Count;i++)
+            //{
+            //    if (FlightSearchList[i].MaChuyenBay == FlightID)
+            //    {
+            //        for (int j = 0; j < FlightSearchList[i].ChiTietHangGhesList.Count; j++)
+            //        {
+            //            if (FlightSearchList[i].ChiTietHangGhesList[j].MaLoaiHangGhe == stickerType)
+            //                FlightSearchList[i].ChiTietHangGhesList[j].SoLuongGheConLai = (Int32.Parse(FlightSearchList[i].ChiTietHangGhesList[j].SoLuongGheConLai) + 1).ToString();
+            //            OnPropertyChanged("FlightSearchList");
+            //        }
+            //        break;
+            //    }
+            //}
+        }
+
+        private void ButtonDelete_SoldTicket(object obj)
+        {
+            FlightTicket selected = obj as FlightTicket;
+            DateTime bookingDate_check = DateTime.Now.AddDays(0);
+
+            TimeSpan interval = selected.FlownDate.Subtract(bookingDate_check);
+            double count = interval.Days * 24 + interval.Hours + ((interval.Minutes * 100) / 60) * 0.01;
+            if (count < float.Parse(ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_HUY_VE))
+            {
+                CustomMessageBox.Show("Đã quá hạn hủy vé cho chuyến bay này !", "Thông báo");
+                return;
+            }
+
+            string temp = String.Format("Bạn có muốn hủy vé  \"{0}\"?", selected.TicketId);
+            MessageBoxResult result = CustomMessageBox.Show(temp, "Thông báo", MessageBoxButton.YesNo);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    {
+                        if (selected != null)
+                            ListSoldTicket.Remove(selected);
+                        OnPropertyChanged("ListSoldTicket");
+                        UpdateList(selected.FlightId, selected.TicketTypeId);
+                        FlightTicketServices.Delete(selected);
+                        CustomMessageBox.Show("Xóa Thành Công", "Planzy Thông Báo !");
+                        break;
+                    }
+                case MessageBoxResult.No:
+                    {
+                       
                         break;
                     }
 
@@ -3535,14 +3690,6 @@ namespace Planzy.ViewModels
             get { return isVisibleExportBaoCao; }
             set { isVisibleExportBaoCao = value; OnPropertyChanged("IsVisibleExportBaoCao"); }
         }
-        private string isVisibleXoaDuLieuBieuDo = "Hidden";
-
-        public string IsVisibleXoaDuLieuBieuDo
-        {
-            get { return isVisibleXoaDuLieuBieuDo; }
-            set { isVisibleXoaDuLieuBieuDo = value; OnPropertyChanged("IsVisibleXoaDuLieuBieuDo"); }
-        }
-
         private RelayCommand reviewBieuDoCommand;
         public RelayCommand ReviewBieuDoCommand
         {
@@ -3558,13 +3705,6 @@ namespace Planzy.ViewModels
         {
             get { return xuatPDFVisualCommand; }
         }
-        private RelayCommand xoaDuLieuCommand;
-
-        public RelayCommand XoaDuLieuCommand
-        {
-            get { return xoaDuLieuCommand; }
-        }
-
         public void reviewBieuDo()
         {
             if (ThangTrongDoanhThuDaChon == "Tất cả")
@@ -3611,17 +3751,7 @@ namespace Planzy.ViewModels
             if (printDialog.ShowDialog() == true)
             {
                 printDialog.PrintVisual((Grid)view, "test");
-                CustomMessageBox.Show("Xuất file thành công", "Thông báo",MessageBoxButton.OK,MessageBoxImage.Asterisk);
-            }
-        }
-        public void xoaDuLieuBieuDo()
-        {
-            MessageBoxResult rs = CustomMessageBox.Show("Dữ liệu đã xóa không thể phục hồi, tiếp tục?", "Cảnh báo", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            if (rs == MessageBoxResult.OK)
-            {
-                doanhThuThangServices.XoaDuLieu(DanhSachNamDaChon, ThangTrongDoanhThuDaChon);
-                doanhThuThangDaChon = doanhThuThangServices.doanhThuThangs[Convert.ToInt32(ThangTrongDoanhThuDaChon) - 1].doanhThuServices.doanhThus;
-                OnPropertyChanged("doanhThuThangDaChon");
+                CustomMessageBox.Show("Xuất file thành công", "Thông báo");
             }
         }
         private MyDatetime ngayLapBaoCao = new MyDatetime();
@@ -3790,7 +3920,7 @@ namespace Planzy.ViewModels
             double count = interval.Days * 24 + interval.Hours + ((interval.Minutes * 100) / 60) * 0.01;
             if (count < float.Parse(ThamSoQuyDinh.THOI_GIAN_CHAM_NHAT_DAT_VE))
             {
-                CustomMessageBox.Show("Đã quá hạn bán vé cho chuyến bay này !", "Thông báo",MessageBoxButton.OK,MessageBoxImage.Warning);
+                CustomMessageBox.Show("Đã quá hạn bán vé cho chuyến bay này !", "Thông báo");
                 return;
             }
 
@@ -3817,7 +3947,7 @@ namespace Planzy.ViewModels
                 OnPropertyChanged("TicketTypeAmount_SellTicket");
                 OnPropertyChanged("Hashtable_AmountTicketType_SellTicket");
 
-                CustomMessageBox.Show("Xuất file thành công", "Thông báo",MessageBoxButton.OK,MessageBoxImage.Asterisk);
+                CustomMessageBox.Show("Xuất file thành công", "Thông báo");
 
                 string temp1;
                 string temp2;
@@ -3826,7 +3956,7 @@ namespace Planzy.ViewModels
                 SellTicket.Departure = temp1;
                 SellTicket.Destination = temp2;
                 SellTicket.FlownDate = temp3;
-                ListSellTicket.Add(SellTicket);
+                ListSoldTicket.Add(SellTicket);
                 //// Set lai ve moi
                 SellTicket = new FlightTicket();
                 SellTicket.Departure = selectedFlight_SellTicket.SanBayDi.ToString();
@@ -3844,7 +3974,7 @@ namespace Planzy.ViewModels
                 SellTicket.TicketId = hashtable_TicketId_SellTicket[ticketType_SellTicket].ToString();
                 ////////
 
-                OnPropertyChanged("ListSellTicket");
+                OnPropertyChanged("ListSoldTicket");
             }
 
                      
@@ -4173,7 +4303,11 @@ namespace Planzy.ViewModels
         {
             InsertTicketDialog insertTicketDialog = new InsertTicketDialog();
             insertTicketDialog.ShowDialog();
-            ListTicketType_Setting.Add(insertTicketDialog.viewModel.GetResult());
+            if(insertTicketDialog.viewModel.GetResult() != null)
+            {
+                ListTicketType_Setting.Add(insertTicketDialog.viewModel.GetResult());
+            }
+            
 
         }
         public ICommand DeleteTickTypeCommand_Setting { get; set; }
@@ -4806,11 +4940,10 @@ namespace Planzy.ViewModels
             IsVisibleButtonDoanhThu = "Visible";GridRowButtonDoanhThu = "4";
             IsVisibleButtonCaiDat = "Visible"; GridRowButtonCaiDat = "6";
             GridRowButtonNguoiDung = "5";
-            IsVisibleXoaDuLieuBieuDo = "Visible";
         }
         public void LoadPhanQuyenNhanVien()
         {
-            IsVisibleButtonVeDaDat = "Collapsed";
+            IsVisibleButtonVeDaDat = "Hidden";
             IsVisibleButtonSuaTrongTraCuu = "Visible";
             IsVisibleButtonBanVe = "Visible"; GridRowButtonBanVe = "0";
             IsVisibleButtonNhanLich = "Visible"; GridRowButtonNhanLich = "2";

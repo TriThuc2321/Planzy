@@ -168,54 +168,5 @@ namespace Planzy.Models.DoanhThuThangModel
                 doanhThuThangs[i].TyLe = doanhThuThangs[i].DoanhThuTrieuDong / tongDoanhThuTrieuDong * 100;
             }
         }
-        public void XoaDuLieuSQL(string Nam,string Thang)
-        {
-            try
-            {
-                SanBayConnection.Open();
-                SqlCommand command;
-                if(Thang != "Tất cả")
-                    command = new SqlCommand("delete from LICH_SU_CHUYEN_BAY WHERE year(NGAY_BAY) = '" + Nam + "' AND MONTH(NGAY_BAY) = '" + Thang + "'" , SanBayConnection);
-                else
-                    command = new SqlCommand("delete from LICH_SU_CHUYEN_BAY WHERE year(NGAY_BAY) = '" + Nam + "'", SanBayConnection);
-                command.ExecuteNonQuery();
-            }
-            catch
-            {
-
-            }
-            finally
-            {
-                SanBayConnection.Close();
-            }
-        }
-        public void XoaDuLieu(string Nam,string Thang)
-        {
-            if(Thang != "Tất cả")
-            {
-                tongDoanhThu -= doanhThuThangs[Convert.ToInt32(Thang) - 1].DoanhThu;
-                tongDoanhThuTrieuDong = (float)tongDoanhThu / 1000000;
-                DoanhThuThang doanhThuThang = new DoanhThuThang(Thang);
-                doanhThuThangs.RemoveAt(Convert.ToInt32(Thang) - 1);
-                doanhThuThangs.Insert(Convert.ToInt32(Thang) - 1, doanhThuThang);
-                for (int i = 0; i < doanhThuThangs.Count; i++)
-                {
-                    doanhThuThangs[i].TyLe = doanhThuThangs[i].DoanhThuTrieuDong / tongDoanhThuTrieuDong * 100;
-                }
-                XoaDuLieuSQL(Nam, Thang);
-            }  
-            else
-            {
-                for(int i = 0;i<12;i++)
-                {
-                    DoanhThuThang doanhThuThang = new DoanhThuThang((i + 1).ToString());
-                    doanhThuThangs.RemoveAt(i);
-                    doanhThuThangs.Insert(i, doanhThuThang);
-                }
-                tongDoanhThu = 0;
-                tongDoanhThuTrieuDong = 0;
-                XoaDuLieuSQL(Nam, Thang);
-            }    
-        }    
     }
 }

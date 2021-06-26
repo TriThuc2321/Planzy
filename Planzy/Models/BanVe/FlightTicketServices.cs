@@ -19,7 +19,7 @@ namespace Planzy.Models.BanVe
             {
                 SellTicketConnection.Open();
                 string query = string.Format("INSERT INTO VE_CHUYEN_BAY " +
-                    "VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}')",
+                    "VALUES('{0}', '{1}', '{2}', N'{3}', '{4}', '{5}', '{6}', '{7}', '{8}', N'{9}', N'{10}')",
                     ticket.TicketId, ticket.FlightId, ticket.TicketTypeId,
                     ticket.Passenger, ticket.CMND, ticket.PhoneNumber, ticket.Cost.Replace(" VND", ""),
                     ticket.SaleDate, ticket.Gmail, ticket.Address, ticket.Request);
@@ -58,7 +58,7 @@ namespace Planzy.Models.BanVe
             {
                 SellTicketConnection.Open();
                 string query = string.Format("delete  from CHI_TIET_BAN_VE WHERE MA_VE ='{0}' " +
-                    " delete  from VE_CHUYEN_BAY CHO WHERE MA_VE = '{0}'", ticket.TicketId);
+                    " delete  from VE_CHUYEN_BAY WHERE MA_VE = '{0}'", ticket.TicketId);
 
                 SqlCommand command = new SqlCommand(query, SellTicketConnection);
                 command.ExecuteNonQuery();

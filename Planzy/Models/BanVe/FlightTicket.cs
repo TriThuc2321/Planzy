@@ -1,4 +1,5 @@
 ﻿using Planzy.Models.KiemTraModel;
+using Planzy.Resources.Component.CustomMessageBox;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Planzy.Models.BanVe
@@ -34,12 +36,15 @@ namespace Planzy.Models.BanVe
             phoneNumber = null;
             cost = null;
             gmail = null;
-            SaleDate = DateTime.UtcNow.AddDays(0);
+            SaleDate = DateTime.Now.AddDays(0);
             flownDate = DateTime.Now.AddDays(0);
             address = null;
             request = null;
 
         }
+
+        
+        
 
         private string departure;
 
@@ -130,8 +135,10 @@ namespace Planzy.Models.BanVe
             {
                 if (value != null)
                 {
-                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
-                        cmnd = value.ToUpper();
+                    if (KiemTraHopLeInput.IsCMND(value))
+                        cmnd = value;
+                    else
+                        CustomMessageBox.Show("CMND không hợp lệ", "Nhắc nhở", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 }
                 OnPropertyChanged("CMND");
             }
@@ -145,8 +152,10 @@ namespace Planzy.Models.BanVe
             {
                 if (value != null)
                 {
-                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
-                        phoneNumber = value.ToUpper();
+                    if (KiemTraHopLeInput.IsPhoneNumber(value))
+                        phoneNumber = value;
+                    else
+                        CustomMessageBox.Show("Số điện thoại không hợp lệ", "Nhắc nhở", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 }
                 OnPropertyChanged("PhoneNumber");
             }
@@ -188,8 +197,16 @@ namespace Planzy.Models.BanVe
         {
             get { return gmail; }
             set
-            {
-                gmail = value;
+            {                
+                
+                if (KiemTraHopLeInput.IsEmail(value))
+                {
+                    gmail = value;
+                }
+                else
+                {
+                    CustomMessageBox.Show("Email không hợp lệ", "Nhắc nhở", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                }
                 OnPropertyChanged("Gmail");
             }
         }
@@ -201,11 +218,7 @@ namespace Planzy.Models.BanVe
             get { return address; }
             set
             {
-                if (value != null)
-                {
-                    if (KiemTraHopLeInput.CheckAddress(value))
-                        address = value.ToUpper();
-                }
+                address = value;
                 OnPropertyChanged("Address");
             }
         }
@@ -217,11 +230,7 @@ namespace Planzy.Models.BanVe
             get { return request; }
             set
             {
-                if (value != null)
-                {
-                    if (KiemTraHopLeInput.CheckAddress(value))
-                        request = value.ToUpper();
-                }
+                request = value;
                 OnPropertyChanged("Request");
             }
         }
