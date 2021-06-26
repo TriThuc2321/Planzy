@@ -1374,7 +1374,7 @@
                                 <Grid Grid.Row="0" Grid.Column="0">
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel Orientation="Horizontal">
-                                            <Label Content="Sân bay trung gian: "
+                                            <Label Content="Sân bay trung gian: " VerticalAlignment="Top"
                                            VerticalContentAlignment="Bottom"
                                            HorizontalAlignment="Left"
                                            FontWeight="Bold"
@@ -1712,7 +1712,19 @@
                                             </ComboBox>
                                         </StackPanel>
                                     </StackPanel>
-                                    <Button Content="Xem trước khi in" VerticalAlignment="Bottom" 
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Content="Xóa dữ liệu" VerticalAlignment="Bottom" 
+                                                Command="{Binding XoaDuLieuCommand}"
+                                                Visibility="{Binding IsVisibleXoaDuLieuBieuDo}"
+                                                HorizontalAlignment="Right"
+                                                Width="Auto"
+                                                Height="30"
+                                                Padding="10 0 10 0"
+                                                Foreground="#000"  
+                                                Background="#FFE05050" FontSize="12" BorderBrush="{x:Null}" Margin="0,0,10,0"
+                                                FontWeight="Bold"
+                                                />
+                                        <Button Content="Xem trước khi in" VerticalAlignment="Bottom" 
                                                 Command="{Binding ReviewBieuDoCommand}"
                                                 HorizontalAlignment="Right"
                                                 Width="Auto"
@@ -1722,6 +1734,8 @@
                                                 Background="SkyBlue" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="0,0,10,0"
                                                 FontWeight="Bold"
                                                 />
+                                    </StackPanel>
+                                    
                                 </Grid>
                                 <Grid Grid.Row="2">
                                     <Grid Visibility="{Binding IsVisibleBieuDoNam}"  x:Name="BieuDoNam">
@@ -2615,7 +2629,7 @@
                                 </StackPanel>
                             </Grid>
                             <Grid Grid.Row="6">
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                     <Button
                                         FontSize="12"
                                         FontWeight="Bold"
@@ -2637,14 +2651,14 @@
                                     Background="SkyBlue"
                                         Margin="30 0 0 0"
                                     />
-                                    <Button
+                                    <Button 
                                         FontSize="12"
                                         FontWeight="Bold"
                                     Width="200"
                                     BorderBrush="{x:Null}"
                                     Content="Đăng xuất" 
                                     Background="SkyBlue"
-                                        Margin="30 0 0 0"
+                                        Margin="30 0 40 0"
                                         Command="{Binding LogOutCommand}"
                                         />
 
@@ -2660,9 +2674,9 @@
                                 <RowDefinition ></RowDefinition>
                             </Grid.RowDefinitions>
                             <StackPanel  Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Background="CadetBlue">
-                                <Button Width="100" Margin="10 0 0 0" FontSize="15" Background="White" Content="Quay lại" BorderBrush="{x:Null}"
+                                <Button Width="100" Margin="10 0 0 0" FontSize="12" Background="#FFE05050" FontWeight="Bold" Content="Quay lại" BorderBrush="{x:Null}"
                                          Command="{Binding chooseBack_BookedStickedComamnd}"
-                                                               Height="35"></Button>
+                                                               Height="30"></Button>
                                 <TextBlock Text="Vé Đã Đặt"  FontSize="25"
                                        FontWeight="Bold" Margin="220 15 0 0" FontFamily="Calibri"></TextBlock>
                             </StackPanel>
@@ -2683,7 +2697,10 @@
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal" Background="White">
                                                             <Button Content=" Hủy vé " 
-                                                                Background="LightBlue"
+                                                                Background="#FFE05050"
+                                                                    FontSize="12"
+                                                                    FontWeight="Bold"
+                                                                    Height="30"
                                                                 
                                                               Command="{Binding ElementName= lvsBookedSticket, Path= DataContext.ChooseDeleteButtonCommand_BookedSticket}"
                                                                 CommandParameter="{Binding}"
@@ -3622,15 +3639,16 @@
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition Width="110"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition Width="110"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Button 
                                     BorderBrush="{x:Null}"
                                     Background="SkyBlue"
                                     FontSize="12"
                                     FontWeight="Bold"
+                                    Width="100"
                                     Height="30"
                                     Grid.Column="0"
                                     Content="Quay lại"
@@ -3639,7 +3657,10 @@
                                 </Button>
                                 <Button 
                                     BorderBrush="{x:Null}"
-                                    Background="LawnGreen"
+                                    Background="#FF80E66A"
+                                    Height="30"
+                                    FontSize="12"
+                                    FontWeight="Bold"
                                     Grid.Column="2"
                                     Content="In vé"
                                     Command="{Binding ChoosePayButtonCommand_SellTicket}"
