@@ -290,7 +290,8 @@ namespace Planzy.LoginRegister
             string to = email;
             from = "planzyapplycation@gmail.com";
             pass = "ThucThienThang123";
-            messageBody = "Thank for your using Planzy, this is your password reseting code: " + randomCode;
+            messageBody = "    Cám ơn bạn đã sử dụng Planzy, mã xác thực của bạn là: " + randomCode + "\n\n" + "____________________________________\n"
+                 + "   Mọi thắc mắc xin liên lạc với chúng tôi qua địa chỉ email: planzyapplication@gmail.com hoặc qua số hotline : (+84) 834344655";
             message.To.Add(to);
             message.From = new MailAddress(from);
             message.Body = messageBody;
