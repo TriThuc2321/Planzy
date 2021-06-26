@@ -1,5 +1,6 @@
 ﻿using Planzy.Commands;
 using Planzy.Models.Users;
+using Planzy.Resources.Component.CustomMessageBox;
 using Planzy.Views;
 using System;
 using System.Collections.Generic;
@@ -114,7 +115,7 @@ namespace Planzy.LoginRegister
                 timerRegister.Stop();
                 forgotPassword.ShowDialog();
                 timerRegister.Start();
-                p.Hide();
+               
             }
             else
             {
@@ -173,6 +174,7 @@ namespace Planzy.LoginRegister
                 MainWindow main = new MainWindow(Email);
                 main.Show();
                 timerRegister.Stop();
+                CustomMessageBox.Show("Đăng ký thành công", "Thông báo", MessageBoxButton.OK);
                 p.Close();
                 
             }

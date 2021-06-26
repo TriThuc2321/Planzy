@@ -295,7 +295,7 @@ namespace Planzy.LoginRegister
             message.To.Add(to);
             message.From = new MailAddress(from);
             message.Body = messageBody;
-            message.Subject = "Password reset code Planzy";
+            message.Subject = "Đặt lại mật khẩu";
             SmtpClient smtp = new SmtpClient("smtp.gmail.com");
             smtp.EnableSsl = true;
             smtp.Port = 587;

@@ -652,6 +652,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
         }
         public void Button2()
         {
@@ -665,6 +667,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
         }
         public void Button3()
         {
@@ -678,6 +682,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
         }
         public void Button4()
         {
@@ -691,6 +697,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
         }
         public void Button5()
         {
@@ -704,6 +712,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
         }
         public void Button6()
         {
@@ -717,6 +727,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = KhongDuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
         }
         public void Button7()
         {
@@ -730,6 +742,8 @@ namespace Planzy.ViewModels
             IsDuocChon7 = DuocChon;
             IsDetailFlight = KhongDuocChon;
             IsDuocChon8 = KhongDuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
         }
         public void Button8()
         {
@@ -742,6 +756,8 @@ namespace Planzy.ViewModels
             IsDuocChon6 = KhongDuocChon;
             IsDuocChon7 = KhongDuocChon;
             IsDuocChon8 = DuocChon;
+            IsContinueButton_SellTicket = KhongDuocChon;
+            IsDetailFlight_SellTicket = KhongDuocChon;
         }
         #endregion
         #region Xử lý xóa sân bay trung gian
@@ -4134,7 +4150,11 @@ namespace Planzy.ViewModels
         {
             InsertTicketDialog insertTicketDialog = new InsertTicketDialog();
             insertTicketDialog.ShowDialog();
-            ListTicketType_Setting.Add(insertTicketDialog.viewModel.GetResult());
+            if(insertTicketDialog.viewModel.GetResult() != null)
+            {
+                ListTicketType_Setting.Add(insertTicketDialog.viewModel.GetResult());
+            }
+            
 
         }
         public ICommand DeleteTickTypeCommand_Setting { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Planzy.Commands;
 using Planzy.Models.Users;
+using Planzy.Resources.Component.CustomMessageBox;
 using Planzy.Views;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ namespace Planzy.LoginRegister
 
             EnterEmailVisibility = "Collapsed";
             PasswordNotNullVisibility = "Collapsed";
-            ConfirmPasswordIncorrectVisibility = "Collapsed";
+            ConfirmPasswordIncorrectVisibility = "Collapsed"; 
             IncorrectVerifyCodeVisibility = "Collapsed";
 
             LoadWindowCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { this.parentView = p; });
@@ -147,7 +148,7 @@ namespace Planzy.LoginRegister
         {
             if(parentWindow == null && parentRegister == null)
             {
-                ButtonTxt = "ĐẶT LẠI";
+                ButtonTxt = "Xác nhận";
                 PasswordBoxVisibility = "Visible";
                 ConfirmPasswordBoxVisibility = "Visible";
             }
@@ -238,10 +239,12 @@ namespace Planzy.LoginRegister
             if(checkEmail(Email) && randomCode == VerifyCode && Password != null && Password!="" && ConfirmPassword == Password)
             {
                 ResetPassword(Email);
-                MainWindow main = new MainWindow(Email);
-                main.Show();
+                Login login = new Login();
+                login.Show();
+                
                 timer.Stop();
                 p.Close();
+                CustomMessageBox.Show("Cập nhật mật khẩu thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
             }
         }
 
