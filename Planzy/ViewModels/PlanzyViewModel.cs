@@ -3160,7 +3160,7 @@ namespace Planzy.ViewModels
             }
 
             string temp = String.Format("Bạn có muốn hủy vé  \"{0}\"?", selected.BookingSticketID);
-            MessageBoxResult result = MessageBox.Show(temp, "Thông báo", MessageBoxButton.YesNo);
+            MessageBoxResult result = CustomMessageBox.Show(temp, "Thông báo", MessageBoxButton.YesNo);
             switch (result)
             {
                 case MessageBoxResult.Yes:
