@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         ResizeMode="NoResize"
+        Icon="/logo.png"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:loginregister="clr-namespace:Planzy.LoginRegister" d:DataContext="{d:DesignInstance Type=loginregister:LoginViewModel}"        
@@ -203,10 +204,10 @@
                             CommandParameter="{Binding ElementName=LoginXaml}"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         materialDesign:ButtonAssist.CornerRadius="10"
-                        Margin="75 10 65 0"
+                        Margin="72 10 55 0"
                         VerticalAlignment="Top">
                         <Button.Background>
-                            <ImageBrush ImageSource="/LoginRegister/Image/googleLoginBackground.png"/>
+                            <ImageBrush ImageSource="/LoginRegister/Image/googleLoginBackground.png" Stretch="Uniform"/>
                         </Button.Background>
 
                     </Button>

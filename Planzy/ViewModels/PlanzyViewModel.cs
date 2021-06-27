@@ -4880,12 +4880,20 @@ namespace Planzy.ViewModels
             get { return isVisibleButtonSuaTrongTraCuu; }
             set { isVisibleButtonSuaTrongTraCuu = value; OnPropertyChanged("IsVisibleButtonSuaTrongTraCuu"); }
         }
-        private string isVisibleButtonVeDaDat = "Hidden";
+        private string isVisibleButtonVeDaDat = "Collapsed";
 
         public string IsVisibleButtonVeDaDat
         {
             get { return isVisibleButtonVeDaDat; }
             set { isVisibleButtonVeDaDat = value; OnPropertyChanged("IsVisibleButtonVeDaDat"); }
+        }
+
+        private string isVisibleButtonVeDaBan = "Collapsed";
+
+        public string IsVisibleButtonVeDaBan
+        {
+            get { return isVisibleButtonVeDaBan; }
+            set { isVisibleButtonVeDaBan = value; OnPropertyChanged("IsVisibleButtonVeDaBan"); }
         }
 
         private string gridRowButtonBanVe = "0";
@@ -4933,6 +4941,7 @@ namespace Planzy.ViewModels
         public void LoadPhanQuyenAdmin()
         {
             IsVisibleButtonVeDaDat = "Visible";
+            IsVisibleButtonVeDaBan = "Visible";
             IsVisibleButtonSuaTrongTraCuu = "Visible";
             IsVisibleButtonBanVe = "Visible";GridRowButtonBanVe = "1";
             IsVisibleButtonDatVe = "Visible";GridRowButtonTraCuu = "2";
@@ -4943,7 +4952,8 @@ namespace Planzy.ViewModels
         }
         public void LoadPhanQuyenNhanVien()
         {
-            IsVisibleButtonVeDaDat = "Hidden";
+            IsVisibleButtonVeDaDat = "Collapsed";
+            IsVisibleButtonVeDaBan = "Visible";
             IsVisibleButtonSuaTrongTraCuu = "Visible";
             IsVisibleButtonBanVe = "Visible"; GridRowButtonBanVe = "0";
             IsVisibleButtonNhanLich = "Visible"; GridRowButtonNhanLich = "2";
@@ -4956,6 +4966,7 @@ namespace Planzy.ViewModels
         public void LoadPhanQuyenKhachHang()
         {
             IsVisibleButtonVeDaDat = "Visible";
+            IsVisibleButtonVeDaBan = "Collapsed";
             IsVisibleButtonSuaTrongTraCuu = "Hidden";
             IsVisibleButtonDatVe = "Visible";
             GridRowButtonTraCuu = "1";

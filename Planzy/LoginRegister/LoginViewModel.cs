@@ -55,8 +55,12 @@ namespace Planzy.LoginRegister
 
         public LoginViewModel()
         {
-            userServices = new UserServices();
-            listUsers = new List<User>(userServices.GetAll());
+            if (IsConnectedToInternet())
+            {
+                userServices = new UserServices();
+                listUsers = new List<User>(userServices.GetAll());
+            }
+            
 
             LoginGoogleCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginGoogleClick(p); });
             LoginCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginClick(p); });
@@ -144,6 +148,8 @@ namespace Planzy.LoginRegister
 
                 InternetCheckingView internetCheckingView = new InternetCheckingView(parentView, null);
                 internetCheckingView.ShowDialog();
+                userServices = new UserServices();
+                listUsers = new List<User>(userServices.GetAll());
                 timer.Start();
             }
         }
@@ -454,13 +460,17 @@ namespace Planzy.LoginRegister
                     new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit));
 
                     AutomationElement elementx = element.FindFirst(TreeScope.Descendants, conditions);
-                    var url = ((ValuePattern)elementx.GetCurrentPattern(ValuePattern.Pattern)).Current.Value as string;
-                    if (url.Contains("accounts.google.com/o/oauth2/approval/v2/approvalnativeap"))
+                    if (elementx != null)
                     {
-                        var arr = url.Split('&');
-                        var approvalCode = WebUtility.HtmlDecode(arr[arr.Length - 1].Replace("approvalCode=", ""));
-                        return false;
+                        var url = ((ValuePattern)elementx.GetCurrentPattern(ValuePattern.Pattern)).Current.Value as string;
+                        if (url.Contains("accounts.google.com/o/oauth2/approval/v2/approvalnativeap"))
+                        {
+                            var arr = url.Split('&');
+                            var approvalCode = WebUtility.HtmlDecode(arr[arr.Length - 1].Replace("approvalCode=", ""));
+                            return false;
+                        }
                     }
+                    
 
                 }
             }
