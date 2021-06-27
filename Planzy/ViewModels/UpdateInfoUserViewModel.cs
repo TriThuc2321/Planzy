@@ -115,7 +115,7 @@ namespace Planzy.ViewModels
             Gmail = user.Gmail;
             CMND = user.CMND;
             PhoneNumber = user.PhoneNumer;
-            Address = user.Address;
+            Address = user.Address.Trim();
 
             InvalidCMNDVisibility = "Collapsed";
             InvalidPhoneNumberVisibility = "Collapsed";
@@ -277,7 +277,10 @@ namespace Planzy.ViewModels
         public string Address
         {
             get { return address; }
-            set { address = value; OnPropertyChanged("Address"); }
+            set {
+                if (value.Length == 0) address = "";
+                else address = value;
+                OnPropertyChanged("Address"); }
         }
 
      

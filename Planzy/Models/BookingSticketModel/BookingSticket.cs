@@ -212,8 +212,7 @@ namespace Planzy.Models.BookingSticketModel
             set
             {
                 if (value != null)
-                {
-                    if (KiemTraHopLeInput.CheckAddress(value))
+                {                    
                         address = value.ToUpper();
                 }
                 OnPropertyChanged("Address");

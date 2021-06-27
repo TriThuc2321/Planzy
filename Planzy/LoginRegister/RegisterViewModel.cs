@@ -174,7 +174,7 @@ namespace Planzy.LoginRegister
                 MainWindow main = new MainWindow(Email);
                 main.Show();
                 timerRegister.Stop();
-                CustomMessageBox.Show("Đăng ký thành công", "Thông báo", MessageBoxButton.OK);
+                CustomMessageBox.Show("Đăng ký thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 p.Close();
                 
             }

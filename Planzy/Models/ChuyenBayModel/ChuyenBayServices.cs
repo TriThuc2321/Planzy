@@ -521,8 +521,8 @@ namespace Planzy.Models.ChuyenBayModel
             {
                 if (ite.MaChuyenBay == ID)
                 {
-                    departure = ite.SanBayDen.ToString();
-                    destination = ite.SanBayDi.ToString();
+                    departure = ite.SanBayDi.ToString();
+                    destination = ite.SanBayDen.ToString();
                     Flowndate = ite.NgayBay;
                     return;
                 }
