@@ -184,7 +184,9 @@ namespace Planzy.ViewModels
 
         public PlanzyViewModel(string gmailUser, Window parentWindow)
         {
-
+            #region tắt cảnh báo combobox
+            System.Diagnostics.PresentationTraceSources.DataBindingSource.Switch.Level = System.Diagnostics.SourceLevels.Critical;
+            #endregion
             sanBayServices = new SanBayService();
             sanBayTrungGianService = new SanBayTrungGianService();
             loaiHangGheServices = new LoaiHangGheServices();
@@ -541,6 +543,8 @@ namespace Planzy.ViewModels
                 huyThemSanBayTrungGian();
                 DiTam = SanBayDiDaChon;
                 DenTam = SanBayDenDaChon;
+                SanBayDenDaChon = null;
+                SanBayDiDaChon = null;
                 SanBayDenDaChon = DiTam;
                 SanBayDiDaChon = DenTam;
             }
@@ -1803,6 +1807,11 @@ namespace Planzy.ViewModels
             #endregion
             ChuyenBayHienTai.SanBayDi = SanBayDiDaChon;
             ChuyenBayHienTai.SanBayDen = SanBayDenDaChon;
+            if (SanBayTrungGiansList != null && SanBayTrungGiansList.Count!=0)
+            {
+                SanBayTrungGiansList[0].MaSanBayTruoc = SanBayDiDaChon.Id;
+                SanBayTrungGiansList[SanBayTrungGiansList.Count - 1].MaSanBaySau = SanBayDenDaChon.Id;
+            }    
             ChuyenBayHienTai.SanBayTrungGian = SanBayTrungGiansList;
             ChuyenBayHienTai.MaChuyenBay = MaChuyenBay;
             ChuyenBayHienTai.GiaVeCoBan = GiaVeCoBan;
@@ -2028,7 +2037,7 @@ namespace Planzy.ViewModels
                 ChuyenBayDaChon.ThoiGianBay = ThoiGianBay;
                 ChuyenBayDaChon.SanBayDi = SanBayDiDaChon;
                 ChuyenBayDaChon.SanBayDen = SanBayDenDaChon;
-                if (SanBayTrungGiansList.Count != 0)
+                if (SanBayTrungGiansList != null && SanBayTrungGiansList.Count != 0)
                 {
                     SanBayTrungGiansList[0].MaSanBayTruoc = SanBayDiDaChon.Id;
                     SanBayTrungGiansList[SanBayTrungGiansList.Count - 1].MaSanBaySau = SanBayDenDaChon.Id;
