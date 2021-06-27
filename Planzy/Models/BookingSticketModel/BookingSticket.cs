@@ -110,7 +110,7 @@ namespace Planzy.Models.BookingSticketModel
             get { return passengerName; }
             set
             {
-                passengerName = value;
+                passengerName = value.ToUpper();
                 OnPropertyChanged("PassengerName");
             }
         }
@@ -213,7 +213,7 @@ namespace Planzy.Models.BookingSticketModel
             {
                 if (value != null)
                 {                    
-                        address = value.ToUpper();
+                    address = value.ToUpper();
                 }
                 OnPropertyChanged("Address");
             }
@@ -228,7 +228,6 @@ namespace Planzy.Models.BookingSticketModel
             {
                 if (value != null)
                 {
-                    if (KiemTraHopLeInput.CheckAddress(value))
                         request = value.ToUpper();
                 }
                 OnPropertyChanged("Request");

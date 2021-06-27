@@ -121,7 +121,7 @@ namespace Planzy.Models.BanVe
             get { return passenger; }
             set
             {
-                passenger = value;
+                passenger = value.ToUpper();
                 OnPropertyChanged("Passenger");
             }
         }
@@ -218,7 +218,7 @@ namespace Planzy.Models.BanVe
             get { return address; }
             set
             {
-                address = value;
+                address = value.ToUpper();
                 OnPropertyChanged("Address");
             }
         }
@@ -230,7 +230,7 @@ namespace Planzy.Models.BanVe
             get { return request; }
             set
             {
-                request = value;
+                request = value.ToUpper();
                 OnPropertyChanged("Request");
             }
         }
