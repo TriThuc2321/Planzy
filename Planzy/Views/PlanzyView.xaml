@@ -2738,7 +2738,7 @@
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
 
-                                            <GridViewColumn Header="Sân Bay Đến" Width="150">
+                                            <GridViewColumn Header="Sân Bay Đi" Width="150">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
@@ -2750,7 +2750,7 @@
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
 
-                                            <GridViewColumn Header="Sân Bay Đi" Width="150">
+                                            <GridViewColumn Header="Sân Bay Đến" Width="150">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
@@ -2761,7 +2761,7 @@
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
-
+                                            
                                             <GridViewColumn Header="Thông Tin Vé" Width="300">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
@@ -4137,7 +4137,7 @@
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
 
-                                            <GridViewColumn Header="Sân Bay Đến" Width="150">
+                                            <GridViewColumn Header="Sân Bay Đi" Width="150">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
@@ -4149,7 +4149,7 @@
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
 
-                                            <GridViewColumn Header="Sân Bay Đi" Width="150">
+                                            <GridViewColumn Header="Sân Bay Đến" Width="150">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
@@ -4160,7 +4160,7 @@
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
-
+                                            
                                             <GridViewColumn Header="Thông Tin Vé" Width="300">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
