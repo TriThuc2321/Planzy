@@ -528,15 +528,21 @@ namespace Planzy.ViewModels
 
         public void DoiViTriSanBay()
         {
-            SanBay temp = new SanBay();
+            SanBay DiTam = new SanBay();
+            SanBay DenTam = new SanBay();
             if (SanBayDenDaChon != null && SanBayDiDaChon != null)
             {
-                temp.TenSanBay = SanBayDenDaChon.TenSanBay;
-                temp.Id = SanBayDenDaChon.Id;
-                SanBayDenDaChon.Id = SanBayDiDaChon.Id;
-                SanBayDenDaChon.TenSanBay = SanBayDiDaChon.TenSanBay;
-                SanBayDiDaChon.Id = temp.Id;
-                SanBayDiDaChon.TenSanBay = temp.TenSanBay;
+                //temp.TenSanBay = SanBayDenDaChon.TenSanBay;
+                //temp.Id = SanBayDenDaChon.Id;
+                //SanBayDenDaChon.Id = SanBayDiDaChon.Id;
+                //SanBayDenDaChon.TenSanBay = SanBayDiDaChon.TenSanBay;
+                //SanBayDiDaChon.Id = temp.Id;
+                //SanBayDiDaChon.TenSanBay = temp.TenSanBay;
+                huyThemSanBayTrungGian();
+                DiTam = SanBayDiDaChon;
+                DenTam = SanBayDenDaChon;
+                SanBayDenDaChon = DiTam;
+                SanBayDiDaChon = DenTam;
             }
             IsFocusGiaChuyenBay = "True";
         }
@@ -1002,6 +1008,7 @@ namespace Planzy.ViewModels
                             newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
                             newSanBay.MaSanBayTruoc = SanBayDiDaChon.Id;
                             newSanBay.MaSanBaySau = SanBayTrungGiansList[index].MaSanBay;
+                            SanBayTrungGiansList[index].MaSanBayTruoc = newSanBay.MaSanBay;
                             newSanBay.ThoiGianDung = ThoiGianDungSapThem;
 
                             ViTriSanBayTrungGianDuocThem = index;
@@ -1016,6 +1023,7 @@ namespace Planzy.ViewModels
                             newSanBay.TenSanBay = SanBayTrungGianSapThem.TenSanBay;
                             newSanBay.MaSanBayTruoc = SanBayTrungGiansList[index - 1].MaSanBay;
                             newSanBay.MaSanBaySau = SanBayTrungGiansList[index].MaSanBay;
+                            SanBayTrungGiansList[index].MaSanBayTruoc = newSanBay.MaSanBay;
                             newSanBay.ThoiGianDung = ThoiGianDungSapThem;
 
                             ViTriSanBayTrungGianDuocThem = index;

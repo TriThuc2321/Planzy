@@ -42,7 +42,7 @@ namespace Planzy.Models.SanBayModel
 
         public override string ToString()
         {
-            return Id + " - " + TenSanBay;
+            return Id + "   " + " - " + TenSanBay;
         }
         
     }
