@@ -219,13 +219,14 @@ namespace Planzy.ViewModels
             reviewBieuDoCommand = new RelayCommand(reviewBieuDo);
             troVeBieuDoCommand = new RelayCommand(troVeBieuDo);
             xuatPDFVisualCommand = new RelayCommand(xuatPDFVisual);
+            xoaDuLieuBieuDoCommand = new RelayCommand(xoaDuLieuBieuDo);
 
             chuyenBayTimer = new DispatcherTimer();
             chuyenBayTimer.Interval = TimeSpan.FromSeconds(2);
             chuyenBayTimer.Tick += denGioBay;
             chuyenBayTimer.Start();
             #endregion
-
+            
             #region Tham số quy định
             ThamSoQuyDinh.LoadThamSoQuyDinhTuSQL();
             ThoiGianBayToiThieu = ThamSoQuyDinh.THOI_GIAN_BAY_TOI_THIEU;
@@ -1819,6 +1820,8 @@ namespace Planzy.ViewModels
                 }
             }
             ChuyenBayHienTai.ChiTietHangGhesList = ChiTietHangGhesList;
+            IsVisible = "Hidden";
+            IsDropDown = "False";
 
             #region Cập nhật dữ liệu
             if (chuyenBayServices.Add(ChuyenBayHienTai))
@@ -1874,9 +1877,9 @@ namespace Planzy.ViewModels
             isDangSua = true;
             IsReadOnlyMaChuyenBay = "False";
             IsVisibleLuuChuyenBay = "Visible";
-            IsVisibleSuaChuyenBay = "Hidden";
-            IsVisibleXoaChuyenBay = "Hidden";
-            IsVisibleNhanLichChuyenBay = "Hidden";
+            IsVisibleSuaChuyenBay = "Collapsed";
+            IsVisibleXoaChuyenBay = "Collapsed";
+            IsVisibleNhanLichChuyenBay = "Collapsed";
             SanBayDiDaChon = ChuyenBayDaChon.SanBayDi;
             SanBayDenDaChon = ChuyenBayDaChon.SanBayDen;
             SanBayTrungGiansList = ChuyenBayDaChon.SanBayTrungGian;
@@ -2117,9 +2120,9 @@ namespace Planzy.ViewModels
             //{
 
             //}    
-            IsVisibleLuuChuyenBay = "Hidden";
+            IsVisibleLuuChuyenBay = "Collapsed";
             IsVisibleNhanLichChuyenBay = "Visible";
-            IsVisibleSuaChuyenBay = "Hidden";
+            IsVisibleSuaChuyenBay = "Collapsed";
             IsVisible = "Hidden";
             IsDropDown = "False";
             ChuyenBayDaChon = null;
@@ -2169,8 +2172,8 @@ namespace Planzy.ViewModels
                 }
                 LoadUIHangGheTheoQuyDinh();
                 IsVisibleNhanLichChuyenBay = "Visible";
-                IsVisibleSuaChuyenBay = "Hidden";
-                IsVisibleLuuChuyenBay = "Hidden";
+                IsVisibleSuaChuyenBay = "Collapsed";
+                IsVisibleLuuChuyenBay = "Collapsed";
                 ChuyenBayDaChon = null;
                 resetNhapChuyenBay();
                 #endregion
@@ -2210,12 +2213,15 @@ namespace Planzy.ViewModels
                 }
                 LoadUIHangGheTheoQuyDinh();
                 IsVisibleNhanLichChuyenBay = "Visible";
-                IsVisibleSuaChuyenBay = "Hidden";
-                IsVisibleLuuChuyenBay = "Hidden";
+                IsVisibleSuaChuyenBay = "Collapsed";
+                IsVisibleLuuChuyenBay = "Collapsed";
                 ChuyenBayDaChon = null;
+
+                IsVisible = "Hidden";
+                IsDropDown = "False";
                 resetNhapChuyenBay();
             }
-        }
+        }//FF80E66A xanh đỏ FFE05050
         #endregion
         #region Load giao diện nhập hạng ghế
         private string isVisibleHang1 = "Visible";
@@ -3690,6 +3696,14 @@ namespace Planzy.ViewModels
             get { return isVisibleExportBaoCao; }
             set { isVisibleExportBaoCao = value; OnPropertyChanged("IsVisibleExportBaoCao"); }
         }
+        private string isVisibleXoaDuLieu = "Hidden";
+
+        public string IsVisibleXoaDuLieu
+        {
+            get { return isVisibleXoaDuLieu; }
+            set { isVisibleXoaDuLieu = value; OnPropertyChanged("IsVisibleXoaDuLieu"); }
+        }
+
         private RelayCommand reviewBieuDoCommand;
         public RelayCommand ReviewBieuDoCommand
         {
@@ -3704,6 +3718,11 @@ namespace Planzy.ViewModels
         public RelayCommand XuatPDFVisualCommand
         {
             get { return xuatPDFVisualCommand; }
+        }
+        private RelayCommand xoaDuLieuBieuDoCommand;
+        public RelayCommand XoaDuLieuBieuDoCommand
+        {
+            get { return xoaDuLieuBieuDoCommand; }
         }
         public void reviewBieuDo()
         {
@@ -3752,6 +3771,16 @@ namespace Planzy.ViewModels
             {
                 printDialog.PrintVisual((Grid)view, "test");
                 CustomMessageBox.Show("Xuất file thành công", "Thông báo");
+            }
+        }
+        public void xoaDuLieuBieuDo()
+        {
+            MessageBoxResult rs = CustomMessageBox.Show("Dữ liệu đã xóa không thể phục hồi, tiếp tục?", "Cảnh báo", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            if (rs == MessageBoxResult.OK)
+            {
+                doanhThuThangServices.XoaDuLieu(DanhSachNamDaChon, ThangTrongDoanhThuDaChon);
+                doanhThuThangDaChon = doanhThuThangServices.doanhThuThangs[Convert.ToInt32(ThangTrongDoanhThuDaChon) - 1].doanhThuServices.doanhThus;
+                OnPropertyChanged("doanhThuThangDaChon");
             }
         }
         private MyDatetime ngayLapBaoCao = new MyDatetime();
@@ -4949,6 +4978,7 @@ namespace Planzy.ViewModels
             IsVisibleButtonDoanhThu = "Visible";GridRowButtonDoanhThu = "4";
             IsVisibleButtonCaiDat = "Visible"; GridRowButtonCaiDat = "6";
             GridRowButtonNguoiDung = "5";
+            IsVisibleXoaDuLieu = "Visible";
         }
         public void LoadPhanQuyenNhanVien()
         {
