@@ -21,7 +21,7 @@ namespace Planzy.Models.BookingSticketModel
             {
                 BookingSticketConnection.Open();
                 string query = string.Format("INSERT INTO PHIEU_DAT_CHO " +
-                    "VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}')",
+                    "VALUES('{0}', '{1}', '{2}', N'{3}', '{4}', '{5}', '{6}', '{7}', '{8}', N'{9}', N'{10}')",
                     sticket.BookingSticketID, sticket.FlightID, sticket.SticketTypeID,
                     sticket.PassengerName, sticket.CMND, sticket.Contact, sticket.Cost.Replace(" VND",""),
                     sticket.BookingDate, sticket.Gmail, sticket.Address, sticket.Request);

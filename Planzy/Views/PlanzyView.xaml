@@ -2645,7 +2645,7 @@
                                     Width="200"
                                     BorderBrush="{x:Null}"
                                     Content="Vé đã đặt" 
-                                    Command="{Binding chooseBookedSticketCommand}"
+                                    Command="{Binding chooseSoldTicketCommand}"
                                     Background="SkyBlue"
                                         Margin="30 0 0 0"
                                     />
@@ -2815,7 +2815,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="150"/>
-                                                            <TextBox Width="150" Text="{Binding SoLuongGheConLai }" 
+                                                            <TextBox Width="150" Text="{Binding SoLuongGheConLai,StringFormat='{}{0} Vé'}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              IsReadOnly="True"
@@ -3393,7 +3393,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"
                                            Width="150"/>
-                                                            <TextBox Width="150" Text="{Binding SoLuongGheConLai }" 
+                                                            <TextBox Width="150" Text="{Binding SoLuongGheConLai,StringFormat='{}{0} Vé'}" 
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
                                              IsReadOnly="True"
@@ -4059,6 +4059,122 @@
                             </ScrollViewer>
 
 
+
+                        </Grid>
+                        <Grid x:Name ="gr_Vedaban" Background="White" Visibility="{Binding IsDuocChon7_SoldTicket.NewVisibility}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60"></RowDefinition>
+                                <RowDefinition ></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <StackPanel  Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Background="CadetBlue">
+                                <Button Width="100" Margin="10 0 0 0" FontSize="15" Background="White" Content="Quay lại" BorderBrush="{x:Null}"
+                                         Command="{Binding chooseBack_SoldTicketComamnd}"
+                                                               Height="35"></Button>
+                                <TextBlock Text="Vé Đã Bán"  FontSize="25"
+                                       FontWeight="Bold" Margin="220 15 0 0" FontFamily="Calibri"></TextBlock>
+                            </StackPanel>
+                            <Grid  Grid.Column="1"
+                                      Grid.Row="1"
+                                   Background="White">
+                                <ListView x:Name="lvsSoldTicket" 
+                                          ItemsSource="{Binding ListSoldTicket}" 
+                                    
+                                      Margin="5 0 0 0"
+                                      Background="Teal"
+                                         >
+
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Mã Vé" Width="200">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal" Background="White">
+                                                            <Button Content=" Hủy vé " 
+                                                                Background="LightBlue"
+                                                                
+                                                              Command="{Binding ElementName= lvsSoldTicket, Path= DataContext.ChooseDeleteButtonCommand_SoldTicket}"
+                                                                CommandParameter="{Binding}"
+                                                             Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                                            ></Button>
+                                                            <TextBlock Text=" "></TextBlock>
+                                                            <TextBlock Text="{Binding TicketId}"  
+                                                                   Margin="0 5 0 0"
+                                                        FontSize="15"></TextBlock>
+                                                            <TextBlock Text="   "></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="Ngày Bay" Width="150">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding FlownDate}"
+                                                                    Margin="0 5 0 0"></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Sân Bay Đến" Width="150">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Departure}"
+                                                                    Margin="0 5 0 0"></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Sân Bay Đi" Width="150">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Destination}"
+                                                                    Margin="0 5 0 0"></TextBlock>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Thông Tin Vé" Width="300">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Vertical">
+
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="Tên khách hàng : "></TextBlock>
+                                                                <TextBlock Text="{Binding Passenger}"></TextBlock>
+                                                            </StackPanel>
+
+
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="Số CMND : "></TextBlock>
+                                                                <TextBlock Text="{Binding CMND}"></TextBlock>
+                                                            </StackPanel>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="Hạng ghế : "></TextBlock>
+                                                                <TextBlock Text="{Binding TicketTypeId}"></TextBlock>
+                                                            </StackPanel>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="Ngày đặt vé : "></TextBlock>
+                                                                <TextBlock  Text="{Binding SaleDate}"></TextBlock>
+                                                            </StackPanel>
+
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
 
                         </Grid>
                     </Grid>

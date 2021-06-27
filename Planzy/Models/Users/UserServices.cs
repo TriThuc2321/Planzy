@@ -178,7 +178,7 @@ namespace Planzy.Models.Users
         }
         public bool IsCMND(string cmnd)
         {
-            if (cmnd.Length != 9) return false;
+            if (cmnd.Length < 9 || cmnd.Length > 12) return false;
             for (int i = 0; i < cmnd.Length; i++)
             {
                 if (cmnd[i] < 48 || cmnd[i] > 57) return false;

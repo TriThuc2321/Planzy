@@ -1,5 +1,6 @@
 ﻿using Planzy.Models.ChuyenBayModel;
 using Planzy.Models.KiemTraModel;
+using Planzy.Resources.Component.CustomMessageBox;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -123,8 +124,10 @@ namespace Planzy.Models.BookingSticketModel
             {
                 if (value != null)
                 {
-                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
-                        cmnd = value.ToUpper();
+                    if (KiemTraHopLeInput.IsCMND(value))
+                        cmnd = value;
+                    else
+                        CustomMessageBox.Show("CMND không hợp lệ", "Nhắc nhở", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 }
                 OnPropertyChanged("CMND");
             }
@@ -138,8 +141,13 @@ namespace Planzy.Models.BookingSticketModel
             {
                 if (value != null)
                 {
-                    if (KiemTraHopLeInput.KiemTraChuoiSoNguyen(value))
-                        contact = value.ToUpper();
+                    if (value != null)
+                    {
+                        if (KiemTraHopLeInput.IsPhoneNumber(value))
+                            contact = value;
+                        else
+                            CustomMessageBox.Show("Số điện thoại không hợp lệ", "Nhắc nhở", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                    }
                 }
                 OnPropertyChanged("Contact");
             }
@@ -183,7 +191,15 @@ namespace Planzy.Models.BookingSticketModel
             get { return gmail; }
             set
             {
-                gmail = value;
+
+                if (KiemTraHopLeInput.IsEmail(value))
+                {
+                    gmail = value;
+                }
+                else
+                {
+                    CustomMessageBox.Show("Email không hợp lệ", "Nhắc nhở", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                }
                 OnPropertyChanged("Gmail");
             }
         }
