@@ -2631,7 +2631,7 @@
                                     <Button
                                         FontSize="12"
                                         FontWeight="Bold"
-                                    Width="200"                                
+                                    Width="150"                                
                                     Content="Cập nhật thông tin" 
                                     Background="SkyBlue"
                                         Margin="0 0 0 0"
@@ -2641,10 +2641,10 @@
                                     <Button
                                         FontSize="12"
                                         FontWeight="Bold"
-                                        Visibility="{Binding IsVisibleButtonVeDaDat}"
-                                    Width="200"
+                                        Visibility="{Binding IsVisibleButtonVeDaBan}"
+                                    Width="150"
                                     BorderBrush="{x:Null}"
-                                    Content="Vé đã đặt" 
+                                    Content="Vé đã bán" 
                                     Command="{Binding chooseSoldTicketCommand}"
                                     Background="SkyBlue"
                                         Margin="30 0 0 0"
@@ -2652,7 +2652,18 @@
                                     <Button
                                         FontSize="12"
                                         FontWeight="Bold"
-                                    Width="200"
+                                        Visibility="{Binding IsVisibleButtonVeDaDat}"
+                                    Width="150"
+                                    BorderBrush="{x:Null}"
+                                    Content="Vé đã đặt" 
+                                    Command="{Binding chooseBookedSticketCommand}"
+                                    Background="SkyBlue"
+                                        Margin="30 0 0 0"
+                                    />
+                                    <Button
+                                        FontSize="12"
+                                        FontWeight="Bold"
+                                    Width="150"
                                     BorderBrush="{x:Null}"
                                     Content="Đăng xuất" 
                                     Background="SkyBlue"
@@ -4177,6 +4188,8 @@
                             </Grid>
 
                         </Grid>
+
+                        
                     </Grid>
                     
                 </Border>
