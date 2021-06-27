@@ -158,7 +158,7 @@ namespace Planzy.LoginRegister
             timerUI.Stop();
             MainWindow mainForm = new MainWindow(temp_email);
             mainForm.Show();
-            parentView.Close();
+            parentView.Close(); 
         }
 
         public bool IsConnectedToInternet()
@@ -322,14 +322,47 @@ namespace Planzy.LoginRegister
             }
 
         }
+        void sendEmail_FirstLogin(string email)
+        {
+            string from, pass, messageBody;
+            Random rand = new Random();
+            string randomCode = (rand.Next(999999)).ToString();
+            MailMessage message = new MailMessage();
+            string to = email;
+            from = "planzyapplycation@gmail.com";
+            pass = "ThucThienThang123";
+            messageBody = "    Bạn đã đăng nhập thành công vào Planzy, mật khẩu mặc định của bạn là: " + tempPassword + "\n\n" + "____________________________________\n"
+                 + "   Mọi thắc mắc xin liên lạc với chúng tôi qua địa chỉ email: planzyapplication@gmail.com hoặc qua số hotline : (+84) 834344655";
+            message.To.Add(to);
+            message.From = new MailAddress(from);
+            message.Body = messageBody;
+            message.Subject = "Đăng nhập thành công";
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+            smtp.EnableSsl = true;
+            smtp.Port = 587;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.Credentials = new NetworkCredential(from, pass);
+            try
+            {
+                smtp.Send(message);
 
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+        string tempPassword;
         void setNewUser()
         {
             user = new User();
             user.ID = userServices.getIdUserDefault();
             user.Name = profileResponse.family_name + " " + profileResponse.given_name;
             user.Gmail = profileResponse.email;
-            user.Password = "c4ca4238a0b923820dcc509a6f75849b";
+            tempPassword = RandomString(6);
+            user.Password = userServices.Encode(tempPassword);
             user.PhoneNumer = "";
             user.CMND = "";
             user.Address = "";
@@ -347,6 +380,15 @@ namespace Planzy.LoginRegister
             else
                 return false;
         }
+
+        private  Random random = new Random();
+        public string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         #region Login google
         public const string clientId = "147215247319-dgmnt8q8l4rf4lu22hl7njqg7jo29l94.apps.googleusercontent.com";
         public const string clientSecret = "ogfkpR8xxt6fkP2TQw7QNJCU";
@@ -368,6 +410,7 @@ namespace Planzy.LoginRegister
             if (!userServices.ExistEmail(profileResponse.email))
             {
                 setNewUser();
+                sendEmail_FirstLogin(profileResponse.email);
                 userServices.pushUserToSql(user);
             }
 
@@ -559,6 +602,8 @@ namespace Planzy.LoginRegister
             get { return accountNotNullVisibility; }
             set { accountNotNullVisibility = value; OnPropertyChanged("AccountNotNullVisibility"); }
         }
+
+        public string KiemTraInput { get; private set; }
     }
 }
 
