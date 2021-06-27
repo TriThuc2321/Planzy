@@ -4110,6 +4110,7 @@
                                                             <TextBlock Text=" "></TextBlock>
                                                             <TextBlock Text="{Binding TicketId}"  
                                                                    Margin="0 5 0 0"
+                                                                       Width="auto"
                                                         FontSize="15"></TextBlock>
                                                             <TextBlock Text="   "></TextBlock>
 

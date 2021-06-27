@@ -89,7 +89,7 @@ namespace Planzy.Models.BanVe
                 SellTicketConnection.Open();
                 #region Truy vấn dữ liệu từ sql
                 string query = String.Format("Select distinct * from CHI_TIET_BAN_VE a, VE_CHUYEN_BAY b, CHUYEN_BAY c" +
-                    " where a.MA_VE = b.MA_VE and b.MA_CHUYEN_BAY = c.MA_CHUYEN_BAY and MA_TAI_KHOAN = '{0}'", account);
+                    " where a.MA_VE = b.MA_VE and b.MA_CHUYEN_BAY = c.MA_CHUYEN_BAY ");
                 SqlCommand command = new SqlCommand(query, SellTicketConnection);
                 command.CommandType = CommandType.Text;
                 SqlDataAdapter adapter = new SqlDataAdapter(command);

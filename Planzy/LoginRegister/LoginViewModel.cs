@@ -66,7 +66,7 @@ namespace Planzy.LoginRegister
             LoginCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoginClick(p); });
             PasswordChangCommand = new RelayCommand2<PasswordBox>((p) => { return true; }, (p) => { Password = userServices.Encode(p.Password); });
             LoadWindowCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { LoadWindow(p); });
-            ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { timer.Stop(); p.Close(); });
+            ExitCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { timer.Stop(); p.Close(); checkBoxClick(); CreateTxt(); });
             RegisterCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenRegisterWindow(p); });
             ForgotPasswordCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { OpenForgotPasswordWindow(p); });
             CheckBoxCommand = new RelayCommand2<Window>((p) => { return true; }, (p) => { checkBoxClick(); });
