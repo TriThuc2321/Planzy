@@ -34,7 +34,7 @@ namespace Planzy.Models.DoanhThuModel
                     int doanhThu = 0;
                     foreach (ChiTietHangGhe chiTietHangGhe in chuyenBay.ChiTietHangGhesList)
                     {
-                        doanhThu += (Convert.ToInt32(chiTietHangGhe.SoLuongGhe) - Convert.ToInt32(chiTietHangGhe.SoLuongGheConLai)) * Convert.ToInt32(chiTietHangGhe.TyLe) /100  * Convert.ToInt32(chuyenBay.GiaVeCoBan);
+                        doanhThu += (Convert.ToInt32(chiTietHangGhe.SoLuongGhe) - Convert.ToInt32(chiTietHangGhe.SoLuongGheConLai)) * Convert.ToInt32(chiTietHangGhe.TyLe) / 100 * Convert.ToInt32(chuyenBay.GiaVeCoBan);
                         tongSoVeDaBan += (Convert.ToInt32(chiTietHangGhe.SoLuongGhe) - Convert.ToInt32(chiTietHangGhe.SoLuongGheConLai));
                     }
                     tongDoanhThu += doanhThu;
@@ -46,15 +46,15 @@ namespace Planzy.Models.DoanhThuModel
                     doanhThuThang.NgayBay = chuyenBay.NgayBay;
                     doanhThuThang.NgayBayString = chuyenBay.NgayBay.ToShortDateString();
                     doanhThus.Add(doanhThuThang);
-                }    
+                }
             }
             tongDoanhThuTrieuDong = (float)tongDoanhThu / 1000000;
-            
-            for (int i = 0;i< doanhThus.Count;i++)
+
+            for (int i = 0; i < doanhThus.Count; i++)
             {
                 doanhThus[i].TyLe = doanhThus[i].DoanhThuTrieuDong / tongDoanhThuTrieuDong * 100;
                 ThemDoanhThuVaoSQL(doanhThus[i]);
-            }    
+            }
 
             var newList = doanhThus.OrderBy(e => e.NgayBay.Day);
             doanhThus = new ChartValues<DoanhThu>(newList);
@@ -68,7 +68,7 @@ namespace Planzy.Models.DoanhThuModel
         {
             this.doanhThus = new ChartValues<DoanhThu>();
             labels = new List<string>();
-            foreach(DoanhThu doanhThu in doanhThus)
+            foreach (DoanhThu doanhThu in doanhThus)
             {
                 this.doanhThus.Add(doanhThu);
                 tongDoanhThu += doanhThu.DoanhThuInt;
@@ -106,8 +106,8 @@ namespace Planzy.Models.DoanhThuModel
 
             for (int i = 0; i < doanhThus.Count; i++)
             {
-                if(doanhThus[i].DoanhThuInt !=0)
-                doanhThus[i].TyLe = (float) doanhThus[i].DoanhThuTrieuDong / tongDoanhThuTrieuDong * 100;
+                if (doanhThus[i].DoanhThuInt != 0)
+                    doanhThus[i].TyLe = (float)doanhThus[i].DoanhThuTrieuDong / tongDoanhThuTrieuDong * 100;
             }
 
             XoaTatCaChuyenBayThangSQLLichSuChuyenBay(doanhThus[0].NgayBay.Year.ToString(), doanhThus[0].NgayBay.Month.ToString());
@@ -143,7 +143,7 @@ namespace Planzy.Models.DoanhThuModel
             }
             return result;
         }
-        public bool XoaTatCaChuyenBayThangSQLLichSuChuyenBay(string Nam,string Thang)
+        public bool XoaTatCaChuyenBayThangSQLLichSuChuyenBay(string Nam, string Thang)
         {
             bool result;
             try
@@ -162,6 +162,8 @@ namespace Planzy.Models.DoanhThuModel
                 SanBayConnection.Close();
             }
             return result;
-        }    
+        }
+        public DoanhThuServices()
+        { }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 namespace Planzy.Models.DoanhThuThangModel
 {
-    class DoanhThuThang: INotifyPropertyChanged
+    class DoanhThuThang : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
@@ -30,6 +30,15 @@ namespace Planzy.Models.DoanhThuThangModel
         public DoanhThuThang(List<DoanhThu> doanhThus)
         {
             doanhThuServices = new DoanhThuServices(doanhThus);
+        }
+        public DoanhThuThang(string Thang)
+        {
+            this.Thang = Thang;
+            doanhThuServices = new DoanhThuServices();
+            SoChuyenBay = 0;
+            DoanhThu = 0;
+            DoanhThuTrieuDong = 0;
+            TyLe = 0;
         }
     }
 }
