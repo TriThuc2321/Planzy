@@ -1098,7 +1098,7 @@
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Button Grid.Column="0" Grid.Row="1"
+                                <Button Grid.Column="0" Grid.Row="1" Visibility="Hidden"
                                         Height="20"
                                         Width="26"
                                         Background="SkyBlue" BorderBrush="{x:Null}"
