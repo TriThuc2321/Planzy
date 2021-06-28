@@ -280,8 +280,6 @@
                                         <RowDefinition Height="50"/>
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-
-
                                 </Grid>
 
                                 <Grid Grid.Column="0">
@@ -3065,428 +3063,7 @@
 
 
                         </Grid>
-                        <Grid Name ="gr_Setting" Background="White" Visibility="{Binding IsDuocChon8.NewVisibility}">
-                            <Grid Margin=" 15">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="100"></RowDefinition>
-                                    <RowDefinition Height="100"></RowDefinition>
-                                    <RowDefinition Height="80"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0">
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Content="Quy định về chuyến bay và sân bay: "
-                                           VerticalContentAlignment="Bottom"
-                                           HorizontalAlignment="Left"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="Auto"
-                                           Margin="0 0 0 0"/>
-                                        <StackPanel Grid.Row="1" Grid.Column="0" 
-                                                Orientation="Horizontal"
-                                                Margin="20 0 0 0">
-                                            <Label Content="Thời gian bay tối thiểu: "
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"/>
-                                            <TextBox Width="30"
-                                                VerticalContentAlignment="Bottom"
-                                                FontSize="15"
-                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                Text="{Binding ThoiGianBayToiThieu}"
-                                                 ToolTip="Phút"
-                                                />
-                                            <Label Content="Số sân bay trung gian tối đa: "
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"
-                                                Margin="10 0 0 0"/>
-                                            <TextBox Width="30"
-                                                VerticalContentAlignment="Bottom"
-                                                FontSize="15"
-                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                Text="{Binding SoSanBayTrungGianToiDa}"
-                                                 ToolTip="Số nguyên dương"
-                                                />
-                                            <Label Content="Thời gian dừng từ: "
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"
-                                                Margin="10 0 0 0"/>
-                                            <TextBox Width="30"
-                                                VerticalContentAlignment="Bottom"
-                                                FontSize="15"
-                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 ToolTip="Phút"
-                                                 Text="{Binding ThoiGianDungToiThieu}"
-                                                />
-                                            <Label Content="đến: "
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"
-                                                Margin="10 0 0 0"/>
-                                            <TextBox Width="30"
-                                                VerticalContentAlignment="Bottom"
-                                                FontSize="15"
-                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 ToolTip="Phút"
-                                                 Text="{Binding ThoiGianDungToiDa}"
-                                                />
-                                        </StackPanel>
-                                        <Grid>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
-                                            Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                                <Button Content="Thêm sân bay" VerticalAlignment="Center" Margin="5"
-                                                HorizontalAlignment="Center"
-                                                Width="100"
-                                                Height="30"
-                                                Padding="4"
-                                                Foreground="#000"  
-                                                Background="SkyBlue"
-                                                FontSize="12" 
-                                                FontWeight="Bold" 
-                                                BorderBrush="{x:Null}"
-                                                    Command="{Binding ThemSanBayQuyDinhCommand}"
-                                                />
-                                                <Button Content="Xóa" VerticalAlignment="Center" Margin=" 5"
-                                                HorizontalAlignment="Center"
-                                                Width="100"
-                                                Height="30"
-                                                Padding="4"
-                                                Foreground="#000"  
-                                                Background="SkyBlue" 
-                                                FontSize="12" 
-                                                FontWeight="Bold" 
-                                                BorderBrush="{x:Null}"
-                                                    Command="{Binding XoaSanBayQuyDinhCommand}"
-                                                />
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Margin="20 0 0 0"
-                                            Orientation="Horizontal" HorizontalAlignment="Left">
-                                                <Label Content="Danh sách sân bay: "
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"/>
-                                                <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
-                                              VerticalAlignment="Bottom" Width="230"
-                                              FontSize="15"
-                                              FontWeight="Bold" BorderBrush="#FF5867AC"
-                                              Foreground="Black"                                              
-                                              ItemsSource="{Binding SanBaysQuyDinh}"
-                                              SelectedItem="{Binding SanBayQuyDinhDaChon}"        >
-                                                    <ComboBox.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Text="{Binding Id}" Width="40"/>
-                                                                <TextBlock Text=" - " Width="20"/>
-                                                                <TextBlock Text="{Binding TenSanBay}" Width="130"/>
-                                                            </StackPanel>
-                                                        </DataTemplate>
-                                                    </ComboBox.ItemTemplate>
-                                                </ComboBox>
-                                            </StackPanel>
-                                        </Grid>
-
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Grid.Row="1">
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Content="Quy định về hạng vé: "
-                                           VerticalContentAlignment="Bottom"
-                                           HorizontalAlignment="Left"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="Auto"
-                                           Margin="0 0 0 0"/>
-                                        <StackPanel Grid.Row="1" Grid.Column="0" 
-                                                Orientation="Horizontal"
-                                                Margin="20 0 0 0">
-                                            <Label Content="Mã hạng vé: "
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"/>
-                                            <Label Width="20"
-                                                VerticalContentAlignment="Bottom"
-                                                FontSize="15"
-                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 Content="{Binding TicketType_Setting.MaLoaiHangGhe}"
-                                                />
-                                            <Label Content="Tên hạng vé: "
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"
-                                                Margin="10 0 0 0"/>
-                                            <TextBox Width="100"
-                                                VerticalContentAlignment="Bottom"
-                                                FontSize="15"
-                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 Text="{Binding TicketType_Setting.TenLoaiHangGhe}"
-                                                />
-                                            <Label Content="Tỷ lệ: "
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"
-                                               Margin="10 0 0 0"/>
-                                            <TextBox Width="30"
-                                                VerticalContentAlignment="Bottom"
-                                                FontSize="15"
-                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 Text="{Binding TicketType_Setting.TyLe}"
-                                                />
-                                            <Label Content="%"
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"/>
-                                            <Label Content="Danh sách: "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="Auto"
-                                               Margin="5 0 0 0"/>
-                                            <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
-                                              VerticalAlignment="Bottom" Width="220"
-                                              FontSize="12"
-                                              FontWeight="Bold" BorderBrush="#FF5867AC"
-                                              SelectedItem="{Binding TicketType_Setting}"
-                                              Foreground="Black"                                              
-                                              ItemsSource="{Binding ListTicketType_Setting}"
-                                              >
-                                                <ComboBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding MaLoaiHangGhe}" Width="20"/>
-                                                            <TextBlock Text=" - " Width="20"/>
-                                                            <TextBlock Text="{Binding TenLoaiHangGhe}" Width="100"/>
-                                                            <TextBlock Text=" - " Width="20"/>
-                                                            <TextBlock Text="{Binding TyLe, StringFormat='{}{0}%'}" Width="30"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ComboBox.ItemTemplate>
-                                            </ComboBox>
-                                        </StackPanel>
-                                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
-                                            Orientation="Horizontal" HorizontalAlignment="Right">
-                                            <Button Content="Thêm" VerticalAlignment="Center" Margin="5"
-                                                HorizontalAlignment="Center"
-                                                Width="100"
-                                                Height="30"
-                                                Padding="4"
-                                                Foreground="#000"  
-                                                Background="SkyBlue"
-                                                FontSize="12" 
-                                                FontWeight="Bold" 
-                                                BorderBrush="{x:Null}"
-                                                Command="{Binding InsertTickTypeCommand_Setting}"
-                                                />
-                                            <Button Content="Xóa" VerticalAlignment="Center" Margin=" 5"
-                                                HorizontalAlignment="Center"
-                                                Width="100"
-                                                Height="30"
-                                                Padding="4"
-                                                Foreground="#000"  
-                                                Background="SkyBlue" 
-                                                FontSize="12" 
-                                                FontWeight="Bold" 
-                                                BorderBrush="{x:Null}"
-                                                Command="{Binding DeleteTickTypeCommand_Setting}"
-                                                />
-                                            <!--<Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
-                                                HorizontalAlignment="Center"
-                                                Width="100"
-                                                Height="30"
-                                                Padding="4"
-                                                Foreground="#000"  
-                                                Background="SkyBlue"
-                                                FontSize="12"
-                                                FontWeight="Bold"
-                                                BorderBrush="{x:Null}"
-                                                Command="{Binding ResetTickTypeCommand_Setting}"
-                                                />-->
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Grid.Row="2">
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Content="Quy định đặt vé: "
-                                           VerticalContentAlignment="Bottom"
-                                           HorizontalAlignment="Left"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="Auto"
-                                           Margin="0 0 0 0"/>
-                                        <StackPanel Grid.Row="1" Grid.Column="0" 
-                                                Orientation="Horizontal"
-                                                Margin="20 0 0 0">
-                                            <Label Content="Thời gian chậm nhất hủy vé trước giờ bay: "
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"/>
-                                            <TextBox Width="30"
-                                                VerticalContentAlignment="Bottom"
-                                                FontSize="15"
-                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                Text="{Binding ThoiGianHuyVeTreNhat}"
-                                                 ToolTip="Giờ"
-                                                />
-                                            <Label Content="Thời gian chậm nhất đặt vé trước giờ bay: "
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"
-                                                Margin="10 0 0 0"/>
-                                            <TextBox Width="30"
-                                                VerticalContentAlignment="Bottom"
-                                                FontSize="15"
-                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                Text="{Binding ThoiGianDatVeTreNhat}"
-                                                 ToolTip="Giờ"
-                                                />
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Grid.Row="4">
-                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
-                                            Orientation="Horizontal" HorizontalAlignment="Right"
-                                            VerticalAlignment="Bottom">
-                                        <Button Content="Lưu" VerticalAlignment="Center" Margin=" 5"
-                                                HorizontalAlignment="Center"
-                                                Width="100"
-                                                Height="30"
-                                                Padding="4"
-                                                Foreground="#000"  
-                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
-                                                Command="{Binding SaveCommand_Setting}"
-                                            />
-                                        <Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
-                                                HorizontalAlignment="Center"
-                                                Width="100"
-                                                Height="30"
-                                                Padding="4"
-                                                Foreground="#000"  
-                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
-                                                Command="{Binding ResetTickTypeCommand_Setting}"    
-                                            />
-                                    </StackPanel>
-                                </Grid>
-
-                                <Grid Grid.Row="3" Visibility="Hidden">
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Content="Quản lý nhân viên: "
-                                           VerticalContentAlignment="Bottom"
-                                           HorizontalAlignment="Left"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="Auto"
-                                           Margin="0 0 0 0"/>
-                                        <StackPanel Grid.Row="1" Grid.Column="0" 
-                                                Orientation="Horizontal"
-                                                Margin="20 0 0 0">
-                                            <Label Content="Tài khoản: "
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"/>
-                                            <Label Width="60"
-                                                VerticalContentAlignment="Bottom"
-                                                FontSize="15"
-                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 Content="{Binding TicketType_Setting.MaLoaiHangGhe}"
-                                                />
-                                            <Label Content="Tên nhân viên:"
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"
-                                                Margin="10 0 0 0"/>
-                                            <TextBox Width="100"
-                                                VerticalContentAlignment="Bottom"
-                                                FontSize="15"
-                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 Text="{Binding TicketType_Setting.TenLoaiHangGhe}"
-                                                />
-                                            <Label Content="Email:"
-                                                VerticalContentAlignment="Bottom"
-                                                FontWeight="Bold"
-                                                Foreground="#FF5867AC"
-                                                Width="Auto"
-                                               Margin="10 0 0 0"/>
-                                            <TextBox Width="30"
-                                                VerticalContentAlignment="Bottom"
-                                                FontSize="15"
-                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
-                                                 Text="{Binding TicketType_Setting.TyLe}"
-                                                />
-
-                                            <Label Content="Danh sách: "
-                                           VerticalContentAlignment="Bottom"
-                                           FontWeight="Bold"
-                                           Foreground="#FF5867AC"
-                                           Width="Auto"
-                                               Margin="5 0 0 0"/>
-                                            <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
-                                              VerticalAlignment="Bottom" Width="220"
-                                              FontSize="12"
-                                              FontWeight="Bold" BorderBrush="#FF5867AC"
-                                              SelectedItem="{Binding TicketType_Setting}"
-                                              Foreground="Black"                                              
-                                              ItemsSource="{Binding ListTicketType_Setting}"
-                                              >
-                                                <ComboBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding MaLoaiHangGhe}" Width="20"/>
-                                                            <TextBlock Text=" - " Width="20"/>
-                                                            <TextBlock Text="{Binding TenLoaiHangGhe}" Width="100"/>
-                                                            <TextBlock Text=" - " Width="20"/>
-                                                            <TextBlock Text="{Binding TyLe, StringFormat='{}{0}%'}" Width="30"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ComboBox.ItemTemplate>
-                                            </ComboBox>
-                                        </StackPanel>
-                                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
-                                            Orientation="Horizontal" HorizontalAlignment="Right">
-                                            <Button Content="Thêm" VerticalAlignment="Center" Margin="5"
-                                                HorizontalAlignment="Center"
-                                                Width="100"
-                                                Height="30"
-                                                Padding="4"
-                                                Foreground="#000"  
-                                                Background="SkyBlue"
-                                                FontSize="12" 
-                                                FontWeight="Bold" 
-                                                BorderBrush="{x:Null}"
-                                                Command="{Binding InsertTickTypeCommand_Setting}"
-                                                />
-                                            <Button Content="Xóa" VerticalAlignment="Center" Margin=" 5"
-                                                HorizontalAlignment="Center"
-                                                Width="100"
-                                                Height="30"
-                                                Padding="4"
-                                                Foreground="#000"  
-                                                Background="SkyBlue" 
-                                                FontSize="12" 
-                                                FontWeight="Bold" 
-                                                BorderBrush="{x:Null}"
-                                                Command="{Binding DeleteTickTypeCommand_Setting}"
-                                                />
-
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                            </Grid>
-                        </Grid>
+                       
                         <Grid Name ="gr_ChiTietChuyenBay_SellTicket" Background="LightBlue" Visibility="{Binding IsDetailFlight_SellTicket.NewVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="10"></RowDefinition>
@@ -4272,7 +3849,7 @@
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
-                                            
+
                                             <GridViewColumn Header="Thông Tin Vé" Width="300">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
@@ -4309,7 +3886,470 @@
 
                         </Grid>
 
-                        
+                        <Grid Name ="gr_Setting" Background="White" Visibility="{Binding IsDuocChon8.NewVisibility}">
+                            <Grid Margin="15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="140"></RowDefinition>
+                                    <RowDefinition Height="140"></RowDefinition>
+                                    <RowDefinition Height="140"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Canvas>
+                                        <Grid>
+                                            <Border 
+                                                BorderBrush="#FF5867AC"                                                    
+                                                Width="710"
+                                                Height="120"
+                                                BorderThickness="1"
+                                                Margin="10 15 0 0"
+                                                ></Border>
+                                        </Grid>
+                                        <StackPanel Orientation="Vertical" Width="720">
+                                            <Label Content="Quy định về chuyến bay và sân bay: "
+                                           VerticalContentAlignment="Bottom"
+                                           HorizontalAlignment="Left"
+                                           FontWeight="UltraBold"
+                                           Foreground="#FF5867AC"
+                                           Width="Auto"
+                                           Margin="0 0 0 0"
+                                               FontSize="15"
+                                                   Background="White"/>
+                                            <StackPanel Grid.Row="1" Grid.Column="0" 
+                                                Orientation="Horizontal"
+                                                Margin="20 0 0 0">
+                                                <Label Content="Thời gian bay tối thiểu: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                                                <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                Text="{Binding ThoiGianBayToiThieu}"
+                                                 ToolTip="Phút"
+                                                />
+                                                <Label Content="Số sân bay trung gian tối đa: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                                <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                Text="{Binding SoSanBayTrungGianToiDa}"
+                                                 ToolTip="Số nguyên dương"
+                                                />
+                                                <Label Content="Thời gian dừng từ: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                                <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 ToolTip="Phút"
+                                                 Text="{Binding ThoiGianDungToiThieu}"
+                                                />
+                                                <Label Content="đến: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                                <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 ToolTip="Phút"
+                                                 Text="{Binding ThoiGianDungToiDa}"
+                                                />
+                                            </StackPanel>
+                                            <Grid>
+                                                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 35 0 0"
+                                            Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                    <Button Content="Thêm sân bay" VerticalAlignment="Bottom" Margin="5 0 5 0"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue"
+                                                FontSize="12" 
+                                                FontWeight="Bold" 
+                                                BorderBrush="{x:Null}"
+                                                    Command="{Binding ThemSanBayQuyDinhCommand}"
+                                                />
+                                                    <Button Content="Xóa" VerticalAlignment="Bottom" Margin=" 5 0 10 0"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" 
+                                                FontSize="12" 
+                                                FontWeight="Bold" 
+                                                BorderBrush="{x:Null}"
+                                                    Command="{Binding XoaSanBayQuyDinhCommand}"
+                                                />
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="1" Grid.Column="0" Margin="20 15 0 0"
+                                            Orientation="Horizontal" HorizontalAlignment="Left">
+                                                    <Label Content="Danh sách sân bay: "
+                                                VerticalContentAlignment="Top"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                                                    <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Top" Width="230"
+                                              FontSize="15"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              Foreground="Black"                                              
+                                              ItemsSource="{Binding SanBaysQuyDinh}"
+                                              SelectedItem="{Binding SanBayQuyDinhDaChon}"        >
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="{Binding Id}" Width="40"/>
+                                                                    <TextBlock Text=" - " Width="20"/>
+                                                                    <TextBlock Text="{Binding TenSanBay}" Width="130"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
+                                                    </ComboBox>
+                                                </StackPanel>
+                                            </Grid>
+
+                                        </StackPanel>
+                                    </Canvas>
+
+                                </Grid>
+                                <Grid Grid.Row="1">
+
+                                    <Grid>
+                                        <Grid>
+                                            <Border 
+                                                HorizontalAlignment="Left"
+                                                BorderBrush="#FF5867AC"                                                    
+                                                Width="710"
+                                                Height="120"
+                                                BorderThickness="1"
+                                                Margin="10 15 0 0"
+                                                ></Border>
+                                        </Grid>
+                                    </Grid>
+                                    <StackPanel Orientation="Vertical" >
+                                        <Label Content="Quy định về hạng vé: "
+                                           VerticalContentAlignment="Bottom"
+                                           HorizontalAlignment="Left"
+                                           FontWeight="UltraBold"
+                                           Foreground="#FF5867AC"
+                                               Background="White"
+                                           Width="Auto"
+                                               FontSize="15"
+                                           Margin="0 0 0 0"/>
+                                        <StackPanel Grid.Row="1" Grid.Column="0" 
+                                                Orientation="Horizontal"
+                                                Margin="20 0 0 0">
+                                            <Label Content="Mã hạng vé: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                                            <Label Width="20"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Content="{Binding TicketType_Setting.MaLoaiHangGhe}"
+                                                />
+                                            <Label Content="Tên hạng vé: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                            <TextBox Width="100"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Text="{Binding TicketType_Setting.TenLoaiHangGhe}"
+                                                />
+                                            <Label Content="Tỷ lệ: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                               Margin="10 0 0 0"/>
+                                            <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Text="{Binding TicketType_Setting.TyLe}"
+                                                />
+                                            <Label Content="%"
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                                            <Label Content="Danh sách: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="Auto"
+                                               Margin="5 0 0 0"/>
+                                            <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="220"
+                                              FontSize="12"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              SelectedItem="{Binding TicketType_Setting}"
+                                              Foreground="Black"                                              
+                                              ItemsSource="{Binding ListTicketType_Setting}"
+                                              >
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding MaLoaiHangGhe}" Width="20"/>
+                                                            <TextBlock Text=" - " Width="20"/>
+                                                            <TextBlock Text="{Binding TenLoaiHangGhe}" Width="100"/>
+                                                            <TextBlock Text=" - " Width="20"/>
+                                                            <TextBlock Text="{Binding TyLe, StringFormat='{}{0}%'}" Width="30"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 30 10 0"
+                                            Orientation="Horizontal" HorizontalAlignment="Right"
+                                                    >
+                                            <Button Content="Thêm" VerticalAlignment="Bottom" Margin="5 0 5 0"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue"
+                                                FontSize="12" 
+                                                FontWeight="Bold" 
+                                                BorderBrush="{x:Null}"
+                                                Command="{Binding InsertTickTypeCommand_Setting}"
+                                                />
+                                            <Button Content="Xóa" VerticalAlignment="Bottom" Margin=" 5 0 10 0"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" 
+                                                FontSize="12" 
+                                                FontWeight="Bold" 
+                                                BorderBrush="{x:Null}"
+                                                Command="{Binding DeleteTickTypeCommand_Setting}"
+                                                />
+                                            <!--<Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue"
+                                                FontSize="12"
+                                                FontWeight="Bold"
+                                                BorderBrush="{x:Null}"
+                                                Command="{Binding ResetTickTypeCommand_Setting}"
+                                                />-->
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <Grid>
+                                        <Border 
+                                            HorizontalAlignment="Left"
+                                                BorderBrush="#FF5867AC"                                                    
+                                                Width="720"
+                                                Height="120"
+                                                BorderThickness="1"
+                                                Margin="10 15 0 0"
+                                                ></Border>
+                                    </Grid>
+                                    <StackPanel Orientation="Vertical" >
+                                        <Label Content="Quy định đặt vé: "
+                                           VerticalContentAlignment="Bottom"
+                                           HorizontalAlignment="Left"
+                                           FontWeight="UltraBold"
+                                           Foreground="#FF5867AC"
+                                               Background="White"
+                                           Width="Auto"
+                                               FontSize="15"
+                                           Margin="0 0 0 0"/>
+                                        <StackPanel Grid.Row="1" Grid.Column="0" 
+                                                Orientation="Horizontal"
+                                                Margin="20 0 0 0">
+                                            <Label Content="Thời gian chậm nhất hủy vé trước giờ bay: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                                            <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                Text="{Binding ThoiGianHuyVeTreNhat}"
+                                                 ToolTip="Giờ"
+                                                />
+                                            <Label Content="Thời gian chậm nhất đặt vé trước giờ bay: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                            <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                Text="{Binding ThoiGianDatVeTreNhat}"
+                                                 ToolTip="Giờ"
+                                                />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Grid.Row="4">
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
+                                            Orientation="Horizontal" HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom">
+                                        <Button Content="Lưu" VerticalAlignment="Center" Margin=" 5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                Command="{Binding SaveCommand_Setting}"
+                                            />
+                                        <Button Content="Đặt lại" VerticalAlignment="Center" Margin="5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" FontSize="12" FontWeight="Bold" BorderBrush="{x:Null}"
+                                                Command="{Binding ResetTickTypeCommand_Setting}"    
+                                            />
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Grid.Row="3" Visibility="Hidden">
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Content="Quản lý nhân viên: "
+                                           VerticalContentAlignment="Bottom"
+                                           HorizontalAlignment="Left"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="Auto"
+                                           Margin="0 0 0 0"/>
+                                        <StackPanel Grid.Row="1" Grid.Column="0" 
+                                                Orientation="Horizontal"
+                                                Margin="20 0 0 0">
+                                            <Label Content="Tài khoản: "
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"/>
+                                            <Label Width="60"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Content="{Binding TicketType_Setting.MaLoaiHangGhe}"
+                                                />
+                                            <Label Content="Tên nhân viên:"
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                                Margin="10 0 0 0"/>
+                                            <TextBox Width="100"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Text="{Binding TicketType_Setting.TenLoaiHangGhe}"
+                                                />
+                                            <Label Content="Email:"
+                                                VerticalContentAlignment="Bottom"
+                                                FontWeight="Bold"
+                                                Foreground="#FF5867AC"
+                                                Width="Auto"
+                                               Margin="10 0 0 0"/>
+                                            <TextBox Width="30"
+                                                VerticalContentAlignment="Bottom"
+                                                FontSize="15"
+                                                FontWeight="Bold" BorderBrush="#FF5867AC" TabIndex="10"
+                                                 Text="{Binding TicketType_Setting.TyLe}"
+                                                />
+
+                                            <Label Content="Danh sách: "
+                                           VerticalContentAlignment="Bottom"
+                                           FontWeight="Bold"
+                                           Foreground="#FF5867AC"
+                                           Width="Auto"
+                                               Margin="5 0 0 0"/>
+                                            <ComboBox materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                                              VerticalAlignment="Bottom" Width="220"
+                                              FontSize="12"
+                                              FontWeight="Bold" BorderBrush="#FF5867AC"
+                                              SelectedItem="{Binding TicketType_Setting}"
+                                              Foreground="Black"                                              
+                                              ItemsSource="{Binding ListTicketType_Setting}"
+                                              >
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding MaLoaiHangGhe}" Width="20"/>
+                                                            <TextBlock Text=" - " Width="20"/>
+                                                            <TextBlock Text="{Binding TenLoaiHangGhe}" Width="100"/>
+                                                            <TextBlock Text=" - " Width="20"/>
+                                                            <TextBlock Text="{Binding TyLe, StringFormat='{}{0}%'}" Width="30"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 5 0 0"
+                                            Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button Content="Thêm" VerticalAlignment="Center" Margin="5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue"
+                                                FontSize="12" 
+                                                FontWeight="Bold" 
+                                                BorderBrush="{x:Null}"
+                                                Command="{Binding InsertTickTypeCommand_Setting}"
+                                                />
+                                            <Button Content="Xóa" VerticalAlignment="Center" Margin=" 5"
+                                                HorizontalAlignment="Center"
+                                                Width="100"
+                                                Height="30"
+                                                Padding="4"
+                                                Foreground="#000"  
+                                                Background="SkyBlue" 
+                                                FontSize="12" 
+                                                FontWeight="Bold" 
+                                                BorderBrush="{x:Null}"
+                                                Command="{Binding DeleteTickTypeCommand_Setting}"
+                                                />
+
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                     </Grid>
                     
                 </Border>
