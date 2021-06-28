@@ -80,9 +80,9 @@ namespace Planzy.Models.ChuyenBayModel
                 return false;
             }    
         }
-        public bool Delete(string Id,SanBayTrungGianService sanBayTrungGianService, ChiTietHangGheServices chiTietHangGheServices, ObservableCollection<BookingSticket> bookingStickets, ObservableCollection<FlightTicket> veDaban)
+        public bool Delete(string Id,SanBayTrungGianService sanBayTrungGianService, ChiTietHangGheServices chiTietHangGheServices, ObservableCollection<BookingSticket> bookingStickets, ObservableCollection<FlightTicket> veDaBan)
         {
-            if (XoaChuyenBaySql(Id, sanBayTrungGianService, chiTietHangGheServices, bookingStickets,veDaban))
+            if (XoaChuyenBaySql(Id, sanBayTrungGianService, chiTietHangGheServices, bookingStickets,veDaBan))
             {
                 bool isDeleted = false;
                 for (int index = 0; index < ChuyenBaysList.Count; index++)
@@ -156,7 +156,7 @@ namespace Planzy.Models.ChuyenBayModel
             }
             return result;
         }
-        public bool XoaChuyenBaySql(string maChuyenBay, SanBayTrungGianService sanBayTrungGianService, ChiTietHangGheServices chiTietHangGheServices, ObservableCollection<BookingSticket> bookingStickets, ObservableCollection<FlightTicket> vedaban)
+        public bool XoaChuyenBaySql(string maChuyenBay, SanBayTrungGianService sanBayTrungGianService, ChiTietHangGheServices chiTietHangGheServices, ObservableCollection<BookingSticket> bookingStickets, ObservableCollection<FlightTicket> veDaBan)
         {
             #region xóa phiếu đặt chỗ
             List<string> listphieuDat = new List<string>();
@@ -194,11 +194,11 @@ namespace Planzy.Models.ChuyenBayModel
                 SqlCommand deletecommand = new SqlCommand("delete from CHI_TIET_BAN_VE WHERE MA_VE = '" + row["MA_VE"].ToString() + "' " + 
                     "DELETE FROM VE_CHUYEN_BAY WHERE MA_VE = '"+ row["MA_VE"].ToString() + "'", SanBayConnection);
                 deletecommand.ExecuteNonQuery();
-                for(int i = 0;i<vedaban.Count;i++)
+                for(int i = 0;i<veDaBan.Count;i++)
                 {
-                    if(vedaban[i].TicketId == row["Ma_VE"].ToString())
+                    if(veDaBan[i].TicketId == row["MA_VE"].ToString())
                     {
-                        vedaban.RemoveAt(i);
+                        veDaBan.RemoveAt(i);
                         i--;
                     }    
                 }    
