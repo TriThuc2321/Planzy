@@ -3380,7 +3380,7 @@
                                     </StackPanel>
                                 </Grid>
 
-                                <Grid Grid.Row="3">
+                                <Grid Grid.Row="3" Visibility="Hidden">
                                     <StackPanel Orientation="Vertical">
                                         <Label Content="Quản lý nhân viên: "
                                            VerticalContentAlignment="Bottom"
