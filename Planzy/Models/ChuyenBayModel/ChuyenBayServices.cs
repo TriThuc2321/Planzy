@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Planzy.Models.BanVe;
 using Planzy.Models.BookingSticketModel;
 using Planzy.Models.ChiTietHangGheModel;
 using Planzy.Models.ChuyenBayModel;
@@ -79,9 +80,9 @@ namespace Planzy.Models.ChuyenBayModel
                 return false;
             }    
         }
-        public bool Delete(string Id,SanBayTrungGianService sanBayTrungGianService, ChiTietHangGheServices chiTietHangGheServices, ObservableCollection<BookingSticket> bookingStickets)
+        public bool Delete(string Id,SanBayTrungGianService sanBayTrungGianService, ChiTietHangGheServices chiTietHangGheServices, ObservableCollection<BookingSticket> bookingStickets, ObservableCollection<FlightTicket> veDaban)
         {
-            if (XoaChuyenBaySql(Id, sanBayTrungGianService, chiTietHangGheServices, bookingStickets))
+            if (XoaChuyenBaySql(Id, sanBayTrungGianService, chiTietHangGheServices, bookingStickets,veDaban))
             {
                 bool isDeleted = false;
                 for (int index = 0; index < ChuyenBaysList.Count; index++)
@@ -155,7 +156,7 @@ namespace Planzy.Models.ChuyenBayModel
             }
             return result;
         }
-        public bool XoaChuyenBaySql(string maChuyenBay, SanBayTrungGianService sanBayTrungGianService, ChiTietHangGheServices chiTietHangGheServices, ObservableCollection<BookingSticket> bookingStickets)
+        public bool XoaChuyenBaySql(string maChuyenBay, SanBayTrungGianService sanBayTrungGianService, ChiTietHangGheServices chiTietHangGheServices, ObservableCollection<BookingSticket> bookingStickets, ObservableCollection<FlightTicket> vedaban)
         {
             #region xóa phiếu đặt chỗ
             List<string> listphieuDat = new List<string>();
@@ -174,6 +175,7 @@ namespace Planzy.Models.ChuyenBayModel
                     if (bookingStickets[i].BookingSticketID == row["MA_PHIEU"].ToString())
                     {
                         bookingStickets.RemoveAt(i);
+                        i--;
                     }    
                 }    
             }
@@ -192,6 +194,14 @@ namespace Planzy.Models.ChuyenBayModel
                 SqlCommand deletecommand = new SqlCommand("delete from CHI_TIET_BAN_VE WHERE MA_VE = '" + row["MA_VE"].ToString() + "' " + 
                     "DELETE FROM VE_CHUYEN_BAY WHERE MA_VE = '"+ row["MA_VE"].ToString() + "'", SanBayConnection);
                 deletecommand.ExecuteNonQuery();
+                for(int i = 0;i<vedaban.Count;i++)
+                {
+                    if(vedaban[i].TicketId == row["Ma_VE"].ToString())
+                    {
+                        vedaban.RemoveAt(i);
+                        i--;
+                    }    
+                }    
             }
             SanBayConnection.Close();
             #endregion
