@@ -88,7 +88,7 @@ namespace Planzy.ViewModels
                                 DoanhThuThangServices newDT = new DoanhThuThangServices(chuyenBay.NgayBay.Year.ToString());
                                 newDT.ThemDoanhThu(chuyenBay);
                             }
-                            chuyenBayServices.Delete(chuyenBay.MaChuyenBay, sanBayTrungGianService, chiTietHangGheServices, ListBookedSticket);
+                            chuyenBayServices.Delete(chuyenBay.MaChuyenBay, sanBayTrungGianService, chiTietHangGheServices, ListBookedSticket, ListSoldTicket);
                             chuyenBayDaBays.Add(chuyenBay);
                             FlightSearchList_FlightBooking.Remove(chuyenBay);
                             FlightSearchList_SellTicket.Remove(chuyenBay);
@@ -113,7 +113,7 @@ namespace Planzy.ViewModels
                                     DoanhThuThangServices newDT = new DoanhThuThangServices(chuyenBay.NgayBay.Year.ToString());
                                     newDT.ThemDoanhThu(chuyenBay);
                                 }
-                                chuyenBayServices.Delete(chuyenBay.MaChuyenBay, sanBayTrungGianService, chiTietHangGheServices, ListBookedSticket);
+                                chuyenBayServices.Delete(chuyenBay.MaChuyenBay, sanBayTrungGianService, chiTietHangGheServices, ListBookedSticket, ListSoldTicket);
                                 chuyenBayDaBays.Add(chuyenBay);
                                 FlightSearchList_FlightBooking.Remove(chuyenBay);
                                 FlightSearchList_SellTicket.Remove(chuyenBay);
@@ -138,7 +138,7 @@ namespace Planzy.ViewModels
                             DoanhThuThangServices newDT = new DoanhThuThangServices(chuyenBay.NgayBay.Year.ToString());
                             newDT.ThemDoanhThu(chuyenBay);
                         }
-                        chuyenBayServices.Delete(chuyenBay.MaChuyenBay, sanBayTrungGianService, chiTietHangGheServices, ListBookedSticket);
+                        chuyenBayServices.Delete(chuyenBay.MaChuyenBay, sanBayTrungGianService, chiTietHangGheServices, ListBookedSticket, ListSoldTicket);
                         chuyenBayDaBays.Add(chuyenBay);
                         FlightSearchList_FlightBooking.Remove(chuyenBay);
                         FlightSearchList_SellTicket.Remove(chuyenBay);
@@ -2172,7 +2172,7 @@ namespace Planzy.ViewModels
                     return;
                 }
             }
-            if (rs == MessageBoxResult.OK && chuyenBayServices.Delete(ChuyenBayDaChon.MaChuyenBay, sanBayTrungGianService,chiTietHangGheServices,ListBookedSticket))
+            if (rs == MessageBoxResult.OK && chuyenBayServices.Delete(ChuyenBayDaChon.MaChuyenBay, sanBayTrungGianService,chiTietHangGheServices,ListBookedSticket, ListSoldTicket))
             {
                 ChuyenBay chuyenBay = ChuyenBayDaChon;
                 ChuyenBaysList.Remove(ChuyenBayDaChon);
