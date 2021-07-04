@@ -1127,7 +1127,7 @@
                                              FontSize="15"
                                              FontWeight="Bold" ToolTip="Chữ và số in hoa không dấu" BorderBrush="#FF5867AC" TabIndex="0" 
                                              loc:FocusExtension.IsFocused="{Binding IsFocusMaChuyenBay}"
-                                             
+                                             x:Name="txtMaChuyenBay"
                                              IsEnabled="{Binding IsReadOnlyMaChuyenBay}"/>
                                 </StackPanel>
                                 <StackPanel Grid.Row="0" Grid.Column="2" 
@@ -1141,6 +1141,7 @@
                                              loc:FocusExtension.IsFocused="{Binding IsFocusGiaChuyenBay}"
                                              VerticalContentAlignment="Bottom" 
                                              FontSize="15"
+                                             x:Name="txtGiaVeCoBan"
                                              FontWeight="Bold" ToolTip="Đồng " BorderBrush="#FF5867AC" TabIndex="1" />
                                 </StackPanel>
                                 <StackPanel Grid.Row="1" Grid.Column="0" 
@@ -1154,6 +1155,7 @@
                                               VerticalAlignment="Bottom" Width="200"
                                               Foreground="Black"
                                               FontSize="15"
+                                              x:Name="cbbSanBayDi"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
                                               ItemsSource="{Binding Path=SanBayDisList, Mode=TwoWay}"
                                               SelectedItem="{Binding Path=SanBayDiDaChon, Mode=TwoWay}" TabIndex="2"
@@ -1180,6 +1182,7 @@
                                               VerticalAlignment="Bottom" Width="200"
                                               Foreground="Black"
                                               FontSize="15"
+                                              x:Name="cbbSanBayDen"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
                                               ItemsSource="{Binding Path=SanBayDensList, Mode=TwoWay}"
                                               SelectedItem="{Binding Path=SanBayDenDaChon, Mode=TwoWay}" TabIndex="3"
@@ -1203,6 +1206,7 @@
                                            FontWeight="Bold"
                                            Foreground="#FF5867AC"/>
                                     <DatePicker Width="100"
+                                                x:Name="dtpickerNgayBay"
                                                 Foreground="Black"
                                                 FontWeight="Bold"
                                                 FontSize="15"
@@ -1220,6 +1224,7 @@
                                                                SelectedTime="{Binding GioBay}"
                                                 Foreground="Black"
                                                 FontWeight="Bold"
+                                                               x:Name="timepcikerGioBay"
                                                 FontSize="15"
                                                 VerticalAlignment="Bottom" BorderBrush="#FF5867AC" TabIndex="5"/>
                                 </StackPanel>
@@ -1233,6 +1238,7 @@
                                     <TextBox Width="200" Text="{Binding ThoiGianBay}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
+                                             x:Name="txtThoiGianBay"
                                              FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC" TabIndex="6"
                                              loc:FocusExtension.IsFocused="{Binding IsFocusThoiGianBay}"/>
                                 </StackPanel>
@@ -1390,6 +1396,7 @@
                                               VerticalAlignment="Bottom" Width="54"
                                               Foreground="Black"
                                               FontSize="15"
+                                                      x:Name="cbbSanBayTrungGian"
                                               FontWeight="Bold" BorderBrush="#FF5867AC"
                                               IsDropDownOpen="{Binding IsDropDown}"
                                               Visibility="{Binding IsVisible}"
@@ -1414,6 +1421,7 @@
                                             <TextBox Width="30" Text="{Binding ThoiGianDungSapThem}"
                                              VerticalContentAlignment="Bottom"
                                              FontSize="15"
+                                                     x:Name="txtThoiGianDung"
                                              FontWeight="Bold" ToolTip="Phút" BorderBrush="#FF5867AC"
                                                  Visibility="{Binding IsVisible}"
                                                  loc:FocusExtension.IsFocused="{Binding IsFocusThoiGianDung}"/>
@@ -1422,6 +1430,7 @@
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
                                             <Button Content=" Xác Nhận " VerticalAlignment="Bottom" Margin=" 10,0,0,0"
                                                 Visibility="{Binding IsVisible}"
+                                                    x:Name="btXacNhanThemSBTrungGian"
                                                                     Width="90"
                                                                     Height="30"
                                                                     
@@ -1435,6 +1444,7 @@
                                                 Visibility="{Binding IsVisible}"
                                                 HorizontalAlignment="Right"
                                                 Width="90"
+                                                    x:Name="bttHuyThemSBTrungGian"
                                                 FontWeight="Bold"
                                                 Height="30"
                                                 
@@ -1464,7 +1474,7 @@
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <StackPanel>
-                                                                <Label HorizontalAlignment="Left"
+                                                                <Label HorizontalAlignment="Left" x:Name="lbMaSanBay"
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
                                                                        Content="{Binding MaSanBay}"/>
@@ -1476,7 +1486,7 @@
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <StackPanel>
-                                                                <Label HorizontalAlignment="Left"
+                                                                <Label HorizontalAlignment="Left" x:Name="lbTenSanBay"
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
                                                                        Content="{Binding TenSanBay}"/>
@@ -1489,7 +1499,7 @@
                                                         <DataTemplate>
                                                             <DockPanel  Width="140">
                                                                 <Grid Width="10"/>
-                                                                <Button Content="Chèn"
+                                                                <Button Content="Chèn" x:Name="btChenSanBayTrungGian"
                                                                     Width="40"
                                                                     Height="20"
                                                                     Padding="0"
@@ -1500,7 +1510,7 @@
                                                                     />
                                                                 <Grid Width="10"/>
                                                                 <Button Content="Xóa" HorizontalAlignment="Right"
-                                                                    Width="40"
+                                                                    Width="40" x:Name="btXoaSanBayTrungGian"
                                                                     Height="20"
                                                                     Padding="0"
                                                                     Foreground="#000"
@@ -1528,7 +1538,7 @@
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <StackPanel>
-                                                                <Label HorizontalAlignment="Left"
+                                                                <Label HorizontalAlignment="Left" x:Name="lbMaChuyenBay"
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
                                                                        Content="{Binding MaChuyenBay}"/>
@@ -1540,7 +1550,7 @@
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <StackPanel Orientation="Horizontal">
-                                                                <Label HorizontalAlignment="Left" Width="50"
+                                                                <Label HorizontalAlignment="Left" Width="50" x:Name="lbSanBayDi"
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
                                                                        Content="{Binding SanBayDi.Id}"/>
@@ -1560,7 +1570,7 @@
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <StackPanel Orientation="Horizontal">
-                                                                <Label HorizontalAlignment="Left" Width="50"
+                                                                <Label HorizontalAlignment="Left" Width="50" x:Name="lbSanBayDen"
                                                                        VerticalAlignment="Center"
                                                                        VerticalContentAlignment="Center"
                                                                        Content="{Binding SanBayDen.Id}"/>
@@ -1581,7 +1591,7 @@
                                     </ListView>
                                 </Grid>
                                 <Grid Grid.Row="2" Grid.Column="0">
-                                    <Button Content="Thêm sân bay trung gian"
+                                    <Button Content="Thêm sân bay trung gian" x:Name="btThemSBTrungGian"
                                             Width="170"
                                             FontWeight="Bold"
                                             Height="30"
@@ -1595,7 +1605,7 @@
                                 </Grid>
                                 <Grid Grid.Row="2" Grid.Column="1">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <Button Content="Lưu" VerticalAlignment="Center" 
+                                        <Button Content="Lưu" VerticalAlignment="Center" x:Name="btLuuChuyenBay"
                                                 Visibility="{Binding IsVisibleLuuChuyenBay}"
                                                 Command="{Binding LuuSuaChuyenBayCommand}"
                                                 HorizontalAlignment="Center"
@@ -1606,7 +1616,7 @@
                                                 Foreground="#000"  
                                                 Background="SkyBlue" FontSize="12" BorderBrush="{x:Null}"
                                                 />
-                                        <Button Content="Sửa" VerticalAlignment="Center" 
+                                        <Button Content="Sửa" VerticalAlignment="Center" x:Name="btSuaChuyenBay"
                                                 Visibility="{Binding IsVisibleSuaChuyenBay}"
                                                 HorizontalAlignment="Center"
                                                 Width="90"
@@ -1617,7 +1627,7 @@
                                                 FontWeight="Bold"
                                                 Command="{Binding SuaChuyenBayCommand}"
                                                 />
-                                        <Button Content="Xóa" VerticalAlignment="Center" 
+                                        <Button Content="Xóa" VerticalAlignment="Center" x:Name="btXoaChuyenBay"
                                                 Visibility="{Binding IsVisibleXoaChuyenBay}"
                                                 Command="{Binding XoaChuyenBayCommand}"
                                                 HorizontalAlignment="Center"
@@ -1628,7 +1638,7 @@
                                                 Foreground="#000"  
                                                 Background="#FFE05050" FontSize="12" BorderBrush="{x:Null}"
                                                 />
-                                        <Button Content=" Nhận lịch bay " 
+                                        <Button Content=" Nhận lịch bay " x:Name="btNhanLichBay"
                                                 VerticalAlignment="Center" 
                                                 HorizontalAlignment="Center"
                                                 Visibility="{Binding IsVisibleNhanLichChuyenBay}"
@@ -1641,7 +1651,7 @@
                                                 Command="{Binding ThemChuyenBayCommand}" 
                                                 Background="#FF80E66A" FontSize="12" BorderBrush="{x:Null}"
                                                 />
-                                        <Button Content="Hủy" VerticalAlignment="Center" 
+                                        <Button Content="Hủy" VerticalAlignment="Center" x:Name="btHuyNhanLich"
                                                 Visibility="{Binding IsVisibleHuyThaoTac}"
                                                 Command="{Binding HuyThemVaSuaChuyenBayCommand}"
                                                 HorizontalAlignment="Center"
