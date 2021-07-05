@@ -1685,7 +1685,7 @@
                                                 Background="#FFE05050" FontSize="{DynamicResource TextSizeForButton}" BorderBrush="{x:Null}" Margin="0,0,10,0"
                                                 FontWeight="Bold"
                                                 />
-                                        <Button Content="Xem trước khi in" VerticalAlignment="Bottom" 
+                                        <Button Content="Xem trước in" VerticalAlignment="Bottom" 
                                                 Command="{Binding ReviewBieuDoCommand}"
                                                 HorizontalAlignment="Right"
                                                 Width="100"
